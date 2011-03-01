@@ -1,6 +1,5 @@
 === Timed Content ===
 Contributors: kjvtough
-Donate link: http://example.com/
 Tags: post, page, time, condition, content 
 Requires at least: 2.0.2
 Tested up to: 3.0.4
@@ -39,13 +38,11 @@ For more documentation, visit the [plugin's page][plugin home].
 
 == Frequently Asked Questions ==
 
-= Coming soon =
+Coming soon
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the directory of the stable readme.txt, so in this case, `/tags/4.3/screenshot-1.png` (or jpg, jpeg, gif)
-2. This is the second screen shot
+Coming soon
 
 == Changelog ==
 

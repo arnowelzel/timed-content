@@ -1,6 +1,7 @@
 <?php
 /*
 Plugin Name: Timed Content
+Text Domain: timed-content
 Plugin URI: http://www.notabenemarketing.com/resources/wordpress-plugins/timed-content-plugin
 Description: Plugin to show or hide portions of a Page or Post at a specified time after loading.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough
@@ -13,7 +14,7 @@ define( "TIMED_CONTENT_SERVER_TAG", "timed-content-server" );
 define( "TIMED_CONTENT_ZERO_TIME", "1970-Jan-01 00:00:00 +000" );  // Start of Unix Epoch
 define( "TIMED_CONTENT_END_TIME", "2038-Jan-19 03:14:07 +000" );   // End of Unix Epoch
 /* translators:  date/time format for debugging messages. */
-define( "TIMED_CONTENT_DT_FORMAT", __( "l, F jS, Y, g:i:s A T (e)" ) );
+define( "TIMED_CONTENT_DT_FORMAT", __( "l, F jS, Y, g:i:s A T (e)" , 'timed-content') );
 
 
 if ( !class_exists( "timedContentPlugin" ) ) {
@@ -121,47 +122,47 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				$right_now = date_i18n( TIMED_CONTENT_DT_FORMAT, $right_now_t );
 	
 				$show_diff = $this->_date_diff( $show_t, $right_now_t );
-				$show_diff_str = sprintf( _n( "%d year", "%d years", $show_diff['year'] ), $show_diff['year'] ) . ", ";
-				$show_diff_str .= sprintf( _n( "%d month", "%d months", $show_diff['month'] ), $show_diff['month'] ) . ", ";
-				$show_diff_str .= sprintf( _n( "%d day", "%d days", $show_diff['day'] ), $show_diff['day'] ) . ", ";
-				$show_diff_str .= sprintf( _n( "%d hour", "%d hours", $show_diff['hour'] ), $show_diff['hour'] ) . ", ";
-				$show_diff_str .= sprintf( _n( "%d minute", "%d minutes", $show_diff['minute'] ), $show_diff['minute'] ) . ", ";
-				$show_diff_str .= sprintf( _n( "%d second", "%d seconds", $show_diff['second'] ), $show_diff['second'] ) . " ";
-				$show_diff_str .= ( $show_diff['before'] == true ? __( "ago" ) : __( "from now" ) );
+				$show_diff_str = sprintf( _n( "%d year", "%d years", $show_diff['year'] , 'timed-content'), $show_diff['year'] ) . ", ";
+				$show_diff_str .= sprintf( _n( "%d month", "%d months", $show_diff['month'] , 'timed-content'), $show_diff['month'] ) . ", ";
+				$show_diff_str .= sprintf( _n( "%d day", "%d days", $show_diff['day'] , 'timed-content'), $show_diff['day'] ) . ", ";
+				$show_diff_str .= sprintf( _n( "%d hour", "%d hours", $show_diff['hour'] , 'timed-content'), $show_diff['hour'] ) . ", ";
+				$show_diff_str .= sprintf( _n( "%d minute", "%d minutes", $show_diff['minute'] , 'timed-content'), $show_diff['minute'] ) . ", ";
+				$show_diff_str .= sprintf( _n( "%d second", "%d seconds", $show_diff['second'] , 'timed-content'), $show_diff['second'] ) . " ";
+				$show_diff_str .= ( $show_diff['before'] == true ? __( "ago" , 'timed-content') : __( "from now" , 'timed-content') );
 				
 				$hide_diff = $this->_date_diff( $hide_t, $right_now_t );
-				$hide_diff_str = sprintf( _n( "%d year", "%d years", $hide_diff['year'] ), $hide_diff['year'] ) . ", " ;
-				$hide_diff_str .= sprintf( _n( "%d month", "%d months", $hide_diff['month'] ), $hide_diff['month'] ) . ", ";
-				$hide_diff_str .= sprintf( _n( "%d day", "%d days", $hide_diff['day'] ), $hide_diff['day'] ) . ", ";
-				$hide_diff_str .= sprintf( _n( "%d hour", "%d hours", $hide_diff['hour'] ), $hide_diff['hour'] ) . ", ";
-				$hide_diff_str .= sprintf( _n( "%d minute", "%d minutes", $hide_diff['minute'] ), $hide_diff['minute'] ) . ", ";
-				$hide_diff_str .= sprintf( _n( "%d second", "%d seconds", $hide_diff['second'] ), $hide_diff['second'] ) . " ";
-				$hide_diff_str .= ( $hide_diff['before'] == true ? __( "ago" ) : __( "from now" ) );
+				$hide_diff_str = sprintf( _n( "%d year", "%d years", $hide_diff['year'] , 'timed-content'), $hide_diff['year'] ) . ", " ;
+				$hide_diff_str .= sprintf( _n( "%d month", "%d months", $hide_diff['month'] , 'timed-content'), $hide_diff['month'] ) . ", ";
+				$hide_diff_str .= sprintf( _n( "%d day", "%d days", $hide_diff['day'] , 'timed-content'), $hide_diff['day'] ) . ", ";
+				$hide_diff_str .= sprintf( _n( "%d hour", "%d hours", $hide_diff['hour'] , 'timed-content'), $hide_diff['hour'] ) . ", ";
+				$hide_diff_str .= sprintf( _n( "%d minute", "%d minutes", $hide_diff['minute'] , 'timed-content'), $hide_diff['minute'] ) . ", ";
+				$hide_diff_str .= sprintf( _n( "%d second", "%d seconds", $hide_diff['second'] , 'timed-content'), $hide_diff['second'] ) . " ";
+				$hide_diff_str .= ( $hide_diff['before'] == true ? __( "ago" , 'timed-content') : __( "from now" , 'timed-content') );
 	
-				$debug_header = "<!-- " . __( "START TIMED-CONTENT-SERVER DEBUGGING" ) . " -->\n<!--\n\n";
+				$debug_header = "<!-- " . __( "START TIMED-CONTENT-SERVER DEBUGGING" , 'timed-content') . " -->\n<!--\n\n";
 
 				if ( $show == TIMED_CONTENT_ZERO_TIME )
-					$debug_header .= " " . __( "'Show' attribute not set." ) . "\n";
+					$debug_header .= " " . __( "'Show' attribute not set." , 'timed-content') . "\n";
 				else
-					$debug_header .= " " . __( "'Show' attribute" ) . " : " . $show . ",\n " . __( "Timestamp derived from 'Show' attribute" ) . " = " . $show_t . ",\n " . __( "Date/time derived from timestamp" ) . " : " . date_i18n(TIMED_CONTENT_DT_FORMAT, $show_t) . ". " . $show_diff_str . ". \n\n";
+					$debug_header .= " " . __( "'Show' attribute" , 'timed-content') . " : " . $show . ",\n " . __( "Timestamp derived from 'Show' attribute" , 'timed-content') . " = " . $show_t . ",\n " . __( "Date/time derived from timestamp" , 'timed-content') . " : " . date_i18n(TIMED_CONTENT_DT_FORMAT, $show_t) . ". " . $show_diff_str . ". \n\n";
 
 				if ( $hide == TIMED_CONTENT_END_TIME )
-					$debug_header .= " " . __( "'Hide' attribute not set." ) . "\n";
+					$debug_header .= " " . __( "'Hide' attribute not set." , 'timed-content') . "\n";
 				else
-					$debug_header .= " " . __( "'Hide' attribute" ) . " : " . $hide . ",\n " . __( "Timestamp derived from 'Hide' attribute" ) . " = " . $hide_t . ",\n " . __( "Date/time derived from timestamp" ) . " : " . date_i18n(TIMED_CONTENT_DT_FORMAT, $hide_t) . ". " . $hide_diff_str . ". \n\n";
+					$debug_header .= " " . __( "'Hide' attribute" , 'timed-content') . " : " . $hide . ",\n " . __( "Timestamp derived from 'Hide' attribute" , 'timed-content') . " = " . $hide_t . ",\n " . __( "Date/time derived from timestamp" , 'timed-content') . " : " . date_i18n(TIMED_CONTENT_DT_FORMAT, $hide_t) . ". " . $hide_diff_str . ". \n\n";
 
-				$debug_header .= " " . __( "Current time" ) . " : " . $right_now . ", " . __( "Timestamp derived from current time" ) . " = " . $right_now_t . "\n";
+				$debug_header .= " " . __( "Current time" , 'timed-content') . " : " . $right_now . ", " . __( "Timestamp derived from current time" , 'timed-content') . " = " . $right_now_t . "\n";
 					
-				$debug_header .= " " . __( "Wordpress option" ) . " 'gmt_offset' : " . get_option( 'gmt_offset' ) . "\n";
-				$debug_header .= " " . __( "Wordpress option" ) . " 'timezone_string' : " . get_option( 'timezone_string' ) . "\n\n";
+				$debug_header .= " " . __( "Wordpress option" , 'timed-content') . " 'gmt_offset' : " . get_option( 'gmt_offset' ) . "\n";
+				$debug_header .= " " . __( "Wordpress option" , 'timed-content') . " 'timezone_string' : " . get_option( 'timezone_string' ) . "\n\n";
 
 	
-				$debug_header .= "-->\n<!-- " . __( "END TIMED-CONTENT-SERVER DEBUGGING" ) . " -->\n";
+				$debug_header .= "-->\n<!-- " . __( "END TIMED-CONTENT-SERVER DEBUGGING" , 'timed-content') . " -->\n";
 				date_default_timezone_set( $temp_tz );
 
 			}
-			$content_header = "<!-- " . __( "START TIMED-CONTENT-SERVER CONTENT" ) . " -->\n";
-			$content_footer = "<!-- " . __( "END TIMED-CONTENT-SERVER CONTENT" ) . " -->\n";
+			$content_header = "<!-- " . __( "START TIMED-CONTENT-SERVER CONTENT" , 'timed-content') . " -->\n";
+			$content_footer = "<!-- " . __( "END TIMED-CONTENT-SERVER CONTENT" , 'timed-content') . " -->\n";
 			
 			if ( ( $show_t <= $right_now_t ) && ( $right_now_t <= $hide_t ) )
 				$the_HTML = $debug_header . do_shortcode($content) . "\n";

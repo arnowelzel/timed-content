@@ -1,0 +1,117 @@
+# Copyright (C) 2010 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version:  \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/timed-content\n"
+"POT-Creation-Date: 2011-03-01 22:39:32+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: timed_content.php:16
+msgid "l, F jS, Y, g:i:s A T (e)"
+msgstr ""
+
+#: timed_content.php:124 timed_content.php:133
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: timed_content.php:125 timed_content.php:134
+msgid "%d month"
+msgid_plural "%d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: timed_content.php:126 timed_content.php:135
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: timed_content.php:127 timed_content.php:136
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: timed_content.php:128 timed_content.php:137
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: timed_content.php:129 timed_content.php:138
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: timed_content.php:130 timed_content.php:139
+msgid "ago"
+msgstr ""
+
+#: timed_content.php:130 timed_content.php:139
+msgid "from now"
+msgstr ""
+
+#: timed_content.php:141
+msgid "START TIMED-CONTENT-SERVER DEBUGGING"
+msgstr ""
+
+#: timed_content.php:144
+msgid "'Show' attribute not set."
+msgstr ""
+
+#: timed_content.php:146
+msgid "'Show' attribute"
+msgstr ""
+
+#: timed_content.php:146
+msgid "Timestamp derived from 'Show' attribute"
+msgstr ""
+
+#: timed_content.php:146 timed_content.php:151
+msgid "Date/time derived from timestamp"
+msgstr ""
+
+#: timed_content.php:149
+msgid "'Hide' attribute not set."
+msgstr ""
+
+#: timed_content.php:151
+msgid "'Hide' attribute"
+msgstr ""
+
+#: timed_content.php:151
+msgid "Timestamp derived from 'Hide' attribute"
+msgstr ""
+
+#: timed_content.php:153
+msgid "Current time"
+msgstr ""
+
+#: timed_content.php:153
+msgid "Timestamp derived from current time"
+msgstr ""
+
+#: timed_content.php:155 timed_content.php:156
+msgid "Wordpress option"
+msgstr ""
+
+#: timed_content.php:159
+msgid "END TIMED-CONTENT-SERVER DEBUGGING"
+msgstr ""
+
+#: timed_content.php:163
+msgid "START TIMED-CONTENT-SERVER CONTENT"
+msgstr ""
+
+#: timed_content.php:164
+msgid "END TIMED-CONTENT-SERVER CONTENT"
+msgstr ""

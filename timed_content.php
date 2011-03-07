@@ -235,7 +235,7 @@ if ( isset( $timedContentPluginInstance ) ) {
 	add_action( "init", array( &$timedContentPluginInstance, "i18nInit" ), 1 );
 	add_action( "wp_head", array( &$timedContentPluginInstance, "addHeaderCode" ), 1 );
 	add_action( "admin_init", array( &$timedContentPluginInstance, "initTinyMCEPlugin" ), 1 );
-	add_shortcode( TIMED_CONTENT_CLIENT_TAG, array( &$timedContentPluginInstance, "clientShowHTML" ), 1 );
-	add_shortcode( TIMED_CONTENT_SERVER_TAG, array( &$timedContentPluginInstance, "serverShowHTML" ), 1 );
+	add_shortcode( TIMED_CONTENT_CLIENT_TAG, array( &$timedContentPluginInstance, "clientShowHTML" ), 31 );
+	add_shortcode( TIMED_CONTENT_SERVER_TAG, array( &$timedContentPluginInstance, "serverShowHTML" ), 31 );
 }
 ?>

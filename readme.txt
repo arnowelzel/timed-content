@@ -1,7 +1,7 @@
 === Timed Content ===
 Contributors: kjvtough
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5F58ELJ9R3PVL&lc=CA&item_name=Timed%20Content%20Wordpress%20Plugin%20Donation&currency_code=CAD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
-Tags: post, page, time, condition, content 
+Tags: marketing, marketing tool, post, page, time, condition, content 
 Requires at least: 2.0.2
 Tested up to: 3.1
 Stable tag: 1.0
@@ -9,9 +9,7 @@ Stable tag: 1.0
 Plugin to show or hide portions of a Page or Post at a specified time after loading. 
 
 == Description ==
-
-The Timed Page/Post Content plugin allows users to specify that a portion of a Page or Post should appear/be visible or
-disappear/be invisible based on given time characteristics.  The plugin provides two functions:
+The Timed Page/Post Content plugin is a marketing tool that allows users to specify that a portion of a Page or Post should appear/be visible or disappear/be invisible based on given time characteristics. Suppose, for example, you embed a video into a Post; once the viewer has enough information from the video, the request to take a specific action can be set to appear.  
 
 * A "client-side" shortcode that allows the marking of content to appear or disappear after a given time interval; a "fade" 
 effect is included.  This functionality is intended to be used for special effects only, as content marked in this manner 

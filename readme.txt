@@ -50,3 +50,8 @@ Coming soon
 
 = 1.0 =
 * Initial release.
+
+== Upgrade Notice ==
+
+= 1.1 =
+Fixed some internal filename discrepancies, causing visual editor to break.  Upgrade now.

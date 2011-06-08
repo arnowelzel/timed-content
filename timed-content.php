@@ -5,7 +5,7 @@ Text Domain: timed-content
 Plugin URI: http://www.notabenemarketing.com/resources/wordpress-plugins/timed-content-plugin
 Description: Plugin to show or hide portions of a Page or Post at a specified time after loading.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough
-Version: 1.0
+Version: 1.1
 Author URI: http://www.notabenemarketing.com/resources/wordpress-plugins/timed-content-plugin
 */
 

@@ -11,10 +11,10 @@ Plugin to show or hide portions of a Page or Post at a specified time after load
 == Description ==
 The Timed Page/Post Content plugin is a marketing tool that allows users to specify that a portion of a Page or Post should appear/be visible or disappear/be invisible based on given time characteristics. Suppose, for example, you embed a video into a Post; once the viewer has enough information from the video, the request to take a specific action can be set to appear.  
 
-* A "client-side" shortcode that allows the marking of content to appear or disappear after a given time interval; a "fade" 
+* A "client-side" shortcode allows the marking of content to appear or disappear after a given time interval; a "fade" 
 effect is included.  This functionality is intended to be used for special effects only, as content marked in this manner 
 is still visible in the HTML source and, therefore, not a secure method of hiding content.
-* A "server-side" shortcode that allows the marking of content to be visible only during a specified date/time interval.  This 
+* A "server-side" shortcode allows the marking of content to be visible only during a specified date/time interval.  This 
 functionality **can** be used as a secure method of hiding content, because the marked content will be included in the Page/Post 
 **only** when viewed in the specified date/time interval.
 

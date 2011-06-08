@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5F58E
 Tags: marketing, marketing tool, post, page, time, condition, content 
 Requires at least: 2.0.2
 Tested up to: 3.1
-Stable tag: 1.0
+Stable tag: 1.1
 
 Plugin to show or hide portions of a Page or Post at a specified time after loading. 
 
@@ -45,10 +45,8 @@ Coming soon
 
 == Changelog ==
 
+= 1.1 =
+* Fixed some internal filename discrepancies.
+
 = 1.0 =
 * Initial release.
-
-== Upgrade Notice ==
-
-= 1.0 =
-* Initial release. No upgrade required.

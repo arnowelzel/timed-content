@@ -2,18 +2,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>{#timed_content_dlg.window_title}</title>
+<link rel="stylesheet" type="text/css" href="img/anytime.compressed.css" />
 <script type="text/javascript" src="/wp-includes/js/tinymce/tiny_mce_popup.js"></script>
 <script type="text/javascript" src="/wp-includes/js/tinymce/utils/mctabs.js"></script>
 <script type="text/javascript" src="/wp-includes/js/jquery/jquery.js"></script>
-<link rel="stylesheet" type="text/css" href="img/anytime.css" />
-<script type="text/javascript" src="js/anytime.js"></script>
+<script type="text/javascript" src="/wp-includes/js/jquery/jquery-migrate.min.js"></script>
+<script type="text/javascript" src="js/anytime.compressed.js"></script>
 <script type="text/javascript" src="js/anytimetz.js"></script>
 <script type="text/javascript" src="js/dialog.js"></script>
 </head>
 <body style="display: none">
 <div class="tabs">
   <ul>
-    <li id="client_tab" class="current"><span><a href="javascript:mcTabs.displayTab('client_tab','client_panel');generatePreview();" onmousedown="return false;">{#timed_content_dlg.client_tab}</a></span></li>
+    <li id="client_tab" class="current"><span><a href="javascript:mcTabs.displayTab('client_tab','client_panel');" onmousedown="return false;">{#timed_content_dlg.client_tab}</a></span></li>
     <li id="server_tab"><span><a href="javascript:mcTabs.displayTab('server_tab','server_panel');" onmousedown="return false;">{#timed_content_dlg.server_tab}</a></span></li>
   </ul>
 </div>

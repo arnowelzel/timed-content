@@ -5,7 +5,7 @@ Text Domain: timed-content
 Plugin URI: http://www.notabenemarketing.com/resources/wordpress-plugins/timed-content-plugin
 Description: Plugin to show or hide portions of a Page or Post at a specified time after loading.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough
-Version: 1.0
+Version: 1.2
 Author URI: http://www.notabenemarketing.com/resources/wordpress-plugins/timed-content-plugin
 */
 
@@ -32,7 +32,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 		// http://ca2.php.net/manual/en/function.mktime.php#93914
 		//
 		
-		  //check higher timestamp and switch if neccessary
+		  //check higher timestamp and switch if necessary
 		  if ($date_1 < $date_2){
 			$temp = $date_2;
 			$date_2 = $date_1;
@@ -108,7 +108,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			
 			$the_class = TIMED_CONTENT_CLIENT_TAG . $show_attr . $hide_attr ;
 			//die($the_class);
-			$the_HTML = "<div class='" . $the_class . "'" . ( ( $show_attr != "" ) ? " style='display: none;'" : "" ) .">" . do_shortcode($content) . "</div>";
+			$the_HTML = "<div class='" . $the_class . "'" . ( ( $show_attr != "" ) ? " style='display: none;'" : "" ) .">" . do_shortcode( $content ) . "</div>";
 
 			return $the_HTML;
 		}
@@ -167,10 +167,10 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 
 			}
 			$content_header = "<!-- " . __( "START TIMED-CONTENT-SERVER CONTENT" , 'timed-content') . " -->\n";
-			$content_footer = "<!-- " . __( "END TIMED-CONTENT-SERVER CONTENT" , 'timed-content') . " -->\n";
+			$content_footer = "<!-- " . __( "END TIMED-CONTENT-SERVER CONTENT" , 'timed-content') . " -->";
 			
 			if ( ( $show_t <= $right_now_t ) && ( $right_now_t <= $hide_t ) )
-				$the_HTML = $debug_header . do_shortcode($content) . "\n";
+				$the_HTML = $debug_header . do_shortcode( $content ) . "\n";
 			else
 				$the_HTML = $debug_header;	
 
@@ -181,19 +181,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			global $wp_query;
 			if ( ! is_admin() ) 
 			{
-				foreach ( $wp_query->posts as $post ) {
-					$pattern = get_shortcode_regex();
-					preg_match_all( '/' . $pattern . '/s', $post->post_content, $matches, PREG_SET_ORDER );
-					if ( is_array( $matches ) ) {
-						foreach ( $matches as $m ) {
-							if ( $m[2] == TIMED_CONTENT_CLIENT_TAG ) {
-								//shortcode is being used; enqueue script and get out (script can handle multiple uses of the shortcode already)
-								wp_enqueue_script( 'timed-content_js', TIMED_CONTENT_PLUGIN_URL . '/js/timed-content.js', array( 'jquery' ), '1.0' );
-								break 2;
-							}
-						}
-					}
-				} 
+				wp_enqueue_script( 'timed-content_js', TIMED_CONTENT_PLUGIN_URL . '/js/timed-content.js', array( 'jquery' ), '1.2' );
 			}
 		}
 		
@@ -206,8 +194,6 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				add_filter( "mce_external_plugins", array( &$this, "addTimedContentTinyMCEPlugin" ) );
 				add_filter( "mce_buttons", array( &$this, "registerTinyMCEButton" ) );
 			}
-		
-		
 		}
 		
 		function registerTinyMCEButton( $buttons ) {

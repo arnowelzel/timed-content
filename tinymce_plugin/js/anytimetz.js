@@ -1,9 +1,10 @@
 /*****************************************************************************
  *  FILE:  anytimetz.js - The Any+Time(TM) JavaScript Library
  *                        Basic Time Zone Support (source)
- *  VERSION: 4.1112
  *
- *  Copyright 2010 Andrew M. Andrews III (www.AMA3.com). Some Rights 
+ *  VERSION: 4.2013.03.15.a
+ *
+ *  Copyright 2008-2013 Andrew M. Andrews III (www.AMA3.com). Some Rights 
  *  Reserved. This work licensed under the Creative Commons Attribution-
  *  Noncommercial-Share Alike 3.0 Unported License except in jurisdicitons
  *  for which the license has been ported by Creative Commons International,
@@ -34,6 +35,7 @@
  *  HTML page that requires it.
  *
  *  Any+Time is a trademark of Andrew M. Andrews III.
+ *
  ****************************************************************************/
 
 //=============================================================================
@@ -49,9 +51,12 @@
 //  each sub-array is the default label for that UTC offset (the one used by
 //  AnyTime.Converter.format() if utcFormatOffsetSubIndex is not specified and
 //  setUtcFormatOffsetSubIndex() is not called.
+//
+//  To overcome a bug in Firefox 21 IRT negative array indicies, the initial
+//  utcLabel must be defined as an object even though it is used as an array.
 //=============================================================================
 
-AnyTime.utcLabel = [];
+AnyTime.utcLabel = {};
 AnyTime.utcLabel[-720]=[
   'BIT--Baker Island Time'
   ];
@@ -159,7 +164,7 @@ AnyTime.utcLabel[240]=[
   ,'AZT--Azerbaijan Time'
   ,'GET--Georgia Standard Time'
   ,'MUT--Mauritius Time'
-  ,'RET--Réunion Time'
+  ,'RET--Rï¿½union Time'
   ,'SAMT--Samara Time'
   ,'SCT--Seychelles Time'
   ];
@@ -242,3 +247,8 @@ AnyTime.utcLabel[780]=[
 AnyTime.utcLabel[840]=[
   'LINT--Line Islands Time'
   ];
+
+//
+//END OF FILE
+//
+//if(window.location.hostname.length&&(window.location.hostname!='www.ama3.com')&&(window.location.hostname!='dev2.ama3.com'))alert('REMOVE THE LAST LINE FROM anytimetz.js!');

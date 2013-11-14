@@ -1,117 +1,839 @@
-# Copyright (C) 2010 
-# This file is distributed under the same license as the  package.
+# Copyright (C) 2013 Timed Content
+# This file is distributed under the same license as the Timed Content package.
 msgid ""
 msgstr ""
-"Project-Id-Version:  \n"
+"Project-Id-Version: Timed Content 2.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/timed-content\n"
-"POT-Creation-Date: 2011-03-01 22:39:32+00:00\n"
+"POT-Creation-Date: 2013-11-14 02:09:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: timed_content.php:16
-msgid "l, F jS, Y, g:i:s A T (e)"
+#: lib/Arrays_Definitions.php:3
+msgid "Hourly"
 msgstr ""
 
-#: timed_content.php:124 timed_content.php:133
-msgid "%d year"
-msgid_plural "%d years"
+#: lib/Arrays_Definitions.php:4
+msgid "Daily"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:5
+msgid "Weekly"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:6
+msgid "Monthly"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:7
+msgid "Yearly"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:10
+msgid "Sundays"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:11
+msgid "Mondays"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:12
+msgid "Tuesdays"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:13
+msgid "Wednesdays"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:14
+msgid "Thursdays"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:15
+msgid "Fridays"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:16
+msgid "Saturdays"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:19
+msgid "first"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:20
+msgid "second"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:21
+msgid "third"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:22
+msgid "fourth"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:23
+msgid "last"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:26
+msgid "Sunday"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:27
+msgid "Monday"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:28
+msgid "Tuesday"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:29
+msgid "Wednesday"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:30
+msgid "Thursday"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:31
+msgid "Friday"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:32
+msgid "Saturday"
+msgstr ""
+
+#: lib/Arrays_Definitions.php:33
+msgid "day"
+msgstr ""
+
+#: lib/customFields-settings.php:9
+msgid "Action"
+msgstr ""
+
+#: lib/customFields-settings.php:10
+msgid "Sets the action to be performed when the rule is active."
+msgstr ""
+
+#: lib/customFields-settings.php:12 timed-content.php:578
+msgid "Show the content"
+msgstr ""
+
+#: lib/customFields-settings.php:13 timed-content.php:580
+msgid "Hide the content"
+msgstr ""
+
+#: lib/customFields-settings.php:21
+msgid "Starting Date/Time"
+msgstr ""
+
+#: lib/customFields-settings.php:22
+msgid ""
+"Sets the date and time for the beginning of the first active period for this "
+"rule."
+msgstr ""
+
+#: lib/customFields-settings.php:32
+msgid "Ending Date/Time"
+msgstr ""
+
+#: lib/customFields-settings.php:33
+msgid ""
+"Sets the date and time for the end of the first active period for this rule."
+msgstr ""
+
+#: lib/customFields-settings.php:43
+msgid "Timezone:"
+msgstr ""
+
+#: lib/customFields-settings.php:44
+msgid "Select a city in the timezone you wish to use for this rule."
+msgstr ""
+
+#: lib/customFields-settings.php:55
+msgid "Frequency:"
+msgstr ""
+
+#: lib/customFields-settings.php:56
+msgid "Sets the frequency at which the action should be repeated."
+msgstr ""
+
+#: lib/customFields-settings.php:66 lib/customFields-settings.php:77
+#: lib/customFields-settings.php:88 lib/customFields-settings.php:110
+#: lib/customFields-settings.php:153
+msgid "Repeat How Often?"
+msgstr ""
+
+#: lib/customFields-settings.php:67
+msgid "If the frequency is set to Hourly, repeat this action every X hours."
+msgstr ""
+
+#: lib/customFields-settings.php:78
+msgid "If the frequency is set to Daily, repeat this action every X days."
+msgstr ""
+
+#: lib/customFields-settings.php:89
+msgid "If the frequency is set to Weekly, repeat this action every X weeks."
+msgstr ""
+
+#: lib/customFields-settings.php:99
+msgid "Repeat On The Following Days"
+msgstr ""
+
+#: lib/customFields-settings.php:100
+msgid ""
+"If the frequency is set to Weekly, repeat this action on these days of the "
+"week INSTEAD of the day of week the Starting Date/Time falls on."
+msgstr ""
+
+#: lib/customFields-settings.php:111
+msgid "If the frequency is set to Monthly, repeat this action every X months."
+msgstr ""
+
+#: lib/customFields-settings.php:121
+msgid "Repeat On The Nth Weekday Of The Month?"
+msgstr ""
+
+#: lib/customFields-settings.php:122
+msgid ""
+"If the frequency is set to Monthly, repeat this action on the Nth weekday of "
+"the month (i.e., every third Tuesday). Check this box to select a pattern "
+"below."
+msgstr ""
+
+#: lib/customFields-settings.php:131
+msgid "Nth Weekday Ordinal:"
+msgstr ""
+
+#: lib/customFields-settings.php:132
+msgid ""
+"Select a value for the Nth (i.e., 'first', 'second', etc.) week of the month."
+msgstr ""
+
+#: lib/customFields-settings.php:142
+msgid "Nth Weekday Day Of Week:"
+msgstr ""
+
+#: lib/customFields-settings.php:143
+msgid "Select the day of week to repeat on."
+msgstr ""
+
+#: lib/customFields-settings.php:154
+msgid "If the frequency is set to Yearly, repeat this action every X years."
+msgstr ""
+
+#: lib/customFields-settings.php:166
+msgid "How Often To Repeat This Action?"
+msgstr ""
+
+#: lib/customFields-settings.php:169
+msgid "Keep repeating until a given date"
+msgstr ""
+
+#: lib/customFields-settings.php:170
+msgid "Repeat a set number of times"
+msgstr ""
+
+#: lib/customFields-settings.php:178
+msgid "End Date:"
+msgstr ""
+
+#: lib/customFields-settings.php:179
+msgid "Using the settings above, repeat this action until this date."
+msgstr ""
+
+#: lib/customFields-settings.php:188
+msgid "Repeat How Many Times?"
+msgstr ""
+
+#: lib/customFields-settings.php:189
+msgid "Using the settings above, repeat this action this many times."
+msgstr ""
+
+#: lib/customFieldsInterface.php:304 lib/customFieldsInterface.php:329
+#: tinymce_plugin/dialog.php:28
+msgctxt "Date format for jQuery UI Datepicker"
+msgid "MM d, yy"
+msgstr ""
+
+#: lib/customFieldsInterface.php:345 tinymce_plugin/dialog.php:99
+#: tinymce_plugin/dialog.php:109
+msgctxt "Date field label"
+msgid "Date"
+msgstr ""
+
+#: lib/customFieldsInterface.php:347 tinymce_plugin/dialog.php:101
+#: tinymce_plugin/dialog.php:111
+msgctxt "Time field label"
+msgid "Time"
+msgstr ""
+
+#. translators:  date/time format for debugging messages.
+#: timed-content.php:21
+msgid "l, F jS, Y, g:i A T"
+msgstr ""
+
+#: timed-content.php:52 timed-content.php:63
+msgctxt "post type general name"
+msgid "Timed Content Rules"
+msgstr ""
+
+#: timed-content.php:53
+msgctxt "post type singular name"
+msgid "Timed Content Rule"
+msgstr ""
+
+#: timed-content.php:55
+msgid "Add New Timed Content Rule"
+msgstr ""
+
+#: timed-content.php:56
+msgid "Edit Timed Content Rule"
+msgstr ""
+
+#: timed-content.php:57
+msgid "New Timed Content Rule"
+msgstr ""
+
+#: timed-content.php:58
+msgid "View Timed Content Rule"
+msgstr ""
+
+#: timed-content.php:59
+msgid "Search Timed Content Rules"
+msgstr ""
+
+#: timed-content.php:60
+msgid "No Timed Content Rules found"
+msgstr ""
+
+#: timed-content.php:61
+msgid "No Timed Content Rules found in Trash"
+msgstr ""
+
+#: timed-content.php:67
+msgid ""
+"Create regular schedules to show or hide selected content in a Page or Post."
+msgstr ""
+
+#: timed-content.php:99 timed-content.php:102
+msgid "Timed Content Rule updated."
+msgstr ""
+
+#: timed-content.php:100
+msgid "Custom field updated."
+msgstr ""
+
+#: timed-content.php:101
+msgid "Custom field deleted."
+msgstr ""
+
+#. translators: %s: date and time of the revision
+#: timed-content.php:104
+msgid "Timed Content Rule restored to revision from %s"
+msgstr ""
+
+#: timed-content.php:105
+msgid "Timed Content Rule published."
+msgstr ""
+
+#: timed-content.php:106
+msgid "Timed Content Rule saved."
+msgstr ""
+
+#: timed-content.php:107
+msgid "Timed Content Rule submitted."
+msgstr ""
+
+#. translators: %s: date and time to activate rule
+#: timed-content.php:109
+msgid "Timed Content Rule scheduled for: <strong>%1$s</strong>."
+msgstr ""
+
+#: timed-content.php:109
+msgid "M j, Y @ G:i"
+msgstr ""
+
+#: timed-content.php:110
+msgid "Timed Content Rule draft updated."
+msgstr ""
+
+#: timed-content.php:341
+msgid "Date in Starting Date/Time must not be empty."
+msgstr ""
+
+#: timed-content.php:343
+msgid "Time in Starting Date/Time must not be empty."
+msgstr ""
+
+#: timed-content.php:345
+msgid "Date in Ending Date/Time must not be empty."
+msgstr ""
+
+#: timed-content.php:347
+msgid "Time in Ending Date/Time must not be empty."
+msgstr ""
+
+#: timed-content.php:349
+msgid "Repeat How Often? must not be empty."
+msgstr ""
+
+#: timed-content.php:351
+msgid "Repeat How Often? must be a number."
+msgstr ""
+
+#: timed-content.php:353
+msgid "Repeat How Many Times? must not be empty."
+msgstr ""
+
+#: timed-content.php:355
+msgid "Repeat How Many Times? must be a number."
+msgstr ""
+
+#: timed-content.php:357
+msgid "End Date must not be empty."
+msgstr ""
+
+#: timed-content.php:359
+msgid "Starting Date/Time must be valid."
+msgstr ""
+
+#: timed-content.php:361
+msgid "Ending Date/Time must be valid."
+msgstr ""
+
+#: timed-content.php:363
+msgid "Starting Date/Time must be before Ending Date/Time."
+msgstr ""
+
+#: timed-content.php:365
+msgid "End Date must be after Ending Date/Time."
+msgstr ""
+
+#: timed-content.php:422
+msgid "%s from now."
+msgstr ""
+
+#: timed-content.php:425 timed-content.php:466
+msgid "Right now!"
+msgstr ""
+
+#: timed-content.php:428
+msgid "%s ago."
+msgstr ""
+
+#: timed-content.php:463 timed-content.php:771 timed-content.php:775
+msgctxt "Human readable time difference"
+msgid "%s from now."
+msgstr ""
+
+#: timed-content.php:469 timed-content.php:773 timed-content.php:777
+msgctxt "Human readable time difference"
+msgid "%s ago."
+msgstr ""
+
+#: timed-content.php:566
+msgid "Warning!"
+msgstr ""
+
+#: timed-content.php:567
+msgid ""
+"Some problems have been detected.  Although you can still publish this rule, "
+"it may not work the way you expect."
+msgstr ""
+
+#: timed-content.php:572
+msgid ""
+"Check that all of the conditions for this rule are correct, and use Show "
+"Projected Dates/Times to ensure your rule is working properly."
+msgstr ""
+
+#: timed-content.php:596
+msgctxt "Dates/times of first active period"
+msgid "%1$s on %2$s @ %3$s until %4$s @ %5$s."
+msgstr ""
+
+#: timed-content.php:599
+msgid "Repeat this action every hour."
+msgid_plural "Repeat this action every %d hours."
 msgstr[0] ""
 msgstr[1] ""
 
-#: timed_content.php:125 timed_content.php:134
-msgid "%d month"
-msgid_plural "%d months"
+#: timed-content.php:601
+msgid "Repeat this action every day."
+msgid_plural "Repeat this action every %d days."
 msgstr[0] ""
 msgstr[1] ""
 
-#: timed_content.php:126 timed_content.php:135
-msgid "%d day"
-msgid_plural "%d days"
+#: timed-content.php:608
+msgctxt "List of one weekday"
+msgid "%1$s"
+msgstr ""
+
+#: timed-content.php:609
+msgctxt "List of two weekdays"
+msgid "%1$s and %2$s"
+msgstr ""
+
+#: timed-content.php:610
+msgctxt "List of three weekdays"
+msgid "%1$s, %2$s, and %3$s"
+msgstr ""
+
+#: timed-content.php:611
+msgctxt "List of four weekdays"
+msgid "%1$s, %2$s, %3$s, and %4$s"
+msgstr ""
+
+#: timed-content.php:612
+msgctxt "List of five weekdays"
+msgid "%1$s, %2$s, %3$s, %4$s, and %5$s"
+msgstr ""
+
+#: timed-content.php:613
+msgctxt "List of six weekdays"
+msgid "%1$s, %2$s, %3$s, %4$s, %5$s, and %6$s"
+msgstr ""
+
+#: timed-content.php:614
+msgctxt "List of all weekdays"
+msgid "%1$s, %2$s, %3$s, %4$s, %5$s, %6$s, and %7$s"
+msgstr ""
+
+#: timed-content.php:617
+msgctxt ""
+"List the weekdays to repeat the rule when frequency is every week. %s is the "
+"list of weekdays."
+msgid "Repeat this action every week on %s."
+msgstr ""
+
+#: timed-content.php:619
+msgctxt ""
+"List the weekdays to repeat the rule when frequency is every %1$d weeks. "
+"%2$s is the list of weekdays."
+msgid "Repeat this action every %1$d weeks on %2$s."
+msgstr ""
+
+#: timed-content.php:621
+msgid "Repeat this action every week."
+msgid_plural "Repeat this action every %d weeks."
 msgstr[0] ""
 msgstr[1] ""
 
-#: timed_content.php:127 timed_content.php:136
-msgid "%d hour"
-msgid_plural "%d hours"
+#: timed-content.php:626
+msgid "Repeat this action every month on the %1$s %2$s of the month."
+msgstr ""
+
+#: timed-content.php:628
+msgid "Repeat this action every %1$d months on the %2$s %3$s of the month."
+msgstr ""
+
+#: timed-content.php:630
+msgid "Repeat this action every month."
+msgid_plural "Repeat this action every %d months."
 msgstr[0] ""
 msgstr[1] ""
 
-#: timed_content.php:128 timed_content.php:137
-msgid "%d minute"
-msgid_plural "%d minutes"
+#: timed-content.php:632
+msgid "Repeat this action every year."
+msgid_plural "Repeat this action every %d years."
 msgstr[0] ""
 msgstr[1] ""
 
-#: timed_content.php:129 timed_content.php:138
-msgid "%d second"
-msgid_plural "%d seconds"
+#: timed-content.php:635
+msgid "This rule will be active for 1 repetition."
+msgid_plural "This rule will be active for %d repetitions."
 msgstr[0] ""
 msgstr[1] ""
 
-#: timed_content.php:130 timed_content.php:139
-msgid "ago"
+#: timed-content.php:637
+msgid "This rule will be active until %s."
 msgstr ""
 
-#: timed_content.php:130 timed_content.php:139
-msgid "from now"
+#: timed-content.php:639
+msgid "All times are in the %s timezone."
 msgstr ""
 
-#: timed_content.php:141
-msgid "START TIMED-CONTENT-SERVER DEBUGGING"
+#: timed-content.php:780
+msgctxt "Noun"
+msgid "Notice"
 msgstr ""
 
-#: timed_content.php:144
-msgid "'Show' attribute not set."
+#: timed-content.php:781
+msgid ""
+"Debugging has been turned on for a <code>[timed-content-server]</code> "
+"shortcode on this Post/Page. Only website users who are currently logged in "
+"and can edit this Post/Page will see this.  To turn off this message, remove "
+"the <code>debug</code> attribute from the shortcode."
 msgstr ""
 
-#: timed_content.php:146
-msgid "'Show' attribute"
+#: timed-content.php:784
+msgid "The <code>show</code> attribute is not set."
 msgstr ""
 
-#: timed_content.php:146
-msgid "Timestamp derived from 'Show' attribute"
+#: timed-content.php:786
+msgid "The <code>show</code> attribute is currently set to"
 msgstr ""
 
-#: timed_content.php:146 timed_content.php:151
-msgid "Date/time derived from timestamp"
+#: timed-content.php:787 timed-content.php:794
+msgid "The Timed Content plugin thinks the intended date/time is"
 msgstr ""
 
-#: timed_content.php:149
-msgid "'Hide' attribute not set."
+#: timed-content.php:791
+msgid "The <code>hide</code> attribute is not set."
 msgstr ""
 
-#: timed_content.php:151
-msgid "'Hide' attribute"
+#: timed-content.php:793
+msgid "The <code>hide</code> attribute is currently set to"
 msgstr ""
 
-#: timed_content.php:151
-msgid "Timestamp derived from 'Hide' attribute"
-msgstr ""
-
-#: timed_content.php:153
+#: timed-content.php:797
 msgid "Current time"
 msgstr ""
 
-#: timed_content.php:153
-msgid "Timestamp derived from current time"
+#: timed-content.php:798
+msgid "Content"
 msgstr ""
 
-#: timed_content.php:155 timed_content.php:156
-msgid "Wordpress option"
+#: timed-content.php:885
+msgctxt ""
+"Scheduled Dates/Times dialog - Beginning of active period table header"
+msgid "Start"
 msgstr ""
 
-#: timed_content.php:159
-msgid "END TIMED-CONTENT-SERVER DEBUGGING"
+#: timed-content.php:886
+msgctxt "Scheduled Dates/Times dialog - End of active period table header"
+msgid "End"
 msgstr ""
 
-#: timed_content.php:163
-msgid "START TIMED-CONTENT-SERVER CONTENT"
+#: timed-content.php:887
+msgctxt "Scheduled Dates/Times dialog - dialog header"
+msgid "Scheduled Dates/Times"
 msgstr ""
 
-#: timed_content.php:164
-msgid "END TIMED-CONTENT-SERVER CONTENT"
+#: timed-content.php:890
+msgctxt "Scheduled Dates/Times dialog - Close button HTML label"
+msgid "Close"
+msgstr ""
+
+#: timed-content.php:892
+msgid "Error"
+msgstr ""
+
+#: timed-content.php:893
+msgid ""
+"Something unexpected has happened along the way.  The specific details are "
+"below:"
+msgstr ""
+
+#: timed-content.php:925
+msgid "Add Timed Content shortcodes"
+msgstr ""
+
+#: timed-content.php:1004
+msgid "Description"
+msgstr ""
+
+#: timed-content.php:1005
+msgid "Shortcode"
+msgstr ""
+
+#: timed-content.php:1039
+msgid "Timed Content Rule"
+msgid_plural "Timed Content Rules"
+msgstr[0] ""
+msgstr[1] ""
+
+#: timed-content.php:1051
+msgid "Timed Content Rule Pending"
+msgid_plural "Timed Content Rules Pending"
+msgstr[0] ""
+msgstr[1] ""
+
+#: timed-content.php:1074
+msgid "Rule Description/Schedule"
+msgstr ""
+
+#: timed-content.php:1083
+msgid "Action/Initial Event"
+msgstr ""
+
+#: timed-content.php:1084
+msgid "Set the action to be taken and when it should first run."
+msgstr ""
+
+#: timed-content.php:1089
+msgid "Repeating Pattern"
+msgstr ""
+
+#: timed-content.php:1090
+msgid "Set how often the action should repeat."
+msgstr ""
+
+#: timed-content.php:1095
+msgid "Stopping Condition"
+msgstr ""
+
+#: timed-content.php:1096
+msgid "Set how long or how many times the action should occur."
+msgstr ""
+
+#: tinymce_plugin/dialog.php:4
+msgctxt "TinyMCE Dialog - Dialog titlebar"
+msgid "Add Timed Content shortcodes"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:35
+msgctxt "TinyMCE Dialog - Client tab label"
+msgid "Client"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:36
+msgctxt "TinyMCE Dialog - Server tab label"
+msgid "Server"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:37
+msgctxt "TinyMCE Dialog - Timed Content Rules tab label"
+msgid "Timed Content Rules"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:43
+msgctxt "TinyMCE Dialog - Client tab instructions"
+msgid ""
+"Select the actions you wish to perform and the times after the Page/Post is "
+"loaded when they should occur."
+msgstr ""
+
+#: tinymce_plugin/dialog.php:47 tinymce_plugin/dialog.php:98
+msgctxt "TinyMCE Dialog - Show action label"
+msgid "Show"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:48 tinymce_plugin/dialog.php:62
+msgctxt "TinyMCE Dialog - Time count label"
+msgid "Time (mm:ss)"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:53
+msgctxt "TinyMCE Dialog - Fade-in label"
+msgid "Fade in (ms)"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:55 tinymce_plugin/dialog.php:69
+msgctxt "TinyMCE Dialog - Optional checkbox HTML label"
+msgid "Optional"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:61 tinymce_plugin/dialog.php:108
+msgctxt "TinyMCE Dialog - Hide action label"
+msgid "Hide"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:67
+msgctxt "TinyMCE Dialog - Fade-out label"
+msgid "Fade out (ms)"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:74
+msgctxt "TinyMCE Dialog - Display Mode label"
+msgid "Display Mode"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:76
+msgctxt "TinyMCE Dialog - Display mode DIV HTML description"
+msgid "Enclose content using <code>&lt;div&gt;</code> tags (block-level)"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:78
+msgctxt "TinyMCE Dialog - Display mode SPAN HTML description"
+msgid "Enclose content using <code>&lt;span&gt;</code> tags (inline)"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:82 tinymce_plugin/dialog.php:127
+#: tinymce_plugin/dialog.php:148
+msgctxt "TinyMCE Dialog - Insert button HTML label"
+msgid "Insert"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:83 tinymce_plugin/dialog.php:128
+#: tinymce_plugin/dialog.php:149
+msgctxt "TinyMCE Dialog - Cancel button HTML label"
+msgid "Cancel"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:89
+msgctxt "TinyMCE Dialog - Server tab instructions"
+msgid ""
+"Select the actions you wish to perform and the dates/times when they should "
+"occur."
+msgstr ""
+
+#: tinymce_plugin/dialog.php:92
+msgctxt "TinyMCE Dialog - Server debugging label"
+msgid ""
+"Add debugging messages (Only logged-in users who can edit this Post/Page "
+"will see them)"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:94
+msgid "Current Date/Time "
+msgstr ""
+
+#: tinymce_plugin/dialog.php:117
+msgctxt "TinyMCE Dialog - Timezone fieldset label"
+msgid "Timezone"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:119
+msgctxt "TinyMCE Dialog - Timezone SELECT HTML label"
+msgid "Select a city whose timezone you wish to use"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:124
+msgid "Wordpress Timezone"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:134
+msgctxt "TinyMCE Dialog - Timed Content Rules tab instructions"
+msgid ""
+"Select the Timed Content Rule you wish to use. Only rules without any "
+"warnings will appear below."
+msgstr ""
+
+#: tinymce_plugin/dialog.php:135
+msgctxt "TinyMCE Dialog - Timed Content Rules SELECT HTML label"
+msgid "Rule"
+msgstr ""
+
+#: tinymce_plugin/dialog.php:142
+msgctxt "TinyMCE Dialog - Timed Content Rules description label"
+msgid "Description"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Timed Content"
+msgstr ""
+
+#. #-#-#-#-#  plugin.pot (Timed Content 2.0)  #-#-#-#-#
+#. Plugin URI of the plugin/theme
+#. #-#-#-#-#  plugin.pot (Timed Content 2.0)  #-#-#-#-#
+#. Author URI of the plugin/theme
+msgid "http://wordpress.org/plugins/timed-content/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Plugin to show or hide portions of a Page or Post based on specific date/"
+"time characteristics.  These actions can either be processed either server-"
+"side or client-side, depending on the desired effect."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "K. Tough"
 msgstr ""

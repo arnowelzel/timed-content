@@ -1,0 +1,52 @@
+div.tcr-loading {
+    margin: auto;
+}
+div.tcr-error, div.tcr-warning  {
+    border-radius: 3px 3px 3px 3px;
+    border-style: solid;
+    border-width: 1px;
+    margin: 5px 15px 2px;
+    padding: 0 0.6em;
+    font-style: normal;
+    font-size: 12px;
+    font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
+}
+div.tcr-warning {
+    background-color: #FEEFB3;
+}
+div.tcr-error {
+    background-color: #feddce;
+}
+div.tcr-warning ul {
+	list-style-type: disc; 
+	padding-left: 20px; 
+	margin-bottom: 10px;
+}
+div.tcr-warning ul li {
+    margin-bottom: 0px;
+}
+div.tcr-warning .heading, div.tcr-error .heading {
+    font-size: 14px;
+    font-weight: bold;
+}
+div#tcr-dialogHolder table tr td {
+    padding: 2px;
+}
+div#tcr-dialogHolder table tr.upcoming {
+    background-color: #faff92;
+}
+div#tcr-dialogHolder table tr.active {
+    background-color: #d3ffc6;
+}
+div#tcr-dialogHolder table tr.expired {
+    background-color: #fbefe6;
+}
+div#tcr-dialogHolder table tr:hover {
+    background-color: #ffffff;
+    border: 1px solid #000000;
+}
+div#tcr-dialogHolder table tr th {
+    background-color: #21759b;
+    color: #eeeeee;
+
+ }

@@ -1,6 +1,7 @@
 <?php
 require_once("Arrays_Definitions.php");
 $now_t = current_time( "timestamp" );
+global $timed_content_rule_occurrence_custom_fields, $timed_content_rule_pattern_custom_fields, $timed_content_rule_recurrence_custom_fields;
 
 $timed_content_rule_occurrence_custom_fields = array(
 					array(

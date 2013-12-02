@@ -26,6 +26,16 @@ div.tabs ul li {
 			'server': '<?php echo TIMED_CONTENT_SERVER_TAG; ?>',
 			'rule' : '<?php echo TIMED_CONTENT_RULE_TAG; ?>' };
     var datepickerFormat = "<?php _ex( "MM d, yy", "Date format for jQuery UI Datepicker", 'timed-content' ); ?>";
+    var errorMessages = { 'clientNoShow': '<?php _e( 'When using the Show action, the Show time must be at least 1 second.', 'timed-content' ); ?>',
+        'clientNoHide': '<?php _e( 'When using the Hide action, the Hide time must be at least 1 second.', 'timed-content' ); ?>',
+        'clientHideBeforeShow': '<?php _e( 'When using both Show and Hide actions, the Hide time must be later than the Show time.', 'timed-content' ); ?>',
+        'clientNoAction': '<?php _e( 'Please select an action to perform.', 'timed-content' ); ?>',
+        'serverNoShowDate': '<?php _e( 'Please set a date for the Show action.', 'timed-content' ); ?>',
+        'serverNoShowTime': '<?php _e( 'Please set a time for the Show action.', 'timed-content' ); ?>',
+        'serverNoHideDate': '<?php _e( 'Please set a date for the Hide action.', 'timed-content' ); ?>',
+        'serverNoHideTime': '<?php _e( 'Please set a time for the Hide action.', 'timed-content' ); ?>',
+        'serverHideBeforeShow': '<?php _e( 'When using both Show and Hide actions, the Hide time must be later than the Show time.', 'timed-content' ); ?>',
+        'serverNoAction': '<?php _e( 'Please select an action to perform.', 'timed-content' ); ?>' };
 </script>
 <script type="text/javascript" src="<?php echo TIMED_CONTENT_PLUGIN_URL; ?>/tinymce_plugin/dialog.js"></script>
 </head>

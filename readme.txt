@@ -57,7 +57,7 @@ dialog box to help build the Timed Content shortcodes.
 == Changelog ==
 = 2.1.1 =
 * CSS for JQuery UI now loaded locally as required by Wordpress plugin repository rules
-* Improved UX on TinyMCE dialog
+* Improved UX on TinyMCE dialog and Timed Content Rules detail page
 
 = 2.1 =
 * Fixed inconsistency in how the days of week to repeat on were being set up between the front and back ends

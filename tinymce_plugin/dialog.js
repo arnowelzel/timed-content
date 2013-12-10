@@ -108,7 +108,7 @@ var TimedContentDialog = {
 		var sm = Math.abs(parseInt(jQuery('#client_show_minutes').val()));
 		var ss = Math.abs(parseInt(jQuery('#client_show_seconds').val()));
 		var sf = Math.abs(parseInt(jQuery('#client_show_fade').val()));
-		if (isNaN(sm)) sm = 0; if (isNaN(ss)) ss = 0; if (isNaN(sf)) sf = 0; 
+		if (isNaN(sm)) sm = 0; if (isNaN(ss)) ss = 0; if (isNaN(sf)) sf = 0;
 
 		var hm = Math.abs(parseInt(jQuery('#client_hide_minutes').val()));
 		var hs = Math.abs(parseInt(jQuery('#client_hide_seconds').val()));

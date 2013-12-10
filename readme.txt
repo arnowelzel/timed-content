@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5F58E
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
 Requires at least: 2.0.2
 Tested up to: 3.7.1
-Stable tag: 2.1
+Stable tag: 2.1.1
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
@@ -55,6 +55,10 @@ dialog box to help build the Timed Content shortcodes.
 10. An example showing use of the `[timed-content-server]` shortcode with `debug` set to `true`. You'll only see it if you're logged in and it's on a Page/Post you can edit (Your regular visitors won't see this at all).
 
 == Changelog ==
+= 2.1.1 =
+* CSS for JQuery UI now loaded locally as required by Wordpress plugin repository rules
+* Improved UX on TinyMCE dialog
+
 = 2.1 =
 * Fixed inconsistency in how the days of week to repeat on were being set up between the front and back ends
 * Fixed variable scope bug that occurred on activation
@@ -78,6 +82,8 @@ dialog box to help build the Timed Content shortcodes.
 * Initial release.
 
 == Upgrade Notice ==
+= 2.2.1 =
+CSS for JQuery UI now loaded locally as required by Wordpress plugin repository rules. Upgrade now
 
 = 2.1 =
 Fixed bug in how the days of week to repeat on were being set up between the front and back ends. Upgrade now
@@ -146,6 +152,6 @@ Both `show` and `hide` attributes are optional, but at least one attribute must 
 
 **The timed-content-rule shortcode**
 
-`[timed-content-rule id="rule_id" ]Example Text[/timed-content-rule]`
+`[timed-content-rule id="rule_id"]Example Text[/timed-content-rule]`
 
 You can find the correct shortcode from the Timed Content Rules overview page, or use the TinyMCE dialog.

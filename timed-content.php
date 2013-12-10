@@ -5,12 +5,12 @@ Text Domain: timed-content
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough
-Version: 2.1
+Version: 2.1.1
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if ( !class_exists( "timedContentPlugin" ) ) {
 
-	define( "TIMED_CONTENT_VERSION", 2.1 );
+	define( "TIMED_CONTENT_VERSION", "2.1.1" );
 	define( "TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/timed-content' );
 	define( "TIMED_CONTENT_CLIENT_TAG", "timed-content-client" );
 	define( "TIMED_CONTENT_SERVER_TAG", "timed-content-server" );
@@ -21,8 +21,9 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 	define( "TIMED_CONTENT_DT_FORMAT", __( "l, F jS, Y, g:i A T" , 'timed-content' ) );
 	define( "TIMED_CONTENT_RULE_TYPE", "timed_content_rule" );
 	define( "TIMED_CONTENT_RULE_POSTMETA_PREFIX", TIMED_CONTENT_RULE_TYPE . "_" );
+    define( "TIMED_CONTENT_CSS", TIMED_CONTENT_PLUGIN_URL . "/css/timed-content.css"  );
 	// Required for styling the JQuery UI Datepicker and JQuery UI Timepicker
-    define( "TIMED_CONTENT_JQUERY_UI_CSS", "http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css" );
+    define( "TIMED_CONTENT_JQUERY_UI_CSS", TIMED_CONTENT_PLUGIN_URL . "/css/jqueryui/1.10.3/themes/smoothness/jquery-ui.css"  );
     define( "TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS", TIMED_CONTENT_PLUGIN_URL."/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js" );
     define( "TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS", TIMED_CONTENT_PLUGIN_URL."/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.css" );
 	require_once( "lib/customFields-settings.php" );
@@ -855,7 +856,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          */
         function addHeaderCode()  {
 			if ( ! is_admin() )  {
-                wp_enqueue_style( 'timed-content-css', TIMED_CONTENT_PLUGIN_URL . '/timed-content.css' );
+                wp_enqueue_style( 'timed-content-css', TIMED_CONTENT_CSS );
                 wp_enqueue_script( 'timed-content_js', TIMED_CONTENT_PLUGIN_URL . '/js/timed-content.js', array( 'jquery' ), TIMED_CONTENT_VERSION );
 			}
 		}
@@ -884,7 +885,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			if ( ( isset( $_GET['post_type'] ) && $_GET['post_type'] == TIMED_CONTENT_RULE_TYPE )
 				|| ( isset( $post_type ) && $post_type == TIMED_CONTENT_RULE_TYPE )
 				|| ( isset( $_GET['post'] ) && get_post_type( $_GET['post'] ) == TIMED_CONTENT_RULE_TYPE ) ) {
-				wp_enqueue_style( 'timed-content-css', TIMED_CONTENT_PLUGIN_URL . '/timed-content.css' );
+				wp_enqueue_style( 'timed-content-css', TIMED_CONTENT_CSS );
 				// Enqueue the JavaScript file that manages the meta box UI
 				wp_enqueue_script( 'timed-content-admin_js', TIMED_CONTENT_PLUGIN_URL . '/js/timed-content-admin.js', array( 'jquery' ), TIMED_CONTENT_VERSION );
 				// Enqueue the JavaScript file that makes AJAX requests
@@ -1048,8 +1049,8 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			$num = number_format_i18n( $num_posts->publish );
 			$text = _n( 'Timed Content Rule', 'Timed Content Rules', intval( $num_posts->publish ) );
 			if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
-				$num = "<a href='edit.php?post_type=" . TIMED_CONTENT_RULE_TYPE . "'>$num</a>";
-				$text = "<a href='edit.php?post_type=" . TIMED_CONTENT_RULE_TYPE . "'>$text</a>";
+				$num = "<a href='edit.php?post_type=" . TIMED_CONTENT_RULE_TYPE . "'>" . $num . "</a>";
+				$text = "<a href='edit.php?post_type=" . TIMED_CONTENT_RULE_TYPE . "'>" . $text . "</a>";
 			}
 			echo '<tr>';
 			echo '<td class="first b b-' . TIMED_CONTENT_RULE_TYPE . '">' . $num . '</td>';
@@ -1060,8 +1061,8 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				$num = number_format_i18n( $num_posts->pending );
 				$text = _n( 'Timed Content Rule Pending', 'Timed Content Rules Pending', intval( $num_posts->pending ) );
 				if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
-					$num = "<a href='edit.php?post_status=pending&post_type=" . TIMED_CONTENT_RULE_TYPE . "'>$num</a>";
-					$text = "<a href='edit.php?post_status=pending&post_type=" . TIMED_CONTENT_RULE_TYPE . "'>$text</a>";
+					$num = "<a href='edit.php?post_status=pending&post_type=" . TIMED_CONTENT_RULE_TYPE . "'>" . $num . "</a>";
+					$text = "<a href='edit.php?post_status=pending&post_type=" . TIMED_CONTENT_RULE_TYPE . "'>" . $text . "</a>";
 				}
 				echo '<tr>';
 				echo '<td class="first b b-' . TIMED_CONTENT_RULE_TYPE . '">' . $num . '</td>';

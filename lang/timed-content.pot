@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Timed Content package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Timed Content 2.1\n"
+"Project-Id-Version: Timed Content 2.1.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/timed-content\n"
-"POT-Creation-Date: 2013-12-02 00:03:45+00:00\n"
+"POT-Creation-Date: 2013-12-10 01:24:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -120,11 +120,11 @@ msgstr ""
 msgid "Sets the action to be performed when the rule is active."
 msgstr ""
 
-#: lib/customFields-settings.php:13 timed-content.php:586
+#: lib/customFields-settings.php:13 timed-content.php:587
 msgid "Show the content"
 msgstr ""
 
-#: lib/customFields-settings.php:14 timed-content.php:588
+#: lib/customFields-settings.php:14 timed-content.php:589
 msgid "Hide the content"
 msgstr ""
 
@@ -255,19 +255,19 @@ msgstr ""
 msgid "Using the settings above, repeat this action this many times."
 msgstr ""
 
-#: lib/customFieldsInterface.php:304 lib/customFieldsInterface.php:329
+#: lib/customFieldsInterface.php:280 lib/customFieldsInterface.php:305
 #: tinymce_plugin/dialog.php:28
 msgctxt "Date format for jQuery UI Datepicker"
 msgid "MM d, yy"
 msgstr ""
 
-#: lib/customFieldsInterface.php:345 tinymce_plugin/dialog.php:109
+#: lib/customFieldsInterface.php:321 tinymce_plugin/dialog.php:109
 #: tinymce_plugin/dialog.php:119
 msgctxt "Date field label"
 msgid "Date"
 msgstr ""
 
-#: lib/customFieldsInterface.php:347 tinymce_plugin/dialog.php:111
+#: lib/customFieldsInterface.php:323 tinymce_plugin/dialog.php:111
 #: tinymce_plugin/dialog.php:121
 msgctxt "Time field label"
 msgid "Time"
@@ -278,293 +278,293 @@ msgstr ""
 msgid "l, F jS, Y, g:i A T"
 msgstr ""
 
-#: timed-content.php:52 timed-content.php:63
+#: timed-content.php:53 timed-content.php:64
 msgctxt "post type general name"
 msgid "Timed Content Rules"
 msgstr ""
 
-#: timed-content.php:53
+#: timed-content.php:54
 msgctxt "post type singular name"
 msgid "Timed Content Rule"
 msgstr ""
 
-#: timed-content.php:55
+#: timed-content.php:56
 msgid "Add New Timed Content Rule"
 msgstr ""
 
-#: timed-content.php:56
+#: timed-content.php:57
 msgid "Edit Timed Content Rule"
 msgstr ""
 
-#: timed-content.php:57
+#: timed-content.php:58
 msgid "New Timed Content Rule"
 msgstr ""
 
-#: timed-content.php:58
+#: timed-content.php:59
 msgid "View Timed Content Rule"
 msgstr ""
 
-#: timed-content.php:59
+#: timed-content.php:60
 msgid "Search Timed Content Rules"
 msgstr ""
 
-#: timed-content.php:60
+#: timed-content.php:61
 msgid "No Timed Content Rules found"
 msgstr ""
 
-#: timed-content.php:61
+#: timed-content.php:62
 msgid "No Timed Content Rules found in Trash"
 msgstr ""
 
-#: timed-content.php:67
+#: timed-content.php:68
 msgid ""
 "Create regular schedules to show or hide selected content in a Page or Post."
 msgstr ""
 
-#: timed-content.php:99 timed-content.php:102
+#: timed-content.php:100 timed-content.php:103
 msgid "Timed Content Rule updated."
 msgstr ""
 
-#: timed-content.php:100
+#: timed-content.php:101
 msgid "Custom field updated."
 msgstr ""
 
-#: timed-content.php:101
+#: timed-content.php:102
 msgid "Custom field deleted."
 msgstr ""
 
 #. translators: %s: date and time of the revision
-#: timed-content.php:104
+#: timed-content.php:105
 msgid "Timed Content Rule restored to revision from %s"
 msgstr ""
 
-#: timed-content.php:105
+#: timed-content.php:106
 msgid "Timed Content Rule published."
 msgstr ""
 
-#: timed-content.php:106
+#: timed-content.php:107
 msgid "Timed Content Rule saved."
 msgstr ""
 
-#: timed-content.php:107
+#: timed-content.php:108
 msgid "Timed Content Rule submitted."
 msgstr ""
 
 #. translators: %s: date and time to activate rule
-#: timed-content.php:109
+#: timed-content.php:110
 msgid "Timed Content Rule scheduled for: <strong>%1$s</strong>."
 msgstr ""
 
-#: timed-content.php:109
+#: timed-content.php:110
 msgid "M j, Y @ G:i"
 msgstr ""
 
-#: timed-content.php:110
+#: timed-content.php:111
 msgid "Timed Content Rule draft updated."
 msgstr ""
 
-#: timed-content.php:348
+#: timed-content.php:349
 msgid "Date in Starting Date/Time must not be empty."
 msgstr ""
 
-#: timed-content.php:350
+#: timed-content.php:351
 msgid "Time in Starting Date/Time must not be empty."
 msgstr ""
 
-#: timed-content.php:352
+#: timed-content.php:353
 msgid "Date in Ending Date/Time must not be empty."
 msgstr ""
 
-#: timed-content.php:354
+#: timed-content.php:355
 msgid "Time in Ending Date/Time must not be empty."
 msgstr ""
 
-#: timed-content.php:356
+#: timed-content.php:357
 msgid "Repeat How Often? must not be empty."
 msgstr ""
 
-#: timed-content.php:358
+#: timed-content.php:359
 msgid "Repeat How Often? must be a number."
 msgstr ""
 
-#: timed-content.php:360
+#: timed-content.php:361
 msgid "Repeat How Many Times? must not be empty."
 msgstr ""
 
-#: timed-content.php:362
+#: timed-content.php:363
 msgid "Repeat How Many Times? must be a number."
 msgstr ""
 
-#: timed-content.php:364
+#: timed-content.php:365
 msgid "End Date must not be empty."
 msgstr ""
 
-#: timed-content.php:366
+#: timed-content.php:367
 msgid "Starting Date/Time must be valid."
 msgstr ""
 
-#: timed-content.php:368
+#: timed-content.php:369
 msgid "Ending Date/Time must be valid."
 msgstr ""
 
-#: timed-content.php:370
+#: timed-content.php:371
 msgid "Starting Date/Time must be before Ending Date/Time."
 msgstr ""
 
-#: timed-content.php:372
+#: timed-content.php:373
 msgid "End Date must be after Ending Date/Time."
 msgstr ""
 
-#: timed-content.php:430
+#: timed-content.php:431
 msgid "%s from now."
 msgstr ""
 
-#: timed-content.php:433 timed-content.php:474
+#: timed-content.php:434 timed-content.php:475
 msgid "Right now!"
 msgstr ""
 
-#: timed-content.php:436
+#: timed-content.php:437
 msgid "%s ago."
 msgstr ""
 
-#: timed-content.php:471 timed-content.php:781 timed-content.php:785
+#: timed-content.php:472 timed-content.php:782 timed-content.php:786
 msgctxt "Human readable time difference"
 msgid "%s from now."
 msgstr ""
 
-#: timed-content.php:477 timed-content.php:783 timed-content.php:787
+#: timed-content.php:478 timed-content.php:784 timed-content.php:788
 msgctxt "Human readable time difference"
 msgid "%s ago."
 msgstr ""
 
-#: timed-content.php:574
+#: timed-content.php:575
 msgid "Warning!"
 msgstr ""
 
-#: timed-content.php:575
+#: timed-content.php:576
 msgid ""
 "Some problems have been detected.  Although you can still publish this rule, "
 "it may not work the way you expect."
 msgstr ""
 
-#: timed-content.php:580
+#: timed-content.php:581
 msgid ""
 "Check that all of the conditions for this rule are correct, and use Show "
 "Projected Dates/Times to ensure your rule is working properly."
 msgstr ""
 
-#: timed-content.php:604
+#: timed-content.php:605
 msgctxt "Dates/times of first active period"
 msgid "%1$s on %2$s @ %3$s until %4$s @ %5$s."
 msgstr ""
 
-#: timed-content.php:607
+#: timed-content.php:608
 msgid "Repeat this action every hour."
 msgid_plural "Repeat this action every %d hours."
 msgstr[0] ""
 msgstr[1] ""
 
-#: timed-content.php:609
+#: timed-content.php:610
 msgid "Repeat this action every day."
 msgid_plural "Repeat this action every %d days."
 msgstr[0] ""
 msgstr[1] ""
 
-#: timed-content.php:616
+#: timed-content.php:617
 msgctxt "List of one weekday"
 msgid "%1$s"
 msgstr ""
 
-#: timed-content.php:617
+#: timed-content.php:618
 msgctxt "List of two weekdays"
 msgid "%1$s and %2$s"
 msgstr ""
 
-#: timed-content.php:618
+#: timed-content.php:619
 msgctxt "List of three weekdays"
 msgid "%1$s, %2$s, and %3$s"
 msgstr ""
 
-#: timed-content.php:619
+#: timed-content.php:620
 msgctxt "List of four weekdays"
 msgid "%1$s, %2$s, %3$s, and %4$s"
 msgstr ""
 
-#: timed-content.php:620
+#: timed-content.php:621
 msgctxt "List of five weekdays"
 msgid "%1$s, %2$s, %3$s, %4$s, and %5$s"
 msgstr ""
 
-#: timed-content.php:621
+#: timed-content.php:622
 msgctxt "List of six weekdays"
 msgid "%1$s, %2$s, %3$s, %4$s, %5$s, and %6$s"
 msgstr ""
 
-#: timed-content.php:622
+#: timed-content.php:623
 msgctxt "List of all weekdays"
 msgid "%1$s, %2$s, %3$s, %4$s, %5$s, %6$s, and %7$s"
 msgstr ""
 
-#: timed-content.php:625
+#: timed-content.php:626
 msgctxt ""
 "List the weekdays to repeat the rule when frequency is every week. %s is the "
 "list of weekdays."
 msgid "Repeat this action every week on %s."
 msgstr ""
 
-#: timed-content.php:627
+#: timed-content.php:628
 msgctxt ""
 "List the weekdays to repeat the rule when frequency is every %1$d weeks. "
 "%2$s is the list of weekdays."
 msgid "Repeat this action every %1$d weeks on %2$s."
 msgstr ""
 
-#: timed-content.php:629
+#: timed-content.php:630
 msgid "Repeat this action every week."
 msgid_plural "Repeat this action every %d weeks."
 msgstr[0] ""
 msgstr[1] ""
 
-#: timed-content.php:634
+#: timed-content.php:635
 msgid "Repeat this action every month on the %1$s %2$s of the month."
 msgstr ""
 
-#: timed-content.php:636
+#: timed-content.php:637
 msgid "Repeat this action every %1$d months on the %2$s %3$s of the month."
 msgstr ""
 
-#: timed-content.php:638
+#: timed-content.php:639
 msgid "Repeat this action every month."
 msgid_plural "Repeat this action every %d months."
 msgstr[0] ""
 msgstr[1] ""
 
-#: timed-content.php:640
+#: timed-content.php:641
 msgid "Repeat this action every year."
 msgid_plural "Repeat this action every %d years."
 msgstr[0] ""
 msgstr[1] ""
 
-#: timed-content.php:643
+#: timed-content.php:644
 msgid "This rule will be active for 1 repetition."
 msgid_plural "This rule will be active for %d repetitions."
 msgstr[0] ""
 msgstr[1] ""
 
-#: timed-content.php:645
+#: timed-content.php:646
 msgid "This rule will be active until %s."
 msgstr ""
 
-#: timed-content.php:647
+#: timed-content.php:648
 msgid "All times are in the %s timezone."
 msgstr ""
 
-#: timed-content.php:790
+#: timed-content.php:791
 msgctxt "Noun"
 msgid "Notice"
 msgstr ""
 
-#: timed-content.php:791
+#: timed-content.php:792
 msgid ""
 "Debugging has been turned on for a <code>[timed-content-server]</code> "
 "shortcode on this Post/Page. Only website users who are currently logged in "
@@ -572,114 +572,114 @@ msgid ""
 "the <code>debug</code> attribute from the shortcode."
 msgstr ""
 
-#: timed-content.php:794
+#: timed-content.php:795
 msgid "The <code>show</code> attribute is not set."
 msgstr ""
 
-#: timed-content.php:796
+#: timed-content.php:797
 msgid "The <code>show</code> attribute is currently set to"
 msgstr ""
 
-#: timed-content.php:797 timed-content.php:804
+#: timed-content.php:798 timed-content.php:805
 msgid "The Timed Content plugin thinks the intended date/time is"
 msgstr ""
 
-#: timed-content.php:801
+#: timed-content.php:802
 msgid "The <code>hide</code> attribute is not set."
 msgstr ""
 
-#: timed-content.php:803
+#: timed-content.php:804
 msgid "The <code>hide</code> attribute is currently set to"
 msgstr ""
 
-#: timed-content.php:807
+#: timed-content.php:808
 msgid "Current time"
 msgstr ""
 
-#: timed-content.php:808
+#: timed-content.php:809
 msgid "Content"
 msgstr ""
 
-#: timed-content.php:895
+#: timed-content.php:896
 msgctxt ""
 "Scheduled Dates/Times dialog - Beginning of active period table header"
 msgid "Start"
 msgstr ""
 
-#: timed-content.php:896
+#: timed-content.php:897
 msgctxt "Scheduled Dates/Times dialog - End of active period table header"
 msgid "End"
 msgstr ""
 
-#: timed-content.php:897
+#: timed-content.php:898
 msgctxt "Scheduled Dates/Times dialog - dialog header"
 msgid "Scheduled Dates/Times"
 msgstr ""
 
-#: timed-content.php:900
+#: timed-content.php:901
 msgctxt "Scheduled Dates/Times dialog - Close button HTML label"
 msgid "Close"
 msgstr ""
 
-#: timed-content.php:902
+#: timed-content.php:903
 msgid "Error"
 msgstr ""
 
-#: timed-content.php:903
+#: timed-content.php:904
 msgid ""
 "Something unexpected has happened along the way.  The specific details are "
 "below:"
 msgstr ""
 
-#: timed-content.php:935
+#: timed-content.php:936
 msgid "Add Timed Content shortcodes"
 msgstr ""
 
-#: timed-content.php:1014
+#: timed-content.php:1015
 msgid "Description"
 msgstr ""
 
-#: timed-content.php:1015
+#: timed-content.php:1016
 msgid "Shortcode"
 msgstr ""
 
-#: timed-content.php:1049
+#: timed-content.php:1050
 msgid "Timed Content Rule"
 msgid_plural "Timed Content Rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: timed-content.php:1061
+#: timed-content.php:1062
 msgid "Timed Content Rule Pending"
 msgid_plural "Timed Content Rules Pending"
 msgstr[0] ""
 msgstr[1] ""
 
-#: timed-content.php:1084
+#: timed-content.php:1085
 msgid "Rule Description/Schedule"
 msgstr ""
 
-#: timed-content.php:1093
+#: timed-content.php:1094
 msgid "Action/Initial Event"
 msgstr ""
 
-#: timed-content.php:1094
+#: timed-content.php:1095
 msgid "Set the action to be taken and when it should first run."
 msgstr ""
 
-#: timed-content.php:1099
+#: timed-content.php:1100
 msgid "Repeating Pattern"
 msgstr ""
 
-#: timed-content.php:1100
+#: timed-content.php:1101
 msgid "Set how often the action should repeat."
 msgstr ""
 
-#: timed-content.php:1105
+#: timed-content.php:1106
 msgid "Stopping Condition"
 msgstr ""
 
-#: timed-content.php:1106
+#: timed-content.php:1107
 msgid "Set how long or how many times the action should occur."
 msgstr ""
 
@@ -854,9 +854,9 @@ msgstr ""
 msgid "Timed Content"
 msgstr ""
 
-#. #-#-#-#-#  plugin.pot (Timed Content 2.1)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (Timed Content 2.1.1)  #-#-#-#-#
 #. Plugin URI of the plugin/theme
-#. #-#-#-#-#  plugin.pot (Timed Content 2.1)  #-#-#-#-#
+#. #-#-#-#-#  plugin.pot (Timed Content 2.1.1)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "http://wordpress.org/plugins/timed-content/"
 msgstr ""

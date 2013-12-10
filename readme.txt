@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5F58E
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
 Requires at least: 2.0.2
 Tested up to: 3.7.1
-Stable tag: 2.0
+Stable tag: 2.1.1
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
@@ -55,6 +55,14 @@ dialog box to help build the Timed Content shortcodes.
 10. An example showing use of the `[timed-content-server]` shortcode with `debug` set to `true`. You'll only see it if you're logged in and it's on a Page/Post you can edit (Your regular visitors won't see this at all).
 
 == Changelog ==
+= 2.1.1 =
+* CSS for JQuery UI now loaded locally as required by Wordpress plugin repository rules
+* Improved UX on TinyMCE dialog and Timed Content Rules detail page
+
+= 2.1 =
+* Fixed inconsistency in how the days of week to repeat on were being set up between the front and back ends
+* Fixed variable scope bug that occurred on activation
+* Improved i18n
 
 = 2.0 =
 * Added Timed Content Rules.
@@ -64,7 +72,7 @@ dialog box to help build the Timed Content shortcodes.
 * Improved code documentation
 
 = 1.2 =
-* Upgraded AnyTime plugin
+* Upgraded AnyTime jQuery plugin
 * `timed-content.js` is now always loaded (Size > 1KB, so not a lot of extra overhead); fixes bug when multiple/nested shortcodes are used
 
 = 1.1 =
@@ -74,9 +82,14 @@ dialog box to help build the Timed Content shortcodes.
 * Initial release.
 
 == Upgrade Notice ==
+= 2.2.1 =
+CSS for JQuery UI now loaded locally as required by Wordpress plugin repository rules. Upgrade now
+
+= 2.1 =
+Fixed bug in how the days of week to repeat on were being set up between the front and back ends. Upgrade now
 
 = 2.0 =
-New Timed Content Rules feature; AnyTime replaced due to licensing. Update now.
+New Timed Content Rules feature; AnyTime replaced due to licensing. Upgrade now.
 
 = 1.2 =
 AnyTime JavaScript library was outdated, breaking the Timed Content dialog box. Upgrade now.
@@ -99,6 +112,8 @@ Fixed some internal filename discrepancies, causing visual editor to break.  Upg
 `[timed-content-server hide="2013-Sep-13 20:30:00 America/Chicago"]Hide me starting at 8:30 PM Central Daylight Time (i.e., the same timezone as Chicago) on September 13th, 2013.  I will not be displayed after then[/timed-content-server]`
 
 `[timed-content-server show="2013-Sep-13 20:30:00 -0600" hide="2013-Sep-13 21:30:00 -0600"]Show me starting at 8:30 PM Central Standard Time on September 13th, 2013, then hide me an hour later. I will not be displayed before or after then.[/timed-content-server]`
+
+`[timed-content-rule id="164"]Display me based on the settings for the Timed Content Rule whoseID is 164.[/timed-content-rule]`
 
 == Usage ==
 
@@ -137,6 +152,6 @@ Both `show` and `hide` attributes are optional, but at least one attribute must 
 
 **The timed-content-rule shortcode**
 
-`[timed-content-rule id="rule_id" ]Example Text[/timed-content-rule]`
+`[timed-content-rule id="rule_id"]Example Text[/timed-content-rule]`
 
 You can find the correct shortcode from the Timed Content Rules overview page, or use the TinyMCE dialog.

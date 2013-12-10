@@ -26,6 +26,16 @@ div.tabs ul li {
 			'server': '<?php echo TIMED_CONTENT_SERVER_TAG; ?>',
 			'rule' : '<?php echo TIMED_CONTENT_RULE_TAG; ?>' };
     var datepickerFormat = "<?php _ex( "MM d, yy", "Date format for jQuery UI Datepicker", 'timed-content' ); ?>";
+    var errorMessages = { 'clientNoShow': '<?php _e( 'When using the Show action, the Show time must be at least 1 second.', 'timed-content' ); ?>',
+        'clientNoHide': '<?php _e( 'When using the Hide action, the Hide time must be at least 1 second.', 'timed-content' ); ?>',
+        'clientHideBeforeShow': '<?php _e( 'When using both Show and Hide actions, the Hide time must be later than the Show time.', 'timed-content' ); ?>',
+        'clientNoAction': '<?php _e( 'Please select an action to perform.', 'timed-content' ); ?>',
+        'serverNoShowDate': '<?php _e( 'Please set a date for the Show action.', 'timed-content' ); ?>',
+        'serverNoShowTime': '<?php _e( 'Please set a time for the Show action.', 'timed-content' ); ?>',
+        'serverNoHideDate': '<?php _e( 'Please set a date for the Hide action.', 'timed-content' ); ?>',
+        'serverNoHideTime': '<?php _e( 'Please set a time for the Hide action.', 'timed-content' ); ?>',
+        'serverHideBeforeShow': '<?php _e( 'When using both Show and Hide actions, the Hide time must be later than the Show time.', 'timed-content' ); ?>',
+        'serverNoAction': '<?php _e( 'Please select an action to perform.', 'timed-content' ); ?>' };
 </script>
 <script type="text/javascript" src="<?php echo TIMED_CONTENT_PLUGIN_URL; ?>/tinymce_plugin/dialog.js"></script>
 </head>
@@ -44,27 +54,27 @@ div.tabs ul li {
       <fieldset>
       <legend>
       <input name="do_client_show" type="checkbox" id="do_client_show" value="show" />
-      <?php _ex( 'Show', 'TinyMCE Dialog - Show action label', 'timed-content' ); ?> </legend>
-      <p><?php _ex( 'Time (mm:ss)', 'TinyMCE Dialog - Time count label', 'timed-content' ); ?>:
+      <label for="do_client_show"><?php _ex( 'Show', 'TinyMCE Dialog - Show action label', 'timed-content' ); ?> </label> </legend>
+      <p><label for="client_show_minutes"><?php _ex( 'Time (mm:ss)', 'TinyMCE Dialog - Time count label', 'timed-content' ); ?>:</label>
         <input id="client_show_minutes" name="client_show_minutes" type="text" class="text" size="2" disabled="disabled" />
         :
         <input id="client_show_seconds" name="client_show_seconds" type="text" class="text" size="2" disabled="disabled" />
       </p>
-      <p><?php _ex( 'Fade in (ms)', 'TinyMCE Dialog - Fade-in label', 'timed-content' ); ?>:
+      <p><label for="client_show_fade"><?php _ex( 'Fade in (ms)', 'TinyMCE Dialog - Fade-in label', 'timed-content' ); ?>:</label>
         <input id="client_show_fade" name="client_show_fade" type="text" class="text" size="4" disabled="disabled" />
         <em>(<?php _ex( 'Optional', 'TinyMCE Dialog - Optional checkbox HTML label', 'timed-content' ); ?>)</em>
 	  </p>
       </fieldset>
       <fieldset>
       <legend>
-      <input name="do_client_hide" type="checkbox" id="do_client_hide" value="hide" />
-      <?php _ex( 'Hide', 'TinyMCE Dialog - Hide action label', 'timed-content' ); ?> </legend>
-      <p><?php _ex( 'Time (mm:ss)', 'TinyMCE Dialog - Time count label', 'timed-content' ); ?>:
+          <input name="do_client_hide" type="checkbox" id="do_client_hide" value="hide" />
+              <label for="do_client_hide"><?php _ex( 'Hide', 'TinyMCE Dialog - Hide action label', 'timed-content' ); ?></label> </legend>
+      <p><label for="client_hide_minutes"><?php _ex( 'Time (mm:ss)', 'TinyMCE Dialog - Time count label', 'timed-content' ); ?>:</label>
         <input id="client_hide_minutes" name="client_hide_minutes" type="text" class="text" size="2" disabled="disabled" />
         :
         <input id="client_hide_seconds" name="client_hide_seconds" type="text" class="text" size="2" disabled="disabled" />
       </p>
-      <p><?php _ex( 'Fade out (ms)', 'TinyMCE Dialog - Fade-out label', 'timed-content' ); ?>:
+      <p><label for="client_hide_fade"><?php _ex( 'Fade out (ms)', 'TinyMCE Dialog - Fade-out label', 'timed-content' ); ?>:</label>
         <input id="client_hide_fade" name="client_hide_fade" type="text" class="text" size="4" disabled="disabled" />
         <em>(<?php _ex( 'Optional', 'TinyMCE Dialog - Optional checkbox HTML label', 'timed-content' ); ?>)</em>
       </p>
@@ -73,9 +83,9 @@ div.tabs ul li {
       <legend>
       <?php _ex( 'Display Mode', 'TinyMCE Dialog - Display Mode label', 'timed-content' ); ?></legend>
       <p><input id="client_display_tag_div" name="client_display_tag" type="radio" class="text" checked="checked" />
-        <?php _ex( 'Enclose content using <code>&lt;div&gt;</code> tags (block-level)', 'TinyMCE Dialog - Display mode DIV HTML description', 'timed-content' ); ?>
+          <label for="client_display_tag_div"><?php _ex( 'Enclose content using <code>&lt;div&gt;</code> tags (block-level)', 'TinyMCE Dialog - Display mode DIV HTML description', 'timed-content' ); ?></label>
       <input id="client_display_tag_span" name="client_display_tag" type="radio" class="text" />
-        <?php _ex( 'Enclose content using <code>&lt;span&gt;</code> tags (inline)', 'TinyMCE Dialog - Display mode SPAN HTML description', 'timed-content' ); ?>
+              <label for="client_display_tag_span"><?php _ex( 'Enclose content using <code>&lt;span&gt;</code> tags (inline)', 'TinyMCE Dialog - Display mode SPAN HTML description', 'timed-content' ); ?></label>
       </p>
       </fieldset>
       <div class="mceActionPanel">
@@ -89,26 +99,26 @@ div.tabs ul li {
       <p><?php _ex( 'Select the actions you wish to perform and the dates/times when they should occur.', 'TinyMCE Dialog - Server tab instructions', 'timed-content' ); ?></p>
       <p>
           <input name="server_debug" type="checkbox" id="server_debug" value="true" />
-          <?php _ex( 'Add debugging messages (Only logged-in users who can edit this Post/Page will see them)', 'TinyMCE Dialog - Server debugging label', 'timed-content' ); ?>
+              <label for="server_debug"><?php _ex( 'Add debugging messages (Only logged-in users who can edit this Post/Page will see them)', 'TinyMCE Dialog - Server debugging label', 'timed-content' ); ?></label>
       </p>
       <p><?php _e( 'Current Date/Time ', 'timed-content'); ?>: <?php echo date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), current_time( 'timestamp', 0 ) ); ?></p>
       <fieldset>
       <legend>
       <input name="do_server_show" type="checkbox" id="do_server_show" value="show" />
-      <?php _ex( 'Show', 'TinyMCE Dialog - Show action label', 'timed-content' ); ?> </legend>
-      <p><?php _ex( 'Date', 'Date field label', 'timed-content' ); ?>:
+          <label for="do_server_show"><?php _ex( 'Show', 'TinyMCE Dialog - Show action label', 'timed-content' ); ?></label> </legend>
+      <p><label for="server_show_date"><?php _ex( 'Date', 'Date field label', 'timed-content' ); ?>:</label>
         <input name="server_show_date" type="text" disabled="disabled" class="text" id="server_show_date" style="width: 175px;" />
-          <?php _ex( 'Time', 'Time field label', 'timed-content' ); ?>:
+              <label for="server_show_time"><?php _ex( 'Time', 'Time field label', 'timed-content' ); ?>:</label>
         <input name="server_show_time" type="text" disabled="disabled" class="text" id="server_show_time" style="width: 125px;" />
       </p>
       </fieldset>
       <fieldset>
       <legend>
       <input name="do_server_hide" type="checkbox" id="do_server_hide" value="hide" />
-      <?php _ex( 'Hide', 'TinyMCE Dialog - Hide action label', 'timed-content' ); ?> </legend>
-      <p><?php _ex( 'Date', 'Date field label', 'timed-content' ); ?>:
+          <label for="do_server_hide"><?php _ex( 'Hide', 'TinyMCE Dialog - Hide action label', 'timed-content' ); ?></label> </legend>
+      <p><label for="server_hide_date"><?php _ex( 'Date', 'Date field label', 'timed-content' ); ?>:</label>
         <input name="server_hide_date" type="text" disabled="disabled" class="text" id="server_hide_date" style="width: 175px;" />
-          <?php _ex( 'Time', 'Time field label', 'timed-content' ); ?>:
+              <label for="server_hide_time"><?php _ex( 'Time', 'Time field label', 'timed-content' ); ?>:</label>
         <input name="server_hide_time" type="text" disabled="disabled" class="text" id="server_hide_time" style="width: 125px;" />
       </p>
       </fieldset>
@@ -118,7 +128,7 @@ div.tabs ul li {
             </legend>
             <p><?php _ex( 'Select a city whose timezone you wish to use', 'TinyMCE Dialog - Timezone SELECT HTML label', 'timed-content' ); ?>:
 	  <select name="server_tz" id="server_tz" style="width: auto;">
-	  <?php echo __timeZoneChoice( get_option( 'timezone_string' ) ); ?>
+	  <?php echo customFieldsInterface::__generateTimezoneSelectOptions( get_option( 'timezone_string' ) ); ?>
 	  </select>
       </p>
             <p><?php _e( 'Wordpress Timezone', 'timed-content'); ?>: <?php echo get_option( 'timezone_string' ); ?></p>

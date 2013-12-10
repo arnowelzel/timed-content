@@ -269,7 +269,8 @@ if ( !class_exists('customFieldsInterface') ) {
 									break;
 								}
 								case "date": {
-									echo "<span style=\"display:inline;\"><strong>" . $customField[ 'title' ] . "</strong></span>&nbsp;&nbsp;\n";
+                                    echo "<label for=\"" . $this->prefix . $customField[ 'name' ] . "\" style=\"display:inline;\"><strong>" . $customField[ 'title' ] . "</strong></label>&nbsp;&nbsp;\n";
+//									echo "<span style=\"display:inline;\"><strong>" . $customField[ 'title' ] . "</strong></span>&nbsp;&nbsp;\n";
 									$value = ( "" === get_post_meta( $post->ID, $this->prefix . $customField['name'], true ) ? $customField['default'] : get_post_meta( $post->ID, $this->prefix . $customField['name'], true ) );
 									// Date picker using WP's built-in Datepicker jQuery plugin ?>
 <script type="text/javascript">
@@ -285,8 +286,8 @@ if ( !class_exists('customFieldsInterface') ) {
 	});
 //]]>
 </script>
-									<?php 
-									echo "<input type=\"text\" name=\"" . $this->prefix . $customField[ 'name' ] . "\" id=\"" . $this->prefix . $customField[ 'name' ] . "\" value=\"" . htmlspecialchars( $value ) . "\" style=\"width: 175px;\" />\n";
+									<?php
+                                    echo "<input type=\"text\" name=\"" . $this->prefix . $customField[ 'name' ] . "\" id=\"" . $this->prefix . $customField[ 'name' ] . "\" value=\"" . htmlspecialchars( $value ) . "\" style=\"width: 175px;\" />\n";
 									break;
 								}
 								case "datetime": {

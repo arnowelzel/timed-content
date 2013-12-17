@@ -7,7 +7,7 @@
 <?php wp_print_styles(); ?>
 <style>
 .panel_wrapper {
-	height: 340px;
+	height: 350px;
 }
 div.ui-datepicker-div {
 	font-size: 10px;

@@ -96,10 +96,10 @@ if ( !class_exists('customFieldsInterface') ) {
 
 					wp_enqueue_style( 'wp-color-picker' );
 					wp_enqueue_script( 'wp-color-picker' );
-					wp_enqueue_style( 'timed-content-jquery-ui', TIMED_CONTENT_JQUERY_UI_CSS );
+                    wp_enqueue_style( 'timed-content-jquery-ui-css', TIMED_CONTENT_JQUERY_UI_CSS, false, TIMED_CONTENT_VERSION );
 					wp_enqueue_script( 'jquery-ui-datepicker' ); 
 					wp_enqueue_script( 'jquery-ui-spinner' ); 
-					wp_register_style( 'timed-content-jquery-ui-timepicker-css', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS );
+					wp_register_style( 'timed-content-jquery-ui-timepicker-css', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS, array( TIMED_CONTENT_JQUERY_UI_CSS ), TIMED_CONTENT_VERSION );
 					wp_enqueue_style( 'timed-content-jquery-ui-timepicker-css' );
 					wp_register_script( 'timed-content-jquery-ui-timepicker-js', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS, array('jquery', 'jquery-ui-datepicker'), TIMED_CONTENT_VERSION );
 					wp_enqueue_script( 'timed-content-jquery-ui-timepicker-js' );

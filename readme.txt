@@ -3,8 +3,8 @@ Contributors: kjvtough
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5F58ELJ9R3PVL&lc=CA&item_name=Timed%20Content%20Wordpress%20Plugin%20Donation&currency_code=CAD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
 Requires at least: 2.0.2
-Tested up to: 3.7.1
-Stable tag: 2.1.1
+Tested up to: 3.8
+Stable tag: 2.1.2
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
@@ -38,12 +38,13 @@ A TinyMCE dialog is included to help users build the shortcodes. See the Screens
 
 == Frequently Asked Questions ==
 
-Coming soon
+No "frequent" questions as of yet, but come ask away in the Support forum.
 
 == Screenshots ==
 
 1. An example showing use of the `[timed-content-client]` shortcode.  The "alarm clock" button on the editor menubar brings up a
-dialog box to help build the Timed Content shortcodes.
+dialog box to help build the Timed Content shortcodes. All of the Admin-side screenshots are from Wordpress 3.7, but the functionality
+is the same for 3.8.
 2. The "Add Timed Content shortcode" dialog showing the Client tab.  Check the attribute you want to add and fill in the textboxes.
 3. The "Add Timed Content shortcode" dialog showing the Server tab.  Check the attribute you want to add, then click on the Date and Time textboxes.
 4. The date and time pickers help you format a correct date and time.  Here's the jQuery UI Datepicker in action.
@@ -55,6 +56,10 @@ dialog box to help build the Timed Content shortcodes.
 10. An example showing use of the `[timed-content-server]` shortcode with `debug` set to `true`. You'll only see it if you're logged in and it's on a Page/Post you can edit (Your regular visitors won't see this at all).
 
 == Changelog ==
+= 2.1.2 =
+* Dashicons support for WP 3.8 + added. Support for old-style icons in Admin/TinyMCE is deprecated.
+* Added versioning to all `wp_enqueue_style()` calls.
+
 = 2.1.1 =
 * CSS for JQuery UI now loaded locally as required by Wordpress plugin repository rules
 * Improved UX on TinyMCE dialog and Timed Content Rules detail page
@@ -82,7 +87,10 @@ dialog box to help build the Timed Content shortcodes.
 * Initial release.
 
 == Upgrade Notice ==
-= 2.2.1 =
+= 2.1.2 =
+Dashicons support for WP 3.8 +.  Upgrade once you've upgraded Wordpress to >= 3.8.
+
+= 2.1.1 =
 CSS for JQuery UI now loaded locally as required by Wordpress plugin repository rules. Upgrade now
 
 = 2.1 =

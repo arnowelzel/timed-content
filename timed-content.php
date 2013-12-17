@@ -5,12 +5,12 @@ Text Domain: timed-content
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough
-Version: 2.1.1
+Version: 2.1.2
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if ( !class_exists( "timedContentPlugin" ) ) {
 
-	define( "TIMED_CONTENT_VERSION", "2.1.1" );
+	define( "TIMED_CONTENT_VERSION", "2.1.2" );
 	define( "TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/timed-content' );
 	define( "TIMED_CONTENT_CLIENT_TAG", "timed-content-client" );
 	define( "TIMED_CONTENT_SERVER_TAG", "timed-content-server" );
@@ -22,6 +22,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 	define( "TIMED_CONTENT_RULE_TYPE", "timed_content_rule" );
 	define( "TIMED_CONTENT_RULE_POSTMETA_PREFIX", TIMED_CONTENT_RULE_TYPE . "_" );
     define( "TIMED_CONTENT_CSS", TIMED_CONTENT_PLUGIN_URL . "/css/timed-content.css"  );
+    define( "TIMED_CONTENT_CSS_DASHICONS", TIMED_CONTENT_PLUGIN_URL . "/css/timed-content-icons/style.css"  );
 	// Required for styling the JQuery UI Datepicker and JQuery UI Timepicker
     define( "TIMED_CONTENT_JQUERY_UI_CSS", TIMED_CONTENT_PLUGIN_URL . "/css/jqueryui/1.10.3/themes/smoothness/jquery-ui.css"  );
     define( "TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS", TIMED_CONTENT_PLUGIN_URL."/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js" );
@@ -856,25 +857,48 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          */
         function addHeaderCode()  {
 			if ( ! is_admin() )  {
-                wp_enqueue_style( 'timed-content-css', TIMED_CONTENT_CSS );
+                wp_enqueue_style( 'timed-content-css', TIMED_CONTENT_CSS, false, TIMED_CONTENT_VERSION );
                 wp_enqueue_script( 'timed-content_js', TIMED_CONTENT_PLUGIN_URL . '/js/timed-content.js', array( 'jquery' ), TIMED_CONTENT_VERSION );
 			}
 		}
+
+         /**
+         * Enqueues the CSS code necessary for custom icons for the Timed Content Rules management screens for WP 3.7.1 and under.  Echo'd to output.
+         */
+        function addPostTypeIcons37()  {
+            ?>
+            <style type="text/css" media="screen">
+                #menu-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?> .wp-menu-image {
+                    background: url(<?php echo TIMED_CONTENT_PLUGIN_URL; ?>/img/clock_icon.png) no-repeat 6px 6px !important;
+                }
+                #menu-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?>:hover .wp-menu-image, #menu-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?>.wp-has-current-submenu .wp-menu-image {
+                    background-position: -22px 6px !important;
+                }
+                #icon-edit.icon32-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?> {background: url(<?php echo TIMED_CONTENT_PLUGIN_URL; ?>/img/clock_32x32.png) no-repeat;}
+            </style>
+        <?php
+        }
 
         /**
          * Enqueues the CSS code necessary for custom icons for the Timed Content Rules management screens.  Echo'd to output.
          */
 		function addPostTypeIcons()  {
-?>
-<style type="text/css" media="screen">
-    #menu-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?> .wp-menu-image {
-        background: url(<?php echo TIMED_CONTENT_PLUGIN_URL; ?>/img/clock_icon.png) no-repeat 6px 6px !important;
-    }
-	#menu-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?>:hover .wp-menu-image, #menu-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?>.wp-has-current-submenu .wp-menu-image {
-        background-position: -22px 6px !important;
-    }
-	#icon-edit.icon32-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?> {background: url(<?php echo TIMED_CONTENT_PLUGIN_URL; ?>/img/clock_32x32.png) no-repeat;}
-</style>
+            wp_enqueue_style( 'timed-content-css-dashicons', TIMED_CONTENT_CSS_DASHICONS, false, TIMED_CONTENT_VERSION );
+            ?>
+            <style type="text/css" media="screen">
+                #adminmenu #menu-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?>.menu-icon-post div.wp-menu-image:before {
+                    font-family: 'timed-content-icons' !important;
+                    content: '\e600';
+                }
+                #dashboard_right_now li.<?php echo TIMED_CONTENT_RULE_TYPE; ?>-count a:before {
+                    font-family: 'timed-content-icons' !important;
+                    content: '\e600';
+                }
+                span.mce_timed_content:before {
+                    font-family: 'timed-content-icons' !important;
+                    content: '\e600';
+                }
+            </style>
 <?php
 		}
 
@@ -885,7 +909,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			if ( ( isset( $_GET['post_type'] ) && $_GET['post_type'] == TIMED_CONTENT_RULE_TYPE )
 				|| ( isset( $post_type ) && $post_type == TIMED_CONTENT_RULE_TYPE )
 				|| ( isset( $_GET['post'] ) && get_post_type( $_GET['post'] ) == TIMED_CONTENT_RULE_TYPE ) ) {
-				wp_enqueue_style( 'timed-content-css', TIMED_CONTENT_CSS );
+                wp_enqueue_style( 'timed-content-css', TIMED_CONTENT_CSS, false, TIMED_CONTENT_VERSION );
 				// Enqueue the JavaScript file that manages the meta box UI
 				wp_enqueue_script( 'timed-content-admin_js', TIMED_CONTENT_PLUGIN_URL . '/js/timed-content-admin.js', array( 'jquery' ), TIMED_CONTENT_VERSION );
 				// Enqueue the JavaScript file that makes AJAX requests
@@ -924,16 +948,22 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          *
          */
         function setTinyMCEPluginVars()  {
+            global $wp_version;
             if ( ( ! current_user_can( 'edit_posts' ) ) && ( ! current_user_can( 'edit_pages' ) ) )
                 return;
 
             // Add only in Rich Editor mode
             if ( get_user_option( 'rich_editing' ) == 'true' ) {
+                if ( version_compare( $wp_version, "3.8", ">=" ) )
+                    $image = "/clock.gif";
+                else
+                    $image = "";
                 wp_enqueue_script( 'timed-content-admin_tinymce_js', TIMED_CONTENT_PLUGIN_URL . '/js/timed-content-admin-tinymce.js', array(), TIMED_CONTENT_VERSION );
                 wp_localize_script( 'timed-content-admin_tinymce_js',
                     'timedContentAdminTinyMCEOptionsVars',
                     array( 'version' => TIMED_CONTENT_VERSION,
-                        'desc' => __( "Add Timed Content shortcodes", 'timed-content' ) ) );
+                        'desc' => __( "Add Timed Content shortcodes", 'timed-content' ),
+                        'image' => $image ) );
             }
         }
 
@@ -982,11 +1012,11 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          *
          */
 		function timedContentPluginGetTinyMCEDialog()  {
-			wp_enqueue_style( 'timed-content-jquery-ui-css', TIMED_CONTENT_JQUERY_UI_CSS );
+			wp_enqueue_style( 'timed-content-jquery-ui-css', TIMED_CONTENT_JQUERY_UI_CSS, false, TIMED_CONTENT_VERSION );
 			wp_enqueue_script( 'jquery-ui-datepicker' ); 
-			wp_register_style( 'timed-content-jquery-ui-timepicker-css', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS );
+			wp_register_style( 'timed-content-jquery-ui-timepicker-css', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS, array( TIMED_CONTENT_JQUERY_UI_CSS ), TIMED_CONTENT_VERSION );
 			wp_enqueue_style( 'timed-content-jquery-ui-timepicker-css' );
-			wp_register_script( 'timed-content-jquery-ui-timepicker-js', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS, array('jquery', 'jquery-ui-datepicker'), TIMED_CONTENT_VERSION );
+			wp_register_script( 'timed-content-jquery-ui-timepicker-js', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS, array( 'jquery', 'jquery-ui-datepicker' ), TIMED_CONTENT_VERSION );
 			wp_enqueue_script( 'timed-content-jquery-ui-timepicker-js' );
 
 			ob_start();
@@ -1035,9 +1065,43 @@ if ( !class_exists( "timedContentPlugin" ) ) {
             }
 		}
 
+        /**
+         * Display a count of Timed Content Rules in the Dashboard's Right Now widget for Wordpress versions 3.7.1 and below
+         *
+         */
+        function addRulesCount37() {
+            if ( !post_type_exists( TIMED_CONTENT_RULE_TYPE ) ) {
+                return;
+            }
+
+            $num_posts = wp_count_posts( TIMED_CONTENT_RULE_TYPE );
+            $num = number_format_i18n( $num_posts->publish );
+            $text = _n( 'Timed Content Rule', 'Timed Content Rules', intval( $num_posts->publish ) );
+            if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
+                $num = "<a href='edit.php?post_type=" . TIMED_CONTENT_RULE_TYPE . "'>" . $num . "</a>";
+                $text = "<a href='edit.php?post_type=" . TIMED_CONTENT_RULE_TYPE . "'>" . $text . "</a>";
+            }
+            echo '<tr>';
+            echo '<td class="first b b-' . TIMED_CONTENT_RULE_TYPE . '">' . $num . '</td>';
+            echo '<td class="t ' . TIMED_CONTENT_RULE_TYPE . '">' . $text . '</td>';
+            echo '</tr>';
+
+            if ( $num_posts->pending > 0 ) {
+                $num = number_format_i18n( $num_posts->pending );
+                $text = _n( 'Timed Content Rule Pending', 'Timed Content Rules Pending', intval( $num_posts->pending ) );
+                if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
+                    $num = "<a href='edit.php?post_status=pending&post_type=" . TIMED_CONTENT_RULE_TYPE . "'>" . $num . "</a>";
+                    $text = "<a href='edit.php?post_status=pending&post_type=" . TIMED_CONTENT_RULE_TYPE . "'>" . $text . "</a>";
+                }
+                echo '<tr>';
+                echo '<td class="first b b-' . TIMED_CONTENT_RULE_TYPE . '">' . $num . '</td>';
+                echo '<td class="t ' . TIMED_CONTENT_RULE_TYPE . '">' . $text . '</td>';
+                echo '</tr>';
+            }
+        }
 
         /**
-         * Display a count of Timed Content Rules of the Dashboard's Right now widget
+         * Display a count of Timed Content Rules in the Dashboard's Right Now widget
          *
          */
 		function addRulesCount() {
@@ -1048,27 +1112,25 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			$num_posts = wp_count_posts( TIMED_CONTENT_RULE_TYPE );
 			$num = number_format_i18n( $num_posts->publish );
 			$text = _n( 'Timed Content Rule', 'Timed Content Rules', intval( $num_posts->publish ) );
-			if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
-				$num = "<a href='edit.php?post_type=" . TIMED_CONTENT_RULE_TYPE . "'>" . $num . "</a>";
-				$text = "<a href='edit.php?post_type=" . TIMED_CONTENT_RULE_TYPE . "'>" . $text . "</a>";
-			}
-			echo '<tr>';
-			echo '<td class="first b b-' . TIMED_CONTENT_RULE_TYPE . '">' . $num . '</td>';
-			echo '<td class="t ' . TIMED_CONTENT_RULE_TYPE . '">' . $text . '</td>';
-			echo '</tr>';
+			if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) )
+                echo "<a href='edit.php?post_type=" . TIMED_CONTENT_RULE_TYPE . "'>"
+                    . '<li class="' . TIMED_CONTENT_RULE_TYPE . '-count">'
+                    . $num
+                    . ' '
+                    . $text
+                    . '</a></li>';
 
 			if ( $num_posts->pending > 0 ) {
 				$num = number_format_i18n( $num_posts->pending );
 				$text = _n( 'Timed Content Rule Pending', 'Timed Content Rules Pending', intval( $num_posts->pending ) );
-				if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
-					$num = "<a href='edit.php?post_status=pending&post_type=" . TIMED_CONTENT_RULE_TYPE . "'>" . $num . "</a>";
-					$text = "<a href='edit.php?post_status=pending&post_type=" . TIMED_CONTENT_RULE_TYPE . "'>" . $text . "</a>";
-				}
-				echo '<tr>';
-				echo '<td class="first b b-' . TIMED_CONTENT_RULE_TYPE . '">' . $num . '</td>';
-				echo '<td class="t ' . TIMED_CONTENT_RULE_TYPE . '">' . $text . '</td>';
-				echo '</tr>';
-			}
+				if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) )
+                    echo "<a href='edit.php?post_status=pending&post_type=" . TIMED_CONTENT_RULE_TYPE . "'>"
+                        . '<li class="' . TIMED_CONTENT_RULE_TYPE . '-count">'
+                        . $num
+                        . ' '
+                        . $text
+                        . '</a></li>';
+            }
 		}
 	}
 
@@ -1110,19 +1172,26 @@ if ( isset( $timedContentPluginInstance ) ) {
 									$timed_content_rule_recurrence_custom_fields ); 
 	add_action( "init", array( &$timedContentPluginInstance, "i18nInit" ), 1 );
 	add_action( "init", array( &$timedContentPluginInstance, "timedContentRuleTypeInit" ), 2 );
-	add_action( "right_now_content_table_end", array( &$timedContentPluginInstance, "addRulesCount" ) );
 	add_action( "wp_head", array( &$timedContentPluginInstance, "addHeaderCode" ), 1 );
 	add_filter( "manage_" . TIMED_CONTENT_RULE_TYPE . "_posts_columns", array( &$timedContentPluginInstance, "addDescColumnHead" ) );
 	add_action( "manage_" . TIMED_CONTENT_RULE_TYPE . "_posts_custom_column", array( &$timedContentPluginInstance, "addDescColumnContent" ), 10, 2);
 	add_action( "admin_enqueue_scripts", array( &$timedContentPluginInstance, "addAdminHeaderCode" ), 1 );
     add_action( "admin_init", array( &$timedContentPluginInstance, "setTinyMCEPluginVars" ), 1 );
 	add_action( "admin_init", array( &$timedContentPluginInstance, "initTinyMCEPlugin" ), 2 );
-	add_action( "admin_head", array( &$timedContentPluginInstance, "addPostTypeIcons" ), 1 );
+    add_action( "admin_head", array( &$timedContentPluginInstance, "addPostTypeIcons" ), 1 );
 	add_action( 'wp_ajax_timedContentPluginGetTinyMCEDialog', array( &$timedContentPluginInstance, "timedContentPluginGetTinyMCEDialog" ), 1 );
 	add_action( 'wp_ajax_timedContentPluginGetRulePeriodsAjax', array( &$timedContentPluginInstance, "timedContentPluginGetRulePeriodsAjax" ), 1 );
 	add_action( 'wp_ajax_timedContentPluginGetScheduleDescriptionAjax', array( &$timedContentPluginInstance, "timedContentPluginGetScheduleDescriptionAjax" ), 1 );
 	add_filter( "post_updated_messages", array( &$timedContentPluginInstance, "timedContentRuleUpdatedMessages" ), 1 );
-	add_shortcode( TIMED_CONTENT_CLIENT_TAG, array( &$timedContentPluginInstance, "clientShowHTML" ), 1 );
+    if ( version_compare( $wp_version, "3.8", ">=" ) ) {
+        add_action( "dashboard_glance_items", array( &$timedContentPluginInstance, "addRulesCount" ) );
+        add_action( "admin_head", array( &$timedContentPluginInstance, "addPostTypeIcons" ), 1 );
+    } else {
+        add_action( "right_now_content_table_end", array( &$timedContentPluginInstance, "addRulesCount37" ) );
+        add_action( "admin_head", array( &$timedContentPluginInstance, "addPostTypeIcons37" ), 1 );
+    }
+
+    add_shortcode( TIMED_CONTENT_CLIENT_TAG, array( &$timedContentPluginInstance, "clientShowHTML" ), 1 );
 	add_shortcode( TIMED_CONTENT_SERVER_TAG, array( &$timedContentPluginInstance, "serverShowHTML" ), 1 );
 	add_shortcode( TIMED_CONTENT_RULE_TAG, array( &$timedContentPluginInstance, "rulesShowHTML" ), 1 );
 }

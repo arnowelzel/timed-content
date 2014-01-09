@@ -92,6 +92,9 @@ is the same for 3.8.
 * Initial release.
 
 == Upgrade Notice ==
+= 2.1.3 =
+Fixed various minor bugs.  Upgrade now
+
 = 2.1.2 =
 Dashicons support for WP 3.8 +.  Upgrade once you've upgraded Wordpress to >= 3.8.
 

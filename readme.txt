@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5F58E
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
 Requires at least: 2.0.2
 Tested up to: 3.8
-Stable tag: 2.1.2
+Stable tag: 2.1.3
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
@@ -56,6 +56,11 @@ is the same for 3.8.
 10. An example showing use of the `[timed-content-server]` shortcode with `debug` set to `true`. You'll only see it if you're logged in and it's on a Page/Post you can edit (Your regular visitors won't see this at all).
 
 == Changelog ==
+= 2.1.3 =
+* Removed support for PHP4 in `customFieldsInterface.php`.
+* Fixed Wordpress version check for deciding which image to use for TinyMCE button.
+* Fixed "Strict Standards" warning in PHP 5.4 in `__getNextWeek()`
+
 = 2.1.2 =
 * Dashicons support for WP 3.8 + added. Support for old-style icons in Admin/TinyMCE is deprecated.
 * Added versioning to all `wp_enqueue_style()` calls.

@@ -5,12 +5,12 @@ Text Domain: timed-content
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough
-Version: 2.1.2
+Version: 2.1.3
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if ( !class_exists( "timedContentPlugin" ) ) {
 
-	define( "TIMED_CONTENT_VERSION", "2.1.2" );
+	define( "TIMED_CONTENT_VERSION", "2.1.3" );
 	define( "TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/timed-content' );
 	define( "TIMED_CONTENT_CLIENT_TAG", "timed-content-client" );
 	define( "TIMED_CONTENT_SERVER_TAG", "timed-content-server" );
@@ -157,7 +157,10 @@ if ( !class_exists( "timedContentPlugin" ) ) {
             // Otherwise, set up an array combining the days of the week to repeat on and the current day
             // (keys and values of the array will be the same, and the array is sorted)
 			$currentDayOfWeekIndex = date( "w", $current );
-		    sort( array_values( array_unique( array_merge( array( $currentDayOfWeekIndex ), $days ) ) ) );
+            $days = array_merge( array( $currentDayOfWeekIndex ), $days );
+            $days = array_unique( $days );
+            $days = array_values( $days );
+            sort( $days );
 			$daysOfWeek = array_combine( $days, $days );
 
             // If the current day is the last one of the days of the week to repeat on, jump ahead to
@@ -954,7 +957,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 
             // Add only in Rich Editor mode
             if ( get_user_option( 'rich_editing' ) == 'true' ) {
-                if ( version_compare( $wp_version, "3.8", ">=" ) )
+                if ( version_compare( $wp_version, "3.8", "<" ) )
                     $image = "/clock.gif";
                 else
                     $image = "";

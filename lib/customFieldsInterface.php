@@ -27,10 +27,6 @@ if ( !class_exists('customFieldsInterface') ) {
 		*/
 		var $customFields =	array();
 		/**
-		* PHP 4 Compatible Constructor
-		*/
-		function customFieldsInterface( $handle, $label, $desc, $prefix, $postTypes, $customFields ) { $this->__construct( $handle, $label, $desc, $prefix, $postTypes, $customFields ); }
-		/**
 		* PHP 5 Constructor
 		*/
 		function __construct( $handle, $label, $desc, $prefix, $postTypes, $customFields ) {

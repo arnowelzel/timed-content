@@ -5,7 +5,7 @@ Text Domain: timed-content
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough
-Version: 2.1.3
+Version: 2.1.4
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if ( !class_exists( "timedContentPlugin" ) ) {
@@ -897,7 +897,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
                     font-family: 'timed-content-icons' !important;
                     content: '\e600';
                 }
-                span.mce_timed_content:before {
+                .mce-i-timed_content:before {
                     font-family: 'timed-content-icons' !important;
                     content: '\e600';
                 }
@@ -987,7 +987,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          * @return array                The array of TinyMCE plugins with ours now loaded in as well
          */
         function addTimedContentTinyMCEPlugin( $plugin_array ) {
-			$plugin_array['timed_content'] = TIMED_CONTENT_PLUGIN_URL . "/tinymce_plugin/editor_plugin.js";
+			$plugin_array['timed_content'] = TIMED_CONTENT_PLUGIN_URL . "/tinymce_plugin/plugin.js";
 			return $plugin_array;
 		}
 
@@ -1031,7 +1031,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 		}
 
         /**
-         * Displays a count of Timed Content Rules of the Dashboard's Right now widget
+         * Adds support for i18n (internationalization)
          *
          */
 		function i18nInit() {
@@ -1181,7 +1181,7 @@ if ( isset( $timedContentPluginInstance ) ) {
 	add_action( "admin_enqueue_scripts", array( &$timedContentPluginInstance, "addAdminHeaderCode" ), 1 );
     add_action( "admin_init", array( &$timedContentPluginInstance, "setTinyMCEPluginVars" ), 1 );
 	add_action( "admin_init", array( &$timedContentPluginInstance, "initTinyMCEPlugin" ), 2 );
-    add_action( "admin_head", array( &$timedContentPluginInstance, "addPostTypeIcons" ), 1 );
+//    add_action( "admin_head", array( &$timedContentPluginInstance, "addPostTypeIcons" ), 1 );
 	add_action( 'wp_ajax_timedContentPluginGetTinyMCEDialog', array( &$timedContentPluginInstance, "timedContentPluginGetTinyMCEDialog" ), 1 );
 	add_action( 'wp_ajax_timedContentPluginGetRulePeriodsAjax', array( &$timedContentPluginInstance, "timedContentPluginGetRulePeriodsAjax" ), 1 );
 	add_action( 'wp_ajax_timedContentPluginGetScheduleDescriptionAjax', array( &$timedContentPluginInstance, "timedContentPluginGetScheduleDescriptionAjax" ), 1 );

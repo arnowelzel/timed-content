@@ -1,5 +1,5 @@
 /**
- * editor_plugin.js
+ * plugin.js
  *
  */
 
@@ -35,14 +35,15 @@
                 buttonOpts.title = timedContentAdminTinyMCEOptions.desc;
                 buttonOpts.cmd = 'mceTimedContent';
             }
+            buttonOpts.stateSelector = "img";
 
 			// Register example button
 			ed.addButton('timed_content', buttonOpts);
 
 			// Add a node change handler, selects the button in the UI when a image is selected
-			ed.onNodeChange.add(function(ed, cm, n) {
-				cm.setActive('timed_content', n.nodeName == 'IMG');
-			});
+//			ed.on( 'NodeChange', function(ed, cm, n) {
+//				cm.setActive('timed_content', n.nodeName == 'IMG');
+//			});
 		},
 
 		/**

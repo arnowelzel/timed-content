@@ -46,7 +46,6 @@ var TimedContentDialog = {
 					);
 					jQuery('#server_show_time').timepicker(
 						{
-							showLeadingZero: false,
 							showPeriod: true,
                             defaultTime: 'now'
 						}
@@ -72,7 +71,6 @@ var TimedContentDialog = {
 					);
 					jQuery('#server_hide_time').timepicker(
 						{
-							showLeadingZero: false,
 							showPeriod: true,
                             defaultTime: 'now'
 						}
@@ -94,6 +92,11 @@ var TimedContentDialog = {
 					if ( id == value['ID'] ) 
 						jQuery( "span#rules_desc" ).html( value['desc'] );
 				});
+                if ( id < 0 ) {
+                    jQuery('select#rules_list').prop('disabled', 'disabled');
+                    jQuery('#TimedContentDialogRules #insert').prop('disabled', 'disabled');
+                }
+
 			});
 		}).trigger( "change" );
 		

@@ -306,7 +306,6 @@ if ( !class_exists('customFieldsInterface') ) {
 		);
 		jQuery( "#<?php echo $this->prefix . $customField[ 'name' ]; ?>_time" ).timepicker(
 			{
-				showLeadingZero: false,
 				showPeriod: true,
                 defaultTime: 'now'
 			}

@@ -5,12 +5,12 @@ Text Domain: timed-content
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough
-Version: 2.1.4
+Version: 2.1.5
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if ( !class_exists( "timedContentPlugin" ) ) {
 
-	define( "TIMED_CONTENT_VERSION", "2.1.3" );
+	define( "TIMED_CONTENT_VERSION", "2.1.5" );
 	define( "TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/timed-content' );
 	define( "TIMED_CONTENT_CLIENT_TAG", "timed-content-client" );
 	define( "TIMED_CONTENT_SERVER_TAG", "timed-content-server" );
@@ -22,7 +22,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 	define( "TIMED_CONTENT_RULE_TYPE", "timed_content_rule" );
 	define( "TIMED_CONTENT_RULE_POSTMETA_PREFIX", TIMED_CONTENT_RULE_TYPE . "_" );
     define( "TIMED_CONTENT_CSS", TIMED_CONTENT_PLUGIN_URL . "/css/timed-content.css"  );
-    define( "TIMED_CONTENT_CSS_DASHICONS", TIMED_CONTENT_PLUGIN_URL . "/css/timed-content-icons/style.css"  );
+    define( "TIMED_CONTENT_CSS_DASHICONS", TIMED_CONTENT_PLUGIN_URL . "/css/ca-aliencyborg-dashicons/style.css"  );
 	// Required for styling the JQuery UI Datepicker and JQuery UI Timepicker
     define( "TIMED_CONTENT_JQUERY_UI_CSS", TIMED_CONTENT_PLUGIN_URL . "/css/jqueryui/1.10.3/themes/smoothness/jquery-ui.css"  );
     define( "TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS", TIMED_CONTENT_PLUGIN_URL."/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js" );
@@ -883,23 +883,28 @@ if ( !class_exists( "timedContentPlugin" ) ) {
         }
 
         /**
-         * Enqueues the CSS code necessary for custom icons for the Timed Content Rules management screens.  Echo'd to output.
+         * Enqueues the CSS code necessary for custom icons for the Timed Content Rules management screens
+         * and the TinyMCE editor.  Echo'd to output.
          */
 		function addPostTypeIcons()  {
-            wp_enqueue_style( 'timed-content-css-dashicons', TIMED_CONTENT_CSS_DASHICONS, false, TIMED_CONTENT_VERSION );
+            wp_enqueue_style( 'ca-aliencyborg-dashicons', TIMED_CONTENT_CSS_DASHICONS, false, TIMED_CONTENT_VERSION );
             ?>
             <style type="text/css" media="screen">
                 #adminmenu #menu-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?>.menu-icon-post div.wp-menu-image:before {
-                    font-family: 'timed-content-icons' !important;
-                    content: '\e600';
+                    font-family: 'ca-aliencyborg-dashicons' !important;
+                    content: '\e601';
                 }
                 #dashboard_right_now li.<?php echo TIMED_CONTENT_RULE_TYPE; ?>-count a:before {
-                    font-family: 'timed-content-icons' !important;
-                    content: '\e600';
+                    font-family: 'ca-aliencyborg-dashicons' !important;
+                    content: '\e601';
                 }
                 .mce-i-timed_content:before {
-                    font-family: 'timed-content-icons' !important;
-                    content: '\e600';
+                    font: 400 24px/1 'ca-aliencyborg-dashicons' !important;
+                    padding: 0;
+                    vertical-align: top;
+                    margin-left: -2px;
+                    padding-right: 2px;
+                    content: '\e601';
                 }
             </style>
 <?php
@@ -947,7 +952,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 		}
 
         /**
-         * Sets up variables to use in the TinyMCE plugin's editor_plugin_src.js.
+         * Sets up variables to use in the TinyMCE plugin's plugin.js.
          *
          */
         function setTinyMCEPluginVars()  {
@@ -1004,9 +1009,13 @@ if ( !class_exists( "timedContentPlugin" ) ) {
             foreach ( $the_rules as $rule ) {
                 $desc = $this->getScheduleDescriptionById( $rule->ID );
                 // Only add a rule if there's no errors or warnings
+                if ( strlen( $rule->post_title ) == 0 )
                 if ( false === strpos( $desc, "tcr-warning" ) )
-                    $the_js .= "	{ 'ID': " . $rule->ID . ", 'title': '" . esc_js( $rule->post_title ) . "', 'desc': '" . esc_js( $desc ) . "' },\n";
+                    $the_js .= "	{ 'ID': " . $rule->ID . ", 'title': '" . esc_js( ( ( strlen( $rule->post_title ) > 0 ) ? $rule->post_title : _x( "(no title)", "No Timed Content Rule title", "timed-content" ) ) ) . "', 'desc': '" . esc_js( $desc ) . "' },\n";
             }
+            if ( empty( $the_rules ) )
+                $the_js .= "	{ 'ID': -999, 'title': ' ---- ', 'desc': '" .  __( 'No Timed Content Rules found', 'timed-content' ) . "' }\n";
+
             $the_js .= "];\n";
             return $the_js;
         }
@@ -1181,7 +1190,6 @@ if ( isset( $timedContentPluginInstance ) ) {
 	add_action( "admin_enqueue_scripts", array( &$timedContentPluginInstance, "addAdminHeaderCode" ), 1 );
     add_action( "admin_init", array( &$timedContentPluginInstance, "setTinyMCEPluginVars" ), 1 );
 	add_action( "admin_init", array( &$timedContentPluginInstance, "initTinyMCEPlugin" ), 2 );
-//    add_action( "admin_head", array( &$timedContentPluginInstance, "addPostTypeIcons" ), 1 );
 	add_action( 'wp_ajax_timedContentPluginGetTinyMCEDialog', array( &$timedContentPluginInstance, "timedContentPluginGetTinyMCEDialog" ), 1 );
 	add_action( 'wp_ajax_timedContentPluginGetRulePeriodsAjax', array( &$timedContentPluginInstance, "timedContentPluginGetRulePeriodsAjax" ), 1 );
 	add_action( 'wp_ajax_timedContentPluginGetScheduleDescriptionAjax', array( &$timedContentPluginInstance, "timedContentPluginGetScheduleDescriptionAjax" ), 1 );

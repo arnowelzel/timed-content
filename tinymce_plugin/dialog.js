@@ -46,7 +46,6 @@ var TimedContentDialog = {
 					);
 					jQuery('#server_show_time').timepicker(
 						{
-							showLeadingZero: false,
 							showPeriod: true,
                             defaultTime: 'now'
 						}
@@ -72,7 +71,6 @@ var TimedContentDialog = {
 					);
 					jQuery('#server_hide_time').timepicker(
 						{
-							showLeadingZero: false,
 							showPeriod: true,
                             defaultTime: 'now'
 						}
@@ -94,6 +92,11 @@ var TimedContentDialog = {
 					if ( id == value['ID'] ) 
 						jQuery( "span#rules_desc" ).html( value['desc'] );
 				});
+                if ( id < 0 ) {
+                    jQuery('select#rules_list').prop('disabled', 'disabled');
+                    jQuery('#TimedContentDialogRules #insert').prop('disabled', 'disabled');
+                }
+
 			});
 		}).trigger( "change" );
 		
@@ -108,7 +111,7 @@ var TimedContentDialog = {
 		var sm = Math.abs(parseInt(jQuery('#client_show_minutes').val()));
 		var ss = Math.abs(parseInt(jQuery('#client_show_seconds').val()));
 		var sf = Math.abs(parseInt(jQuery('#client_show_fade').val()));
-		if (isNaN(sm)) sm = 0; if (isNaN(ss)) ss = 0; if (isNaN(sf)) sf = 0; 
+		if (isNaN(sm)) sm = 0; if (isNaN(ss)) ss = 0; if (isNaN(sf)) sf = 0;
 
 		var hm = Math.abs(parseInt(jQuery('#client_hide_minutes').val()));
 		var hs = Math.abs(parseInt(jQuery('#client_hide_seconds').val()));
@@ -126,7 +129,7 @@ var TimedContentDialog = {
 			if (st > 0)
 				show_args = " show=\"" + sm + ":" + ss + ":" + sf + "\"";
 			else  {
-				tinyMCEPopup.alert('When using the Show action, the Show time must be at least 1 second.');
+				tinyMCEPopup.alert(errorMessages.clientNoShow);
 				return;
 			}
 		}
@@ -134,18 +137,18 @@ var TimedContentDialog = {
 			if (ht > 0)
 				hide_args = " hide=\"" + hm + ":" + hs + ":" + hf + "\"";
 			else  {
-				tinyMCEPopup.alert('When using the Hide action, the Hide time must be at least 1 second.');
+				tinyMCEPopup.alert(errorMessages.clientNoHide);
 				return;
 			}
 		}
 		
 		if (jQuery('#do_client_show').prop('checked') && jQuery('#do_client_hide').prop('checked') && (st >= ht)) {
-			tinyMCEPopup.alert('When using both Show and Hide actions, the Hide time must be later than the Show time.');
+			tinyMCEPopup.alert(errorMessages.clientHideBeforeShow);
 			return;
 		}
 		
 		if (!(jQuery('#do_client_show').prop('checked') || jQuery('#do_client_hide').prop('checked'))) {
-			tinyMCEPopup.alert('Please select an action to perform.');
+			tinyMCEPopup.alert(errorMessages.clientNoAction);
 			return;
 		}
 		// Insert the contents from the input into the document
@@ -178,32 +181,32 @@ var TimedContentDialog = {
 		}
 				
 		if (jQuery('#do_server_show').prop('checked') && (sd.length == 0)) {
-			tinyMCEPopup.alert("Please set a date for the Show action.");
+			tinyMCEPopup.alert(errorMessages.serverNoShowDate);
 			return;
 		}
 		
 		if (jQuery('#do_server_hide').prop('checked') && (hd.length == 0)) {
-			tinyMCEPopup.alert("Please set a date for the Hide action.");
+			tinyMCEPopup.alert(errorMessages.serverNoHideDate);
 			return;
 		}
 		
 		if (jQuery('#do_server_show').prop('checked') && (st.length == 0)) {
-			tinyMCEPopup.alert("Please set a time for the Show action.");
+			tinyMCEPopup.alert(errorMessages.serverNoShowTime);
 			return;
 		}
 		
 		if (jQuery('#do_server_hide').prop('checked') && (ht.length == 0)) {
-			tinyMCEPopup.alert("Please set a time for the Hide action.");
+			tinyMCEPopup.alert(errorMessages.serverNoHideTime);
 			return;
 		}
 		
 		if (jQuery('#do_server_show').prop('checked') && jQuery('#do_server_hide').prop('checked') && (s_Date >= h_Date)) {
-			tinyMCEPopup.alert('When using both Show and Hide actions, the Hide time must be later than the Show time.');
+			tinyMCEPopup.alert(errorMessages.serverHideBeforeShow);
 			return;
 		}
 		
 		if (!(jQuery('#do_server_show').prop('checked') || jQuery('#do_server_hide').prop('checked'))) {
-			tinyMCEPopup.alert('Please select an action to perform.');
+			tinyMCEPopup.alert(errorMessages.serverNoAction);
 			return;
 		}
 

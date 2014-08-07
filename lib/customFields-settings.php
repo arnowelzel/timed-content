@@ -22,8 +22,8 @@ $timed_content_rule_occurrence_custom_fields = array(
 						"title"			=> __( "Starting Date/Time", 'timed-content' ),
 						"description"	=> __( "Sets the date and time for the beginning of the first active period for this rule.", 'timed-content' ),
 						"type"			=> "datetime",
-						"default"		=>  array( 	"date" => date( "F jS, Y", strtotime( "+1 hour", $now_t ) ),
-													"time" => date( "g:i A", strtotime( "+1 hour", $now_t ) ) ),
+						"default"		=>  array( 	"date" => date_i18n( _x( "F jS, Y", "Starting Date/Time date format", 'timed-content'), strtotime( "+1 hour", $now_t ) ),
+													"time" => date_i18n( _x( "g:i A", "Starting Date/Time time format", 'timed-content'), strtotime( "+1 hour", $now_t ) ) ),
 						"scope"			=>	array( TIMED_CONTENT_RULE_TYPE ),
 						"capability"	=> "edit_posts"
 					),
@@ -33,8 +33,8 @@ $timed_content_rule_occurrence_custom_fields = array(
 						"title"			=> __( "Ending Date/Time", 'timed-content' ),
 						"description"	=> __( "Sets the date and time for the end of the first active period for this rule.", 'timed-content' ),
 						"type"			=> "datetime",
-						"default"		=>  array( 	"date" => date( "F jS, Y", strtotime( "+2 hour", $now_t ) ),
-													"time" => date( "g:i A", strtotime( "+2 hour", $now_t ) ) ),
+						"default"		=>  array( 	"date" => date_i18n( _x( "F jS, Y", "Ending Date/Time date format", 'timed-content'), strtotime( "+2 hour", $now_t ) ),
+													"time" => date_i18n( _x( "g:i A", "Ending Date/Time time format", 'timed-content'), strtotime( "+2 hour", $now_t ) ) ),
 						"scope"			=>	array( TIMED_CONTENT_RULE_TYPE ),
 						"capability"	=> "edit_posts"
 					),
@@ -44,7 +44,7 @@ $timed_content_rule_occurrence_custom_fields = array(
 						"title"			=> __( "Timezone:", 'timed-content' ),
 						"description"	=> __( "Select a city in the timezone you wish to use for this rule.", 'timed-content' ),
 						"type"			=> "timezone-list",
-						"default"		=>  get_option('timezone_string'),
+						"default"		=>  get_option( 'timezone_string' ),
 						"scope"			=>	array( TIMED_CONTENT_RULE_TYPE ),
 						"capability"	=> "edit_posts"
 					)
@@ -179,7 +179,7 @@ $timed_content_rule_recurrence_custom_fields = array(
 						"title"			=> __( "End Date:", 'timed-content' ),
 						"description"	=> __( "Using the settings above, repeat this action until this date.", 'timed-content' ),
 						"type"			=> "date",
-						"default"		=>  date( "F jS, Y", strtotime( "+1 year", $now_t ) ),
+						"default"		=>  date_i18n( _x( "F jS, Y", "End Date date format", 'timed-content'), strtotime( "+1 year", $now_t ) ),
 						"scope"			=>	array( TIMED_CONTENT_RULE_TYPE ),
 						"capability"	=> "edit_posts"
 					),

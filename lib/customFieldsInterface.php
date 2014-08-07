@@ -93,7 +93,7 @@ if ( !class_exists('customFieldsInterface') ) {
 				__( "Thursday", 'timed-content' ),
 				__( "Friday", 'timed-content' ),
 				__( "Saturday", 'timed-content' ) );
-			$dayNamesShort = array( _x( "Sun", "Three-letter abbreviation for 'Sunday'", 'timed-content' ),
+			$dayNamesShort = array( _x( "Sun", "Three-letter abbreviation for Sunday", 'timed-content' ),
     			_x( "Mon", "Three-letter abbreviation for Monday", 'timed-content' ),
 				_x( "Tue", "Three-letter abbreviation for Tuesday", 'timed-content' ),
 				_x( "Wed", "Three-letter abbreviation for Wednesday", 'timed-content' ),
@@ -134,19 +134,19 @@ if ( !class_exists('customFieldsInterface') ) {
             $timePeriods = array( _x( "AM", "Abbreviation for first 12-hour period in a day", 'timed-content' ),
                 _x( "PM", "Abbreviation for second 12-hour period in a day", 'timed-content' ) );
 			$datepicker_i18n = array(
-                "closeText" => _x( "Done", "jQuery UI Datepicker 'Close' label", "timed-content" ), // Display text for close link
-                "prevText" => _x( "Prev", "jQuery UI Datepicker 'Previous' label", "timed-content" ), // Display text for previous month link
-                "nextText" => _x( "Next", "jQuery UI Datepicker 'Next' label", "timed-content" ), // Display text for next month link
-                "currentText" => _x( "Today", "jQuery UI Datepicker 'Today' label", "timed-content" ), // Display text for current month link
+                "closeText" => _x( "Done", "jQuery UI Datepicker Close label", "timed-content" ), // Display text for close link
+                "prevText" => _x( "Prev", "jQuery UI Datepicker Previous label", "timed-content" ), // Display text for previous month link
+                "nextText" => _x( "Next", "jQuery UI Datepicker Next label", "timed-content" ), // Display text for next month link
+                "currentText" => _x( "Today", "jQuery UI Datepicker Today label", "timed-content" ), // Display text for current month link
                 "monthNames" => "['" . join( "','", $monthNames ) . "']", // Names of months for drop-down and formatting
                 "monthNamesShort" => "['" . join( "','", $monthNamesShort ) . "']", // For formatting
                 "dayNames" => "['" . join( "','", $dayNames ) . "']", // For formatting
                 "dayNamesShort" => "['" . join( "','", $dayNamesShort ) . "']", // For formatting
                 "dayNamesMin" => "['" . join( "','", $dayNamesShort ) . "']", // Column headings for days starting at Sunday
-                "weekHeader" => _x( "Wk", "jQuery UI Datepicker 'Week' label", "timed-content" ), // Column header for week of the year
-                "dateFormat" => _x( "MM d, yy", "jQuery UI Datepicker 'Date' format", 'timed-content' ),
-                "firstDay" => 0, // The first day of the week, Sun = 0, Mon = 1, ...
-                "isRTL" => "false", // True if right-to-left language, false if left-to-right
+                "weekHeader" => _x( "Wk", "jQuery UI Datepicker Week label", "timed-content" ), // Column header for week of the year
+                "dateFormat" => _x( "MM d, yy", "jQuery UI Datepicker Date format", 'timed-content' ),
+                "firstDay" => _x( "0", "jQuery UI Datepicker 'First day of week' as integer (Sunday = 0, Monday = 1, ...)", 'timed-content' ), // The first day of the week, Sun = 0, Mon = 1, ...
+                "isRTL" => _x( "false", "jQuery UI Datepicker: Is translated language read right-to-left ('true' or 'false')?", 'timed-content' ), // True if right-to-left language, false if left-to-right
                 "showMonthAfterYear" => "false", // True if the year select precedes month, false for month then year
                 "yearSuffix" => '' // Additional text to append to the year in the month headers			
 			);

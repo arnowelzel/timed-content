@@ -18,7 +18,6 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 	define( "TIMED_CONTENT_RULE_TAG", "timed-content-rule" );
 	define( "TIMED_CONTENT_ZERO_TIME", "1970-Jan-01 00:00:00 +000" );  // Start of Unix Epoch
 	define( "TIMED_CONTENT_END_TIME", "2038-Jan-19 03:14:07 +000" );   // End of Unix Epoch
-	/* translators:  date/time format for debugging messages. */
 	// define( "TIMED_CONTENT_DT_FORMAT", __( "l, F jS, Y, g:i A T" , 'timed-content' ) );
 	define( "TIMED_CONTENT_RULE_TYPE", "timed_content_rule" );
 	define( "TIMED_CONTENT_RULE_POSTMETA_PREFIX", TIMED_CONTENT_RULE_TYPE . "_" );
@@ -50,9 +49,9 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 		function timedContentRuleTypeInit()
 		{
 			$labels = array(
-				'name' => _x( 'Timed Content Rules', 'Custom Post Type general name', 'timed-content' ),
+				'name' => _x( 'Timed Content Rules', 'Custom Post Type plural name', 'timed-content' ),
 				'singular_name' => _x( 'Timed Content Rule', 'Custom Post Type singular name', 'timed-content' ),
-				'add_new' => _x( 'Add New', TIMED_CONTENT_RULE_TYPE, 'timed-content' ),
+				'add_new' => _x( 'Add New', 'Menu item/button label on Timed Content Rules admin page', 'timed-content' ),
 				'add_new_item' => __( 'Add New Timed Content Rule', 'timed-content' ),
 				'edit_item' => __( 'Edit Timed Content Rule', 'timed-content' ),
 				'new_item' => __( 'New Timed Content Rule', 'timed-content' ),
@@ -61,7 +60,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				'not_found' =>  __( 'No Timed Content Rules found', 'timed-content' ),
 				'not_found_in_trash' => __( 'No Timed Content Rules found in Trash', 'timed-content' ), 
 				'parent_item_colon' => '',
-				'menu_name' => _x( 'Timed Content Rules', 'Custom Post Type general name', 'timed-content' )
+				'menu_name' => _x( 'Timed Content Rules', 'Custom Post Type plural name', 'timed-content' )
 			);
 			$args = array(
 				'labels' => $labels,

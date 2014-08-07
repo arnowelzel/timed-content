@@ -807,8 +807,8 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 									. __( 'The Timed Content plugin thinks the intended date/time is', 'timed-content') . ": " . date_i18n( TIMED_CONTENT_DT_FORMAT, $hide_t )
 									. " (" . $hide_diff_str . ").</p>\n";
 
-                $debug_message .= "<p>" . __( 'Current time', 'timed-content') . " : " . $right_now . "</p>\n";
-                $debug_message .= "<p>" . __( 'Content', "Noun", 'timed-content') . " : " . $content . "</p>\n";
+                $debug_message .= "<p>" . __( 'Current Date/Time:', 'timed-content') . "&nbsp;" . $right_now . "</p>\n";
+                $debug_message .= "<p>" . _x( 'Content:', "Noun", 'timed-content') . "&nbsp;" . $content . "</p>\n";
 
                 $debug_message .= "</div>\n";
 

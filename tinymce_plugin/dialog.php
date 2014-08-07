@@ -46,7 +46,7 @@
         <li id="server_tab" onclick="javascript:mcTabs.displayTab('server_tab','server_panel');">
             <span><?php _ex( 'Server', 'TinyMCE Dialog - Server tab label', 'timed-content' ); ?> </span></li>
         <li id="rules_tab" onclick="javascript:mcTabs.displayTab('rules_tab','rules_panel');">
-            <span><?php _ex( 'Timed Content Rules', 'Custom Post Type general name', 'timed-content' ); ?></span>
+            <span><?php _ex( 'Timed Content Rules', 'Custom Post Type plural name', 'timed-content' ); ?></span>
         </li>
     </ul>
 </div>
@@ -74,8 +74,7 @@
                         for="client_show_fade"><?php _ex( 'Fade in (ms):', 'TinyMCE Dialog - Fade-in label', 'timed-content' ); ?></label>
                     <input id="client_show_fade" name="client_show_fade" type="text" class="text" size="4"
                            disabled="disabled"/>
-                    <em>(<?php _ex( 'Optional', 'TinyMCE Dialog - Optional checkbox HTML label', 'timed-content' ); ?> 
-                        )</em>
+                    <em>(<?php _ex( 'Optional', 'TinyMCE Dialog - Optional checkbox HTML label', 'timed-content' ); ?>)</em>
                 </p>
             </fieldset>
             <fieldset>
@@ -134,7 +133,7 @@
             </p>
 
             <p><?php _e('Current Date/Time:', 'timed-content' ); ?> 
-                <?php echo date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), current_time( 'timestamp', 0 ) ); ?></p>
+                <?php echo date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), current_time( 'timestamp', 0 ) ); ?></p>
             <fieldset>
                 <legend>
                     <input name="do_server_show" type="checkbox" id="do_server_show" value="show"/>

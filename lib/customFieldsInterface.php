@@ -100,7 +100,7 @@ if ( !class_exists('customFieldsInterface') ) {
 				_x( "Thu", "Three-letter abbreviation for Thursday", 'timed-content' ),
 				_x( "Fri", "Three-letter abbreviation for Friday", 'timed-content' ),
 				_x( "Sat", "Three-letter abbreviation for Saturday", 'timed-content' ) );
-			$dayNamesMin = array( _x( "Su", "Two-letter abbreviation for Sunday'", 'timed-content' ),
+			$dayNamesMin = array( _x( "Su", "Two-letter abbreviation for Sunday", 'timed-content' ),
                 _x( "Mo", "Two-letter abbreviation for Monday", 'timed-content' ),
                 _x( "Tu", "Two-letter abbreviation for Tuesday", 'timed-content' ),
                 _x( "We", "Two-letter abbreviation for Wednesday", 'timed-content' ),

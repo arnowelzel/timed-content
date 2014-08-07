@@ -138,8 +138,8 @@
                     for="server_debug"><?php _ex('Add debugging messages (Only logged-in users who can edit this Post/Page will see them)', 'TinyMCE Dialog - Server debugging label', 'timed-content'); ?></label>
             </p>
 
-            <p><?php _e('Current Date/Time ', 'timed-content'); ?>
-                : <?php echo date(get_option('date_format') . ' ' . get_option('time_format'), current_time('timestamp', 0)); ?></p>
+            <p><?php _e('Current Date/Time:', 'timed-content'); ?>
+                <?php echo date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), current_time( 'timestamp', 0 ) ); ?></p>
             <fieldset>
                 <legend>
                     <input name="do_server_show" type="checkbox" id="do_server_show" value="show"/>

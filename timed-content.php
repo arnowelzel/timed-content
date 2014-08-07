@@ -19,12 +19,12 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 	define( "TIMED_CONTENT_ZERO_TIME", "1970-Jan-01 00:00:00 +000" );  // Start of Unix Epoch
 	define( "TIMED_CONTENT_END_TIME", "2038-Jan-19 03:14:07 +000" );   // End of Unix Epoch
 	/* translators:  date/time format for debugging messages. */
-	define( "TIMED_CONTENT_DT_FORMAT", __( "l, F jS, Y, g:i A T" , 'timed-content' ) );
+	// define( "TIMED_CONTENT_DT_FORMAT", __( "l, F jS, Y, g:i A T" , 'timed-content' ) );
 	define( "TIMED_CONTENT_RULE_TYPE", "timed_content_rule" );
 	define( "TIMED_CONTENT_RULE_POSTMETA_PREFIX", TIMED_CONTENT_RULE_TYPE . "_" );
     define( "TIMED_CONTENT_CSS", TIMED_CONTENT_PLUGIN_URL . "/css/timed-content.css"  );
     define( "TIMED_CONTENT_CSS_DASHICONS", TIMED_CONTENT_PLUGIN_URL . "/css/ca-aliencyborg-dashicons/style.css"  );
-	// Required for styling the JQuery UI Datepicker and JQuery UI Timepicker
+	// Required for styling the jQuery UI Datepicker and jQuery UI Timepicker
     define( "TIMED_CONTENT_JQUERY_UI_CSS", TIMED_CONTENT_PLUGIN_URL . "/css/jqueryui/1.10.3/themes/smoothness/jquery-ui.css"  );
     define( "TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS", TIMED_CONTENT_PLUGIN_URL."/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js" );
     define( "TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS", TIMED_CONTENT_PLUGIN_URL."/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.css" );
@@ -423,21 +423,21 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				$last_occurrence_start = strtotime( $end_date . " " . $instance_start_time . " " . $timezone );    
 
 			if ( $human_readable == true )  {
-				$active_periods[$period_count]["start"] = date( TIMED_CONTENT_DT_FORMAT, $current );
-				$active_periods[$period_count]["end"] = date( TIMED_CONTENT_DT_FORMAT, $end_current );
+				$active_periods[$period_count]["start"] = date_i18n( TIMED_CONTENT_DT_FORMAT, $current );
+				$active_periods[$period_count]["end"] = date_i18n( TIMED_CONTENT_DT_FORMAT, $end_current );
 			} else  {
 				$active_periods[$period_count]["start"] = $current;
 				$active_periods[$period_count]["end"] = $end_current;
 			}
             if ( $right_now_t < $current )  {
                 $active_periods[$period_count]["status"] = "upcoming";
-                $active_periods[$period_count]["time"] = sprintf( __( '%s from now.', 'Human readable time difference', 'timed-content' ), human_time_diff( $current, $right_now_t ) );
+                $active_periods[$period_count]["time"] = sprintf( _x( '%s from now.', 'Human readable time difference', 'timed-content' ), human_time_diff( $current, $right_now_t ) );
             } elseif  ( ( $current <= $right_now_t ) && ( $right_now_t <= $end_current ) ) {
                 $active_periods[$period_count]["status"] = "active";
                 $active_periods[$period_count]["time"] = __( "Right now!", 'timed-content' );
             } else {
                 $active_periods[$period_count]["status"] = "expired";
-                $active_periods[$period_count]["time"] = sprintf( __( '%s ago.', 'Human readable time difference', 'timed-content' ), human_time_diff( $end_current, $right_now_t ) );
+                $active_periods[$period_count]["time"] = sprintf( _x( '%s ago.', 'Human readable time difference', 'timed-content' ), human_time_diff( $end_current, $right_now_t ) );
             }
 			$period_count++;
 
@@ -464,8 +464,8 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				if ( eval ( $loop_test ) ) {
                     $end_current = $current + ( $instance_end - $instance_start );
 					if ( $human_readable == true )  {
-						$active_periods[$period_count]["start"] = date( TIMED_CONTENT_DT_FORMAT, $current );
-						$active_periods[$period_count]["end"] = date( TIMED_CONTENT_DT_FORMAT, $end_current );
+						$active_periods[$period_count]["start"] = date_i18n( TIMED_CONTENT_DT_FORMAT, $current );
+						$active_periods[$period_count]["end"] = date_i18n( TIMED_CONTENT_DT_FORMAT, $end_current );
 					} else  {
 						$active_periods[$period_count]["start"] = $current;
 						$active_periods[$period_count]["end"] = $end_current;
@@ -605,7 +605,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			$monthly_pattern_ord = $args['monthly_pattern_ord'];
 			$monthly_pattern_day = $args['monthly_pattern_day'];
 			
-			$desc = sprintf( _x( '%1$s on %2$s @ %3$s until %4$s @ %5$s.', 'Dates/times of first active period', 'timed-content' ), $action, $instance_start_date, $instance_start_time, $instance_end_date, $instance_end_time );
+			$desc = sprintf( _x( '%1$s on %2$s @ %3$s until %4$s @ %5$s.', 'Perform action (%1$s) from date/time of first active period (%2$s @ %3$s) until date/time of last active period (%4$s @ %5$s).', 'timed-content' ), $action, $instance_start_date, $instance_start_time, $instance_end_date, $instance_end_time );
 			
 			if ( $freq == 0 )
 				$desc .= "&nbsp;" . sprintf( _n( 'Repeat this action every hour.', 'Repeat this action every %d hours.', $interval_multiplier, 'timed-content' ), $interval_multiplier );
@@ -635,9 +635,9 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			} elseif ( $freq == 3 ) {
 				if ( $monthly_pattern == "yes" )  {
 					if ( $interval_multiplier == 1 )
-						$desc .= "&nbsp;" . sprintf( __( 'Repeat this action every month on the %1$s %2$s of the month.', 'timed-content' ), $timed_content_rule_ordinal_array[$monthly_pattern_ord], $timed_content_rule_ordinal_days_array[$monthly_pattern_day] );
+						$desc .= "&nbsp;" . sprintf( _x( 'Repeat this action every month on the %1$s %2$s of the month.', "Example: 'Repeat this action every month on the second Friday of the month.'", 'timed-content' ), $timed_content_rule_ordinal_array[$monthly_pattern_ord], $timed_content_rule_ordinal_days_array[$monthly_pattern_day] );
 					else
-						$desc .= "&nbsp;" . sprintf( __( 'Repeat this action every %1$d months on the %2$s %3$s of the month.', 'timed-content' ), $interval_multiplier, $timed_content_rule_ordinal_array[$monthly_pattern_ord], $timed_content_rule_ordinal_days_array[$monthly_pattern_day] );
+						$desc .= "&nbsp;" . sprintf( _x( 'Repeat this action every %1$d months on the %2$s %3$s of the month.', "Example: 'Repeat this action every 2 months on the second Friday of the month.'", 'timed-content' ), $interval_multiplier, $timed_content_rule_ordinal_array[$monthly_pattern_ord], $timed_content_rule_ordinal_days_array[$monthly_pattern_day] );
 				} else
 					$desc .=  "&nbsp;" . sprintf( _n( 'Repeat this action every month.', 'Repeat this action every %d months.', $interval_multiplier, 'timed-content' ), $interval_multiplier );
 			} elseif ( $freq == 4 )
@@ -1174,8 +1174,13 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 											__( 'Set how long or how many times the action should occur.', 'timed-content' ),  
 											TIMED_CONTENT_RULE_POSTMETA_PREFIX, 
 											array( TIMED_CONTENT_RULE_TYPE ), 
-											$timed_content_rule_recurrence_custom_fields ); 
-		}
+											$timed_content_rule_recurrence_custom_fields );
+
+            // Initially loaded at the top; defining this constant here means it can get i18n'd
+            /* translators:  date/time format for debugging messages. */
+            define( "TIMED_CONTENT_DT_FORMAT", __( "l, F jS, Y, g:i A T" , 'timed-content' ) );
+
+        }
 	}
 
 } //End Class timedContentPlugin

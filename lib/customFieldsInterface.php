@@ -84,6 +84,80 @@ if ( !class_exists('customFieldsInterface') ) {
 		* Create the new Custom Fields meta box
 		*/
 		function createCustomFields() {	
+		
+			// Let's figure out i18n for the date- and timepickers
+			$dayNames = array( __( "Sunday", 'timed-content' ),
+						__( "Monday", 'timed-content' ), 
+						__( "Tuesday", 'timed-content' ), 
+						__( "Wednesday", 'timed-content' ), 
+						__( "Thursday", 'timed-content' ), 
+						__( "Friday", 'timed-content' ), 
+						__( "Saturday", 'timed-content' ) );
+			$dayNamesShort = array( _x( "Sun", "Three-letter abbreviation for day name", 'timed-content' ),
+						_x( "Mon", "Three-letter abbreviation for day name", 'timed-content' ), 
+						_x( "Tue", "Three-letter abbreviation for day name", 'timed-content' ), 
+						_x( "Wed", "Three-letter abbreviation for day name", 'timed-content' ), 
+						_x( "Thu", "Three-letter abbreviation for day name", 'timed-content' ), 
+						_x( "Fri", "Three-letter abbreviation for day name", 'timed-content' ), 
+						_x( "Sat", "Three-letter abbreviation for day name", 'timed-content' ) );
+			$dayNamesMin = array( _x( "Su", "Two-letter abbreviation for day name", 'timed-content' ),
+						_x( "Mo", "Two-letter abbreviation for day name", 'timed-content' ), 
+						_x( "Tu", "Two-letter abbreviation for day name", 'timed-content' ), 
+						_x( "We", "Two-letter abbreviation for day name", 'timed-content' ), 
+						_x( "Th", "Two-letter abbreviation for day name", 'timed-content' ), 
+						_x( "Fr", "Two-letter abbreviation for day name", 'timed-content' ), 
+						_x( "Sa", "Two-letter abbreviation for day name", 'timed-content' ) );
+			$monthNames = array( __( "January", 'timed-content' ),
+						__( "February", 'timed-content' ), 
+						__( "March", 'timed-content' ), 
+						__( "April", 'timed-content' ), 
+						__( "May", 'timed-content' ), 
+						__( "June", 'timed-content' ), 
+						__( "July", 'timed-content' ), 
+						__( "August", 'timed-content' ), 
+						__( "September", 'timed-content' ), 
+						__( "October", 'timed-content' ), 
+						__( "November", 'timed-content' ), 
+						__( "December", 'timed-content' ) );
+			$monthNamesShort = array( __( "Jan", "Three-letter abbreviation for month name", 'timed-content' ),
+						__( "Feb", "Three-letter abbreviation for month name", 'timed-content' ), 
+						__( "Mar", "Three-letter abbreviation for month name", 'timed-content' ), 
+						__( "Apr", "Three-letter abbreviation for month name", 'timed-content' ), 
+						__( "May", "Three-letter abbreviation for month name", 'timed-content' ), 
+						__( "Jun", "Three-letter abbreviation for month name", 'timed-content' ), 
+						__( "Jul", "Three-letter abbreviation for month name", 'timed-content' ), 
+						__( "Aug", "Three-letter abbreviation for month name", 'timed-content' ), 
+						__( "Sep", "Three-letter abbreviation for month name", 'timed-content' ), 
+						__( "Oct", "Three-letter abbreviation for month name", 'timed-content' ), 
+						__( "Nov", "Three-letter abbreviation for month name", 'timed-content' ), 
+						__( "Dec", "Three-letter abbreviation for month name", 'timed-content' ) );
+            $timePeriods = array( __( "AM", "Abbreviation for first 12-hour period in a day", 'timed-content' ),
+                __( "PM", "Abbreviation for second 12-hour period in a day", 'timed-content' ) );
+			$datepicker_i18n = array(
+                "closeText" => _x( "Done", "jQuery UI Datepicker 'Close' label", "timed-content" ), // Display text for close link
+                "prevText" => _x( "Prev", "jQuery UI Datepicker 'Previous' label", "timed-content" ), // Display text for previous month link
+                "nextText" => _x( "Next", "jQuery UI Datepicker 'Next' label", "timed-content" ), // Display text for next month link
+                "currentText" => _x( "Today", "jQuery UI Datepicker 'Today' label", "timed-content" ), // Display text for current month link
+                "monthNames" => "['" . join( "','", $monthNames ) . "']", // Names of months for drop-down and formatting
+                "monthNamesShort" => "['" . join( "','", $monthNamesShort ) . "']", // For formatting
+                "dayNames" => "['" . join( "','", $dayNames ) . "']", // For formatting
+                "dayNamesShort" => "['" . join( "','", $dayNamesShort ) . "']", // For formatting
+                "dayNamesMin" => "['" . join( "','", $dayNamesShort ) . "']", // Column headings for days starting at Sunday
+                "weekHeader" => _x( "Wk", "jQuery UI Datepicker 'Week' label", "timed-content" ), // Column header for week of the year
+                "dateFormat" => _x( "MM d, yy", "jQuery UI Datepicker 'Date' format", 'timed-content' ),
+                "firstDay" => 0, // The first day of the week, Sun = 0, Mon = 1, ...
+                "isRTL" => "false", // True if right-to-left language, false if left-to-right
+                "showMonthAfterYear" => "false", // True if the year select precedes month, false for month then year
+                "yearSuffix" => '' // Additional text to append to the year in the month headers			
+			);
+			$timepicker_i18n = array(
+                "hourText" => _x( "Hour", "jQuery UI Timepicker 'Hour' label", "timed-content" ),
+                "minuteText" => _x( "Minute", "jQuery UI Timepicker 'Minute' label", "timed-content" ),
+                "amPmText" => "['" . join( "','", $timePeriods ) . "']",
+                "closeButtonText" => _x( "Done", "jQuery UI Timepicker 'Done' label", "timed-content" ),
+                "nowButtonText" => _x( "Now", "jQuery UI Timepicker 'Now' label", "timed-content" ),
+                "deselectButtonText" => _x( "Deselect", "jQuery UI Timepicker 'Deselect' label", "timed-content" ) );
+					
 			// Only enqueue scripts if we're dealing with 'timed-content-rule' pages
 			foreach ( $this->postTypes as $a_postType ) {
 				if ( ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $a_postType ) 
@@ -93,12 +167,23 @@ if ( !class_exists('customFieldsInterface') ) {
 					wp_enqueue_style( 'wp-color-picker' );
 					wp_enqueue_script( 'wp-color-picker' );
                     wp_enqueue_style( 'timed-content-jquery-ui-css', TIMED_CONTENT_JQUERY_UI_CSS, false, TIMED_CONTENT_VERSION );
-					wp_enqueue_script( 'jquery-ui-datepicker' ); 
+					wp_enqueue_script( 'jquery-ui-datepicker' );
+					if( isset( $datepicker_i18n ) ) {
+						wp_register_script( 'timed-content-jquery-ui-datepicker-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/timed-content-datepicker-i18n.js", array( 'jquery', 'jquery-ui-datepicker' ), TIMED_CONTENT_VERSION );
+						wp_enqueue_script( 'timed-content-jquery-ui-datepicker-i18n-js' );
+						wp_localize_script( 'timed-content-jquery-ui-datepicker-i18n-js', 'TimedContentJQDatepickerI18n', $datepicker_i18n );
+					}
+						
 					wp_enqueue_script( 'jquery-ui-spinner' ); 
 					wp_register_style( 'timed-content-jquery-ui-timepicker-css', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS, array( TIMED_CONTENT_JQUERY_UI_CSS ), TIMED_CONTENT_VERSION );
 					wp_enqueue_style( 'timed-content-jquery-ui-timepicker-css' );
 					wp_register_script( 'timed-content-jquery-ui-timepicker-js', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS, array('jquery', 'jquery-ui-datepicker'), TIMED_CONTENT_VERSION );
 					wp_enqueue_script( 'timed-content-jquery-ui-timepicker-js' );
+					if( isset( $timepicker_i18n ) ) {
+						wp_register_script( 'timed-content-jquery-ui-timepicker-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/timed-content-timepicker-i18n.js", array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-timepicker' ), TIMED_CONTENT_VERSION );
+						wp_enqueue_script( 'timed-content-jquery-ui-timepicker-i18n-js' );
+						wp_localize_script( 'timed-content-jquery-ui-timepicker-i18n-js', 'TimedContentJQTimepickerI18n', $timepicker_i18n );
+					}
 					if ( function_exists( 'add_meta_box' ) ) 
 						add_meta_box( $this->handle, $this->label, array( &$this, 'displayCustomFields' ), $a_postType, 'normal', 'high' );
 				}
@@ -152,7 +237,7 @@ if ( !class_exists('customFieldsInterface') ) {
 									// menu
 									echo "<label for=\"" . $this->prefix . $customField[ 'name' ] . "\" style=\"display:inline;\"><strong>" . $customField[ 'title' ] . "</strong></label><br />\n";
 									if ( sizeof ( $customField['values'] ) == 0 )
-										echo "<em>This menu is empty.</em>\n";
+										echo "<em>" . __( "This menu is empty.", "timed-content" ) . "</em>\n";
 									else {
 										$selected_value = ( "" === get_post_meta( $post->ID, $this->prefix . $customField['name'], true ) ? $customField['default'] : get_post_meta( $post->ID, $this->prefix . $customField['name'], true ) );
 										echo "<select name=\"" . $this->prefix . $customField['name'] . "\" id=\"" . $this->prefix . $customField['name'] . "\" style=\"width: auto; height: auto; padding: 3px;\" size=\"" . $customField['size']  . "\" multiple=\"multiple\">\n";
@@ -170,7 +255,7 @@ if ( !class_exists('customFieldsInterface') ) {
 									// list
 									echo "<label for=\"" . $this->prefix . $customField[ 'name' ] . "\" style=\"display:inline;\"><strong>" . $customField[ 'title' ] . "</strong></label>&nbsp;&nbsp;\n";
 									if ( sizeof ( $customField['values'] ) == 0 )
-										echo "<em>This list is empty.</em>\n";
+										echo "<em>" . __( "This menu is empty.", "timed-content" ) . "</em>\n";
 									else {
 										$selected_value = ( "" === get_post_meta( $post->ID, $this->prefix . $customField['name'], true ) ? $customField['default'] : get_post_meta( $post->ID, $this->prefix . $customField['name'], true ) );
 										echo "<select name=\"" . $this->prefix . $customField['name'] . "\" id=\"" . $this->prefix . $customField['name'] . "\" style=\"width: auto;\">\n";
@@ -211,7 +296,7 @@ if ( !class_exists('customFieldsInterface') ) {
 
 									echo "<strong>" . $customField[ 'title' ] . "</strong><br />\n";
 									if ( sizeof ( $customField['values'] ) == 0 )
-										echo "<em>This list is empty.</em>\n";
+										echo "<em>" . __( "This menu is empty.", "timed-content" ) . "</em>\n";
 									else {
 										foreach ( $customField['values'] as $value => $label ) {
 											echo "<input type=\"checkbox\" name=\"" . $this->prefix . $customField['name'] . "[]\" id=\"" . $this->prefix . $customField['name'] . "_" . $value . "\" value=\"" . $value . "\"";
@@ -274,7 +359,6 @@ if ( !class_exists('customFieldsInterface') ) {
 	jQuery(document).ready(function() {
 		jQuery( "#<?php echo $this->prefix . $customField[ 'name' ]; ?>" ).datepicker(
 			{
-				dateFormat: "<?php _ex( "MM d, yy", "Date format for jQuery UI Datepicker", 'timed-content' ); ?>",
 				changeMonth: true,
 				changeYear: true
 			}
@@ -299,7 +383,6 @@ if ( !class_exists('customFieldsInterface') ) {
 	jQuery(document).ready(function() {
 		jQuery( "#<?php echo $this->prefix . $customField[ 'name' ]; ?>_date" ).datepicker(
 			{
-				dateFormat: "<?php _ex( "MM d, yy", "Date format for jQuery UI Datepicker", 'timed-content' ); ?>",
 				changeMonth: true,
 				changeYear: true
 			}

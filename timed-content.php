@@ -2,6 +2,7 @@
 /*
 Plugin Name: Timed Content
 Text Domain: timed-content
+Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough
@@ -27,8 +28,6 @@ if ( !class_exists( "timedContentPlugin" ) ) {
     define( "TIMED_CONTENT_JQUERY_UI_CSS", TIMED_CONTENT_PLUGIN_URL . "/css/jqueryui/1.10.3/themes/smoothness/jquery-ui.css"  );
     define( "TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS", TIMED_CONTENT_PLUGIN_URL."/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js" );
     define( "TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS", TIMED_CONTENT_PLUGIN_URL."/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.css" );
-	require_once( "lib/customFields-settings.php" );
-	require_once( "lib/customFieldsInterface.php" );
 
 
     /**
@@ -51,8 +50,8 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 		function timedContentRuleTypeInit()
 		{
 			$labels = array(
-				'name' => _x( 'Timed Content Rules', 'post type general name', 'timed-content' ),
-				'singular_name' => _x( 'Timed Content Rule', 'post type singular name', 'timed-content' ),
+				'name' => _x( 'Timed Content Rules', 'Custom Post Type general name', 'timed-content' ),
+				'singular_name' => _x( 'Timed Content Rule', 'Custom Post Type singular name', 'timed-content' ),
 				'add_new' => _x( 'Add New', TIMED_CONTENT_RULE_TYPE, 'timed-content' ),
 				'add_new_item' => __( 'Add New Timed Content Rule', 'timed-content' ),
 				'edit_item' => __( 'Edit Timed Content Rule', 'timed-content' ),
@@ -62,7 +61,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				'not_found' =>  __( 'No Timed Content Rules found', 'timed-content' ),
 				'not_found_in_trash' => __( 'No Timed Content Rules found in Trash', 'timed-content' ), 
 				'parent_item_colon' => '',
-				'menu_name' =>_x( 'Timed Content Rules', 'post type general name', 'timed-content' )
+				'menu_name' => _x( 'Timed Content Rules', 'Custom Post Type general name', 'timed-content' )
 			);
 			$args = array(
 				'labels' => $labels,
@@ -108,7 +107,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				7 => __( 'Timed Content Rule saved.', 'timed-content' ),
 				8 => __( 'Timed Content Rule submitted.', 'timed-content' ),
 				/* translators: %s: date and time to activate rule */
-				9 => sprintf( __('Timed Content Rule scheduled for: <strong>%1$s</strong>.', 'timed-content' ), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ) ),
+				9 => sprintf( __( 'Timed Content Rule scheduled for: <strong>%1$s</strong>.' , 'timed-content' ), date_i18n( _x( 'M j, Y @ G:i', "Date format for 'Timed Content Rule scheduled for: <strong>%1$s</strong>.' string", 'timed-content' ), strtotime( $post->post_date ) ) ),
 				10 => __( 'Timed Content Rule draft updated.', 'timed-content' )
 			);
 			
@@ -432,13 +431,13 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			}
             if ( $right_now_t < $current )  {
                 $active_periods[$period_count]["status"] = "upcoming";
-                $active_periods[$period_count]["time"] = sprintf( __( '%s from now.', 'timed-content' ), human_time_diff( $current, $right_now_t ) );
+                $active_periods[$period_count]["time"] = sprintf( __( '%s from now.', 'Human readable time difference', 'timed-content' ), human_time_diff( $current, $right_now_t ) );
             } elseif  ( ( $current <= $right_now_t ) && ( $right_now_t <= $end_current ) ) {
                 $active_periods[$period_count]["status"] = "active";
                 $active_periods[$period_count]["time"] = __( "Right now!", 'timed-content' );
             } else {
                 $active_periods[$period_count]["status"] = "expired";
-                $active_periods[$period_count]["time"] = sprintf( __( '%s ago.', 'timed-content' ), human_time_diff( $end_current, $right_now_t ) );
+                $active_periods[$period_count]["time"] = sprintf( __( '%s ago.', 'Human readable time difference', 'timed-content' ), human_time_diff( $end_current, $right_now_t ) );
             }
 			$period_count++;
 
@@ -568,7 +567,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          * @return string
          */
         function __getScheduleDescription( $args )  {
-			require("lib/Arrays_Definitions.php");
+			require_once("lib/Arrays_Definitions.php");
 
 			$interval_multiplier = 1;
 			$desc = "";
@@ -909,7 +908,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
             </style>
 <?php
 		}
-
+ 
         /**
          * Enqueues the JavaScript code necessary for the functionality of the Timed Content Rules management screens.
          */
@@ -1144,6 +1143,39 @@ if ( !class_exists( "timedContentPlugin" ) ) {
                         . '</a></li>';
             }
 		}
+		
+		function setUpCustomFields() {
+			require_once( "lib/customFields-settings.php" );
+			require_once( "lib/customFieldsInterface.php" );
+
+			$scf = new customFieldsInterface( "cfi_s", 
+											__( 'Rule Description/Schedule', 'timed-content' ), 
+											"<div id=\"schedule_desc\" style=\"font-style: italic;\">"
+											. ( isset( $_GET['post'] ) && ( TIMED_CONTENT_RULE_TYPE === get_post_type( $_GET['post'] ) ) ? $this->getScheduleDescriptionById( intval( $_GET['post'] ) ) : $this->getScheduleDescriptionById( intval( 0 ) )  )
+											. "</div>"
+											. "<div style=\"padding-top: 10px;\"><input type=\"button\" class=\"button-primary\" id=\"timed_content_rule_test\" value=\"" . __( 'Show Projected Dates/Times', 'timed-content' ) . "\" /></div>",
+											TIMED_CONTENT_RULE_POSTMETA_PREFIX,
+											array( TIMED_CONTENT_RULE_TYPE ),
+											array() ); 
+			$ocf = new customFieldsInterface( "cfi_o", 
+											__( 'Action/Initial Event', 'timed-content' ), 
+											__( 'Set the action to be taken and when it should first run.', 'timed-content' ), 
+											TIMED_CONTENT_RULE_POSTMETA_PREFIX,
+											array( TIMED_CONTENT_RULE_TYPE ),
+											$timed_content_rule_occurrence_custom_fields );
+			$pcf = new customFieldsInterface( "cfi_p",
+											__( 'Repeating Pattern', 'timed-content' ), 
+											__( 'Set how often the action should repeat.', 'timed-content' ), 
+											TIMED_CONTENT_RULE_POSTMETA_PREFIX,
+											array( TIMED_CONTENT_RULE_TYPE ),
+											$timed_content_rule_pattern_custom_fields );
+			$rcf = new customFieldsInterface( "cfi_r",
+											__( 'Stopping Condition', 'timed-content' ),  
+											__( 'Set how long or how many times the action should occur.', 'timed-content' ),  
+											TIMED_CONTENT_RULE_POSTMETA_PREFIX, 
+											array( TIMED_CONTENT_RULE_TYPE ), 
+											$timed_content_rule_recurrence_custom_fields ); 
+		}
 	}
 
 } //End Class timedContentPlugin
@@ -1155,35 +1187,9 @@ if ( class_exists( "timedContentPlugin" ) ) {
 
 // Actions and Filters
 if ( isset( $timedContentPluginInstance ) ) {
-	$scf = new customFieldsInterface( "cfi_s", 
-									__( 'Rule Description/Schedule', 'timed-content' ), 
-									"<div id=\"schedule_desc\" style=\"font-style: italic;\">"
-									. ( isset( $_GET['post'] ) && ( TIMED_CONTENT_RULE_TYPE === get_post_type( $_GET['post'] ) ) ? $timedContentPluginInstance->getScheduleDescriptionById( intval( $_GET['post'] ) ) : $timedContentPluginInstance->getScheduleDescriptionById( intval( 0 ) )  )
-									. "</div>"
-									. "<div style=\"padding-top: 10px;\"><input type=\"button\" class=\"button-primary\" id=\"timed_content_rule_test\" value=\"Show Projected Dates/Times\" /></div>",
-									TIMED_CONTENT_RULE_POSTMETA_PREFIX,
-									array( TIMED_CONTENT_RULE_TYPE ),
-									array() ); 
-	$ocf = new customFieldsInterface( "cfi_o", 
-									__( 'Action/Initial Event', 'timed-content' ), 
-									__( 'Set the action to be taken and when it should first run.', 'timed-content' ), 
-									TIMED_CONTENT_RULE_POSTMETA_PREFIX,
-									array( TIMED_CONTENT_RULE_TYPE ),
-									$timed_content_rule_occurrence_custom_fields );
-	$pcf = new customFieldsInterface( "cfi_p",
-									__( 'Repeating Pattern', 'timed-content' ), 
-									__( 'Set how often the action should repeat.', 'timed-content' ), 
-									TIMED_CONTENT_RULE_POSTMETA_PREFIX,
-									array( TIMED_CONTENT_RULE_TYPE ),
-									$timed_content_rule_pattern_custom_fields );
-    $rcf = new customFieldsInterface( "cfi_r",
-									__( 'Stopping Condition', 'timed-content' ),  
-									__( 'Set how long or how many times the action should occur.', 'timed-content' ),  
-									TIMED_CONTENT_RULE_POSTMETA_PREFIX, 
-									array( TIMED_CONTENT_RULE_TYPE ), 
-									$timed_content_rule_recurrence_custom_fields ); 
 	add_action( "init", array( &$timedContentPluginInstance, "i18nInit" ), 1 );
 	add_action( "init", array( &$timedContentPluginInstance, "timedContentRuleTypeInit" ), 2 );
+	add_action( "init", array( &$timedContentPluginInstance, "setUpCustomFields" ), 2 );
 	add_action( "wp_head", array( &$timedContentPluginInstance, "addHeaderCode" ), 1 );
 	add_filter( "manage_" . TIMED_CONTENT_RULE_TYPE . "_posts_columns", array( &$timedContentPluginInstance, "addDescColumnHead" ) );
 	add_action( "manage_" . TIMED_CONTENT_RULE_TYPE . "_posts_custom_column", array( &$timedContentPluginInstance, "addDescColumnContent" ), 10, 2);

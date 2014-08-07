@@ -20,7 +20,7 @@
 				ed.windowManager.open({
 					file : ajaxurl + '?action=timedContentPluginGetTinyMCEDialog',
 					width : 640 + parseInt(ed.getLang('timed_content.delta_width', 0)),
-					height : 400 + parseInt(ed.getLang('timed_content.delta_height', 0)),
+					height : 420 + parseInt(ed.getLang('timed_content.delta_height', 0)),
 					inline : 1
 				}, {
 					plugin_url : url, // Plugin absolute URL

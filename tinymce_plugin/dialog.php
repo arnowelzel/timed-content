@@ -7,7 +7,7 @@
     <?php wp_print_styles(); ?>
     <style>
         .panel_wrapper {
-            height: 350px;
+            height: 370px;
         }
         div.ui-datepicker-div {
             font-size: 10px;
@@ -25,7 +25,6 @@
         var tags = { 'client': '<?php echo TIMED_CONTENT_CLIENT_TAG; ?>',
             'server': '<?php echo TIMED_CONTENT_SERVER_TAG; ?>',
             'rule': '<?php echo TIMED_CONTENT_RULE_TAG; ?>' };
-        var datepickerFormat = "<?php _ex( "MM d, yy", "Date format for jQuery UI Datepicker", 'timed-content' ); ?>";
         var errorMessages = { 'clientNoShow': '<?php _e( 'When using the Show action, the Show time must be at least 1 second.', 'timed-content' ); ?>',
             'clientNoHide': '<?php _e( 'When using the Hide action, the Hide time must be at least 1 second.', 'timed-content' ); ?>',
             'clientHideBeforeShow': '<?php _e( 'When using both Show and Hide actions, the Hide time must be later than the Show time.', 'timed-content' ); ?>',
@@ -47,7 +46,7 @@
         <li id="server_tab" onclick="javascript:mcTabs.displayTab('server_tab','server_panel');">
             <span><?php _ex('Server', 'TinyMCE Dialog - Server tab label', 'timed-content'); ?></span></li>
         <li id="rules_tab" onclick="javascript:mcTabs.displayTab('rules_tab','rules_panel');">
-            <span><?php _ex('Timed Content Rules', 'TinyMCE Dialog - Timed Content Rules tab label', 'timed-content'); ?></span>
+            <span><?php _ex( 'Timed Content Rules', 'Custom Post Type general name', 'timed-content' ); ?></span>
         </li>
     </ul>
 </div>
@@ -112,7 +111,7 @@
                 <p><input id="client_display_tag_div" name="client_display_tag" type="radio" class="text"
                           checked="checked"/>
                     <label
-                        for="client_display_tag_div"><?php _ex('Enclose content using <code>&lt;div&gt;</code> tags (block-level)', 'TinyMCE Dialog - Display mode DIV HTML description', 'timed-content'); ?></label>
+                        for="client_display_tag_div"><?php _ex('Enclose content using <code>&lt;div&gt;</code> tags (block-level)', 'TinyMCE Dialog - Display mode DIV HTML description', 'timed-content'); ?></label><br />
                     <input id="client_display_tag_span" name="client_display_tag" type="radio" class="text"/>
                     <label
                         for="client_display_tag_span"><?php _ex('Enclose content using <code>&lt;span&gt;</code> tags (inline)', 'TinyMCE Dialog - Display mode SPAN HTML description', 'timed-content'); ?></label>

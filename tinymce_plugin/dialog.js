@@ -39,7 +39,6 @@ var TimedContentDialog = {
 					jQuery('#server_show_time').removeAttr('disabled');
 					jQuery('#server_show_date').datepicker(
 						{
-							dateFormat: datepickerFormat,
 							changeMonth: true,
 							changeYear: true
 						}
@@ -64,7 +63,6 @@ var TimedContentDialog = {
 					jQuery('#server_hide_time').removeAttr('disabled');
 					jQuery('#server_hide_date').datepicker(
 						{
-							dateFormat: datepickerFormat,
 							changeMonth: true,
 							changeYear: true
 						}

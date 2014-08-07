@@ -119,20 +119,20 @@ if ( !class_exists('customFieldsInterface') ) {
 				__( "October", 'timed-content' ),
 				__( "November", 'timed-content' ),
 				__( "December", 'timed-content' ) );
-			$monthNamesShort = array( __( "Jan", "Three-letter abbreviation for January", 'timed-content' ),
-				__( "Feb", "Three-letter abbreviation for February", 'timed-content' ),
-				__( "Mar", "Three-letter abbreviation for March", 'timed-content' ),
-				__( "Apr", "Three-letter abbreviation for April", 'timed-content' ),
-				__( "May", "Three-letter abbreviation for May", 'timed-content' ),
-				__( "Jun", "Three-letter abbreviation for June", 'timed-content' ),
-				__( "Jul", "Three-letter abbreviation for July", 'timed-content' ),
-				__( "Aug", "Three-letter abbreviation for August", 'timed-content' ),
-				__( "Sep", "Three-letter abbreviation for September", 'timed-content' ),
-				__( "Oct", "Three-letter abbreviation for October", 'timed-content' ),
-				__( "Nov", "Three-letter abbreviation for November", 'timed-content' ),
-				__( "Dec", "Three-letter abbreviation for December", 'timed-content' ) );
-            $timePeriods = array( __( "AM", "Abbreviation for first 12-hour period in a day", 'timed-content' ),
-                __( "PM", "Abbreviation for second 12-hour period in a day", 'timed-content' ) );
+			$monthNamesShort = array( _x( "Jan", "Three-letter abbreviation for January", 'timed-content' ),
+				_x( "Feb", "Three-letter abbreviation for February", 'timed-content' ),
+				_x( "Mar", "Three-letter abbreviation for March", 'timed-content' ),
+				_x( "Apr", "Three-letter abbreviation for April", 'timed-content' ),
+				_x( "May", "Three-letter abbreviation for May", 'timed-content' ),
+				_x( "Jun", "Three-letter abbreviation for June", 'timed-content' ),
+				_x( "Jul", "Three-letter abbreviation for July", 'timed-content' ),
+				_x( "Aug", "Three-letter abbreviation for August", 'timed-content' ),
+				_x( "Sep", "Three-letter abbreviation for September", 'timed-content' ),
+				_x( "Oct", "Three-letter abbreviation for October", 'timed-content' ),
+				_x( "Nov", "Three-letter abbreviation for November", 'timed-content' ),
+				_x( "Dec", "Three-letter abbreviation for December", 'timed-content' ) );
+            $timePeriods = array( _x( "AM", "Abbreviation for first 12-hour period in a day", 'timed-content' ),
+                _x( "PM", "Abbreviation for second 12-hour period in a day", 'timed-content' ) );
 			$datepicker_i18n = array(
                 "closeText" => _x( "Done", "jQuery UI Datepicker 'Close' label", "timed-content" ), // Display text for close link
                 "prevText" => _x( "Prev", "jQuery UI Datepicker 'Previous' label", "timed-content" ), // Display text for previous month link

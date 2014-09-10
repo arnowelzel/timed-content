@@ -45,7 +45,6 @@ var TimedContentDialog = {
 					);
 					jQuery('#server_show_time').timepicker(
 						{
-							showPeriod: true,
                             defaultTime: 'now'
 						}
 					);
@@ -69,7 +68,6 @@ var TimedContentDialog = {
 					);
 					jQuery('#server_hide_time').timepicker(
 						{
-							showPeriod: true,
                             defaultTime: 'now'
 						}
 					);

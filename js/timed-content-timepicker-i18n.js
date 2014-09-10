@@ -9,6 +9,8 @@ jQuery(function($){
         hourText: TimedContentJQTimepickerI18n.hourText,
         minuteText: TimedContentJQTimepickerI18n.minuteText,
         amPmText: TimedContentJQTimepickerI18n.amPmText,
+        showPeriod: TimedContentJQTimepickerI18n.showPeriod,
+        timeSeparator: TimedContentJQTimepickerI18n.timeSeparator,
         closeButtonText: TimedContentJQTimepickerI18n.closeButtonText,
         nowButtonText: TimedContentJQTimepickerI18n.nowButtonText,
         deselectButtonText: TimedContentJQTimepickerI18n.deselectButtonText };

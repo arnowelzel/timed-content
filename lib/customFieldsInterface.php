@@ -85,79 +85,7 @@ if ( !class_exists('customFieldsInterface') ) {
 		*/
 		function createCustomFields() {	
 		
-			// Let's figure out i18n for the date- and timepickers
-			$dayNames = array( __( "Sunday", 'timed-content' ),
-				__( "Monday", 'timed-content' ),
-				__( "Tuesday", 'timed-content' ),
-				__( "Wednesday", 'timed-content' ),
-				__( "Thursday", 'timed-content' ),
-				__( "Friday", 'timed-content' ),
-				__( "Saturday", 'timed-content' ) );
-			$dayNamesShort = array( _x( "Sun", "Three-letter abbreviation for Sunday", 'timed-content' ),
-    			_x( "Mon", "Three-letter abbreviation for Monday", 'timed-content' ),
-				_x( "Tue", "Three-letter abbreviation for Tuesday", 'timed-content' ),
-				_x( "Wed", "Three-letter abbreviation for Wednesday", 'timed-content' ),
-				_x( "Thu", "Three-letter abbreviation for Thursday", 'timed-content' ),
-				_x( "Fri", "Three-letter abbreviation for Friday", 'timed-content' ),
-				_x( "Sat", "Three-letter abbreviation for Saturday", 'timed-content' ) );
-			$dayNamesMin = array( _x( "Su", "Two-letter abbreviation for Sunday", 'timed-content' ),
-                _x( "Mo", "Two-letter abbreviation for Monday", 'timed-content' ),
-                _x( "Tu", "Two-letter abbreviation for Tuesday", 'timed-content' ),
-                _x( "We", "Two-letter abbreviation for Wednesday", 'timed-content' ),
-                _x( "Th", "Two-letter abbreviation for Thursday", 'timed-content' ),
-                _x( "Fr", "Two-letter abbreviation for Friday", 'timed-content' ),
-                _x( "Sa", "Two-letter abbreviation for Saturday", 'timed-content' ) );
-			$monthNames = array( __( "January", 'timed-content' ),
-				__( "February", 'timed-content' ),
-				__( "March", 'timed-content' ),
-				__( "April", 'timed-content' ),
-				__( "May", 'timed-content' ),
-				__( "June", 'timed-content' ),
-				__( "July", 'timed-content' ),
-				__( "August", 'timed-content' ),
-				__( "September", 'timed-content' ),
-				__( "October", 'timed-content' ),
-				__( "November", 'timed-content' ),
-				__( "December", 'timed-content' ) );
-			$monthNamesShort = array( _x( "Jan", "Three-letter abbreviation for January", 'timed-content' ),
-				_x( "Feb", "Three-letter abbreviation for February", 'timed-content' ),
-				_x( "Mar", "Three-letter abbreviation for March", 'timed-content' ),
-				_x( "Apr", "Three-letter abbreviation for April", 'timed-content' ),
-				_x( "May", "Three-letter abbreviation for May", 'timed-content' ),
-				_x( "Jun", "Three-letter abbreviation for June", 'timed-content' ),
-				_x( "Jul", "Three-letter abbreviation for July", 'timed-content' ),
-				_x( "Aug", "Three-letter abbreviation for August", 'timed-content' ),
-				_x( "Sep", "Three-letter abbreviation for September", 'timed-content' ),
-				_x( "Oct", "Three-letter abbreviation for October", 'timed-content' ),
-				_x( "Nov", "Three-letter abbreviation for November", 'timed-content' ),
-				_x( "Dec", "Three-letter abbreviation for December", 'timed-content' ) );
-            $timePeriods = array( _x( "AM", "Abbreviation for first 12-hour period in a day", 'timed-content' ),
-                _x( "PM", "Abbreviation for second 12-hour period in a day", 'timed-content' ) );
-			$datepicker_i18n = array(
-                "closeText" => _x( "Done", "jQuery UI Datepicker Close label", "timed-content" ), // Display text for close link
-                "prevText" => _x( "Prev", "jQuery UI Datepicker Previous label", "timed-content" ), // Display text for previous month link
-                "nextText" => _x( "Next", "jQuery UI Datepicker Next label", "timed-content" ), // Display text for next month link
-                "currentText" => _x( "Today", "jQuery UI Datepicker Today label", "timed-content" ), // Display text for current month link
-                "monthNames" => "['" . join( "','", $monthNames ) . "']", // Names of months for drop-down and formatting
-                "monthNamesShort" => "['" . join( "','", $monthNamesShort ) . "']", // For formatting
-                "dayNames" => "['" . join( "','", $dayNames ) . "']", // For formatting
-                "dayNamesShort" => "['" . join( "','", $dayNamesShort ) . "']", // For formatting
-                "dayNamesMin" => "['" . join( "','", $dayNamesShort ) . "']", // Column headings for days starting at Sunday
-                "weekHeader" => _x( "Wk", "jQuery UI Datepicker Week label", "timed-content" ), // Column header for week of the year
-                "dateFormat" => _x( "MM d, yy", "jQuery UI Datepicker Date format", 'timed-content' ),
-                "firstDay" => _x( "0", "jQuery UI Datepicker 'First day of week' as integer (Sunday = 0, Monday = 1, ...)", 'timed-content' ), // The first day of the week, Sun = 0, Mon = 1, ...
-                "isRTL" => _x( "false", "jQuery UI Datepicker: Is translated language read right-to-left ('true' or 'false')?", 'timed-content' ), // True if right-to-left language, false if left-to-right
-                "showMonthAfterYear" => "false", // True if the year select precedes month, false for month then year
-                "yearSuffix" => '' // Additional text to append to the year in the month headers			
-			);
-			$timepicker_i18n = array(
-                "hourText" => _x( "Hour", "jQuery UI Timepicker 'Hour' label", "timed-content" ),
-                "minuteText" => _x( "Minute", "jQuery UI Timepicker 'Minute' label", "timed-content" ),
-                "amPmText" => "['" . join( "','", $timePeriods ) . "']",
-                "closeButtonText" => _x( "Done", "jQuery UI Timepicker 'Done' label", "timed-content" ),
-                "nowButtonText" => _x( "Now", "jQuery UI Timepicker 'Now' label", "timed-content" ),
-                "deselectButtonText" => _x( "Deselect", "jQuery UI Timepicker 'Deselect' label", "timed-content" ) );
-					
+            include("jquery-ui-datetime-i18n.php" );
 			// Only enqueue scripts if we're dealing with 'timed-content-rule' pages
 			foreach ( $this->postTypes as $a_postType ) {
 				if ( ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $a_postType ) 
@@ -168,10 +96,10 @@ if ( !class_exists('customFieldsInterface') ) {
 					wp_enqueue_script( 'wp-color-picker' );
                     wp_enqueue_style( 'timed-content-jquery-ui-css', TIMED_CONTENT_JQUERY_UI_CSS, false, TIMED_CONTENT_VERSION );
 					wp_enqueue_script( 'jquery-ui-datepicker' );
-					if( isset( $datepicker_i18n ) ) {
+					if( !( wp_script_is( 'timed-content-jquery-ui-datepicker-i18n-js', 'registered' ) ) ) {
 						wp_register_script( 'timed-content-jquery-ui-datepicker-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/timed-content-datepicker-i18n.js", array( 'jquery', 'jquery-ui-datepicker' ), TIMED_CONTENT_VERSION );
 						wp_enqueue_script( 'timed-content-jquery-ui-datepicker-i18n-js' );
-						wp_localize_script( 'timed-content-jquery-ui-datepicker-i18n-js', 'TimedContentJQDatepickerI18n', $datepicker_i18n );
+						wp_localize_script( 'timed-content-jquery-ui-datepicker-i18n-js', 'TimedContentJQDatepickerI18n', $jquery_ui_datetime_datepicker_i18n );
 					}
 						
 					wp_enqueue_script( 'jquery-ui-spinner' ); 
@@ -179,10 +107,10 @@ if ( !class_exists('customFieldsInterface') ) {
 					wp_enqueue_style( 'timed-content-jquery-ui-timepicker-css' );
 					wp_register_script( 'timed-content-jquery-ui-timepicker-js', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS, array('jquery', 'jquery-ui-datepicker'), TIMED_CONTENT_VERSION );
 					wp_enqueue_script( 'timed-content-jquery-ui-timepicker-js' );
-					if( isset( $timepicker_i18n ) ) {
-						wp_register_script( 'timed-content-jquery-ui-timepicker-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/timed-content-timepicker-i18n.js", array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-timepicker' ), TIMED_CONTENT_VERSION );
+                    if( !( wp_script_is( 'timed-content-jquery-ui-timepicker-i18n-js', 'registered' ) ) ) {
+						wp_register_script( 'timed-content-jquery-ui-timepicker-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/timed-content-timepicker-i18n.js", array( 'jquery', 'jquery-ui-datepicker', 'timed-content-jquery-ui-timepicker-js' ), TIMED_CONTENT_VERSION );
 						wp_enqueue_script( 'timed-content-jquery-ui-timepicker-i18n-js' );
-						wp_localize_script( 'timed-content-jquery-ui-timepicker-i18n-js', 'TimedContentJQTimepickerI18n', $timepicker_i18n );
+						wp_localize_script( 'timed-content-jquery-ui-timepicker-i18n-js', 'TimedContentJQTimepickerI18n', $jquery_ui_datetime_timepicker_i18n );
 					}
 					if ( function_exists( 'add_meta_box' ) ) 
 						add_meta_box( $this->handle, $this->label, array( &$this, 'displayCustomFields' ), $a_postType, 'normal', 'high' );
@@ -389,7 +317,6 @@ if ( !class_exists('customFieldsInterface') ) {
 		);
 		jQuery( "#<?php echo $this->prefix . $customField[ 'name' ]; ?>_time" ).timepicker(
 			{
-				showPeriod: true,
                 defaultTime: 'now'
 			}
 		);

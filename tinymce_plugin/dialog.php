@@ -46,7 +46,7 @@
         <li id="server_tab" onclick="javascript:mcTabs.displayTab('server_tab','server_panel');">
             <span><?php _ex( 'Server', 'TinyMCE Dialog - Server tab label', 'timed-content' ); ?> </span></li>
         <li id="rules_tab" onclick="javascript:mcTabs.displayTab('rules_tab','rules_panel');">
-            <span><?php _ex( 'Timed Content Rules', 'Custom Post Type plural name', 'timed-content' ); ?></span>
+            <span><?php _ex( 'Timed Content Rules', 'TinyMCE Dialog - Rules tab label', 'timed-content' ); ?></span>
         </li>
     </ul>
 </div>
@@ -105,10 +105,10 @@
                 <p><input id="client_display_tag_div" name="client_display_tag" type="radio" class="text"
                           checked="checked"/>
                     <label
-                        for="client_display_tag_div"><?php _ex( 'Enclose content using <code>&lt;div&gt;</code> tags (block-level)', 'TinyMCE Dialog - Display mode <div> HTML description', 'timed-content' ); ?> </label><br />
+                        for="client_display_tag_div"><?php printf( _x( 'Enclose content using %s tags (block-level)', 'TinyMCE Dialog - Display mode <div> HTML description', 'timed-content' ), "<code>&lt;div&gt;</code>" ); ?> </label><br />
                     <input id="client_display_tag_span" name="client_display_tag" type="radio" class="text"/>
                     <label
-                        for="client_display_tag_span"><?php _ex( 'Enclose content using <code>&lt;span&gt;</code> tags (inline)', 'TinyMCE Dialog - Display mode <span> HTML description', 'timed-content' ); ?> </label>
+                        for="client_display_tag_span"><?php printf( _x( 'Enclose content using %s tags (inline)', 'TinyMCE Dialog - Display mode <span> HTML description', 'timed-content' ), "<code>&lt;span&gt;</code>" ); ?> </label>
                 </p>
             </fieldset>
             <div class="mceActionPanel">

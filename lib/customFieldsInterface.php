@@ -1,56 +1,4 @@
 <?php
-//  http://ca1.php.net/manual/en/function.timezone-identifiers-list.php#79284
-function __timeZoneChoice( $selectedzone ) {
-	$the_timezones = timezone_identifiers_list();
-
-	$i = 0;
-	foreach($the_timezones AS $zone) {
-		$zone = explode( "/", $zone );
-		$zonen[$i]['continent'] = isset( $zone[0] ) ? $zone[0] : "";
-		$zonen[$i]['city'] = isset( $zone[1] ) ? $zone[1] : "";
-		$zonen[$i]['subcity'] = isset( $zone[2] ) ? $zone[2] : "";
-		$i++;
-	}
-
-	asort( $zonen );
-	$structure = "";
-	foreach( $zonen as $zone ) {
-		extract( $zone );
-		if ( $continent == "Africa" 
-			|| $continent == "America"
-			|| $continent == "Antarctica" 
-			|| $continent == "Arctic" 
-			|| $continent == "Asia"
-			|| $continent == "Atlantic"
-			|| $continent == "Australia"
-			|| $continent == "Europe" 
-			|| $continent == "Indian"
-			|| $continent == "Pacific" )  {
-			if ( !isset( $selectcontinent ) ) {
-				$structure .= "<optgroup label=\"" . $continent . "\">\n"; // continent
-			} elseif ( $selectcontinent != $continent ) {
-				$structure .= "</optgroup>\n<optgroup label=\"" . $continent . "\">\n"; // continent
-			}
-
-			if ( isset( $city ) != "")  {
-				if ( !empty( $subcity ) != "" )  {
-					$city = $city . "/". $subcity;
-				}
-				$structure .= "\t<option" . ( ( ( $continent . "/" . $city ) == $selectedzone ) ? " selected=\"selected\"" : "" ) . " value=\"" . ( $continent . "/" . $city ) . "\">" . str_replace( "_", " ", $city ). "</option>\n"; //Timezone
-			} else {
-				if ( !empty( $subcity ) != "" )  {
-					$city = $city . "/". $subcity;
-				}
-				$structure .= "\t<option " . ( ( $continent == $selectedzone ) ? "selected=\"selected\"" : "" ) . " value=\"" . $continent . "\">" . $continent . "</option>\n"; //Timezone
-			}
-
-			$selectcontinent = $continent;
-		}
-	}
-	$structure .= "</optgroup>\n";
-	return $structure;
-}
-
 if ( !class_exists('customFieldsInterface') ) {
 
 	class customFieldsInterface {
@@ -79,10 +27,6 @@ if ( !class_exists('customFieldsInterface') ) {
 		*/
 		var $customFields =	array();
 		/**
-		* PHP 4 Compatible Constructor
-		*/
-		function customFieldsInterface( $handle, $label, $desc, $prefix, $postTypes, $customFields ) { $this->__construct( $handle, $label, $desc, $prefix, $postTypes, $customFields ); }
-		/**
 		* PHP 5 Constructor
 		*/
 		function __construct( $handle, $label, $desc, $prefix, $postTypes, $customFields ) {
@@ -98,7 +42,35 @@ if ( !class_exists('customFieldsInterface') ) {
 			// Comment this line out if you want to keep default custom fields meta box
 			add_action( 'do_meta_boxes', array( &$this, 'removeDefaultCustomFields' ), 10, 3 );
 		}
-		/**
+
+        // Inspired by http://ca1.php.net/manual/en/function.timezone-identifiers-list.php#79284
+        static function __generateTimezoneSelectOptions( $default_tz ) {
+            $timezone_identifiers = timezone_identifiers_list();
+            sort( $timezone_identifiers );
+            $current_continent = "";
+            $options_list = "";
+
+            foreach ( $timezone_identifiers as $timezone_identifier ) {
+                list( $continent, ) = explode( "/", $timezone_identifier, 2);
+                if ( in_array( $continent, array( "Africa", "America", "Antarctica", "Arctic", "Asia", "Atlantic", "Australia", "Europe", "Indian", "Pacific" ) ) ) {
+                    list( , $city ) = explode( "/", $timezone_identifier, 2);
+                    if ( strlen( $current_continent ) === 0 ) {
+                        $options_list .= "<optgroup label=\"" . $continent . "\">"; // Start first continent optgroup
+                    }
+                    elseif ( $current_continent != $continent ) {
+                        $options_list .= "</optgroup><optgroup label=\"" . $continent . "\">"; // End old optgroup and start new continent optgroup
+                    }
+                    $options_list .= "<option" . ( ( $timezone_identifier == $default_tz ) ? " selected=\"selected\"" : "" )
+                        . " value=\"" . $timezone_identifier . "\">" . str_replace( "_", " ", $city ). "</option>"; //Timezone
+                }
+                $current_continent = $continent;
+            }
+            $options_list .= "</optgroup>"; // End last continent optgroup
+
+            return $options_list;
+        }
+
+        /**
 		* Remove the default Custom Fields meta box
 		*/
 		function removeDefaultCustomFields( $type, $context, $post ) {
@@ -112,6 +84,8 @@ if ( !class_exists('customFieldsInterface') ) {
 		* Create the new Custom Fields meta box
 		*/
 		function createCustomFields() {	
+		
+            include("jquery-ui-datetime-i18n.php" );
 			// Only enqueue scripts if we're dealing with 'timed-content-rule' pages
 			foreach ( $this->postTypes as $a_postType ) {
 				if ( ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $a_postType ) 
@@ -120,13 +94,24 @@ if ( !class_exists('customFieldsInterface') ) {
 
 					wp_enqueue_style( 'wp-color-picker' );
 					wp_enqueue_script( 'wp-color-picker' );
-					wp_enqueue_style( 'timed-content-jquery-ui', TIMED_CONTENT_JQUERY_UI_CSS );
-					wp_enqueue_script( 'jquery-ui-datepicker' ); 
+                    wp_enqueue_style( 'timed-content-jquery-ui-css', TIMED_CONTENT_JQUERY_UI_CSS, false, TIMED_CONTENT_VERSION );
+					wp_enqueue_script( 'jquery-ui-datepicker' );
+					if( !( wp_script_is( 'timed-content-jquery-ui-datepicker-i18n-js', 'registered' ) ) ) {
+						wp_register_script( 'timed-content-jquery-ui-datepicker-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/timed-content-datepicker-i18n.js", array( 'jquery', 'jquery-ui-datepicker' ), TIMED_CONTENT_VERSION );
+						wp_enqueue_script( 'timed-content-jquery-ui-datepicker-i18n-js' );
+						wp_localize_script( 'timed-content-jquery-ui-datepicker-i18n-js', 'TimedContentJQDatepickerI18n', $jquery_ui_datetime_datepicker_i18n );
+					}
+						
 					wp_enqueue_script( 'jquery-ui-spinner' ); 
-					wp_register_style( 'timed-content-jquery-ui-timepicker-css', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS );
+					wp_register_style( 'timed-content-jquery-ui-timepicker-css', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS, array( TIMED_CONTENT_JQUERY_UI_CSS ), TIMED_CONTENT_VERSION );
 					wp_enqueue_style( 'timed-content-jquery-ui-timepicker-css' );
 					wp_register_script( 'timed-content-jquery-ui-timepicker-js', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS, array('jquery', 'jquery-ui-datepicker'), TIMED_CONTENT_VERSION );
 					wp_enqueue_script( 'timed-content-jquery-ui-timepicker-js' );
+                    if( !( wp_script_is( 'timed-content-jquery-ui-timepicker-i18n-js', 'registered' ) ) ) {
+						wp_register_script( 'timed-content-jquery-ui-timepicker-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/timed-content-timepicker-i18n.js", array( 'jquery', 'jquery-ui-datepicker', 'timed-content-jquery-ui-timepicker-js' ), TIMED_CONTENT_VERSION );
+						wp_enqueue_script( 'timed-content-jquery-ui-timepicker-i18n-js' );
+						wp_localize_script( 'timed-content-jquery-ui-timepicker-i18n-js', 'TimedContentJQTimepickerI18n', $jquery_ui_datetime_timepicker_i18n );
+					}
 					if ( function_exists( 'add_meta_box' ) ) 
 						add_meta_box( $this->handle, $this->label, array( &$this, 'displayCustomFields' ), $a_postType, 'normal', 'high' );
 				}
@@ -180,7 +165,7 @@ if ( !class_exists('customFieldsInterface') ) {
 									// menu
 									echo "<label for=\"" . $this->prefix . $customField[ 'name' ] . "\" style=\"display:inline;\"><strong>" . $customField[ 'title' ] . "</strong></label><br />\n";
 									if ( sizeof ( $customField['values'] ) == 0 )
-										echo "<em>This menu is empty.</em>\n";
+										echo "<em>" . __( "This menu is empty.", "timed-content" ) . "</em>\n";
 									else {
 										$selected_value = ( "" === get_post_meta( $post->ID, $this->prefix . $customField['name'], true ) ? $customField['default'] : get_post_meta( $post->ID, $this->prefix . $customField['name'], true ) );
 										echo "<select name=\"" . $this->prefix . $customField['name'] . "\" id=\"" . $this->prefix . $customField['name'] . "\" style=\"width: auto; height: auto; padding: 3px;\" size=\"" . $customField['size']  . "\" multiple=\"multiple\">\n";
@@ -198,7 +183,7 @@ if ( !class_exists('customFieldsInterface') ) {
 									// list
 									echo "<label for=\"" . $this->prefix . $customField[ 'name' ] . "\" style=\"display:inline;\"><strong>" . $customField[ 'title' ] . "</strong></label>&nbsp;&nbsp;\n";
 									if ( sizeof ( $customField['values'] ) == 0 )
-										echo "<em>This list is empty.</em>\n";
+										echo "<em>" . __( "This menu is empty.", "timed-content" ) . "</em>\n";
 									else {
 										$selected_value = ( "" === get_post_meta( $post->ID, $this->prefix . $customField['name'], true ) ? $customField['default'] : get_post_meta( $post->ID, $this->prefix . $customField['name'], true ) );
 										echo "<select name=\"" . $this->prefix . $customField['name'] . "\" id=\"" . $this->prefix . $customField['name'] . "\" style=\"width: auto;\">\n";
@@ -218,7 +203,7 @@ if ( !class_exists('customFieldsInterface') ) {
 
 									echo "<label for=\"" . $this->prefix . $customField[ 'name' ] . "\" style=\"display:inline;\"><strong>" . $customField[ 'title' ] . "</strong></label>&nbsp;&nbsp;\n";
 									echo "<select name=\"" . $this->prefix . $customField['name'] . "\" id=\"" . $this->prefix . $customField['name'] . "\" style=\"width: auto;\">\n";
-									echo __timeZoneChoice( $selected_value );
+									echo customFieldsInterface::__generateTimezoneSelectOptions( $selected_value );
 									echo "</select>\n";
 									break;
 								}
@@ -239,7 +224,7 @@ if ( !class_exists('customFieldsInterface') ) {
 
 									echo "<strong>" . $customField[ 'title' ] . "</strong><br />\n";
 									if ( sizeof ( $customField['values'] ) == 0 )
-										echo "<em>This list is empty.</em>\n";
+										echo "<em>" . __( "This menu is empty.", "timed-content" ) . "</em>\n";
 									else {
 										foreach ( $customField['values'] as $value => $label ) {
 											echo "<input type=\"checkbox\" name=\"" . $this->prefix . $customField['name'] . "[]\" id=\"" . $this->prefix . $customField['name'] . "_" . $value . "\" value=\"" . $value . "\"";
@@ -293,7 +278,8 @@ if ( !class_exists('customFieldsInterface') ) {
 									break;
 								}
 								case "date": {
-									echo "<span style=\"display:inline;\"><strong>" . $customField[ 'title' ] . "</strong></span>&nbsp;&nbsp;\n";
+                                    echo "<label for=\"" . $this->prefix . $customField[ 'name' ] . "\" style=\"display:inline;\"><strong>" . $customField[ 'title' ] . "</strong></label>&nbsp;&nbsp;\n";
+//									echo "<span style=\"display:inline;\"><strong>" . $customField[ 'title' ] . "</strong></span>&nbsp;&nbsp;\n";
 									$value = ( "" === get_post_meta( $post->ID, $this->prefix . $customField['name'], true ) ? $customField['default'] : get_post_meta( $post->ID, $this->prefix . $customField['name'], true ) );
 									// Date picker using WP's built-in Datepicker jQuery plugin ?>
 <script type="text/javascript">
@@ -301,7 +287,6 @@ if ( !class_exists('customFieldsInterface') ) {
 	jQuery(document).ready(function() {
 		jQuery( "#<?php echo $this->prefix . $customField[ 'name' ]; ?>" ).datepicker(
 			{
-				dateFormat: "<?php _ex( "MM d, yy", "Date format for jQuery UI Datepicker", 'timed-content' ); ?>",
 				changeMonth: true,
 				changeYear: true
 			}
@@ -309,8 +294,8 @@ if ( !class_exists('customFieldsInterface') ) {
 	});
 //]]>
 </script>
-									<?php 
-									echo "<input type=\"text\" name=\"" . $this->prefix . $customField[ 'name' ] . "\" id=\"" . $this->prefix . $customField[ 'name' ] . "\" value=\"" . htmlspecialchars( $value ) . "\" style=\"width: 175px;\" />\n";
+									<?php
+                                    echo "<input type=\"text\" name=\"" . $this->prefix . $customField[ 'name' ] . "\" id=\"" . $this->prefix . $customField[ 'name' ] . "\" value=\"" . htmlspecialchars( $value ) . "\" style=\"width: 175px;\" />\n";
 									break;
 								}
 								case "datetime": {
@@ -326,15 +311,12 @@ if ( !class_exists('customFieldsInterface') ) {
 	jQuery(document).ready(function() {
 		jQuery( "#<?php echo $this->prefix . $customField[ 'name' ]; ?>_date" ).datepicker(
 			{
-				dateFormat: "<?php _ex( "MM d, yy", "Date format for jQuery UI Datepicker", 'timed-content' ); ?>",
 				changeMonth: true,
 				changeYear: true
 			}
 		);
 		jQuery( "#<?php echo $this->prefix . $customField[ 'name' ]; ?>_time" ).timepicker(
 			{
-				showLeadingZero: false,
-				showPeriod: true,
                 defaultTime: 'now'
 			}
 		);

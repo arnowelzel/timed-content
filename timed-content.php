@@ -2,31 +2,30 @@
 /*
 Plugin Name: Timed Content
 Text Domain: timed-content
+Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough
-Version: 2.0
+Version: 2.2
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if ( !class_exists( "timedContentPlugin" ) ) {
 
-	define( "TIMED_CONTENT_VERSION", 2.0 );
+	define( "TIMED_CONTENT_VERSION", "2.2" );
 	define( "TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/timed-content' );
 	define( "TIMED_CONTENT_CLIENT_TAG", "timed-content-client" );
 	define( "TIMED_CONTENT_SERVER_TAG", "timed-content-server" );
 	define( "TIMED_CONTENT_RULE_TAG", "timed-content-rule" );
 	define( "TIMED_CONTENT_ZERO_TIME", "1970-Jan-01 00:00:00 +000" );  // Start of Unix Epoch
 	define( "TIMED_CONTENT_END_TIME", "2038-Jan-19 03:14:07 +000" );   // End of Unix Epoch
-	/* translators:  date/time format for debugging messages. */
-	define( "TIMED_CONTENT_DT_FORMAT", __( "l, F jS, Y, g:i A T" , 'timed-content' ) );
 	define( "TIMED_CONTENT_RULE_TYPE", "timed_content_rule" );
 	define( "TIMED_CONTENT_RULE_POSTMETA_PREFIX", TIMED_CONTENT_RULE_TYPE . "_" );
-	// Required for styling the JQuery UI Datepicker and JQuery UI Timepicker
-    define( "TIMED_CONTENT_JQUERY_UI_CSS", "http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css" );
+    define( "TIMED_CONTENT_CSS", TIMED_CONTENT_PLUGIN_URL . "/css/timed-content.css"  );
+    define( "TIMED_CONTENT_CSS_DASHICONS", TIMED_CONTENT_PLUGIN_URL . "/css/ca-aliencyborg-dashicons/style.css"  );
+	// Required for styling the jQuery UI Datepicker and jQuery UI Timepicker
+    define( "TIMED_CONTENT_JQUERY_UI_CSS", TIMED_CONTENT_PLUGIN_URL . "/css/jqueryui/1.10.3/themes/smoothness/jquery-ui.css"  );
     define( "TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS", TIMED_CONTENT_PLUGIN_URL."/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js" );
     define( "TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS", TIMED_CONTENT_PLUGIN_URL."/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.css" );
-	require_once( "lib/customFields-settings.php" );
-	require_once( "lib/customFieldsInterface.php" );
 
 
     /**
@@ -51,7 +50,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			$labels = array(
 				'name' => _x( 'Timed Content Rules', 'post type general name', 'timed-content' ),
 				'singular_name' => _x( 'Timed Content Rule', 'post type singular name', 'timed-content' ),
-				'add_new' => _x( 'Add New', TIMED_CONTENT_RULE_TYPE, 'timed-content' ),
+				'add_new' => _x( 'Add New', 'Menu item/button label on Timed Content Rules admin page', 'timed-content' ),
 				'add_new_item' => __( 'Add New Timed Content Rule', 'timed-content' ),
 				'edit_item' => __( 'Edit Timed Content Rule', 'timed-content' ),
 				'new_item' => __( 'New Timed Content Rule', 'timed-content' ),
@@ -60,7 +59,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				'not_found' =>  __( 'No Timed Content Rules found', 'timed-content' ),
 				'not_found_in_trash' => __( 'No Timed Content Rules found in Trash', 'timed-content' ), 
 				'parent_item_colon' => '',
-				'menu_name' =>_x( 'Timed Content Rules', 'post type general name', 'timed-content' )
+				'menu_name' => _x( 'Timed Content Rules', 'post type general name', 'timed-content' )
 			);
 			$args = array(
 				'labels' => $labels,
@@ -92,8 +91,10 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          */
         function timedContentRuleUpdatedMessages( $messages ) {
 			global $post;
-//            global $post_ID;
-			
+
+			/* translators: date and time format to activate rule. http://ca2.php.net/manual/en/function.date.php*/
+            $post_date = date_i18n( __( 'M j, Y @ G:i', 'timed-content' ), strtotime( $post->post_date ) );
+
 			$messages[TIMED_CONTENT_RULE_TYPE] = array(
 				0 => '', // Unused. Messages start at index 1.
 				1 => __( 'Timed Content Rule updated.', 'timed-content' ),
@@ -105,13 +106,42 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				6 => __( 'Timed Content Rule published.', 'timed-content' ),
 				7 => __( 'Timed Content Rule saved.', 'timed-content' ),
 				8 => __( 'Timed Content Rule submitted.', 'timed-content' ),
-				/* translators: %s: date and time to activate rule */
-				9 => sprintf( __('Timed Content Rule scheduled for: <strong>%1$s</strong>.', 'timed-content' ), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ) ),
+				/* translators: %s: date and time to activate rule. */
+				9 => sprintf( __( 'Timed Content Rule scheduled for: %s.' , 'timed-content' ), "<strong>" . $post_date . "</strong>" ),
 				10 => __( 'Timed Content Rule draft updated.', 'timed-content' )
 			);
 			
 			return $messages;
 		}
+
+        function __datetimeToEnglish( $date, $time = "" ) {
+            $months = array( "January",
+                 "February",
+                 "March",
+                 "April",
+                 "May",
+                 "June",
+                 "July",
+                 "August",
+                 "September",
+                 "October",
+                 "November",
+                 "December" );
+            $monthsI18N = array( __( "January", 'timed-content' ),
+                __( "February", 'timed-content' ),
+                __( "March", 'timed-content' ),
+                __( "April", 'timed-content' ),
+                __( "May", 'timed-content' ),
+                __( "June", 'timed-content' ),
+                __( "July", 'timed-content' ),
+                __( "August", 'timed-content' ),
+                __( "September", 'timed-content' ),
+                __( "October", 'timed-content' ),
+                __( "November", 'timed-content' ),
+                __( "December", 'timed-content' ) );
+            $english_date = str_replace( $monthsI18N, $months, $date );
+            return $english_date . " " . $time;
+        }
 
         /**
          * Advances a date/time by a set number of days
@@ -149,16 +179,26 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          * @return int                         Unix timestamp of the new date/time
          */
         function __getNextWeek( $current, $interval_multiplier, $days = array() )  {
+            // If $days is empty, advance $interval_multiplier weeks from $current and return the timestamp
 			if ( empty( $days ) ) return strtotime( $interval_multiplier . " week", $current );
-			
+
+            // Otherwise, set up an array combining the days of the week to repeat on and the current day
+            // (keys and values of the array will be the same, and the array is sorted)
 			$currentDayOfWeekIndex = date( "w", $current );
-			$days[] =  $currentDayOfWeekIndex;
-			$daysOfWeek = array_values( $days ); 
-			if ( $currentDayOfWeekIndex == max( $daysOfWeek ) ) 
-				$pattern = ( ( 7 - $currentDayOfWeekIndex ) + ( 7 * ( $interval_multiplier - 1 ) ) + ( min( array_keys( $days ) ) ) ) . " day";
+            $days = array_merge( array( $currentDayOfWeekIndex ), $days );
+            $days = array_unique( $days );
+            $days = array_values( $days );
+            sort( $days );
+			$daysOfWeek = array_combine( $days, $days );
+
+            // If the current day is the last one of the days of the week to repeat on, jump ahead to
+            // the next week to be repeating on and get the earliest day in the array
+			if ( $currentDayOfWeekIndex == max( $daysOfWeek ) )
+				$pattern = ( ( 7 - $currentDayOfWeekIndex ) + ( 7 * ( $interval_multiplier - 1 ) ) + ( min( array_keys( $daysOfWeek ) ) ) ) . " day";
+            // Otherwise, cycle through the array until we find the next day to repeat on
 			else  {
 				$nextDayOfWeekIndex = $currentDayOfWeekIndex;
-				do {} while ( !isset( $days[++$nextDayOfWeekIndex] ) );
+				do {} while ( !isset( $daysOfWeek[++$nextDayOfWeekIndex] ) );
 				$pattern = ( $nextDayOfWeekIndex - $currentDayOfWeekIndex ) . " day";
 			}
 			return strtotime( $pattern, $current );
@@ -333,9 +373,9 @@ if ( !class_exists( "timedContentPlugin" ) ) {
         function __validate( $args ) {
 			$errors = array();
 			
-			$instance_start = strtotime( $args['instance_start']['date'] . '' . $args['instance_start']['time'] . ' ' . $args['timezone'] );
-			$instance_end = strtotime( $args['instance_end']['date'] . '' . $args['instance_end']['time'] . ' ' . $args['timezone'] );
-			$end_date = strtotime( $args['end_date'] . '' . $args['instance_start']['time'] . ' ' . $args['timezone'] );
+			$instance_start = strtotime( $this->__datetimeToEnglish( $args['instance_start']['date'], $args['instance_start']['time'] ) . ' ' . $args['timezone'] );
+			$instance_end = strtotime( $this->__datetimeToEnglish( $args['instance_end']['date'], $args['instance_end']['time'] ) . ' ' . $args['timezone'] );
+			$end_date = strtotime( $this->__datetimeToEnglish( $args['end_date'], $args['instance_start']['time'] ) . ' ' . $args['timezone'] );
 			
 			if ( $args['instance_start']['date'] == "" )
 				$errors[] = __( "Date in Starting Date/Time must not be empty.", 'timed-content' );		
@@ -395,37 +435,38 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			$monthly_pattern = $args['monthly_pattern'];
 			$monthly_pattern_ord = $args['monthly_pattern_ord'];
 			$monthly_pattern_day = $args['monthly_pattern_day'];
+            //print_r($days_of_week);
 
 			$temp_tz = date_default_timezone_get();
 			date_default_timezone_set( $timezone );
             $right_now_t = time();
 
-			$instance_start = strtotime( $instance_start_date . " " . $instance_start_time . " " . $timezone );	// Beginning of first occurrence
-			$instance_end = strtotime( $instance_end_date . " " . $instance_end_time . " " . $timezone );    		// End of first occurrence
+			$instance_start = strtotime( $this->__datetimeToEnglish( $instance_start_date, $instance_start_time ) . " " . $timezone );	// Beginning of first occurrence
+			$instance_end = strtotime( $this->__datetimeToEnglish( $instance_end_date, $instance_end_time ) . " " . $timezone );    		// End of first occurrence
 			$current = $instance_start;
             $end_current = $instance_end;
 
 			if ( $recurr_type == "recurrence_duration_num_repeat" )
 				$last_occurrence_start = strtotime( TIMED_CONTENT_END_TIME );							
 			else
-				$last_occurrence_start = strtotime( $end_date . " " . $instance_start_time . " " . $timezone );    
+				$last_occurrence_start = strtotime( $this->__datetimeToEnglish( $end_date, $instance_start_time ) . " " . $timezone );
 
 			if ( $human_readable == true )  {
-				$active_periods[$period_count]["start"] = date( TIMED_CONTENT_DT_FORMAT, $current );
-				$active_periods[$period_count]["end"] = date( TIMED_CONTENT_DT_FORMAT, $end_current );
+				$active_periods[$period_count]["start"] = date_i18n( TIMED_CONTENT_DT_FORMAT, $current );
+				$active_periods[$period_count]["end"] = date_i18n( TIMED_CONTENT_DT_FORMAT, $end_current );
 			} else  {
 				$active_periods[$period_count]["start"] = $current;
 				$active_periods[$period_count]["end"] = $end_current;
 			}
             if ( $right_now_t < $current )  {
                 $active_periods[$period_count]["status"] = "upcoming";
-                $active_periods[$period_count]["time"] = sprintf( __( '%s from now.', 'timed-content' ), human_time_diff( $current, $right_now_t ) );
+                $active_periods[$period_count]["time"] = sprintf( _x( '%s from now.', 'Human readable time difference', 'timed-content' ), human_time_diff( $current, $right_now_t ) );
             } elseif  ( ( $current <= $right_now_t ) && ( $right_now_t <= $end_current ) ) {
                 $active_periods[$period_count]["status"] = "active";
                 $active_periods[$period_count]["time"] = __( "Right now!", 'timed-content' );
             } else {
                 $active_periods[$period_count]["status"] = "expired";
-                $active_periods[$period_count]["time"] = sprintf( __( '%s ago.', 'timed-content' ), human_time_diff( $end_current, $right_now_t ) );
+                $active_periods[$period_count]["time"] = sprintf( _x( '%s ago.', 'Human readable time difference', 'timed-content' ), human_time_diff( $end_current, $right_now_t ) );
             }
 			$period_count++;
 
@@ -452,8 +493,8 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				if ( eval ( $loop_test ) ) {
                     $end_current = $current + ( $instance_end - $instance_start );
 					if ( $human_readable == true )  {
-						$active_periods[$period_count]["start"] = date( TIMED_CONTENT_DT_FORMAT, $current );
-						$active_periods[$period_count]["end"] = date( TIMED_CONTENT_DT_FORMAT, $end_current );
+						$active_periods[$period_count]["start"] = date_i18n( TIMED_CONTENT_DT_FORMAT, $current );
+						$active_periods[$period_count]["end"] = date_i18n( TIMED_CONTENT_DT_FORMAT, $end_current );
 					} else  {
 						$active_periods[$period_count]["start"] = $current;
 						$active_periods[$period_count]["end"] = $end_current;
@@ -488,7 +529,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          */
         function getRulePeriodsById( $ID, $human_readable = false )  {
 			if ( TIMED_CONTENT_RULE_TYPE != get_post_type( $ID ) )
-                return array();;
+                return array();
 
 			$prefix = TIMED_CONTENT_RULE_POSTMETA_PREFIX;
 			$args = array();
@@ -555,7 +596,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          * @return string
          */
         function __getScheduleDescription( $args )  {
-			require("lib/Arrays_Definitions.php");
+			include("lib/Arrays_Definitions.php");
 
 			$interval_multiplier = 1;
 			$desc = "";
@@ -593,7 +634,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			$monthly_pattern_ord = $args['monthly_pattern_ord'];
 			$monthly_pattern_day = $args['monthly_pattern_day'];
 			
-			$desc = sprintf( _x( '%1$s on %2$s @ %3$s until %4$s @ %5$s.', 'Dates/times of first active period', 'timed-content' ), $action, $instance_start_date, $instance_start_time, $instance_end_date, $instance_end_time );
+			$desc = sprintf( _x( '%1$s on %2$s @ %3$s until %4$s @ %5$s.', 'Perform action (%1$s) from date/time of first active period (%2$s @ %3$s) until date/time of last active period (%4$s @ %5$s).', 'timed-content' ), $action, $instance_start_date, $instance_start_time, $instance_end_date, $instance_end_time );
 			
 			if ( $freq == 0 )
 				$desc .= "&nbsp;" . sprintf( _n( 'Repeat this action every hour.', 'Repeat this action every %d hours.', $interval_multiplier, 'timed-content' ), $interval_multiplier );
@@ -623,9 +664,9 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			} elseif ( $freq == 3 ) {
 				if ( $monthly_pattern == "yes" )  {
 					if ( $interval_multiplier == 1 )
-						$desc .= "&nbsp;" . sprintf( __( 'Repeat this action every month on the %1$s %2$s of the month.', 'timed-content' ), $timed_content_rule_ordinal_array[$monthly_pattern_ord], $timed_content_rule_ordinal_days_array[$monthly_pattern_day] );
+						$desc .= "&nbsp;" . sprintf( _x( 'Repeat this action every month on the %1$s %2$s of the month.', "Example: 'Repeat this action every month on the second Friday of the month.'", 'timed-content' ), $timed_content_rule_ordinal_array[$monthly_pattern_ord], $timed_content_rule_ordinal_days_array[$monthly_pattern_day] );
 					else
-						$desc .= "&nbsp;" . sprintf( __( 'Repeat this action every %1$d months on the %2$s %3$s of the month.', 'timed-content' ), $interval_multiplier, $timed_content_rule_ordinal_array[$monthly_pattern_ord], $timed_content_rule_ordinal_days_array[$monthly_pattern_day] );
+						$desc .= "&nbsp;" . sprintf( _x( 'Repeat this action every %1$d months on the %2$s %3$s of the month.', "Example: 'Repeat this action every 2 months on the second Friday of the month.'", 'timed-content' ), $interval_multiplier, $timed_content_rule_ordinal_array[$monthly_pattern_ord], $timed_content_rule_ordinal_days_array[$monthly_pattern_day] );
 				} else
 					$desc .=  "&nbsp;" . sprintf( _n( 'Repeat this action every month.', 'Repeat this action every %d months.', $interval_multiplier, 'timed-content' ), $interval_multiplier );
 			} elseif ( $freq == 4 )
@@ -647,18 +688,20 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          * @return string
          */
         function getScheduleDescriptionById( $ID )  {
-			$defaults = array();
-		
-			foreach ( array( "timed_content_rule_occurrence_custom_fields",
-							"timed_content_rule_pattern_custom_fields", 
-							"timed_content_rule_recurrence_custom_fields" ) as $fields )  {
-				global $$fields;
-				foreach ( $$fields as $field ) {
-					$defaults[$field['name']] = $field['default'];
-				}
-			}
-			
-			$prefix = TIMED_CONTENT_RULE_POSTMETA_PREFIX;
+            global $timed_content_rule_occurrence_custom_fields, $timed_content_rule_pattern_custom_fields, $timed_content_rule_recurrence_custom_fields;
+            $defaults = array();
+
+            foreach ( $timed_content_rule_occurrence_custom_fields as $field ) {
+                $defaults[$field['name']] = $field['default'];
+            }
+            foreach ( $timed_content_rule_pattern_custom_fields as $field ) {
+                $defaults[$field['name']] = $field['default'];
+            }
+            foreach ( $timed_content_rule_recurrence_custom_fields as $field ) {
+                $defaults[$field['name']] = $field['default'];
+            }
+
+            $prefix = TIMED_CONTENT_RULE_POSTMETA_PREFIX;
 			$args = array();
 			
 			$args['action'] = ( false === get_post_meta( $ID, $prefix . 'action', true ) ? $defaults['action'] : get_post_meta( $ID, $prefix . 'action', true ) );
@@ -756,8 +799,8 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 		function serverShowHTML( $atts, $content = null ) {
             global $post;
 			extract( shortcode_atts( array( 'show' => TIMED_CONTENT_ZERO_TIME , 'hide' => TIMED_CONTENT_END_TIME, 'debug' => 'false'  ), $atts ) );
-			$show_t = strtotime( $show );
-			$hide_t = strtotime( $hide );
+			$show_t = strtotime( $this->__datetimeToEnglish( $show ) );
+			$hide_t = strtotime( $this->__datetimeToEnglish( $hide ) );
 			$right_now_t = time();
 			$debug_message = "";
 
@@ -778,24 +821,24 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 
                 $debug_message = "<div class=\"tcr-warning\">\n";
                 $debug_message .= "<p class=\"heading\">" . _x( "Notice", "Noun", 'timed-content' ) . "</p>\n";
-                $debug_message .= "<p>" . __( "Debugging has been turned on for a <code>[timed-content-server]</code> shortcode on this Post/Page. Only website users who are currently logged in and can edit this Post/Page will see this.  To turn off this message, remove the <code>debug</code> attribute from the shortcode.", 'timed-content' ) . "</p>\n";
+                $debug_message .= "<p>" . sprintf( __( 'Debugging has been turned on for a %1$s shortcode on this Post/Page. Only website users who are currently logged in and can edit this Post/Page will see this.  To turn off this message, remove the %2$s attribute from the shortcode.', 'timed-content' ), "<code>[timed-content-server]</code>" , "<code>debug</code>" ) . "</p>\n";
 
 				if ( $show == TIMED_CONTENT_ZERO_TIME )
-					$debug_message .= "<p>" . __( 'The <code>show</code> attribute is not set.', 'timed-content') . "</p>\n";
+					$debug_message .= "<p>" . sprintf( __( 'The %s attribute is not set.', 'timed-content' ), "<code>show</code>" ) . "</p>\n";
 				else
-					$debug_message .= "<p>" . __( 'The <code>show</code> attribute is currently set to', 'timed-content') . ": " . $show . ",<br />\n "
+					$debug_message .= "<p>" . sprintf( __( 'The %s attribute is currently set to', 'timed-content' ), "<code>show</code>" ) . ": " . $show . ",<br />\n "
 									. __( 'The Timed Content plugin thinks the intended date/time is', 'timed-content') . ": " . date_i18n( TIMED_CONTENT_DT_FORMAT, $show_t )
 									. " (" . $show_diff_str . ")</p>\n";
 
 				if ( $hide == TIMED_CONTENT_END_TIME )
-					$debug_message .= "<p>" . __( 'The <code>hide</code> attribute is not set.' , 'timed-content') . "</p>\n";
+					$debug_message .= "<p>" . sprintf( __( 'The %s attribute is not set.' , 'timed-content' ), "<code>hide</code>" ) . "</p>\n";
 				else
-					$debug_message .= "<p>" . __( 'The <code>hide</code> attribute is currently set to', 'timed-content') . ": " . $hide . ",<br />\n"
+					$debug_message .= "<p>" . sprintf( __( 'The %s attribute is currently set to', 'timed-content' ), "<code>hide</code>" ) . ": " . $hide . ",<br />\n"
 									. __( 'The Timed Content plugin thinks the intended date/time is', 'timed-content') . ": " . date_i18n( TIMED_CONTENT_DT_FORMAT, $hide_t )
 									. " (" . $hide_diff_str . ").</p>\n";
 
-                $debug_message .= "<p>" . __( 'Current time', 'timed-content') . " : " . $right_now . "</p>\n";
-                $debug_message .= "<p>" . __( 'Content', "Noun", 'timed-content') . " : " . $content . "</p>\n";
+                $debug_message .= "<p>" . __( 'Current Date/Time:', 'timed-content') . "&nbsp;" . $right_now . "</p>\n";
+                $debug_message .= "<p>" . _x( 'Content:', "Noun", 'timed-content') . "&nbsp;" . $content . "</p>\n";
 
                 $debug_message .= "</div>\n";
 
@@ -845,28 +888,56 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          */
         function addHeaderCode()  {
 			if ( ! is_admin() )  {
-                wp_enqueue_style( 'timed-content-css', TIMED_CONTENT_PLUGIN_URL . '/timed-content.css' );
+                wp_enqueue_style( 'timed-content-css', TIMED_CONTENT_CSS, false, TIMED_CONTENT_VERSION );
                 wp_enqueue_script( 'timed-content_js', TIMED_CONTENT_PLUGIN_URL . '/js/timed-content.js', array( 'jquery' ), TIMED_CONTENT_VERSION );
 			}
 		}
 
+         /**
+         * Enqueues the CSS code necessary for custom icons for the Timed Content Rules management screens for WP 3.7.1 and under.  Echo'd to output.
+         */
+        function addPostTypeIcons37()  {
+            ?>
+            <style type="text/css" media="screen">
+                #menu-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?> .wp-menu-image {
+                    background: url(<?php echo TIMED_CONTENT_PLUGIN_URL; ?>/img/clock_icon.png) no-repeat 6px 6px !important;
+                }
+                #menu-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?>:hover .wp-menu-image, #menu-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?>.wp-has-current-submenu .wp-menu-image {
+                    background-position: -22px 6px !important;
+                }
+                #icon-edit.icon32-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?> {background: url(<?php echo TIMED_CONTENT_PLUGIN_URL; ?>/img/clock_32x32.png) no-repeat;}
+            </style>
+        <?php
+        }
+
         /**
-         * Enqueues the CSS code necessary for custom icons for the Timed Content Rules management screens.  Echo'd to output.
+         * Enqueues the CSS code necessary for custom icons for the Timed Content Rules management screens
+         * and the TinyMCE editor.  Echo'd to output.
          */
 		function addPostTypeIcons()  {
-?>
-<style type="text/css" media="screen">
-    #menu-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?> .wp-menu-image {
-        background: url(<?php echo TIMED_CONTENT_PLUGIN_URL; ?>/img/clock_icon.png) no-repeat 6px 6px !important;
-    }
-	#menu-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?>:hover .wp-menu-image, #menu-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?>.wp-has-current-submenu .wp-menu-image {
-        background-position: -22px 6px !important;
-    }
-	#icon-edit.icon32-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?> {background: url(<?php echo TIMED_CONTENT_PLUGIN_URL; ?>/img/clock_32x32.png) no-repeat;}
-</style>
+            wp_enqueue_style( 'ca-aliencyborg-dashicons', TIMED_CONTENT_CSS_DASHICONS, false, TIMED_CONTENT_VERSION );
+            ?>
+            <style type="text/css" media="screen">
+                #adminmenu #menu-posts-<?php echo TIMED_CONTENT_RULE_TYPE; ?>.menu-icon-post div.wp-menu-image:before {
+                    font-family: 'ca-aliencyborg-dashicons' !important;
+                    content: '\e601';
+                }
+                #dashboard_right_now li.<?php echo TIMED_CONTENT_RULE_TYPE; ?>-count a:before {
+                    font-family: 'ca-aliencyborg-dashicons' !important;
+                    content: '\e601';
+                }
+                .mce-i-timed_content:before {
+                    font: 400 24px/1 'ca-aliencyborg-dashicons' !important;
+                    padding: 0;
+                    vertical-align: top;
+                    margin-left: -2px;
+                    padding-right: 2px;
+                    content: '\e601';
+                }
+            </style>
 <?php
 		}
-
+ 
         /**
          * Enqueues the JavaScript code necessary for the functionality of the Timed Content Rules management screens.
          */
@@ -874,7 +945,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			if ( ( isset( $_GET['post_type'] ) && $_GET['post_type'] == TIMED_CONTENT_RULE_TYPE )
 				|| ( isset( $post_type ) && $post_type == TIMED_CONTENT_RULE_TYPE )
 				|| ( isset( $_GET['post'] ) && get_post_type( $_GET['post'] ) == TIMED_CONTENT_RULE_TYPE ) ) {
-				wp_enqueue_style( 'timed-content-css', TIMED_CONTENT_PLUGIN_URL . '/timed-content.css' );
+                wp_enqueue_style( 'timed-content-css', TIMED_CONTENT_CSS, false, TIMED_CONTENT_VERSION );
 				// Enqueue the JavaScript file that manages the meta box UI
 				wp_enqueue_script( 'timed-content-admin_js', TIMED_CONTENT_PLUGIN_URL . '/js/timed-content-admin.js', array( 'jquery' ), TIMED_CONTENT_VERSION );
 				// Enqueue the JavaScript file that makes AJAX requests
@@ -909,20 +980,26 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 		}
 
         /**
-         * Sets up variables to use in the TinyMCE plugin's editor_plugin_src.js.
+         * Sets up variables to use in the TinyMCE plugin's plugin.js.
          *
          */
         function setTinyMCEPluginVars()  {
+            global $wp_version;
             if ( ( ! current_user_can( 'edit_posts' ) ) && ( ! current_user_can( 'edit_pages' ) ) )
                 return;
 
             // Add only in Rich Editor mode
             if ( get_user_option( 'rich_editing' ) == 'true' ) {
+                if ( version_compare( $wp_version, "3.8", "<" ) )
+                    $image = "/clock.gif";
+                else
+                    $image = "";
                 wp_enqueue_script( 'timed-content-admin_tinymce_js', TIMED_CONTENT_PLUGIN_URL . '/js/timed-content-admin-tinymce.js', array(), TIMED_CONTENT_VERSION );
                 wp_localize_script( 'timed-content-admin_tinymce_js',
                     'timedContentAdminTinyMCEOptionsVars',
                     array( 'version' => TIMED_CONTENT_VERSION,
-                        'desc' => __( "Add Timed Content shortcodes", 'timed-content' ) ) );
+                        'desc' => __( "Add Timed Content shortcodes", 'timed-content' ),
+                        'image' => $image ) );
             }
         }
 
@@ -943,7 +1020,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          * @return array                The array of TinyMCE plugins with ours now loaded in as well
          */
         function addTimedContentTinyMCEPlugin( $plugin_array ) {
-			$plugin_array['timed_content'] = TIMED_CONTENT_PLUGIN_URL . "/tinymce_plugin/editor_plugin.js";
+			$plugin_array['timed_content'] = TIMED_CONTENT_PLUGIN_URL . "/tinymce_plugin/plugin.js";
 			return $plugin_array;
 		}
 
@@ -961,8 +1038,11 @@ if ( !class_exists( "timedContentPlugin" ) ) {
                 $desc = $this->getScheduleDescriptionById( $rule->ID );
                 // Only add a rule if there's no errors or warnings
                 if ( false === strpos( $desc, "tcr-warning" ) )
-                    $the_js .= "	{ 'ID': " . $rule->ID . ", 'title': '" . esc_js( $rule->post_title ) . "', 'desc': '" . esc_js( $desc ) . "' },\n";
+                    $the_js .= "	{ 'ID': " . $rule->ID . ", 'title': '" . esc_js( ( ( strlen( $rule->post_title ) > 0 ) ? $rule->post_title : _x( "(no title)", "No Timed Content Rule title", "timed-content" ) ) ) . "', 'desc': '" . esc_js( $desc ) . "' },\n";
             }
+            if ( empty( $the_rules ) )
+                $the_js .= "	{ 'ID': -999, 'title': ' ---- ', 'desc': '" .  __( 'No Timed Content Rules found', 'timed-content' ) . "' }\n";
+
             $the_js .= "];\n";
             return $the_js;
         }
@@ -971,15 +1051,27 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          *
          */
 		function timedContentPluginGetTinyMCEDialog()  {
-			wp_enqueue_style( 'timed-content-jquery-ui-css', TIMED_CONTENT_JQUERY_UI_CSS );
-			wp_enqueue_script( 'jquery-ui-datepicker' ); 
-			wp_register_style( 'timed-content-jquery-ui-timepicker-css', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS );
+            include( "lib/jquery-ui-datetime-i18n.php" );
+
+            wp_enqueue_style( 'timed-content-jquery-ui-css', TIMED_CONTENT_JQUERY_UI_CSS, false, TIMED_CONTENT_VERSION );
+			wp_enqueue_script( 'jquery-ui-datepicker' );
+            if( !( wp_script_is( 'timed-content-jquery-ui-datepicker-i18n-js', 'registered' ) ) ) {
+                wp_register_script( 'timed-content-jquery-ui-datepicker-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/timed-content-datepicker-i18n.js", array( 'jquery', 'jquery-ui-datepicker' ), TIMED_CONTENT_VERSION );
+                wp_enqueue_script( 'timed-content-jquery-ui-datepicker-i18n-js' );
+                wp_localize_script( 'timed-content-jquery-ui-datepicker-i18n-js', 'TimedContentJQDatepickerI18n', $jquery_ui_datetime_datepicker_i18n );
+            }
+			wp_register_style( 'timed-content-jquery-ui-timepicker-css', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS, array( TIMED_CONTENT_JQUERY_UI_CSS ), TIMED_CONTENT_VERSION );
 			wp_enqueue_style( 'timed-content-jquery-ui-timepicker-css' );
-			wp_register_script( 'timed-content-jquery-ui-timepicker-js', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS, array('jquery', 'jquery-ui-datepicker'), TIMED_CONTENT_VERSION );
+			wp_register_script( 'timed-content-jquery-ui-timepicker-js', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS, array( 'jquery', 'jquery-ui-datepicker' ), TIMED_CONTENT_VERSION );
 			wp_enqueue_script( 'timed-content-jquery-ui-timepicker-js' );
+            if( !( wp_script_is( 'timed-content-jquery-ui-timepicker-i18n-js', 'registered' ) ) ) {
+                wp_register_script( 'timed-content-jquery-ui-timepicker-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/timed-content-timepicker-i18n.js", array( 'jquery', 'jquery-ui-datepicker', 'timed-content-jquery-ui-timepicker-js' ), TIMED_CONTENT_VERSION );
+                wp_enqueue_script( 'timed-content-jquery-ui-timepicker-i18n-js' );
+                wp_localize_script( 'timed-content-jquery-ui-timepicker-i18n-js', 'TimedContentJQTimepickerI18n', $jquery_ui_datetime_timepicker_i18n );
+            }
 
 			ob_start();
-			include("tinymce_plugin/dialog.php"); 
+			include( "tinymce_plugin/dialog.php" );
 			$content = ob_get_contents();
 			ob_end_clean();			
 			echo $content;
@@ -987,12 +1079,12 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 		}
 
         /**
-         * Displays a count of Timed Content Rules of the Dashboard's Right now widget
+         * Adds support for i18n (internationalization)
          *
          */
 		function i18nInit() {
 			$plugin_dir = basename( dirname( __FILE__ ) ) . "/lang/";
-			load_plugin_textdomain( 'timed-content', null, $plugin_dir );
+			load_plugin_textdomain( 'timed-content', false, $plugin_dir );
 		}
 		
         /**
@@ -1024,9 +1116,43 @@ if ( !class_exists( "timedContentPlugin" ) ) {
             }
 		}
 
+        /**
+         * Display a count of Timed Content Rules in the Dashboard's Right Now widget for Wordpress versions 3.7.1 and below
+         *
+         */
+        function addRulesCount37() {
+            if ( !post_type_exists( TIMED_CONTENT_RULE_TYPE ) ) {
+                return;
+            }
+
+            $num_posts = wp_count_posts( TIMED_CONTENT_RULE_TYPE );
+            $num = number_format_i18n( $num_posts->publish );
+            $text = _n( 'Timed Content Rule', 'Timed Content Rules', intval( $num_posts->publish ), 'timed-content' );
+            if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
+                $num = "<a href='edit.php?post_type=" . TIMED_CONTENT_RULE_TYPE . "'>" . $num . "</a>";
+                $text = "<a href='edit.php?post_type=" . TIMED_CONTENT_RULE_TYPE . "'>" . $text . "</a>";
+            }
+            echo '<tr>';
+            echo '<td class="first b b-' . TIMED_CONTENT_RULE_TYPE . '">' . $num . '</td>';
+            echo '<td class="t ' . TIMED_CONTENT_RULE_TYPE . '">' . $text . '</td>';
+            echo '</tr>';
+
+            if ( $num_posts->pending > 0 ) {
+                $num = number_format_i18n( $num_posts->pending );
+                $text = _n( 'Timed Content Rule Pending', 'Timed Content Rules Pending', intval( $num_posts->pending ), 'timed-content' );
+                if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
+                    $num = "<a href='edit.php?post_status=pending&post_type=" . TIMED_CONTENT_RULE_TYPE . "'>" . $num . "</a>";
+                    $text = "<a href='edit.php?post_status=pending&post_type=" . TIMED_CONTENT_RULE_TYPE . "'>" . $text . "</a>";
+                }
+                echo '<tr>';
+                echo '<td class="first b b-' . TIMED_CONTENT_RULE_TYPE . '">' . $num . '</td>';
+                echo '<td class="t ' . TIMED_CONTENT_RULE_TYPE . '">' . $text . '</td>';
+                echo '</tr>';
+            }
+        }
 
         /**
-         * Display a count of Timed Content Rules of the Dashboard's Right now widget
+         * Display a count of Timed Content Rules in the Dashboard's Right Now widget
          *
          */
 		function addRulesCount() {
@@ -1036,29 +1162,65 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 
 			$num_posts = wp_count_posts( TIMED_CONTENT_RULE_TYPE );
 			$num = number_format_i18n( $num_posts->publish );
-			$text = _n( 'Timed Content Rule', 'Timed Content Rules', intval( $num_posts->publish ) );
-			if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
-				$num = "<a href='edit.php?post_type=" . TIMED_CONTENT_RULE_TYPE . "'>$num</a>";
-				$text = "<a href='edit.php?post_type=" . TIMED_CONTENT_RULE_TYPE . "'>$text</a>";
-			}
-			echo '<tr>';
-			echo '<td class="first b b-' . TIMED_CONTENT_RULE_TYPE . '">' . $num . '</td>';
-			echo '<td class="t ' . TIMED_CONTENT_RULE_TYPE . '">' . $text . '</td>';
-			echo '</tr>';
+			$text = _n( 'Timed Content Rule', 'Timed Content Rules', intval( $num_posts->publish ), 'timed-content' );
+			if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) )
+                echo "<a href='edit.php?post_type=" . TIMED_CONTENT_RULE_TYPE . "'>"
+                    . '<li class="' . TIMED_CONTENT_RULE_TYPE . '-count">'
+                    . $num
+                    . ' '
+                    . $text
+                    . '</a></li>';
 
 			if ( $num_posts->pending > 0 ) {
 				$num = number_format_i18n( $num_posts->pending );
-				$text = _n( 'Timed Content Rule Pending', 'Timed Content Rules Pending', intval( $num_posts->pending ) );
-				if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
-					$num = "<a href='edit.php?post_status=pending&post_type=" . TIMED_CONTENT_RULE_TYPE . "'>$num</a>";
-					$text = "<a href='edit.php?post_status=pending&post_type=" . TIMED_CONTENT_RULE_TYPE . "'>$text</a>";
-				}
-				echo '<tr>';
-				echo '<td class="first b b-' . TIMED_CONTENT_RULE_TYPE . '">' . $num . '</td>';
-				echo '<td class="t ' . TIMED_CONTENT_RULE_TYPE . '">' . $text . '</td>';
-				echo '</tr>';
-			}
+				$text = _n( 'Timed Content Rule Pending', 'Timed Content Rules Pending', intval( $num_posts->pending ), 'timed-content' );
+				if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) )
+                    echo "<a href='edit.php?post_status=pending&post_type=" . TIMED_CONTENT_RULE_TYPE . "'>"
+                        . '<li class="' . TIMED_CONTENT_RULE_TYPE . '-count">'
+                        . $num
+                        . ' '
+                        . $text
+                        . '</a></li>';
+            }
 		}
+		
+		function setUpCustomFields() {
+			require_once( "lib/customFields-settings.php" );
+			require_once( "lib/customFieldsInterface.php" );
+
+			$scf = new customFieldsInterface( "cfi_s", 
+											__( 'Rule Description/Schedule', 'timed-content' ), 
+											"<div id=\"schedule_desc\" style=\"font-style: italic;\">"
+											. ( isset( $_GET['post'] ) && ( TIMED_CONTENT_RULE_TYPE === get_post_type( $_GET['post'] ) ) ? $this->getScheduleDescriptionById( intval( $_GET['post'] ) ) : $this->getScheduleDescriptionById( intval( 0 ) )  )
+											. "</div>"
+											. "<div style=\"padding-top: 10px;\"><input type=\"button\" class=\"button-primary\" id=\"timed_content_rule_test\" value=\"" . __( 'Show Projected Dates/Times', 'timed-content' ) . "\" /></div>",
+											TIMED_CONTENT_RULE_POSTMETA_PREFIX,
+											array( TIMED_CONTENT_RULE_TYPE ),
+											array() ); 
+			$ocf = new customFieldsInterface( "cfi_o", 
+											__( 'Action/Initial Event', 'timed-content' ), 
+											__( 'Set the action to be taken and when it should first run.', 'timed-content' ), 
+											TIMED_CONTENT_RULE_POSTMETA_PREFIX,
+											array( TIMED_CONTENT_RULE_TYPE ),
+											$timed_content_rule_occurrence_custom_fields );
+			$pcf = new customFieldsInterface( "cfi_p",
+											__( 'Repeating Pattern', 'timed-content' ), 
+											__( 'Set how often the action should repeat.', 'timed-content' ), 
+											TIMED_CONTENT_RULE_POSTMETA_PREFIX,
+											array( TIMED_CONTENT_RULE_TYPE ),
+											$timed_content_rule_pattern_custom_fields );
+			$rcf = new customFieldsInterface( "cfi_r",
+											__( 'Stopping Condition', 'timed-content' ),  
+											__( 'Set how long or how many times the action should occur.', 'timed-content' ),  
+											TIMED_CONTENT_RULE_POSTMETA_PREFIX, 
+											array( TIMED_CONTENT_RULE_TYPE ), 
+											$timed_content_rule_recurrence_custom_fields );
+
+            // Initially loaded at the top; defining this constant here means it can get i18n'd
+            /* translators:  date/time format for debugging messages. http://ca2.php.net/manual/en/function.date.php */
+            define( "TIMED_CONTENT_DT_FORMAT", __( "l, F jS, Y, g:i A T" , 'timed-content' ) );
+
+        }
 	}
 
 } //End Class timedContentPlugin
@@ -1070,48 +1232,28 @@ if ( class_exists( "timedContentPlugin" ) ) {
 
 // Actions and Filters
 if ( isset( $timedContentPluginInstance ) ) {
-	$scf = new customFieldsInterface( "cfi_s", 
-									__( 'Rule Description/Schedule', 'timed-content' ), 
-									"<div id=\"schedule_desc\" style=\"font-style: italic;\">"
-									. ( isset( $_GET['post'] ) && ( TIMED_CONTENT_RULE_TYPE === get_post_type( $_GET['post'] ) ) ? $timedContentPluginInstance->getScheduleDescriptionById( intval( $_GET['post'] ) ) : $timedContentPluginInstance->getScheduleDescriptionById( intval( 0 ) )  )
-									. "</div>"
-									. "<div style=\"padding-top: 10px;\"><input type=\"button\" class=\"button-primary\" id=\"timed_content_rule_test\" value=\"Show Projected Dates/Times\" /></div>",
-									TIMED_CONTENT_RULE_POSTMETA_PREFIX,
-									array( TIMED_CONTENT_RULE_TYPE ),
-									array() ); 
-	$ocf = new customFieldsInterface( "cfi_o", 
-									__( 'Action/Initial Event', 'timed-content' ), 
-									__( 'Set the action to be taken and when it should first run.', 'timed-content' ), 
-									TIMED_CONTENT_RULE_POSTMETA_PREFIX,
-									array( TIMED_CONTENT_RULE_TYPE ),
-									$timed_content_rule_occurrence_custom_fields );
-	$pcf = new customFieldsInterface( "cfi_p",
-									__( 'Repeating Pattern', 'timed-content' ), 
-									__( 'Set how often the action should repeat.', 'timed-content' ), 
-									TIMED_CONTENT_RULE_POSTMETA_PREFIX,
-									array( TIMED_CONTENT_RULE_TYPE ),
-									$timed_content_rule_pattern_custom_fields );
-    $rcf = new customFieldsInterface( "cfi_r",
-									__( 'Stopping Condition', 'timed-content' ),  
-									__( 'Set how long or how many times the action should occur.', 'timed-content' ),  
-									TIMED_CONTENT_RULE_POSTMETA_PREFIX, 
-									array( TIMED_CONTENT_RULE_TYPE ), 
-									$timed_content_rule_recurrence_custom_fields ); 
-	add_action( "init", array( &$timedContentPluginInstance, "i18nInit" ), 1 );
+    add_action( "plugins_loaded", array( &$timedContentPluginInstance, "i18nInit" ), 1 );
 	add_action( "init", array( &$timedContentPluginInstance, "timedContentRuleTypeInit" ), 2 );
-	add_action( "right_now_content_table_end", array( &$timedContentPluginInstance, "addRulesCount" ) );
+	add_action( "init", array( &$timedContentPluginInstance, "setUpCustomFields" ), 2 );
 	add_action( "wp_head", array( &$timedContentPluginInstance, "addHeaderCode" ), 1 );
 	add_filter( "manage_" . TIMED_CONTENT_RULE_TYPE . "_posts_columns", array( &$timedContentPluginInstance, "addDescColumnHead" ) );
 	add_action( "manage_" . TIMED_CONTENT_RULE_TYPE . "_posts_custom_column", array( &$timedContentPluginInstance, "addDescColumnContent" ), 10, 2);
 	add_action( "admin_enqueue_scripts", array( &$timedContentPluginInstance, "addAdminHeaderCode" ), 1 );
     add_action( "admin_init", array( &$timedContentPluginInstance, "setTinyMCEPluginVars" ), 1 );
 	add_action( "admin_init", array( &$timedContentPluginInstance, "initTinyMCEPlugin" ), 2 );
-	add_action( "admin_head", array( &$timedContentPluginInstance, "addPostTypeIcons" ), 1 );
 	add_action( 'wp_ajax_timedContentPluginGetTinyMCEDialog', array( &$timedContentPluginInstance, "timedContentPluginGetTinyMCEDialog" ), 1 );
 	add_action( 'wp_ajax_timedContentPluginGetRulePeriodsAjax', array( &$timedContentPluginInstance, "timedContentPluginGetRulePeriodsAjax" ), 1 );
 	add_action( 'wp_ajax_timedContentPluginGetScheduleDescriptionAjax', array( &$timedContentPluginInstance, "timedContentPluginGetScheduleDescriptionAjax" ), 1 );
 	add_filter( "post_updated_messages", array( &$timedContentPluginInstance, "timedContentRuleUpdatedMessages" ), 1 );
-	add_shortcode( TIMED_CONTENT_CLIENT_TAG, array( &$timedContentPluginInstance, "clientShowHTML" ), 1 );
+    if ( version_compare( $wp_version, "3.8", ">=" ) ) {
+        add_action( "dashboard_glance_items", array( &$timedContentPluginInstance, "addRulesCount" ) );
+        add_action( "admin_head", array( &$timedContentPluginInstance, "addPostTypeIcons" ), 1 );
+    } else {
+        add_action( "right_now_content_table_end", array( &$timedContentPluginInstance, "addRulesCount37" ) );
+        add_action( "admin_head", array( &$timedContentPluginInstance, "addPostTypeIcons37" ), 1 );
+    }
+
+    add_shortcode( TIMED_CONTENT_CLIENT_TAG, array( &$timedContentPluginInstance, "clientShowHTML" ), 1 );
 	add_shortcode( TIMED_CONTENT_SERVER_TAG, array( &$timedContentPluginInstance, "serverShowHTML" ), 1 );
 	add_shortcode( TIMED_CONTENT_RULE_TAG, array( &$timedContentPluginInstance, "rulesShowHTML" ), 1 );
 }

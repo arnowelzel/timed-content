@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Timed Content 2.1.5\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/timed-content\n"
-"POT-Creation-Date: 2014-09-10 13:50-0700\n"
-"PO-Revision-Date: 2014-09-10 13:50-0700\n"
+"POT-Creation-Date: 2014-12-18 16:23-0700\n"
+"PO-Revision-Date: 2014-12-18 16:23-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.7.1\n"
 "X-Poedit-SearchPath-0: ..\n"
 
 #: ../lib/Arrays_Definitions.php:3
@@ -120,179 +120,206 @@ msgstr ""
 msgid "day"
 msgstr ""
 
-#: ../lib/customFields-settings.php:10
+#: ../lib/customFields-settings.php:12 ../timed-content.php:992
+msgid "- No exceptions set -"
+msgstr ""
+
+#: ../lib/customFields-settings.php:19 ../timed-content.php:703
+msgctxt "Date format for schedule description"
+msgid "F j, Y"
+msgstr ""
+
+#: ../lib/customFields-settings.php:28
 msgid "Action"
 msgstr ""
 
-#: ../lib/customFields-settings.php:11
+#: ../lib/customFields-settings.php:29
 msgid "Sets the action to be performed when the rule is active."
 msgstr ""
 
-#: ../lib/customFields-settings.php:13 ../timed-content.php:619
+#: ../lib/customFields-settings.php:31 ../timed-content.php:633
 msgid "Show the content"
 msgstr ""
 
-#: ../lib/customFields-settings.php:14 ../timed-content.php:621
+#: ../lib/customFields-settings.php:32 ../timed-content.php:635
 msgid "Hide the content"
 msgstr ""
 
-#: ../lib/customFields-settings.php:22
+#: ../lib/customFields-settings.php:40
 msgid "Starting Date/Time"
 msgstr ""
 
-#: ../lib/customFields-settings.php:23
+#: ../lib/customFields-settings.php:41
 msgid ""
 "Sets the date and time for the beginning of the first active period for this "
 "rule."
 msgstr ""
 
-#: ../lib/customFields-settings.php:25
+#: ../lib/customFields-settings.php:43
 msgctxt ""
 "Starting Date/Time date format (http://ca2.php.net/manual/en/function.date."
 "php)"
 msgid "F jS, Y"
 msgstr ""
 
-#: ../lib/customFields-settings.php:26
+#: ../lib/customFields-settings.php:44
 msgctxt ""
 "Starting Date/Time time format (http://ca2.php.net/manual/en/function.date."
 "php)"
 msgid "g:i A"
 msgstr ""
 
-#: ../lib/customFields-settings.php:33
+#: ../lib/customFields-settings.php:51
 msgid "Ending Date/Time"
 msgstr ""
 
-#: ../lib/customFields-settings.php:34
+#: ../lib/customFields-settings.php:52
 msgid ""
 "Sets the date and time for the end of the first active period for this rule."
 msgstr ""
 
-#: ../lib/customFields-settings.php:36
+#: ../lib/customFields-settings.php:54
 msgctxt ""
 "Ending Date/Time date format (http://ca2.php.net/manual/en/function.date.php)"
 msgid "F jS, Y"
 msgstr ""
 
-#: ../lib/customFields-settings.php:37
+#: ../lib/customFields-settings.php:55
 msgctxt ""
 "Ending Date/Time time format (http://ca2.php.net/manual/en/function.date.php)"
 msgid "g:i A"
 msgstr ""
 
-#: ../lib/customFields-settings.php:44
+#: ../lib/customFields-settings.php:62
 msgid "Timezone:"
 msgstr ""
 
-#: ../lib/customFields-settings.php:45
+#: ../lib/customFields-settings.php:63
 msgid "Select a city in the timezone you wish to use for this rule."
 msgstr ""
 
-#: ../lib/customFields-settings.php:56
+#: ../lib/customFields-settings.php:74
 msgid "Frequency:"
 msgstr ""
 
-#: ../lib/customFields-settings.php:57
+#: ../lib/customFields-settings.php:75
 msgid "Sets the frequency at which the action should be repeated."
 msgstr ""
 
-#: ../lib/customFields-settings.php:67 ../lib/customFields-settings.php:78
-#: ../lib/customFields-settings.php:89 ../lib/customFields-settings.php:111
-#: ../lib/customFields-settings.php:154
+#: ../lib/customFields-settings.php:85 ../lib/customFields-settings.php:96
+#: ../lib/customFields-settings.php:107 ../lib/customFields-settings.php:129
+#: ../lib/customFields-settings.php:172
 msgid "Repeat How Often?"
 msgstr ""
 
-#: ../lib/customFields-settings.php:68
+#: ../lib/customFields-settings.php:86
 msgid "If the frequency is set to Hourly, repeat this action every X hours."
 msgstr ""
 
-#: ../lib/customFields-settings.php:79
+#: ../lib/customFields-settings.php:97
 msgid "If the frequency is set to Daily, repeat this action every X days."
 msgstr ""
 
-#: ../lib/customFields-settings.php:90
+#: ../lib/customFields-settings.php:108
 msgid "If the frequency is set to Weekly, repeat this action every X weeks."
 msgstr ""
 
-#: ../lib/customFields-settings.php:100
+#: ../lib/customFields-settings.php:118
 msgid "Repeat On The Following Days"
 msgstr ""
 
-#: ../lib/customFields-settings.php:101
+#: ../lib/customFields-settings.php:119
 msgid ""
 "If the frequency is set to Weekly, repeat this action on these days of the "
 "week INSTEAD of the day of week the Starting Date/Time falls on."
 msgstr ""
 
-#: ../lib/customFields-settings.php:112
+#: ../lib/customFields-settings.php:130
 msgid "If the frequency is set to Monthly, repeat this action every X months."
 msgstr ""
 
-#: ../lib/customFields-settings.php:122
+#: ../lib/customFields-settings.php:140
 msgid "Repeat On The Nth Weekday Of The Month?"
 msgstr ""
 
-#: ../lib/customFields-settings.php:123
+#: ../lib/customFields-settings.php:141
 msgid ""
 "If the frequency is set to Monthly, repeat this action on the Nth weekday of "
 "the month (for example, 'every third Tuesday'). Check this box to select a "
 "pattern below."
 msgstr ""
 
-#: ../lib/customFields-settings.php:132
+#: ../lib/customFields-settings.php:150
 msgid "Nth Weekday Ordinal:"
 msgstr ""
 
-#: ../lib/customFields-settings.php:133
+#: ../lib/customFields-settings.php:151
 msgid ""
 "Select a value for the Nth (for example 'first', 'second', etc.) week of the "
 "month."
 msgstr ""
 
-#: ../lib/customFields-settings.php:143
+#: ../lib/customFields-settings.php:161
 msgid "Nth Weekday Day Of Week:"
 msgstr ""
 
-#: ../lib/customFields-settings.php:144
+#: ../lib/customFields-settings.php:162
 msgid "Select the day of week to repeat on."
 msgstr ""
 
-#: ../lib/customFields-settings.php:155
+#: ../lib/customFields-settings.php:173
 msgid "If the frequency is set to Yearly, repeat this action every X years."
 msgstr ""
 
-#: ../lib/customFields-settings.php:167
+#: ../lib/customFields-settings.php:185
 msgid "How Often To Repeat This Action?"
 msgstr ""
 
-#: ../lib/customFields-settings.php:170
+#: ../lib/customFields-settings.php:188
 msgid "Keep repeating until a given date"
 msgstr ""
 
-#: ../lib/customFields-settings.php:171
+#: ../lib/customFields-settings.php:189
 msgid "Repeat a set number of times"
 msgstr ""
 
-#: ../lib/customFields-settings.php:179
+#: ../lib/customFields-settings.php:197
 msgid "End Date:"
 msgstr ""
 
-#: ../lib/customFields-settings.php:180
+#: ../lib/customFields-settings.php:198
 msgid "Using the settings above, repeat this action until this date."
 msgstr ""
 
-#: ../lib/customFields-settings.php:182
+#: ../lib/customFields-settings.php:200
 msgctxt "End Date date format (http://ca2.php.net/manual/en/function.date.php)"
 msgid "F jS, Y"
 msgstr ""
 
-#: ../lib/customFields-settings.php:189
+#: ../lib/customFields-settings.php:207
 msgid "Repeat How Many Times?"
 msgstr ""
 
-#: ../lib/customFields-settings.php:190
+#: ../lib/customFields-settings.php:208
 msgid "Using the settings above, repeat this action this many times."
+msgstr ""
+
+#: ../lib/customFields-settings.php:230
+msgid "Add Exception Date:"
+msgstr ""
+
+#: ../lib/customFields-settings.php:231
+msgid "Select a date to add to the Exception Dates List."
+msgstr ""
+
+#: ../lib/customFields-settings.php:241
+msgid "Exception Dates List"
+msgstr ""
+
+#: ../lib/customFields-settings.php:242
+msgid ""
+"Dates that this Timed Content Rule will not be active.  Double-click on a "
+"date to remove it from the list."
 msgstr ""
 
 #: ../lib/customFieldsInterface.php:168 ../lib/customFieldsInterface.php:186
@@ -300,12 +327,12 @@ msgstr ""
 msgid "This menu is empty."
 msgstr ""
 
-#: ../lib/customFieldsInterface.php:327
+#: ../lib/customFieldsInterface.php:328
 msgctxt "Date field label"
 msgid "Date"
 msgstr ""
 
-#: ../lib/customFieldsInterface.php:329
+#: ../lib/customFieldsInterface.php:330
 msgctxt "Time field label"
 msgid "Time"
 msgstr ""
@@ -618,7 +645,7 @@ msgstr ""
 msgid "Search Timed Content Rules"
 msgstr ""
 
-#: ../timed-content.php:59 ../timed-content.php:1044
+#: ../timed-content.php:59 ../timed-content.php:1084
 msgid "No Timed Content Rules found"
 msgstr ""
 
@@ -728,41 +755,41 @@ msgstr ""
 msgid "End Date must be after Ending Date/Time."
 msgstr ""
 
-#: ../timed-content.php:463 ../timed-content.php:504 ../timed-content.php:814
-#: ../timed-content.php:818
+#: ../timed-content.php:464 ../timed-content.php:516 ../timed-content.php:850
+#: ../timed-content.php:854
 #, php-format
 msgctxt "Human readable time difference"
 msgid "%s from now."
 msgstr ""
 
-#: ../timed-content.php:466 ../timed-content.php:507
+#: ../timed-content.php:467 ../timed-content.php:519
 msgid "Right now!"
 msgstr ""
 
-#: ../timed-content.php:469 ../timed-content.php:510 ../timed-content.php:816
-#: ../timed-content.php:820
+#: ../timed-content.php:470 ../timed-content.php:522 ../timed-content.php:852
+#: ../timed-content.php:856
 #, php-format
 msgctxt "Human readable time difference"
 msgid "%s ago."
 msgstr ""
 
-#: ../timed-content.php:607
+#: ../timed-content.php:621
 msgid "Warning!"
 msgstr ""
 
-#: ../timed-content.php:608
+#: ../timed-content.php:622
 msgid ""
 "Some problems have been detected.  Although you can still publish this rule, "
 "it may not work the way you expect."
 msgstr ""
 
-#: ../timed-content.php:613
+#: ../timed-content.php:627
 msgid ""
 "Check that all of the conditions for this rule are correct, and use Show "
 "Projected Dates/Times to ensure your rule is working properly."
 msgstr ""
 
-#: ../timed-content.php:637
+#: ../timed-content.php:652
 #, php-format
 msgctxt ""
 "Perform action (%1$s) from date/time of first active period (%2$s @ %3$s) "
@@ -770,63 +797,63 @@ msgctxt ""
 msgid "%1$s on %2$s @ %3$s until %4$s @ %5$s."
 msgstr ""
 
-#: ../timed-content.php:640
+#: ../timed-content.php:655
 #, php-format
 msgid "Repeat this action every hour."
 msgid_plural "Repeat this action every %d hours."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../timed-content.php:642
+#: ../timed-content.php:657
 #, php-format
 msgid "Repeat this action every day."
 msgid_plural "Repeat this action every %d days."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../timed-content.php:649
+#: ../timed-content.php:664
 #, php-format
 msgctxt "List of one weekday"
 msgid "%1$s"
 msgstr ""
 
-#: ../timed-content.php:650
+#: ../timed-content.php:665
 #, php-format
 msgctxt "List of two weekdays"
 msgid "%1$s and %2$s"
 msgstr ""
 
-#: ../timed-content.php:651
+#: ../timed-content.php:666
 #, php-format
 msgctxt "List of three weekdays"
 msgid "%1$s, %2$s, and %3$s"
 msgstr ""
 
-#: ../timed-content.php:652
+#: ../timed-content.php:667
 #, php-format
 msgctxt "List of four weekdays"
 msgid "%1$s, %2$s, %3$s, and %4$s"
 msgstr ""
 
-#: ../timed-content.php:653
+#: ../timed-content.php:668
 #, php-format
 msgctxt "List of five weekdays"
 msgid "%1$s, %2$s, %3$s, %4$s, and %5$s"
 msgstr ""
 
-#: ../timed-content.php:654
+#: ../timed-content.php:669
 #, php-format
 msgctxt "List of six weekdays"
 msgid "%1$s, %2$s, %3$s, %4$s, %5$s, and %6$s"
 msgstr ""
 
-#: ../timed-content.php:655
+#: ../timed-content.php:670
 #, php-format
 msgctxt "List of all weekdays"
 msgid "%1$s, %2$s, %3$s, %4$s, %5$s, %6$s, and %7$s"
 msgstr ""
 
-#: ../timed-content.php:658
+#: ../timed-content.php:673
 #, php-format
 msgctxt ""
 "List the weekdays to repeat the rule when frequency is every week. %s is the "
@@ -834,7 +861,7 @@ msgctxt ""
 msgid "Repeat this action every week on %s."
 msgstr ""
 
-#: ../timed-content.php:660
+#: ../timed-content.php:675
 #, php-format
 msgctxt ""
 "List the weekdays to repeat the rule when frequency is every %1$d weeks. "
@@ -842,21 +869,21 @@ msgctxt ""
 msgid "Repeat this action every %1$d weeks on %2$s."
 msgstr ""
 
-#: ../timed-content.php:662
+#: ../timed-content.php:677
 #, php-format
 msgid "Repeat this action every week."
 msgid_plural "Repeat this action every %d weeks."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../timed-content.php:667
+#: ../timed-content.php:682
 #, php-format
 msgctxt ""
 "Example: 'Repeat this action every month on the second Friday of the month.'"
 msgid "Repeat this action every month on the %1$s %2$s of the month."
 msgstr ""
 
-#: ../timed-content.php:669
+#: ../timed-content.php:684
 #, php-format
 msgctxt ""
 "Example: 'Repeat this action every 2 months on the second Friday of the "
@@ -864,43 +891,48 @@ msgctxt ""
 msgid "Repeat this action every %1$d months on the %2$s %3$s of the month."
 msgstr ""
 
-#: ../timed-content.php:671
+#: ../timed-content.php:686
 #, php-format
 msgid "Repeat this action every month."
 msgid_plural "Repeat this action every %d months."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../timed-content.php:673
+#: ../timed-content.php:688
 #, php-format
 msgid "Repeat this action every year."
 msgid_plural "Repeat this action every %d years."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../timed-content.php:676
+#: ../timed-content.php:691
 #, php-format
 msgid "This rule will be active for 1 repetition."
 msgid_plural "This rule will be active for %d repetitions."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../timed-content.php:678
+#: ../timed-content.php:693
 #, php-format
 msgid "This rule will be active until %s."
 msgstr ""
 
-#: ../timed-content.php:680
+#: ../timed-content.php:704
+#, php-format
+msgid "This rule will be inactive on the following dates: %s."
+msgstr ""
+
+#: ../timed-content.php:708
 #, php-format
 msgid "All times are in the %s timezone."
 msgstr ""
 
-#: ../timed-content.php:823
+#: ../timed-content.php:859
 msgctxt "Noun"
 msgid "Notice"
 msgstr ""
 
-#: ../timed-content.php:824
+#: ../timed-content.php:860
 #, php-format
 msgid ""
 "Debugging has been turned on for a %1$s shortcode on this Post/Page. Only "
@@ -909,123 +941,131 @@ msgid ""
 "shortcode."
 msgstr ""
 
-#: ../timed-content.php:827 ../timed-content.php:834
+#: ../timed-content.php:863 ../timed-content.php:870
 #, php-format
 msgid "The %s attribute is not set."
 msgstr ""
 
-#: ../timed-content.php:829 ../timed-content.php:836
+#: ../timed-content.php:865 ../timed-content.php:872
 #, php-format
 msgid "The %s attribute is currently set to"
 msgstr ""
 
-#: ../timed-content.php:830 ../timed-content.php:837
+#: ../timed-content.php:866 ../timed-content.php:873
 msgid "The Timed Content plugin thinks the intended date/time is"
 msgstr ""
 
-#: ../timed-content.php:840 ../tinymce_plugin/dialog.php:135
+#: ../timed-content.php:876 ../tinymce_plugin/dialog.php:135
 msgid "Current Date/Time:"
 msgstr ""
 
-#: ../timed-content.php:841
+#: ../timed-content.php:877
 msgctxt "Noun"
 msgid "Content:"
 msgstr ""
 
-#: ../timed-content.php:956
+#: ../timed-content.php:996
 msgctxt ""
 "Scheduled Dates/Times dialog - Beginning of active period table header"
 msgid "Start"
 msgstr ""
 
-#: ../timed-content.php:957
+#: ../timed-content.php:997
 msgctxt "Scheduled Dates/Times dialog - End of active period table header"
 msgid "End"
 msgstr ""
 
-#: ../timed-content.php:958
+#: ../timed-content.php:998
 msgctxt "Scheduled Dates/Times dialog - dialog header"
 msgid "Scheduled Dates/Times"
 msgstr ""
 
-#: ../timed-content.php:961
+#: ../timed-content.php:1001
 msgctxt "Scheduled Dates/Times dialog - Close button HTML label"
 msgid "Close"
 msgstr ""
 
-#: ../timed-content.php:963
+#: ../timed-content.php:1003
 msgid "Error"
 msgstr ""
 
-#: ../timed-content.php:964
+#: ../timed-content.php:1004
 msgid ""
 "Something unexpected has happened along the way.  The specific details are "
 "below:"
 msgstr ""
 
-#: ../timed-content.php:1001
+#: ../timed-content.php:1041
 msgid "Add Timed Content shortcodes"
 msgstr ""
 
-#: ../timed-content.php:1041
+#: ../timed-content.php:1081
 msgctxt "No Timed Content Rule title"
 msgid "(no title)"
 msgstr ""
 
-#: ../timed-content.php:1096
+#: ../timed-content.php:1136
 msgid "Description"
 msgstr ""
 
-#: ../timed-content.php:1097
+#: ../timed-content.php:1137
 msgid "Shortcode"
 msgstr ""
 
-#: ../timed-content.php:1130 ../timed-content.php:1165
+#: ../timed-content.php:1170 ../timed-content.php:1205
 msgid "Timed Content Rule"
 msgid_plural "Timed Content Rules"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../timed-content.php:1142 ../timed-content.php:1176
+#: ../timed-content.php:1182 ../timed-content.php:1216
 msgid "Timed Content Rule Pending"
 msgid_plural "Timed Content Rules Pending"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../timed-content.php:1192
+#: ../timed-content.php:1232
 msgid "Rule Description/Schedule"
 msgstr ""
 
-#: ../timed-content.php:1196
+#: ../timed-content.php:1236
 msgid "Show Projected Dates/Times"
 msgstr ""
 
-#: ../timed-content.php:1201
+#: ../timed-content.php:1241
 msgid "Action/Initial Event"
 msgstr ""
 
-#: ../timed-content.php:1202
+#: ../timed-content.php:1242
 msgid "Set the action to be taken and when it should first run."
 msgstr ""
 
-#: ../timed-content.php:1207
+#: ../timed-content.php:1247
 msgid "Repeating Pattern"
 msgstr ""
 
-#: ../timed-content.php:1208
+#: ../timed-content.php:1248
 msgid "Set how often the action should repeat."
 msgstr ""
 
-#: ../timed-content.php:1213
+#: ../timed-content.php:1253
 msgid "Stopping Condition"
 msgstr ""
 
-#: ../timed-content.php:1214
+#: ../timed-content.php:1254
 msgid "Set how long or how many times the action should occur."
 msgstr ""
 
+#: ../timed-content.php:1259
+msgid "Exceptions"
+msgstr ""
+
+#: ../timed-content.php:1260
+msgid "Set up any exceptions to this Timed Content Rule."
+msgstr ""
+
 #. translators:  date/time format for debugging messages. http://ca2.php.net/manual/en/function.date.php
-#: ../timed-content.php:1221
+#: ../timed-content.php:1267
 msgid "l, F jS, Y, g:i A T"
 msgstr ""
 

@@ -168,7 +168,7 @@ if ( !class_exists('customFieldsInterface') ) {
 										echo "<em>" . __( "This menu is empty.", "timed-content" ) . "</em>\n";
 									else {
 										$selected_value = ( "" === get_post_meta( $post->ID, $this->prefix . $customField['name'], true ) ? $customField['default'] : get_post_meta( $post->ID, $this->prefix . $customField['name'], true ) );
-										echo "<select name=\"" . $this->prefix . $customField['name'] . "\" id=\"" . $this->prefix . $customField['name'] . "\" style=\"width: auto; height: auto; padding: 3px;\" size=\"" . $customField['size']  . "\" multiple=\"multiple\">\n";
+										echo "<select name=\"" . $this->prefix . $customField['name'] . "[]\" id=\"" . $this->prefix . $customField['name'] . "\" style=\"width: auto; height: auto; padding: 3px;\" size=\"" . $customField['size']  . "\" multiple=\"multiple\">\n";
 										foreach ( $customField['values'] as $value => $label ) {
 											echo "\t<option value=\"" . $value . "\"";
 											if ( $selected_value == $value )
@@ -287,6 +287,7 @@ if ( !class_exists('customFieldsInterface') ) {
 	jQuery(document).ready(function() {
 		jQuery( "#<?php echo $this->prefix . $customField[ 'name' ]; ?>" ).datepicker(
 			{
+				<?php if( isset( $customField[ 'custom_functions' ] ) ) echo $customField[ 'custom_functions' ]; ?>
 				changeMonth: true,
 				changeYear: true
 			}

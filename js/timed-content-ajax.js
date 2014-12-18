@@ -36,6 +36,15 @@ jQuery(document).ready( function() {
         } else {
             args.rd = "recurrence_duration_num_repeat";
         }
+
+        args.ex_days = {};
+        var ex_days_num = 0;
+        jQuery( '#timed_content_rule_exceptions_dates option' ).each( function() {
+            args.ex_days[ex_days_num] = jQuery( this ).val();
+            ex_days_num++;
+        });
+        //alert(JSON.stringify(args.ex_days));
+
         return args;
     }
 
@@ -73,8 +82,9 @@ jQuery(document).ready( function() {
 				timed_content_rule_instance_end: args.end,
 				timed_content_rule_monthly_nth_weekday_of_month: args.nth,
 				timed_content_rule_monthly_nth_weekday_of_month_nth: args.ntho,
-				timed_content_rule_monthly_nth_weekday_of_month_weekday: args.nthw
-				
+                timed_content_rule_monthly_nth_weekday_of_month_weekday: args.nthw,
+                timed_content_rule_exceptions_dates: args.ex_days
+
 			},
 			function(data, textStatus, jqXHR) {
 				// code that's executed when the request is processed successfully
@@ -99,6 +109,9 @@ jQuery(document).ready( function() {
 	});
 	
 	jQuery( 'input[id^="timed_content_rule_"], select[id^="timed_content_rule_"]' ).change(function(e) {
+        var target = jQuery(e.target);
+        if (target.is("#timed_content_rule_exceptions_dates"))
+            return;
         var args = getArgs();
         var tag = jQuery("div#schedule_desc");
         var button = jQuery('input#timed_content_rule_test');
@@ -123,9 +136,9 @@ jQuery(document).ready( function() {
                 timed_content_rule_instance_end: args.end,
                 timed_content_rule_monthly_nth_weekday_of_month: args.nth,
                 timed_content_rule_monthly_nth_weekday_of_month_nth: args.ntho,
-                timed_content_rule_monthly_nth_weekday_of_month_weekday: args.nthw
-				
-			},
+                timed_content_rule_monthly_nth_weekday_of_month_weekday: args.nthw,
+                timed_content_rule_exceptions_dates: args.ex_days
+            },
 			function(data, textStatus, jqXHR) {
 				// code that's executed when the request is processed successfully
 				tag.html(data);

@@ -3,8 +3,8 @@ Contributors: kjvtough
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5F58ELJ9R3PVL&lc=CA&item_name=Timed%20Content%20Wordpress%20Plugin%20Donation&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
 Requires at least: 2.0.2
-Tested up to: 4.0
-Stable tag: 2.2
+Tested up to: 4.1
+Stable tag: 2.3
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
@@ -56,9 +56,14 @@ is the same for 3.8.
 10. An example showing use of the `[timed-content-server]` shortcode with `debug` set to `true`. You'll only see it if you're logged in and it's on a Page/Post you can edit (Your regular visitors won't see this at all).
 
 == Changelog ==
+= 2.3 =
+* Fixed bug when setting up weekly recurrence for Timed Content Rules
+* NEW! Exception Dates (dates on which your Timed Content Rule shouldn't run)
+
 = 2.2 =
 * Much improved I18N
 * New Spanish translation - Many thanks to Andrew Kurtis and Jelena Kovacevic from WebHostingHub (Nueva traducción de español - Muchas gracias a Andrew Kurtis y Jelena Kovacevic desde WebHostingHub)
+
 = 2.1.5 =
 * Unified dashicons among all of my plugins.
 * Minor improvements in TinyMCE dialog UI and Date/Time UI controls
@@ -102,6 +107,9 @@ is the same for 3.8.
 * Initial release.
 
 == Upgrade Notice ==
+= 2.3 =
+Fixed bug when setting up weekly recurrence for Timed Content Rules.  Upgrade now
+
 = 2.1.4 =
 Fixed TinyMCE button issue.  Upgrade now
 
@@ -112,7 +120,7 @@ Fixed various minor bugs.  Upgrade now
 Dashicons support for WP 3.8 +.  Upgrade once you've upgraded Wordpress to >= 3.8.
 
 = 2.1.1 =
-CSS for JQuery UI now loaded locally as required by Wordpress plugin repository rules. Upgrade now
+CSS for JQuery UI now loaded locally as required by Wordpress plugin repository rules.  Upgrade now
 
 = 2.1 =
 Fixed bug in how the days of week to repeat on were being set up between the front and back ends. Upgrade now

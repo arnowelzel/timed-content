@@ -6,12 +6,12 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough
-Version: 2.2
+Version: 2.3
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if ( !class_exists( "timedContentPlugin" ) ) {
 
-	define( "TIMED_CONTENT_VERSION", "2.2" );
+	define( "TIMED_CONTENT_VERSION", "2.3" );
 	define( "TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/timed-content' );
 	define( "TIMED_CONTENT_CLIENT_TAG", "timed-content-client" );
 	define( "TIMED_CONTENT_SERVER_TAG", "timed-content-server" );
@@ -24,8 +24,8 @@ if ( !class_exists( "timedContentPlugin" ) ) {
     define( "TIMED_CONTENT_CSS_DASHICONS", TIMED_CONTENT_PLUGIN_URL . "/css/ca-aliencyborg-dashicons/style.css"  );
 	// Required for styling the jQuery UI Datepicker and jQuery UI Timepicker
     define( "TIMED_CONTENT_JQUERY_UI_CSS", TIMED_CONTENT_PLUGIN_URL . "/css/jqueryui/1.10.3/themes/smoothness/jquery-ui.css"  );
-    define( "TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS", TIMED_CONTENT_PLUGIN_URL."/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js" );
-    define( "TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS", TIMED_CONTENT_PLUGIN_URL."/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.css" );
+    define( "TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS", TIMED_CONTENT_PLUGIN_URL . "/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js" );
+    define( "TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS", TIMED_CONTENT_PLUGIN_URL . "/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.css" );
 
 
     /**
@@ -322,25 +322,25 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			
 			if ( $day == 7 )  { // If $day is "day of the month", get the day of month based on the ordinal
 				switch ( $ordinal )  {
-					case 1	:	$the_day = "1"; break;					// First day of the month	//
-					case 2	:	$the_day = "2"; break;					// Second day of the month	//
-					case 3	:	$the_day = "3"; break;					// Third day of the month	//
-					case 4	:	$the_day = "4"; break;					// Fourth day of the month	//
-					case 5	:	$the_day = $lastDayThisMonth; break;	// Last day of the month	//
+					case 0	:	$the_day = "1"; break;					// First day of the month	//
+					case 1	:	$the_day = "2"; break;					// Second day of the month	//
+					case 2	:	$the_day = "3"; break;					// Third day of the month	//
+					case 3	:	$the_day = "4"; break;					// Fourth day of the month	//
+					case 4	:	$the_day = $lastDayThisMonth; break;	// Last day of the month	//
 					default	:	$the_day = "1"; break;
 				}
 			}  else {			// If $day is one of the days of the week...
 				$day_range = array();
 				switch ( $ordinal )  {	// ...get a 7-day range based on the ordinal...
-					case 1	:	$day_range = range( 1, 7 ); break;										// First 7 days of the month	//
-					case 2	:	$day_range = range( 8, 14 ); break;										// Second 7 days of the month	//
-					case 3	:	$day_range = range( 15, 21 ); break;									// Third 7 days of the month	//
-					case 4	:	$day_range = range( 22, 28 ); break;									// Fourth 7 days of the month	//
-					case 5	:	$day_range = range( $lastDayThisMonth - 6, $lastDayThisMonth ); break; 	// Last 7 days of the month		//
+					case 0	:	$day_range = range( 1, 7 ); break;										// First 7 days of the month	//
+					case 1	:	$day_range = range( 8, 14 ); break;										// Second 7 days of the month	//
+					case 2	:	$day_range = range( 15, 21 ); break;									// Third 7 days of the month	//
+					case 3	:	$day_range = range( 22, 28 ); break;									// Fourth 7 days of the month	//
+					case 4	:	$day_range = range( $lastDayThisMonth - 6, $lastDayThisMonth ); break; 	// Last 7 days of the month		//
 					default	:	$day_range = range( 1, 7 ); break;
 				}
 				foreach ( $day_range as $a_day ) { // ...and find the matching weekday in that range.
-					if ( $day == date( "l", strtotime( $the_month . " " . $a_day . ", " . $the_year ) ) )  {
+					if ( $day == date( "w", strtotime( $the_month . " " . $a_day . ", " . $the_year ) ) )  {
 						$the_day = $a_day;
 						break;
 					}
@@ -435,6 +435,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			$monthly_pattern = $args['monthly_pattern'];
 			$monthly_pattern_ord = $args['monthly_pattern_ord'];
 			$monthly_pattern_day = $args['monthly_pattern_day'];
+			$exceptions_dates = $args['exceptions_dates'];
             //print_r($days_of_week);
 
 			$temp_tz = date_default_timezone_get();
@@ -486,11 +487,22 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				elseif ( $freq == 3 ) {
 					$current = $this->__getNextMonth( $current, $instance_start, $interval_multiplier );
 					$temp_current = $current;
-					if ( $monthly_pattern == "yes" ) $current = $this->__getNthWeekdayOfMonth( $current, $monthly_pattern_ord, $monthly_pattern_day );
+					if ( $monthly_pattern == "yes" )
+						$current = $this->__getNthWeekdayOfMonth( $current, $monthly_pattern_ord, $monthly_pattern_day );
+					else
+						$current = $temp_current;
 				} elseif ( $freq == 4 ) 
 					$current = $this->__getNextYear( $current, $interval_multiplier );
-				
-				if ( eval ( $loop_test ) ) {
+
+				$exception_period = false;
+				foreach ( $exceptions_dates as $date ) {
+					if ( ( $current >= $date ) && ( $current < strtotime( "+1 day", $date ) ) ) {
+						$exception_period = true;
+						break;
+					}
+				}
+
+				if ( ( eval ( $loop_test ) ) && ( !($exception_period) ) ) {
                     $end_current = $current + ( $instance_end - $instance_start );
 					if ( $human_readable == true )  {
 						$active_periods[$period_count]["start"] = date_i18n( TIMED_CONTENT_DT_FORMAT, $current );
@@ -509,10 +521,10 @@ if ( !class_exists( "timedContentPlugin" ) ) {
                         $active_periods[$period_count]["status"] = "expired";
                         $active_periods[$period_count]["time"] = sprintf( _x( '%s ago.', 'Human readable time difference', 'timed-content' ), human_time_diff( $end_current, $right_now_t ) );
                     }
-                    $period_count++;
+                    if ( !($exception_period) )
+						$period_count++;
 				}
 
-				if ( ( $freq == 3 ) && ( $monthly_pattern == "yes" ) ) $current = $temp_current;
 			}
 			date_default_timezone_set( $temp_tz );
 			return $active_periods;
@@ -551,7 +563,8 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			$args['monthly_pattern'] = get_post_meta( $ID, $prefix . 'monthly_nth_weekday_of_month', true );
 			$args['monthly_pattern_ord'] = get_post_meta( $ID, $prefix . 'monthly_nth_weekday_of_month_nth', true );
 			$args['monthly_pattern_day'] = get_post_meta( $ID, $prefix . 'monthly_nth_weekday_of_month_weekday', true );
-			
+			$args['exceptions_dates'] = get_post_meta( $ID, $prefix . 'exceptions_dates', true );
+
 			return $this->__getRulePeriods( $args );
 
 		}
@@ -578,7 +591,8 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				$args['monthly_pattern'] = $_POST[$prefix . 'monthly_nth_weekday_of_month'];
 				$args['monthly_pattern_ord'] = $_POST[$prefix . 'monthly_nth_weekday_of_month_nth'];
 				$args['monthly_pattern_day'] = $_POST[$prefix . 'monthly_nth_weekday_of_month_weekday'];
-				
+				$args['exceptions_dates'] = ( isset( $_POST[$prefix . 'exceptions_dates'] ) ? $_POST[$prefix . 'exceptions_dates'] : array() );
+
 				$response = json_encode( $this->__getRulePeriods( $args ) );
 				
 				// response output
@@ -633,7 +647,8 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			$monthly_pattern = $args['monthly_pattern'];
 			$monthly_pattern_ord = $args['monthly_pattern_ord'];
 			$monthly_pattern_day = $args['monthly_pattern_day'];
-			
+			$exceptions_dates = $args['exceptions_dates'];
+
 			$desc = sprintf( _x( '%1$s on %2$s @ %3$s until %4$s @ %5$s.', 'Perform action (%1$s) from date/time of first active period (%2$s @ %3$s) until date/time of last active period (%4$s @ %5$s).', 'timed-content' ), $action, $instance_start_date, $instance_start_time, $instance_end_date, $instance_end_time );
 			
 			if ( $freq == 0 )
@@ -676,7 +691,20 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				$desc .= "&nbsp;" . sprintf( _n( 'This rule will be active for 1 repetition.', 'This rule will be active for %d repetitions.', $num_repeat, 'timed-content' ), $num_repeat );
 			elseif ( $recurr_type == "recurrence_duration_end_date" )
 				$desc .=  "&nbsp;" . sprintf( __( 'This rule will be active until %s.', 'timed-content' ), $end_date );
-			
+
+			if ( ( $exceptions_dates ) && ( is_array( $exceptions_dates ) ) ) {
+				sort( $exceptions_dates, SORT_NUMERIC );
+				$exceptions_dates = array_unique( $exceptions_dates );
+				if ( $exceptions_dates[0] == 0 )
+					array_shift( $exceptions_dates );
+				if ( !empty( $exceptions_dates ) ) {
+					$formatted_dates = array();
+					foreach ( $exceptions_dates as $a_date )
+						$formatted_dates[] = date( _x( "F j, Y" , "Date format for schedule description", 'timed-content' ), $a_date );
+					$desc .=  "&nbsp;" . sprintf( __( 'This rule will be inactive on the following dates: %s.', 'timed-content' ), join( ", ", $formatted_dates ) );
+				}
+			}
+
 			$desc .=  "&nbsp;" . sprintf( __( 'All times are in the %s timezone.', 'timed-content' ), $timezone );
 			return $desc;
 		}
@@ -688,7 +716,10 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          * @return string
          */
         function getScheduleDescriptionById( $ID )  {
-            global $timed_content_rule_occurrence_custom_fields, $timed_content_rule_pattern_custom_fields, $timed_content_rule_recurrence_custom_fields;
+			global $timed_content_rule_occurrence_custom_fields,
+				   $timed_content_rule_pattern_custom_fields,
+				   $timed_content_rule_recurrence_custom_fields,
+				   $timed_content_rule_exceptions_custom_fields;
             $defaults = array();
 
             foreach ( $timed_content_rule_occurrence_custom_fields as $field ) {
@@ -697,9 +728,12 @@ if ( !class_exists( "timedContentPlugin" ) ) {
             foreach ( $timed_content_rule_pattern_custom_fields as $field ) {
                 $defaults[$field['name']] = $field['default'];
             }
-            foreach ( $timed_content_rule_recurrence_custom_fields as $field ) {
-                $defaults[$field['name']] = $field['default'];
-            }
+			foreach ( $timed_content_rule_recurrence_custom_fields as $field ) {
+				$defaults[$field['name']] = $field['default'];
+			}
+			foreach ( $timed_content_rule_exceptions_custom_fields as $field ) {
+				$defaults[$field['name']] = $field['default'];
+			}
 
             $prefix = TIMED_CONTENT_RULE_POSTMETA_PREFIX;
 			$args = array();
@@ -721,6 +755,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			$args['monthly_pattern'] = ( false === get_post_meta( $ID, $prefix . 'monthly_nth_weekday_of_month', true ) ? $defaults['monthly_nth_weekday_of_month'] : get_post_meta( $ID, $prefix . 'monthly_nth_weekday_of_month', true ) );
 			$args['monthly_pattern_ord'] = ( false === get_post_meta( $ID, $prefix . 'monthly_nth_weekday_of_month_nth', true ) ? $defaults['monthly_nth_weekday_of_month_nth'] : get_post_meta( $ID, $prefix . 'monthly_nth_weekday_of_month_nth', true ) );
 			$args['monthly_pattern_day'] = ( false === get_post_meta( $ID, $prefix . 'monthly_nth_weekday_of_month_weekday', true ) ? $defaults['monthly_nth_weekday_of_month_weekday'] : get_post_meta( $ID, $prefix . 'monthly_nth_weekday_of_month_weekday', true ) );
+			$args['exceptions_dates'] = ( false === get_post_meta( $ID, $prefix . 'exceptions_dates', true ) ? $defaults['exceptions_dates'] : get_post_meta( $ID, $prefix . 'exceptions_dates', true ) );
 
 			return $this->__getScheduleDescription( $args );
 
@@ -748,7 +783,8 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				$args['monthly_pattern'] = $_POST[$prefix . 'monthly_nth_weekday_of_month'];
 				$args['monthly_pattern_ord'] = $_POST[$prefix . 'monthly_nth_weekday_of_month_nth'];
 				$args['monthly_pattern_day'] = $_POST[$prefix . 'monthly_nth_weekday_of_month_weekday'];
-				
+				$args['exceptions_dates'] = ( isset( $_POST[$prefix . 'exceptions_dates'] ) ? $_POST[$prefix . 'exceptions_dates'] : array() );
+
 				$response = $this->__getScheduleDescription( $args );
 				
 				// response output
@@ -951,17 +987,21 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				// Enqueue the JavaScript file that makes AJAX requests
 				wp_enqueue_script( 'timed-content-ajax_js', TIMED_CONTENT_PLUGIN_URL . '/js/timed-content-ajax.js', array( 'jquery', 'jquery-ui-dialog' ), TIMED_CONTENT_VERSION );
 
+				// Set up local variables used in the Admin JavaScript file
+				wp_localize_script( 'timed-content-admin_js', 'timedContentRuleAdmin', array(
+					'no_exceptions_label' => __( "- No exceptions set -", 'timed-content' ) ) );
+
 				// Set up local variables used in the AJAX JavaScript file
 				wp_localize_script( 'timed-content-ajax_js', 'timedContentRuleAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ),
 					'start_label' => _x( 'Start', 'Scheduled Dates/Times dialog - Beginning of active period table header', 'timed-content' ),
 					'end_label' => _x( 'End', 'Scheduled Dates/Times dialog - End of active period table header', 'timed-content' ),
-                    'dialog_label' => _x( 'Scheduled Dates/Times', 'Scheduled Dates/Times dialog - dialog header', 'timed-content' ),
-                    'dialog_width' => 800,
-                    'dialog_height' => 500,
+					'dialog_label' => _x( 'Scheduled Dates/Times', 'Scheduled Dates/Times dialog - dialog header', 'timed-content' ),
+					'dialog_width' => 800,
+					'dialog_height' => 500,
 					'close_label' => _x( 'Close', 'Scheduled Dates/Times dialog - Close button HTML label', 'timed-content' ),
 					'loadingimg' => TIMED_CONTENT_PLUGIN_URL . '/img/wpspin.gif',
-                    'error' => __( "Error", 'timed-content' ),
-                    'error_desc' => __( "Something unexpected has happened along the way.  The specific details are below:", 'timed-content' ) ) );
+					'error' => __( "Error", 'timed-content' ),
+					'error_desc' => __( "Something unexpected has happened along the way.  The specific details are below:", 'timed-content' ) ) );
 			}
 		}
 
@@ -1188,37 +1228,43 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			require_once( "lib/customFields-settings.php" );
 			require_once( "lib/customFieldsInterface.php" );
 
-			$scf = new customFieldsInterface( "cfi_s", 
+			$scf = new customFieldsInterface( "timed_content_rule_schedule",
 											__( 'Rule Description/Schedule', 'timed-content' ), 
 											"<div id=\"schedule_desc\" style=\"font-style: italic;\">"
-											. ( isset( $_GET['post'] ) && ( TIMED_CONTENT_RULE_TYPE === get_post_type( $_GET['post'] ) ) ? $this->getScheduleDescriptionById( intval( $_GET['post'] ) ) : $this->getScheduleDescriptionById( intval( 0 ) )  )
+											. ( isset( $_GET['post'] ) && ( TIMED_CONTENT_RULE_TYPE === get_post_type( $_GET['post'] ) ) ? $this->getScheduleDescriptionById( intval( $_GET['post'] ) ) : $this->getScheduleDescriptionById( intval( 0 ) ) )
 											. "</div>"
 											. "<div style=\"padding-top: 10px;\"><input type=\"button\" class=\"button-primary\" id=\"timed_content_rule_test\" value=\"" . __( 'Show Projected Dates/Times', 'timed-content' ) . "\" /></div>",
 											TIMED_CONTENT_RULE_POSTMETA_PREFIX,
 											array( TIMED_CONTENT_RULE_TYPE ),
 											array() ); 
-			$ocf = new customFieldsInterface( "cfi_o", 
+			$ocf = new customFieldsInterface( "timed_content_rule_initial_event",
 											__( 'Action/Initial Event', 'timed-content' ), 
 											__( 'Set the action to be taken and when it should first run.', 'timed-content' ), 
 											TIMED_CONTENT_RULE_POSTMETA_PREFIX,
 											array( TIMED_CONTENT_RULE_TYPE ),
 											$timed_content_rule_occurrence_custom_fields );
-			$pcf = new customFieldsInterface( "cfi_p",
+			$pcf = new customFieldsInterface( "timed_content_rule_recurrence",
 											__( 'Repeating Pattern', 'timed-content' ), 
 											__( 'Set how often the action should repeat.', 'timed-content' ), 
 											TIMED_CONTENT_RULE_POSTMETA_PREFIX,
 											array( TIMED_CONTENT_RULE_TYPE ),
 											$timed_content_rule_pattern_custom_fields );
-			$rcf = new customFieldsInterface( "cfi_r",
-											__( 'Stopping Condition', 'timed-content' ),  
-											__( 'Set how long or how many times the action should occur.', 'timed-content' ),  
-											TIMED_CONTENT_RULE_POSTMETA_PREFIX, 
-											array( TIMED_CONTENT_RULE_TYPE ), 
-											$timed_content_rule_recurrence_custom_fields );
+			$rcf = new customFieldsInterface( "timed_content_rule_stop_condition",
+				__( 'Stopping Condition', 'timed-content' ),
+				__( 'Set how long or how many times the action should occur.', 'timed-content' ),
+				TIMED_CONTENT_RULE_POSTMETA_PREFIX,
+				array( TIMED_CONTENT_RULE_TYPE ),
+				$timed_content_rule_recurrence_custom_fields );
+			$ecf = new customFieldsInterface( "timed_content_rule_exceptions",
+				__( 'Exceptions', 'timed-content' ),
+				__( 'Set up any exceptions to this Timed Content Rule.', 'timed-content' ),
+				TIMED_CONTENT_RULE_POSTMETA_PREFIX,
+				array( TIMED_CONTENT_RULE_TYPE ),
+				$timed_content_rule_exceptions_custom_fields );
 
             // Initially loaded at the top; defining this constant here means it can get i18n'd
             /* translators:  date/time format for debugging messages. http://ca2.php.net/manual/en/function.date.php */
-            define( "TIMED_CONTENT_DT_FORMAT", __( "l, F jS, Y, g:i A T" , 'timed-content' ) );
+			define( "TIMED_CONTENT_DT_FORMAT", __( "l, F jS, Y, g:i A T" , 'timed-content' ) );
 
         }
 	}

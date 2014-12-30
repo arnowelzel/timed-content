@@ -1,4 +1,5 @@
 var timedContentAdminTinyMCEOptions = {
-	version: timedContentAdminTinyMCEOptionsVars.version,
+    version: timedContentAdminTinyMCEOptionsVars.version,
+    image: timedContentAdminTinyMCEOptionsVars.image,
 	desc: timedContentAdminTinyMCEOptionsVars.desc
 };

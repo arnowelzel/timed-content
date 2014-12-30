@@ -2,245 +2,263 @@
 # This file is distributed under the same license as the Timed Content package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Timed Content 2.1.5\n"
+"Project-Id-Version: Timed Content\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/timed-content\n"
-"POT-Creation-Date: 2014-12-18 16:23-0700\n"
-"PO-Revision-Date: 2014-12-18 16:23-0700\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2014-12-18 16:38-0700\n"
+"PO-Revision-Date: 2014-12-18 16:38-0700\n"
+"Last-Translator: jelena kovacevic <jecajeca260@gmail.com>\n"
+"Language-Team: <none> <LL@li.org>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.7.1\n"
 "X-Poedit-SearchPath-0: ..\n"
 
 #: ../lib/Arrays_Definitions.php:3
 msgid "Hourly"
-msgstr ""
+msgstr "Por hora"
 
 #: ../lib/Arrays_Definitions.php:4
 msgid "Daily"
-msgstr ""
+msgstr "Diariamente"
 
 #: ../lib/Arrays_Definitions.php:5
 msgid "Weekly"
-msgstr ""
+msgstr "Semanalmente"
 
 #: ../lib/Arrays_Definitions.php:6
 msgid "Monthly"
-msgstr ""
+msgstr "Mensualmente"
 
 #: ../lib/Arrays_Definitions.php:7
 msgid "Yearly"
-msgstr ""
+msgstr "Anualmente"
 
 #: ../lib/Arrays_Definitions.php:10
 msgid "Sundays"
-msgstr ""
+msgstr "domingos"
 
 #: ../lib/Arrays_Definitions.php:11
 msgid "Mondays"
-msgstr ""
+msgstr "lunes"
 
 #: ../lib/Arrays_Definitions.php:12
 msgid "Tuesdays"
-msgstr ""
+msgstr "martes"
 
 #: ../lib/Arrays_Definitions.php:13
 msgid "Wednesdays"
-msgstr ""
+msgstr "miércoles"
 
 #: ../lib/Arrays_Definitions.php:14
 msgid "Thursdays"
-msgstr ""
+msgstr "jueves"
 
 #: ../lib/Arrays_Definitions.php:15
 msgid "Fridays"
-msgstr ""
+msgstr "viernes"
 
 #: ../lib/Arrays_Definitions.php:16
 msgid "Saturdays"
-msgstr ""
+msgstr "sábados"
 
 #: ../lib/Arrays_Definitions.php:19
 msgid "first"
-msgstr ""
+msgstr "primero"
 
 #: ../lib/Arrays_Definitions.php:20
 msgid "second"
-msgstr ""
+msgstr "segundo"
 
 #: ../lib/Arrays_Definitions.php:21
 msgid "third"
-msgstr ""
+msgstr "tercero"
 
 #: ../lib/Arrays_Definitions.php:22
 msgid "fourth"
-msgstr ""
+msgstr "cuarto"
 
 #: ../lib/Arrays_Definitions.php:23
 msgid "last"
-msgstr ""
+msgstr "último"
 
 #: ../lib/Arrays_Definitions.php:26 ../lib/jquery-ui-datetime-i18n.php:4
 msgid "Sunday"
-msgstr ""
+msgstr "domingo"
 
 #: ../lib/Arrays_Definitions.php:27 ../lib/jquery-ui-datetime-i18n.php:5
 msgid "Monday"
-msgstr ""
+msgstr "lunes"
 
 #: ../lib/Arrays_Definitions.php:28 ../lib/jquery-ui-datetime-i18n.php:6
 msgid "Tuesday"
-msgstr ""
+msgstr "martes"
 
 #: ../lib/Arrays_Definitions.php:29 ../lib/jquery-ui-datetime-i18n.php:7
 msgid "Wednesday"
-msgstr ""
+msgstr "miércoles"
 
 #: ../lib/Arrays_Definitions.php:30 ../lib/jquery-ui-datetime-i18n.php:8
 msgid "Thursday"
-msgstr ""
+msgstr "jueves"
 
 #: ../lib/Arrays_Definitions.php:31 ../lib/jquery-ui-datetime-i18n.php:9
 msgid "Friday"
-msgstr ""
+msgstr "viernes"
 
 #: ../lib/Arrays_Definitions.php:32 ../lib/jquery-ui-datetime-i18n.php:10
 msgid "Saturday"
-msgstr ""
+msgstr "sábado"
 
 #: ../lib/Arrays_Definitions.php:33
 msgid "day"
-msgstr ""
+msgstr "día"
 
 #: ../lib/customFields-settings.php:12 ../timed-content.php:992
 msgid "- No exceptions set -"
-msgstr ""
+msgstr "- Ningún conjunto de excepciones -"
 
 #: ../lib/customFields-settings.php:19 ../timed-content.php:703
 msgctxt "Date format for schedule description"
 msgid "F j, Y"
-msgstr ""
+msgstr "j F Y"
 
 #: ../lib/customFields-settings.php:28
 msgid "Action"
-msgstr ""
+msgstr "Acción"
 
 #: ../lib/customFields-settings.php:29
 msgid "Sets the action to be performed when the rule is active."
-msgstr ""
+msgstr "Establece la acción a ser ejecutada cuando la regla está activa."
 
 #: ../lib/customFields-settings.php:31 ../timed-content.php:633
 msgid "Show the content"
-msgstr ""
+msgstr "Mostrar el contenido"
 
 #: ../lib/customFields-settings.php:32 ../timed-content.php:635
 msgid "Hide the content"
-msgstr ""
+msgstr "Ocultar el contenido"
 
 #: ../lib/customFields-settings.php:40
 msgid "Starting Date/Time"
-msgstr ""
+msgstr "Fecha/Hora de Inicio"
 
 #: ../lib/customFields-settings.php:41
 msgid ""
 "Sets the date and time for the beginning of the first active period for this "
 "rule."
 msgstr ""
+"Establece la fecha y hora para el inicio del primer período activo para esta "
+"regla."
 
 #: ../lib/customFields-settings.php:43
 msgctxt ""
 "Starting Date/Time date format (http://ca2.php.net/manual/en/function.date."
 "php)"
 msgid "F jS, Y"
-msgstr ""
+msgstr "j F Y"
 
 #: ../lib/customFields-settings.php:44
 msgctxt ""
 "Starting Date/Time time format (http://ca2.php.net/manual/en/function.date."
 "php)"
 msgid "g:i A"
-msgstr ""
+msgstr "H:i"
 
 #: ../lib/customFields-settings.php:51
 msgid "Ending Date/Time"
-msgstr ""
+msgstr "Fecha/Hora de Fin"
 
 #: ../lib/customFields-settings.php:52
 msgid ""
 "Sets the date and time for the end of the first active period for this rule."
 msgstr ""
+"Establece la fecha y hora para el fin del primer período activo para esta "
+"regla."
 
 #: ../lib/customFields-settings.php:54
 msgctxt ""
 "Ending Date/Time date format (http://ca2.php.net/manual/en/function.date.php)"
 msgid "F jS, Y"
-msgstr ""
+msgstr "j F Y"
 
 #: ../lib/customFields-settings.php:55
 msgctxt ""
 "Ending Date/Time time format (http://ca2.php.net/manual/en/function.date.php)"
 msgid "g:i A"
-msgstr ""
+msgstr "H:i"
 
 #: ../lib/customFields-settings.php:62
 msgid "Timezone:"
-msgstr ""
+msgstr "Zona horaria:"
 
 #: ../lib/customFields-settings.php:63
 msgid "Select a city in the timezone you wish to use for this rule."
 msgstr ""
+"Seleccionar una ciudad en la zona horaria en la que usted desea usar para "
+"esta regla."
 
 #: ../lib/customFields-settings.php:74
 msgid "Frequency:"
-msgstr ""
+msgstr "Frecuencia:"
 
 #: ../lib/customFields-settings.php:75
 msgid "Sets the frequency at which the action should be repeated."
-msgstr ""
+msgstr "Establece la frecuencia a la cual la acción debe ser repetida."
 
 #: ../lib/customFields-settings.php:85 ../lib/customFields-settings.php:96
 #: ../lib/customFields-settings.php:107 ../lib/customFields-settings.php:129
 #: ../lib/customFields-settings.php:172
 msgid "Repeat How Often?"
-msgstr ""
+msgstr "¿Repetir cuán seguido?"
 
 #: ../lib/customFields-settings.php:86
 msgid "If the frequency is set to Hourly, repeat this action every X hours."
 msgstr ""
+"Si la frecuencia está establecida a Por Hora, repetir esta acción cada X "
+"horas."
 
 #: ../lib/customFields-settings.php:97
 msgid "If the frequency is set to Daily, repeat this action every X days."
 msgstr ""
+"Si la frecuencia está establecida a Diariamente, repetir esta acción cada X "
+"días."
 
 #: ../lib/customFields-settings.php:108
 msgid "If the frequency is set to Weekly, repeat this action every X weeks."
 msgstr ""
+"Si la frecuencia está establecida a Semanalmente, repetir esta acción cada X "
+"semanas."
 
 #: ../lib/customFields-settings.php:118
 msgid "Repeat On The Following Days"
-msgstr ""
+msgstr "Repetir En los Siguientes Días"
 
 #: ../lib/customFields-settings.php:119
 msgid ""
 "If the frequency is set to Weekly, repeat this action on these days of the "
 "week INSTEAD of the day of week the Starting Date/Time falls on."
 msgstr ""
+"Si la frecuencia se establece a Semanalmente, repetir esta acción en esos "
+"días de la semana EN VEZ del día de la semana en la que la Fecha/Hora de "
+"Inicio cae."
 
 #: ../lib/customFields-settings.php:130
 msgid "If the frequency is set to Monthly, repeat this action every X months."
 msgstr ""
+"Si la frecuencia se establece a Mensualmente, repetir esta acción cada X "
+"meses."
 
 #: ../lib/customFields-settings.php:140
 msgid "Repeat On The Nth Weekday Of The Month?"
-msgstr ""
+msgstr "¿Repetir En el Enésimo Día de la Semana Del Mes?"
 
 #: ../lib/customFields-settings.php:141
 msgid ""
@@ -248,337 +266,346 @@ msgid ""
 "the month (for example, 'every third Tuesday'). Check this box to select a "
 "pattern below."
 msgstr ""
+"Si la frecuencia se establece a Mensual, repetir esta acción en el enésimo "
+"día de la semana del mes (por ejemplo, 'cada tercer Martes'). Seleccione "
+"esta casilla para seleccionar un patrón debajo."
 
 #: ../lib/customFields-settings.php:150
 msgid "Nth Weekday Ordinal:"
-msgstr ""
+msgstr "Enésimo Día de la Semana Ordinal:"
 
 #: ../lib/customFields-settings.php:151
 msgid ""
 "Select a value for the Nth (for example 'first', 'second', etc.) week of the "
 "month."
 msgstr ""
+"Seleccionar un valor para la Enésima (por ejemplo 'primera', 'segunda', "
+"etc.) semana del mes."
 
 #: ../lib/customFields-settings.php:161
 msgid "Nth Weekday Day Of Week:"
-msgstr ""
+msgstr "Enésimo Día De la Semana:"
 
 #: ../lib/customFields-settings.php:162
 msgid "Select the day of week to repeat on."
-msgstr ""
+msgstr "Seleccionar el día de la semana a repetir."
 
 #: ../lib/customFields-settings.php:173
 msgid "If the frequency is set to Yearly, repeat this action every X years."
 msgstr ""
+"Si la frecuencia se establece a Anual, repetir esta acción cada X años."
 
 #: ../lib/customFields-settings.php:185
 msgid "How Often To Repeat This Action?"
-msgstr ""
+msgstr "¿Cuán Seguido Repetir Esta Acción?"
 
 #: ../lib/customFields-settings.php:188
 msgid "Keep repeating until a given date"
-msgstr ""
+msgstr "Mantener repitiendo hasta una fecha dada"
 
 #: ../lib/customFields-settings.php:189
 msgid "Repeat a set number of times"
-msgstr ""
+msgstr "Repetir un número de veces establecido"
 
 #: ../lib/customFields-settings.php:197
 msgid "End Date:"
-msgstr ""
+msgstr "Fecha de Fin:"
 
 #: ../lib/customFields-settings.php:198
 msgid "Using the settings above, repeat this action until this date."
-msgstr ""
+msgstr "Usando los ajustes anteriores, repetir esta acción hasta esta fecha."
 
 #: ../lib/customFields-settings.php:200
 msgctxt "End Date date format (http://ca2.php.net/manual/en/function.date.php)"
 msgid "F jS, Y"
-msgstr ""
+msgstr "j F Y"
 
 #: ../lib/customFields-settings.php:207
 msgid "Repeat How Many Times?"
-msgstr ""
+msgstr "¿Repetir Cuántas Veces?"
 
 #: ../lib/customFields-settings.php:208
 msgid "Using the settings above, repeat this action this many times."
 msgstr ""
+"Usando los ajustes anteriores, repetir esta acción esta cantidad de veces."
 
 #: ../lib/customFields-settings.php:230
 msgid "Add Exception Date:"
-msgstr ""
+msgstr "Agregar Fecha de Excepcion:"
 
 #: ../lib/customFields-settings.php:231
 msgid "Select a date to add to the Exception Dates List."
-msgstr ""
+msgstr "Seleccione una fecha para agregar a la Lista de Fechas de Excepción."
 
 #: ../lib/customFields-settings.php:241
 msgid "Exception Dates List"
-msgstr ""
+msgstr "Lista de Fechas de Excepciones"
 
 #: ../lib/customFields-settings.php:242
 msgid ""
 "Dates that this Timed Content Rule will not be active.  Double-click on a "
 "date to remove it from the list."
 msgstr ""
+"Fechas que esta regla de contenido programado no se activa.  Haga doble-clic "
+"en una fecha que elimine de la lista."
 
 #: ../lib/customFieldsInterface.php:168 ../lib/customFieldsInterface.php:186
 #: ../lib/customFieldsInterface.php:227
 msgid "This menu is empty."
-msgstr ""
+msgstr "Este menú está vacío."
 
 #: ../lib/customFieldsInterface.php:328
 msgctxt "Date field label"
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
 #: ../lib/customFieldsInterface.php:330
 msgctxt "Time field label"
 msgid "Time"
-msgstr ""
+msgstr "Hora"
 
 #: ../lib/jquery-ui-datetime-i18n.php:13
 msgctxt "Three-letter abbreviation for Sunday"
 msgid "Sun"
-msgstr ""
+msgstr "dom"
 
 #: ../lib/jquery-ui-datetime-i18n.php:14
 msgctxt "Three-letter abbreviation for Monday"
 msgid "Mon"
-msgstr ""
+msgstr "lun"
 
 #: ../lib/jquery-ui-datetime-i18n.php:15
 msgctxt "Three-letter abbreviation for Tuesday"
 msgid "Tue"
-msgstr ""
+msgstr "mar"
 
 #: ../lib/jquery-ui-datetime-i18n.php:16
 msgctxt "Three-letter abbreviation for Wednesday"
 msgid "Wed"
-msgstr ""
+msgstr "mie"
 
 #: ../lib/jquery-ui-datetime-i18n.php:17
 msgctxt "Three-letter abbreviation for Thursday"
 msgid "Thu"
-msgstr ""
+msgstr "jue"
 
 #: ../lib/jquery-ui-datetime-i18n.php:18
 msgctxt "Three-letter abbreviation for Friday"
 msgid "Fri"
-msgstr ""
+msgstr "mie"
 
 #: ../lib/jquery-ui-datetime-i18n.php:19
 msgctxt "Three-letter abbreviation for Saturday"
 msgid "Sat"
-msgstr ""
+msgstr "sab"
 
 #: ../lib/jquery-ui-datetime-i18n.php:22
 msgctxt "Two-letter abbreviation for Sunday"
 msgid "Su"
-msgstr ""
+msgstr "do"
 
 #: ../lib/jquery-ui-datetime-i18n.php:23
 msgctxt "Two-letter abbreviation for Monday"
 msgid "Mo"
-msgstr ""
+msgstr "lu"
 
 #: ../lib/jquery-ui-datetime-i18n.php:24
 msgctxt "Two-letter abbreviation for Tuesday"
 msgid "Tu"
-msgstr ""
+msgstr "ma"
 
 #: ../lib/jquery-ui-datetime-i18n.php:25
 msgctxt "Two-letter abbreviation for Wednesday"
 msgid "We"
-msgstr ""
+msgstr "me"
 
 #: ../lib/jquery-ui-datetime-i18n.php:26
 msgctxt "Two-letter abbreviation for Thursday"
 msgid "Th"
-msgstr ""
+msgstr "ju"
 
 #: ../lib/jquery-ui-datetime-i18n.php:27
 msgctxt "Two-letter abbreviation for Friday"
 msgid "Fr"
-msgstr ""
+msgstr "vi"
 
 #: ../lib/jquery-ui-datetime-i18n.php:28
 msgctxt "Two-letter abbreviation for Saturday"
 msgid "Sa"
-msgstr ""
+msgstr "sa"
 
 #: ../lib/jquery-ui-datetime-i18n.php:31 ../timed-content.php:130
 msgid "January"
-msgstr ""
+msgstr "enero"
 
 #: ../lib/jquery-ui-datetime-i18n.php:32 ../timed-content.php:131
 msgid "February"
-msgstr ""
+msgstr "febrero"
 
 #: ../lib/jquery-ui-datetime-i18n.php:33 ../timed-content.php:132
 msgid "March"
-msgstr ""
+msgstr "marzo"
 
 #: ../lib/jquery-ui-datetime-i18n.php:34 ../timed-content.php:133
 msgid "April"
-msgstr ""
+msgstr "abril"
 
 #: ../lib/jquery-ui-datetime-i18n.php:35 ../timed-content.php:134
 msgid "May"
-msgstr ""
+msgstr "mayo"
 
 #: ../lib/jquery-ui-datetime-i18n.php:36 ../timed-content.php:135
 msgid "June"
-msgstr ""
+msgstr "junio"
 
 #: ../lib/jquery-ui-datetime-i18n.php:37 ../timed-content.php:136
 msgid "July"
-msgstr ""
+msgstr "julio"
 
 #: ../lib/jquery-ui-datetime-i18n.php:38 ../timed-content.php:137
 msgid "August"
-msgstr ""
+msgstr "agosto"
 
 #: ../lib/jquery-ui-datetime-i18n.php:39 ../timed-content.php:138
 msgid "September"
-msgstr ""
+msgstr "septiembre"
 
 #: ../lib/jquery-ui-datetime-i18n.php:40 ../timed-content.php:139
 msgid "October"
-msgstr ""
+msgstr "octubre"
 
 #: ../lib/jquery-ui-datetime-i18n.php:41 ../timed-content.php:140
 msgid "November"
-msgstr ""
+msgstr "noviembre"
 
 #: ../lib/jquery-ui-datetime-i18n.php:42 ../timed-content.php:141
 msgid "December"
-msgstr ""
+msgstr "diciembre"
 
 #: ../lib/jquery-ui-datetime-i18n.php:45
 msgctxt "Three-letter abbreviation for January"
 msgid "Jan"
-msgstr ""
+msgstr "ene"
 
 #: ../lib/jquery-ui-datetime-i18n.php:46
 msgctxt "Three-letter abbreviation for February"
 msgid "Feb"
-msgstr ""
+msgstr "feb"
 
 #: ../lib/jquery-ui-datetime-i18n.php:47
 msgctxt "Three-letter abbreviation for March"
 msgid "Mar"
-msgstr ""
+msgstr "mar"
 
 #: ../lib/jquery-ui-datetime-i18n.php:48
 msgctxt "Three-letter abbreviation for April"
 msgid "Apr"
-msgstr ""
+msgstr "abr"
 
 #: ../lib/jquery-ui-datetime-i18n.php:49
 msgctxt "Three-letter abbreviation for May"
 msgid "May"
-msgstr ""
+msgstr "may"
 
 #: ../lib/jquery-ui-datetime-i18n.php:50
 msgctxt "Three-letter abbreviation for June"
 msgid "Jun"
-msgstr ""
+msgstr "jun"
 
 #: ../lib/jquery-ui-datetime-i18n.php:51
 msgctxt "Three-letter abbreviation for July"
 msgid "Jul"
-msgstr ""
+msgstr "jul"
 
 #: ../lib/jquery-ui-datetime-i18n.php:52
 msgctxt "Three-letter abbreviation for August"
 msgid "Aug"
-msgstr ""
+msgstr "ago"
 
 #: ../lib/jquery-ui-datetime-i18n.php:53
 msgctxt "Three-letter abbreviation for September"
 msgid "Sep"
-msgstr ""
+msgstr "sep"
 
 #: ../lib/jquery-ui-datetime-i18n.php:54
 msgctxt "Three-letter abbreviation for October"
 msgid "Oct"
-msgstr ""
+msgstr "oct"
 
 #: ../lib/jquery-ui-datetime-i18n.php:55
 msgctxt "Three-letter abbreviation for November"
 msgid "Nov"
-msgstr ""
+msgstr "nov"
 
 #: ../lib/jquery-ui-datetime-i18n.php:56
 msgctxt "Three-letter abbreviation for December"
 msgid "Dec"
-msgstr ""
+msgstr "dic"
 
 #: ../lib/jquery-ui-datetime-i18n.php:59
 msgctxt "Abbreviation for first 12-hour period in a day"
 msgid "AM"
-msgstr ""
+msgstr "AM"
 
 #: ../lib/jquery-ui-datetime-i18n.php:60
 msgctxt "Abbreviation for second 12-hour period in a day"
 msgid "PM"
-msgstr ""
+msgstr "PM"
 
 #: ../lib/jquery-ui-datetime-i18n.php:64
 msgctxt "jQuery UI Datepicker Close label"
 msgid "Done"
-msgstr ""
+msgstr "Hecho"
 
 #: ../lib/jquery-ui-datetime-i18n.php:65
 msgctxt "jQuery UI Datepicker Previous label"
 msgid "Prev"
-msgstr ""
+msgstr "Ant"
 
 #: ../lib/jquery-ui-datetime-i18n.php:66
 msgctxt "jQuery UI Datepicker Next label"
 msgid "Next"
-msgstr ""
+msgstr "Sig"
 
 #: ../lib/jquery-ui-datetime-i18n.php:67
 msgctxt "jQuery UI Datepicker Today label"
 msgid "Today"
-msgstr ""
+msgstr "Hoy"
 
 #: ../lib/jquery-ui-datetime-i18n.php:73
 msgctxt "jQuery UI Datepicker Week label"
 msgid "Wk"
-msgstr ""
+msgstr "Sm"
 
 #. translators:  http://jqueryui.com/datepicker/#date-formats
 #: ../lib/jquery-ui-datetime-i18n.php:75
 msgctxt "jQuery UI Datepicker Date format"
 msgid "MM d, yy"
-msgstr ""
+msgstr "d MM yy"
 
 #: ../lib/jquery-ui-datetime-i18n.php:76
 msgctxt ""
 "jQuery UI Datepicker 'First day of week' as integer ( Sunday = 0 ( 'zero' ), "
 "Monday = 1, ... )"
 msgid "0"
-msgstr ""
+msgstr "1"
 
 #: ../lib/jquery-ui-datetime-i18n.php:77
 msgctxt ""
 "jQuery UI Datepicker: Is translated language read right-to-left ( Value must "
 "be either English 'true' or 'false' )?"
 msgid "false"
-msgstr ""
+msgstr "false"
 
 #: ../lib/jquery-ui-datetime-i18n.php:84
 msgctxt "jQuery UI Timepicker 'Hour' label"
 msgid "Hour"
-msgstr ""
+msgstr "Hora"
 
 #: ../lib/jquery-ui-datetime-i18n.php:85
 msgctxt "jQuery UI Timepicker 'Minute' label"
 msgid "Minute"
-msgstr ""
+msgstr "Minuto"
 
 #: ../lib/jquery-ui-datetime-i18n.php:87
 msgctxt ""
@@ -586,208 +613,215 @@ msgctxt ""
 "equivalent) when displaying a time  ( Value must be either English 'true' or "
 "'false' )?"
 msgid "true"
-msgstr ""
+msgstr "false"
 
 #: ../lib/jquery-ui-datetime-i18n.php:88
 msgctxt ""
 "jQuery UI Datepicker: Character used to separate hours and minutes in "
 "translated language"
 msgid ":"
-msgstr ""
+msgstr ":"
 
 #: ../lib/jquery-ui-datetime-i18n.php:89
 msgctxt "jQuery UI Timepicker 'Done' label"
 msgid "Done"
-msgstr ""
+msgstr "Hecho"
 
 #: ../lib/jquery-ui-datetime-i18n.php:90
 msgctxt "jQuery UI Timepicker 'Now' label"
 msgid "Now"
-msgstr ""
+msgstr "Ahora"
 
 #: ../lib/jquery-ui-datetime-i18n.php:91
 msgctxt "jQuery UI Timepicker 'Deselect' label"
 msgid "Deselect"
-msgstr ""
+msgstr "Deseleccionar"
 
 #: ../timed-content.php:51 ../timed-content.php:62
 msgctxt "post type general name"
 msgid "Timed Content Rules"
-msgstr ""
+msgstr "Reglas de Contenido Cronometrado"
 
 #: ../timed-content.php:52
 msgctxt "post type singular name"
 msgid "Timed Content Rule"
-msgstr ""
+msgstr "Regla de Contenido Cronometrado"
 
 #: ../timed-content.php:53
 msgctxt "Menu item/button label on Timed Content Rules admin page"
 msgid "Add New"
-msgstr ""
+msgstr "Añadir nueva"
 
 #: ../timed-content.php:54
 msgid "Add New Timed Content Rule"
-msgstr ""
+msgstr "Añadir Nueva Regla de Contenido Cronometrado"
 
 #: ../timed-content.php:55
 msgid "Edit Timed Content Rule"
-msgstr ""
+msgstr "Editar Regla de Contenido Cronometrado"
 
 #: ../timed-content.php:56
 msgid "New Timed Content Rule"
-msgstr ""
+msgstr "Nueva Regla de Contenido Cronometrado"
 
 #: ../timed-content.php:57
 msgid "View Timed Content Rule"
-msgstr ""
+msgstr "Ver Regla de Contenido Cronometrado"
 
 #: ../timed-content.php:58
 msgid "Search Timed Content Rules"
-msgstr ""
+msgstr "Buscar Reglas de Contenido Cronometrado"
 
 #: ../timed-content.php:59 ../timed-content.php:1084
 msgid "No Timed Content Rules found"
-msgstr ""
+msgstr "No se encontraron Reglas de Contenido Cronometrado"
 
 #: ../timed-content.php:60
 msgid "No Timed Content Rules found in Trash"
-msgstr ""
+msgstr "No se encontraron Reglas de Contenido Cronometrado en la Papelera"
 
 #: ../timed-content.php:66
 msgid ""
 "Create regular schedules to show or hide selected content in a Page or Post."
 msgstr ""
+"Crear programaciones regulares para mostrar u ocultar contenido seleccionado "
+"en una Página o Entrada."
 
 #. translators: date and time format to activate rule. http://ca2.php.net/manual/en/function.date.php
 #: ../timed-content.php:96
 msgid "M j, Y @ G:i"
-msgstr ""
+msgstr "j F Y @ G:i"
 
 #: ../timed-content.php:100 ../timed-content.php:103
 msgid "Timed Content Rule updated."
-msgstr ""
+msgstr "Regla de Contenido Cronometrado actualizada."
 
 #: ../timed-content.php:101
 msgid "Custom field updated."
-msgstr ""
+msgstr "Campo personalizado actualizado."
 
 #: ../timed-content.php:102
 msgid "Custom field deleted."
-msgstr ""
+msgstr "Campo personalizado borrado."
 
 #. translators: %s: date and time of the revision
 #: ../timed-content.php:105
 #, php-format
 msgid "Timed Content Rule restored to revision from %s"
-msgstr ""
+msgstr "Regla de Contenido Cronometrado restaurada a la revisión desde %s"
 
 #: ../timed-content.php:106
 msgid "Timed Content Rule published."
-msgstr ""
+msgstr "Regla de Contenido Cronometrado publicada."
 
 #: ../timed-content.php:107
 msgid "Timed Content Rule saved."
-msgstr ""
+msgstr "Regla de Contenido Cronometrado salvada."
 
 #: ../timed-content.php:108
 msgid "Timed Content Rule submitted."
-msgstr ""
+msgstr "Regla de Contenido Cronometrado enviada."
 
 #. translators: %s: date and time to activate rule.
 #: ../timed-content.php:110
 #, php-format
 msgid "Timed Content Rule scheduled for: %s."
-msgstr ""
+msgstr "Regla de Contenido Cronometrado programada para: %s."
 
 #: ../timed-content.php:111
 msgid "Timed Content Rule draft updated."
-msgstr ""
+msgstr "Borrador de Regla de Contenido Cronometrado actualizado."
 
 #: ../timed-content.php:381
 msgid "Date in Starting Date/Time must not be empty."
-msgstr ""
+msgstr "La fecha en la Fecha/Hora Inicial no puede ser vacía."
 
 #: ../timed-content.php:383
 msgid "Time in Starting Date/Time must not be empty."
-msgstr ""
+msgstr "La hora en la Fecha/Hora Inicial no puede ser vacío."
 
 #: ../timed-content.php:385
 msgid "Date in Ending Date/Time must not be empty."
-msgstr ""
+msgstr "La fecha en la Fecha/Hora Final no puede ser vacía."
 
 #: ../timed-content.php:387
 msgid "Time in Ending Date/Time must not be empty."
-msgstr ""
+msgstr "La hora en la Fecha/Hora Final no puede ser vacío."
 
 #: ../timed-content.php:389
 msgid "Repeat How Often? must not be empty."
-msgstr ""
+msgstr "¿Repetir cuán seguido? no puede ser vacío."
 
 #: ../timed-content.php:391
 msgid "Repeat How Often? must be a number."
-msgstr ""
+msgstr "¿Repetir cuán seguido? debe ser un número."
 
 #: ../timed-content.php:393
 msgid "Repeat How Many Times? must not be empty."
-msgstr ""
+msgstr "¿Repetir cuantas veces? no puede ser vacío."
 
 #: ../timed-content.php:395
 msgid "Repeat How Many Times? must be a number."
-msgstr ""
+msgstr "¿Repetir cuantas veces? debe ser un número."
 
 #: ../timed-content.php:397
 msgid "End Date must not be empty."
-msgstr ""
+msgstr "La Fecha de Fin no puede ser vacía."
 
 #: ../timed-content.php:399
 msgid "Starting Date/Time must be valid."
-msgstr ""
+msgstr "La Fecha/Hora de Inicio tiene que ser válida."
 
 #: ../timed-content.php:401
 msgid "Ending Date/Time must be valid."
-msgstr ""
+msgstr "La Fecha/Hora de Fin tiene que ser válida."
 
 #: ../timed-content.php:403
 msgid "Starting Date/Time must be before Ending Date/Time."
-msgstr ""
+msgstr "La Fecha/Hora de Inicio debe estar antes que la Fecha/Hora de Fin."
 
 #: ../timed-content.php:405
 msgid "End Date must be after Ending Date/Time."
-msgstr ""
+msgstr "La Fecha de Fin tiene que estar después de la Fecha/Hora de Fin."
 
 #: ../timed-content.php:464 ../timed-content.php:516 ../timed-content.php:850
 #: ../timed-content.php:854
 #, php-format
 msgctxt "Human readable time difference"
 msgid "%s from now."
-msgstr ""
+msgstr "%s desde ahora."
 
 #: ../timed-content.php:467 ../timed-content.php:519
 msgid "Right now!"
-msgstr ""
+msgstr "¡Ahora mismo!"
 
 #: ../timed-content.php:470 ../timed-content.php:522 ../timed-content.php:852
 #: ../timed-content.php:856
 #, php-format
 msgctxt "Human readable time difference"
 msgid "%s ago."
-msgstr ""
+msgstr "%s pasados."
 
 #: ../timed-content.php:621
 msgid "Warning!"
-msgstr ""
+msgstr "¡Advertencia!"
 
 #: ../timed-content.php:622
 msgid ""
 "Some problems have been detected.  Although you can still publish this rule, "
 "it may not work the way you expect."
 msgstr ""
+"Algunos problemas se han detectado. Aunque puede aún publicar esta regla, "
+"puede no funcionar como usted espera."
 
 #: ../timed-content.php:627
 msgid ""
 "Check that all of the conditions for this rule are correct, and use Show "
 "Projected Dates/Times to ensure your rule is working properly."
 msgstr ""
+"Chequee que todas las condiciones para esta regla son correctas, y use las "
+"Fechas/Horas Proyectadas para asegurar que su regla esté funcionando "
+"correctamente."
 
 #: ../timed-content.php:652
 #, php-format
@@ -795,63 +829,63 @@ msgctxt ""
 "Perform action (%1$s) from date/time of first active period (%2$s @ %3$s) "
 "until date/time of last active period (%4$s @ %5$s)."
 msgid "%1$s on %2$s @ %3$s until %4$s @ %5$s."
-msgstr ""
+msgstr "%1$s el %2$s @ %3$s hasta %4$s @ %5$s."
 
 #: ../timed-content.php:655
 #, php-format
 msgid "Repeat this action every hour."
 msgid_plural "Repeat this action every %d hours."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Repetir esta acción cada hora."
+msgstr[1] "Repetir esta acción cada %d horas."
 
 #: ../timed-content.php:657
 #, php-format
 msgid "Repeat this action every day."
 msgid_plural "Repeat this action every %d days."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Repetir esta acción cada día."
+msgstr[1] "Repetir esta acción cada %d días."
 
 #: ../timed-content.php:664
 #, php-format
 msgctxt "List of one weekday"
 msgid "%1$s"
-msgstr ""
+msgstr "%1$s"
 
 #: ../timed-content.php:665
 #, php-format
 msgctxt "List of two weekdays"
 msgid "%1$s and %2$s"
-msgstr ""
+msgstr "%1$s y %2$s"
 
 #: ../timed-content.php:666
 #, php-format
 msgctxt "List of three weekdays"
 msgid "%1$s, %2$s, and %3$s"
-msgstr ""
+msgstr "%1$s, %2$s, y %3$s"
 
 #: ../timed-content.php:667
 #, php-format
 msgctxt "List of four weekdays"
 msgid "%1$s, %2$s, %3$s, and %4$s"
-msgstr ""
+msgstr "%1$s, %2$s, %3$s, y %4$s"
 
 #: ../timed-content.php:668
 #, php-format
 msgctxt "List of five weekdays"
 msgid "%1$s, %2$s, %3$s, %4$s, and %5$s"
-msgstr ""
+msgstr "%1$s, %2$s, %3$s, %4$s, y %5$s"
 
 #: ../timed-content.php:669
 #, php-format
 msgctxt "List of six weekdays"
 msgid "%1$s, %2$s, %3$s, %4$s, %5$s, and %6$s"
-msgstr ""
+msgstr "%1$s, %2$s, %3$s, %4$s, %5$s, y %6$s"
 
 #: ../timed-content.php:670
 #, php-format
 msgctxt "List of all weekdays"
 msgid "%1$s, %2$s, %3$s, %4$s, %5$s, %6$s, and %7$s"
-msgstr ""
+msgstr "%1$s, %2$s, %3$s, %4$s, %5$s, %6$s, y %7$s"
 
 #: ../timed-content.php:673
 #, php-format
@@ -859,7 +893,7 @@ msgctxt ""
 "List the weekdays to repeat the rule when frequency is every week. %s is the "
 "list of weekdays."
 msgid "Repeat this action every week on %s."
-msgstr ""
+msgstr "Repetir esta acción cada semana el %s."
 
 #: ../timed-content.php:675
 #, php-format
@@ -867,21 +901,21 @@ msgctxt ""
 "List the weekdays to repeat the rule when frequency is every %1$d weeks. "
 "%2$s is the list of weekdays."
 msgid "Repeat this action every %1$d weeks on %2$s."
-msgstr ""
+msgstr "Repetir esta acción cada %1$d semanas el %2$s."
 
 #: ../timed-content.php:677
 #, php-format
 msgid "Repeat this action every week."
 msgid_plural "Repeat this action every %d weeks."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Repetir esta acción cada semana."
+msgstr[1] "Repetir esta acción cada %d semanas."
 
 #: ../timed-content.php:682
 #, php-format
 msgctxt ""
 "Example: 'Repeat this action every month on the second Friday of the month.'"
 msgid "Repeat this action every month on the %1$s %2$s of the month."
-msgstr ""
+msgstr "Repetir esta acción cada mes el %1$s %2$s del mes."
 
 #: ../timed-content.php:684
 #, php-format
@@ -889,48 +923,48 @@ msgctxt ""
 "Example: 'Repeat this action every 2 months on the second Friday of the "
 "month.'"
 msgid "Repeat this action every %1$d months on the %2$s %3$s of the month."
-msgstr ""
+msgstr "Repetir esta acción cada %1$d meses el %2$s %3$s del mes."
 
 #: ../timed-content.php:686
 #, php-format
 msgid "Repeat this action every month."
 msgid_plural "Repeat this action every %d months."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Repetir esta acción cada mes."
+msgstr[1] "Repetir esta acción cada %d meses."
 
 #: ../timed-content.php:688
 #, php-format
 msgid "Repeat this action every year."
 msgid_plural "Repeat this action every %d years."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Repetir esta acción cada año."
+msgstr[1] "Repetir esta acción cada %d años."
 
 #: ../timed-content.php:691
 #, php-format
 msgid "This rule will be active for 1 repetition."
 msgid_plural "This rule will be active for %d repetitions."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Esta regla estará activada para 1 repetición."
+msgstr[1] "Esta regla estará activada para %d repeticións."
 
 #: ../timed-content.php:693
 #, php-format
 msgid "This rule will be active until %s."
-msgstr ""
+msgstr "Esta regla estará activada hasta %s."
 
 #: ../timed-content.php:704
 #, php-format
 msgid "This rule will be inactive on the following dates: %s."
-msgstr ""
+msgstr "Esta regla estará inactivo en las siguientes fechas:% s."
 
 #: ../timed-content.php:708
 #, php-format
 msgid "All times are in the %s timezone."
-msgstr ""
+msgstr "Todas las horas están en la zona horaria %s."
 
 #: ../timed-content.php:859
 msgctxt "Noun"
 msgid "Notice"
-msgstr ""
+msgstr "Aviso"
 
 #: ../timed-content.php:860
 #, php-format
@@ -940,188 +974,201 @@ msgid ""
 "see this.  To turn off this message, remove the %2$s attribute from the "
 "shortcode."
 msgstr ""
+"La depuración ha sido habilitada para un código corto %1$s en este Entrada/"
+"Página. Solamente los sitios web que están actualmente autenticados y pueden "
+"editar este Entrada/Página verán esto. Para deshabilitar este mensaje, borre "
+"el atributo %2$s del código corto."
 
 #: ../timed-content.php:863 ../timed-content.php:870
 #, php-format
 msgid "The %s attribute is not set."
-msgstr ""
+msgstr "El atributo %s no está establecido."
 
 #: ../timed-content.php:865 ../timed-content.php:872
 #, php-format
 msgid "The %s attribute is currently set to"
-msgstr ""
+msgstr "El atributo %s está establecido a"
 
 #: ../timed-content.php:866 ../timed-content.php:873
 msgid "The Timed Content plugin thinks the intended date/time is"
 msgstr ""
+"El plugin de Contenido Cronometrado piensa que la fecha/hora destinada es"
 
 #: ../timed-content.php:876 ../tinymce_plugin/dialog.php:135
 msgid "Current Date/Time:"
-msgstr ""
+msgstr "Fecha/Hora Actual:"
 
 #: ../timed-content.php:877
 msgctxt "Noun"
 msgid "Content:"
-msgstr ""
+msgstr "Contenido:"
 
 #: ../timed-content.php:996
 msgctxt ""
 "Scheduled Dates/Times dialog - Beginning of active period table header"
 msgid "Start"
-msgstr ""
+msgstr "Inicio"
 
 #: ../timed-content.php:997
 msgctxt "Scheduled Dates/Times dialog - End of active period table header"
 msgid "End"
-msgstr ""
+msgstr "Fin"
 
 #: ../timed-content.php:998
 msgctxt "Scheduled Dates/Times dialog - dialog header"
 msgid "Scheduled Dates/Times"
-msgstr ""
+msgstr "Fechas/Horas Programadas"
 
 #: ../timed-content.php:1001
 msgctxt "Scheduled Dates/Times dialog - Close button HTML label"
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
 #: ../timed-content.php:1003
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #: ../timed-content.php:1004
 msgid ""
 "Something unexpected has happened along the way.  The specific details are "
 "below:"
 msgstr ""
+"Algo inesperado ocurrió en el camino. Los detalles específicos están debajo:"
 
 #: ../timed-content.php:1041
 msgid "Add Timed Content shortcodes"
-msgstr ""
+msgstr "Añadir códigos cortos de Contenido Cronometrado"
 
 #: ../timed-content.php:1081
 msgctxt "No Timed Content Rule title"
 msgid "(no title)"
-msgstr ""
+msgstr "(sin título)"
 
 #: ../timed-content.php:1136
 msgid "Description"
-msgstr ""
+msgstr "Descripción"
 
 #: ../timed-content.php:1137
 msgid "Shortcode"
-msgstr ""
+msgstr "Código Corto"
 
 #: ../timed-content.php:1170 ../timed-content.php:1205
 msgid "Timed Content Rule"
 msgid_plural "Timed Content Rules"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Regla de Contenido Cronometrado"
+msgstr[1] "Reglas de Contenido Cronometrado"
 
 #: ../timed-content.php:1182 ../timed-content.php:1216
 msgid "Timed Content Rule Pending"
 msgid_plural "Timed Content Rules Pending"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Regla Pendiente de Contenido Cronometrado "
+msgstr[1] "Reglas Pendiente de Contenido Cronometrado "
 
 #: ../timed-content.php:1232
 msgid "Rule Description/Schedule"
-msgstr ""
+msgstr "Regla de Descripción/Programación"
 
 #: ../timed-content.php:1236
 msgid "Show Projected Dates/Times"
-msgstr ""
+msgstr "Mostrar Fechas/Horas Proyectadas"
 
 #: ../timed-content.php:1241
 msgid "Action/Initial Event"
-msgstr ""
+msgstr "Evento Inicial/De Acción"
 
 #: ../timed-content.php:1242
 msgid "Set the action to be taken and when it should first run."
 msgstr ""
+"Establecer la acción a ser ejecutada cuando se ejecute por primera vez."
 
 #: ../timed-content.php:1247
 msgid "Repeating Pattern"
-msgstr ""
+msgstr "Patrón Repetitivo"
 
 #: ../timed-content.php:1248
 msgid "Set how often the action should repeat."
-msgstr ""
+msgstr "Establecer cuán seguido la acción debería repetirse."
 
 #: ../timed-content.php:1253
 msgid "Stopping Condition"
-msgstr ""
+msgstr "Condición de Parada"
 
 #: ../timed-content.php:1254
 msgid "Set how long or how many times the action should occur."
-msgstr ""
+msgstr "Establecer cuán largo o cuántas veces la acción debería ocurrir."
 
 #: ../timed-content.php:1259
 msgid "Exceptions"
-msgstr ""
+msgstr "Excepciones"
 
 #: ../timed-content.php:1260
 msgid "Set up any exceptions to this Timed Content Rule."
-msgstr ""
+msgstr "Configurar cualquier excepciones a esta regla contenido programado."
 
 #. translators:  date/time format for debugging messages. http://ca2.php.net/manual/en/function.date.php
 #: ../timed-content.php:1267
 msgid "l, F jS, Y, g:i A T"
-msgstr ""
+msgstr "l, d F Y, H:i T"
 
 #: ../tinymce_plugin/dialog.php:4
 msgctxt "TinyMCE Dialog - Dialog titlebar"
 msgid "Add Timed Content shortcodes"
-msgstr ""
+msgstr "Añadir códigos cortos de Contenido Cronometrado"
 
 #: ../tinymce_plugin/dialog.php:28
 msgid "When using the Show action, the Show time must be at least 1 second."
 msgstr ""
+"Cuando se usa la acción Mostrar, la hora de Mostrar tiene que ser al menos 1 "
+"segundo."
 
 #: ../tinymce_plugin/dialog.php:29
 msgid "When using the Hide action, the Hide time must be at least 1 second."
 msgstr ""
+"Cuando se utiliza la acción Ocultar, la hora de Ocultar tiene que ser de al "
+"menos 1 segundo."
 
 #: ../tinymce_plugin/dialog.php:30 ../tinymce_plugin/dialog.php:36
 msgid ""
 "When using both Show and Hide actions, the Hide time must be later than the "
 "Show time."
 msgstr ""
+"Cuando se utiliza ambas acciones Mostrar y Ocultar, la hora de Ocultar tiene "
+"que ser posterior la hora de Mostrar."
 
 #: ../tinymce_plugin/dialog.php:31 ../tinymce_plugin/dialog.php:37
 msgid "Please select an action to perform."
-msgstr ""
+msgstr "Por favor seleccione una acción a realizar."
 
 #: ../tinymce_plugin/dialog.php:32
 msgid "Please set a date for the Show action."
-msgstr ""
+msgstr "Por favor seleccione una fecha para la acción Mostrar."
 
 #: ../tinymce_plugin/dialog.php:33
 msgid "Please set a time for the Show action."
-msgstr ""
+msgstr "Por favor seleccione una hora para la acción Mostrar."
 
 #: ../tinymce_plugin/dialog.php:34
 msgid "Please set a date for the Hide action."
-msgstr ""
+msgstr "Por favor seleccione una fecha para la acción Ocultar."
 
 #: ../tinymce_plugin/dialog.php:35
 msgid "Please set a time for the Hide action."
-msgstr ""
+msgstr "Por favor seleccione una hora para la acción Ocultar."
 
 #: ../tinymce_plugin/dialog.php:45
 msgctxt "TinyMCE Dialog - Client tab label"
 msgid "Client"
-msgstr ""
+msgstr "Cliente"
 
 #: ../tinymce_plugin/dialog.php:47
 msgctxt "TinyMCE Dialog - Server tab label"
 msgid "Server"
-msgstr ""
+msgstr "Servidor"
 
 #: ../tinymce_plugin/dialog.php:49
 msgctxt "TinyMCE Dialog - Rules tab label"
 msgid "Timed Content Rules"
-msgstr ""
+msgstr "Reglas de Contenido Cronometrado"
 
 #: ../tinymce_plugin/dialog.php:57
 msgctxt "TinyMCE Dialog - Client tab instructions"
@@ -1129,65 +1176,67 @@ msgid ""
 "Select the actions you wish to perform and the times after the Page/Post is "
 "loaded when they should occur."
 msgstr ""
+"Seleccionar las acciones que desea realizar y las horas luego de que la "
+"Página/Entrada esté cargada cuando ellos deben ocurrir."
 
 #: ../tinymce_plugin/dialog.php:62 ../tinymce_plugin/dialog.php:141
 msgctxt "TinyMCE Dialog - Show action label"
 msgid "Show"
-msgstr ""
+msgstr "Mostrar (Show)"
 
 #: ../tinymce_plugin/dialog.php:65 ../tinymce_plugin/dialog.php:87
 msgctxt "TinyMCE Dialog - Time count label"
 msgid "Time (mm:ss):"
-msgstr ""
+msgstr "Duración (mm:ss):"
 
 #: ../tinymce_plugin/dialog.php:74
 msgctxt "TinyMCE Dialog - Fade-in label"
 msgid "Fade in (ms):"
-msgstr ""
+msgstr "Aparecer (ms):"
 
 #: ../tinymce_plugin/dialog.php:77 ../tinymce_plugin/dialog.php:99
 msgctxt "TinyMCE Dialog - Optional checkbox HTML label"
 msgid "Optional"
-msgstr ""
+msgstr "Opcional"
 
 #: ../tinymce_plugin/dialog.php:84 ../tinymce_plugin/dialog.php:155
 msgctxt "TinyMCE Dialog - Hide action label"
 msgid "Hide"
-msgstr ""
+msgstr "Ocultar (Hide)"
 
 #: ../tinymce_plugin/dialog.php:96
 msgctxt "TinyMCE Dialog - Fade-out label"
 msgid "Fade out (ms):"
-msgstr ""
+msgstr "Desaparecer (ms):"
 
 #: ../tinymce_plugin/dialog.php:104
 msgctxt "TinyMCE Dialog - Display Mode label"
 msgid "Display Mode"
-msgstr ""
+msgstr "Modo de Visualización"
 
 #: ../tinymce_plugin/dialog.php:108
 #, php-format
 msgctxt "TinyMCE Dialog - Display mode <div> HTML description"
 msgid "Enclose content using %s tags (block-level)"
-msgstr ""
+msgstr "Encerrar el contenido utilizando etiquetas %s (a nivel de bloque)"
 
 #: ../tinymce_plugin/dialog.php:111
 #, php-format
 msgctxt "TinyMCE Dialog - Display mode <span> HTML description"
 msgid "Enclose content using %s tags (inline)"
-msgstr ""
+msgstr "Encerrar el contenido utilizando etiquetas %s (inline)"
 
 #: ../tinymce_plugin/dialog.php:116 ../tinymce_plugin/dialog.php:179
 #: ../tinymce_plugin/dialog.php:206
 msgctxt "TinyMCE Dialog - Insert button HTML label"
 msgid "Insert"
-msgstr ""
+msgstr "Insertar"
 
 #: ../tinymce_plugin/dialog.php:119 ../tinymce_plugin/dialog.php:182
 #: ../tinymce_plugin/dialog.php:209
 msgctxt "TinyMCE Dialog - Cancel button HTML label"
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: ../tinymce_plugin/dialog.php:127
 msgctxt "TinyMCE Dialog - Server tab instructions"
@@ -1195,6 +1244,8 @@ msgid ""
 "Select the actions you wish to perform and the dates/times when they should "
 "occur."
 msgstr ""
+"Seleccionar las acciones que desea ejecutar y las fechas/horas de cuando "
+"ellas deben ocurrir."
 
 #: ../tinymce_plugin/dialog.php:132
 msgctxt "TinyMCE Dialog - Server debugging label"
@@ -1202,30 +1253,32 @@ msgid ""
 "Add debugging messages (Only logged-in users who can edit this Post/Page "
 "will see them)"
 msgstr ""
+"Adicionar mensajes de depuración (Solamente usuarios autenticados que pueden "
+"editar este Entrada/Página podrán verlos)"
 
 #: ../tinymce_plugin/dialog.php:143 ../tinymce_plugin/dialog.php:157
 msgctxt "Date field label"
 msgid "Date:"
-msgstr ""
+msgstr "Fecha:"
 
 #: ../tinymce_plugin/dialog.php:146 ../tinymce_plugin/dialog.php:160
 msgctxt "Time field label"
 msgid "Time:"
-msgstr ""
+msgstr "Hora:"
 
 #: ../tinymce_plugin/dialog.php:167
 msgctxt "TinyMCE Dialog - Timezone fieldset label"
 msgid "Timezone"
-msgstr ""
+msgstr "Zona horaria"
 
 #: ../tinymce_plugin/dialog.php:169
 msgctxt "TinyMCE Dialog - Timezone <select> HTML label"
 msgid "Select a city whose timezone you wish to use:"
-msgstr ""
+msgstr "Seleccionar una ciudad de la cual desea usar la zona horaria:"
 
 #: ../tinymce_plugin/dialog.php:175
 msgid "Wordpress Timezone:"
-msgstr ""
+msgstr "Zona horaria de WordPress:"
 
 #: ../tinymce_plugin/dialog.php:190
 msgctxt "TinyMCE Dialog - Timed Content Rules tab instructions"
@@ -1233,13 +1286,55 @@ msgid ""
 "Select the Timed Content Rule you wish to use. Only rules without any "
 "warnings will appear below."
 msgstr ""
+"Seleccionar las acciones que desea ejecutar y las fechas/horas de cuando "
+"ellas deben ocurrir."
 
 #: ../tinymce_plugin/dialog.php:192
 msgctxt "TinyMCE Dialog - Timed Content Rules <select> HTML label"
 msgid "Rule:"
-msgstr ""
+msgstr "Regla:"
 
 #: ../tinymce_plugin/dialog.php:199
 msgctxt "TinyMCE Dialog - Timed Content Rules description label"
 msgid "Description"
-msgstr ""
+msgstr "Descripción"
+
+#~ msgctxt "Ending Date/Time date format"
+#~ msgid "F jS, Y"
+#~ msgstr "j F Y"
+
+#~ msgctxt "Ending Date/Time time format"
+#~ msgid "g:i A"
+#~ msgstr "H:i"
+
+#~ msgctxt "End Date date format"
+#~ msgid "F jS, Y"
+#~ msgstr "j F Y"
+
+#~ msgid "The <code>hide</code> attribute is not set."
+#~ msgstr "El atributo <code>hide</code> no está establecido."
+
+#~ msgid "The <code>hide</code> attribute is currently set to"
+#~ msgstr "El atributo <code>hide</code> está establecido a"
+
+#~ msgid "All rules"
+#~ msgstr "Todos las reglas"
+
+#~ msgid "Timed Content"
+#~ msgstr "Contenido Cronometrado"
+
+#~ msgid "http://wordpress.org/plugins/timed-content/"
+#~ msgstr "http://wordpress.org/plugins/timed-content/"
+
+#~ msgid ""
+#~ "Plugin to show or hide portions of a Page or Post based on specific date/"
+#~ "time characteristics.  These actions can either be processed either "
+#~ "server-side or client-side, depending on the desired effect."
+#~ msgstr ""
+#~ "Plugin para mostrar u ocultar porciones de una Página o Entrada basado en "
+#~ "características específicas de fecha/hora. Estas acciones pueden ser "
+#~ "procesadas a nivel de servidor o de cliente, dependiendo de los efectos "
+#~ "deseados."
+
+#~ msgid "K. Tough"
+#~ msgstr "K. Tough"

@@ -6,12 +6,12 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough
-Version: 2.3
+Version: 2.3.1
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if ( !class_exists( "timedContentPlugin" ) ) {
 
-	define( "TIMED_CONTENT_VERSION", "2.3" );
+	define( "TIMED_CONTENT_VERSION", "2.3.1" );
 	define( "TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/timed-content' );
 	define( "TIMED_CONTENT_CLIENT_TAG", "timed-content-client" );
 	define( "TIMED_CONTENT_SERVER_TAG", "timed-content-server" );
@@ -455,20 +455,20 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			if ( $human_readable == true )  {
 				$active_periods[$period_count]["start"] = date_i18n( TIMED_CONTENT_DT_FORMAT, $current );
 				$active_periods[$period_count]["end"] = date_i18n( TIMED_CONTENT_DT_FORMAT, $end_current );
+				if ( $right_now_t < $current )  {
+					$active_periods[$period_count]["status"] = "upcoming";
+					$active_periods[$period_count]["time"] = sprintf( _x( '%s from now.', 'Human readable time difference', 'timed-content' ), human_time_diff( $current, $right_now_t ) );
+				} elseif  ( ( $current <= $right_now_t ) && ( $right_now_t <= $end_current ) ) {
+					$active_periods[$period_count]["status"] = "active";
+					$active_periods[$period_count]["time"] = __( "Right now!", 'timed-content' );
+				} else {
+					$active_periods[$period_count]["status"] = "expired";
+					$active_periods[$period_count]["time"] = sprintf( _x( '%s ago.', 'Human readable time difference', 'timed-content' ), human_time_diff( $end_current, $right_now_t ) );
+				}
 			} else  {
 				$active_periods[$period_count]["start"] = $current;
 				$active_periods[$period_count]["end"] = $end_current;
 			}
-            if ( $right_now_t < $current )  {
-                $active_periods[$period_count]["status"] = "upcoming";
-                $active_periods[$period_count]["time"] = sprintf( _x( '%s from now.', 'Human readable time difference', 'timed-content' ), human_time_diff( $current, $right_now_t ) );
-            } elseif  ( ( $current <= $right_now_t ) && ( $right_now_t <= $end_current ) ) {
-                $active_periods[$period_count]["status"] = "active";
-                $active_periods[$period_count]["time"] = __( "Right now!", 'timed-content' );
-            } else {
-                $active_periods[$period_count]["status"] = "expired";
-                $active_periods[$period_count]["time"] = sprintf( _x( '%s ago.', 'Human readable time difference', 'timed-content' ), human_time_diff( $end_current, $right_now_t ) );
-            }
 			$period_count++;
 
 			if ( $recurr_type == "recurrence_duration_end_date" )
@@ -495,10 +495,12 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 					$current = $this->__getNextYear( $current, $interval_multiplier );
 
 				$exception_period = false;
-				foreach ( $exceptions_dates as $date ) {
-					if ( ( $current >= $date ) && ( $current < strtotime( "+1 day", $date ) ) ) {
-						$exception_period = true;
-						break;
+				if ( is_array( $exceptions_dates ) ) {
+					foreach ($exceptions_dates as $date) {
+						if (($current >= $date) && ($current < strtotime("+1 day", $date))) {
+							$exception_period = true;
+							break;
+						}
 					}
 				}
 
@@ -507,20 +509,20 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 					if ( $human_readable == true )  {
 						$active_periods[$period_count]["start"] = date_i18n( TIMED_CONTENT_DT_FORMAT, $current );
 						$active_periods[$period_count]["end"] = date_i18n( TIMED_CONTENT_DT_FORMAT, $end_current );
+						if ( $right_now_t < $current )  {
+							$active_periods[$period_count]["status"] = "upcoming";
+							$active_periods[$period_count]["time"] = sprintf( _x( '%s from now.', 'Human readable time difference', 'timed-content' ), human_time_diff( $current, $right_now_t ) );
+						} elseif  ( ( $current <= $right_now_t ) && ( $right_now_t <= $end_current ) ) {
+							$active_periods[$period_count]["status"] = "active";
+							$active_periods[$period_count]["time"] = __( "Right now!", 'timed-content' );
+						} else {
+							$active_periods[$period_count]["status"] = "expired";
+							$active_periods[$period_count]["time"] = sprintf( _x( '%s ago.', 'Human readable time difference', 'timed-content' ), human_time_diff( $end_current, $right_now_t ) );
+						}
 					} else  {
 						$active_periods[$period_count]["start"] = $current;
 						$active_periods[$period_count]["end"] = $end_current;
 					}
-                    if ( $right_now_t < $current )  {
-                        $active_periods[$period_count]["status"] = "upcoming";
-                        $active_periods[$period_count]["time"] = sprintf( _x( '%s from now.', 'Human readable time difference', 'timed-content' ), human_time_diff( $current, $right_now_t ) );
-                    } elseif  ( ( $current <= $right_now_t ) && ( $right_now_t <= $end_current ) ) {
-                        $active_periods[$period_count]["status"] = "active";
-                        $active_periods[$period_count]["time"] = __( "Right now!", 'timed-content' );
-                    } else {
-                        $active_periods[$period_count]["status"] = "expired";
-                        $active_periods[$period_count]["time"] = sprintf( _x( '%s ago.', 'Human readable time difference', 'timed-content' ), human_time_diff( $end_current, $right_now_t ) );
-                    }
                     if ( !($exception_period) )
 						$period_count++;
 				}
@@ -820,7 +822,14 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			$the_class = TIMED_CONTENT_CLIENT_TAG . $show_attr . $hide_attr ;
 			$the_tag = ( $display == "div" ? "div" : "span" );
 
-			$the_HTML = "<" . $the_tag . " class='" . $the_class . "'" . ( ( $show_attr != "" ) ? " style='display: none;'" : "" ) .">" . do_shortcode( $content ) . "</" . $the_tag . ">";
+			$the_HTML = "<"
+				. $the_tag
+				. " class='"
+				. $the_class
+				. "'"
+				. ( ( $show_attr != "" ) ? " style='display: none;'" : "" ) .">"
+				. apply_filters( "timed_content_filter", $content )
+				. "</" . $the_tag . ">";
 
 			return $the_HTML;
 		}
@@ -882,7 +891,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			}
 			
 			if ( ( $show_t <= $right_now_t ) && ( $right_now_t <= $hide_t ) )
-                return  $debug_message . do_shortcode( $content ) . "\n";
+                return  $debug_message . apply_filters( "timed_content_filter", $content ) . "\n";
 			else
                 return  $debug_message . "\n";
 
@@ -914,7 +923,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			}
 			
 			if ( ( ( $rule_is_active == true ) && ( $action_is_show == true ) ) || ( ( $rule_is_active == false ) && ( $action_is_show == false ) ) )
-				return do_shortcode( $content );
+				return apply_filters( "timed_content_filter", $content );
 			else
 				return "";
 		}
@@ -1278,7 +1287,14 @@ if ( class_exists( "timedContentPlugin" ) ) {
 
 // Actions and Filters
 if ( isset( $timedContentPluginInstance ) ) {
-    add_action( "plugins_loaded", array( &$timedContentPluginInstance, "i18nInit" ), 1 );
+	add_filter('timed_content_filter', 'wptexturize');
+	add_filter('timed_content_filter', 'convert_smilies');
+	add_filter('timed_content_filter', 'convert_chars');
+	add_filter('timed_content_filter', 'wpautop');
+	add_filter('timed_content_filter', 'prepend_attachment');
+	add_filter('timed_content_filter', 'do_shortcode');
+
+	add_action( "plugins_loaded", array( &$timedContentPluginInstance, "i18nInit" ), 1 );
 	add_action( "init", array( &$timedContentPluginInstance, "timedContentRuleTypeInit" ), 2 );
 	add_action( "init", array( &$timedContentPluginInstance, "setUpCustomFields" ), 2 );
 	add_action( "wp_head", array( &$timedContentPluginInstance, "addHeaderCode" ), 1 );

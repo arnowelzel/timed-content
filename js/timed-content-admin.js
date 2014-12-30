@@ -68,6 +68,7 @@ jQuery(document).ready(function () {
 
     });
     jQuery("#publish").on("click", function() {
+        jQuery("#timed_content_rule_exceptions_dates option[value='0']" ).remove();
         jQuery("#timed_content_rule_exceptions_dates option").attr("selected", "selected");
     });
 });

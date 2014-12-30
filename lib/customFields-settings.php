@@ -7,7 +7,7 @@ global $post,
 	   $timed_content_rule_exceptions_custom_fields;
 $now_t = current_time( "timestamp" );
 $post_id = ( isset( $_GET['post'] ) && ( TIMED_CONTENT_RULE_TYPE === get_post_type( $_GET['post'] ) ) ? intval( $_GET['post'] ) : intval( 0 ) );
-$timed_content_rules_exceptions_dates = ( false === get_post_meta( $post_id, TIMED_CONTENT_RULE_POSTMETA_PREFIX . "exceptions_dates", true ) ? array() : get_post_meta( $post_id, TIMED_CONTENT_RULE_POSTMETA_PREFIX . "exceptions_dates", true ) );
+$timed_content_rules_exceptions_dates = ( "" === get_post_meta( $post_id, TIMED_CONTENT_RULE_POSTMETA_PREFIX . "exceptions_dates", true ) ? array() : get_post_meta( $post_id, TIMED_CONTENT_RULE_POSTMETA_PREFIX . "exceptions_dates", true ) );
 if ( empty( $timed_content_rules_exceptions_dates ) )
 	$timed_content_rules_exceptions_dates_array = array( "0" => __( "- No exceptions set -", 'timed-content' ) );
 else {
@@ -243,7 +243,7 @@ $timed_content_rule_exceptions_custom_fields = array(
 		"type"			=> "menu",
 		"values"		=>  $timed_content_rules_exceptions_dates_array,
 		"size"			=>	"10",
-		"default"		=>	"",
+		"default"		=>	array(),
 		"scope"			=>	array( TIMED_CONTENT_RULE_TYPE ),
 		"capability"	=> "edit_posts"
 	)

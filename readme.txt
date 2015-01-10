@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5F58E
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
 Requires at least: 2.0.2
 Tested up to: 4.1
-Stable tag: 2.3.1
+Stable tag: 2.4
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
@@ -56,6 +56,9 @@ is the same for 3.8.
 10. An example showing use of the `[timed-content-server]` shortcode with `debug` set to `true`. You'll only see it if you're logged in and it's on a Page/Post you can edit (Your regular visitors won't see this at all).
 
 == Changelog ==
+= 2.4 =
+* Removed `timed-content-admin-tinymce.js` (No need anymore; required JS variables now hooked directly into editor). Fixes incompatibility with OptimizePress.
+
 = 2.3.1 =
 * Fixed minor bugs related to Exception Dates.
 * Optimized rule periods arrays (array only needs 'status' and 'time' when it's meant to be human-readable).
@@ -112,6 +115,8 @@ is the same for 3.8.
 * Initial release.
 
 == Upgrade Notice ==
+= 2.4 =
+New version fixes incompatibility with OptimizePress.  Upgrade now
 = 2.3 =
 Fixed bug when setting up weekly recurrence for Timed Content Rules.  Upgrade now
 

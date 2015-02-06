@@ -1,12 +1,9 @@
 /**
- * editor_plugin.js
+ * plugin.js
  *
  */
 
 (function() {
-	// Load plugin specific language pack
-	tinymce.PluginManager.requireLangPack('timed_content');
-
 	tinymce.create('tinymce.plugins.TimedContentPlugin', {
 		/**
 		 * Initializes the plugin, this will be executed after the plugin has been created.
@@ -17,29 +14,36 @@
 		 * @param {string} url Absolute URL to where the plugin is located.
 		 */
 		init : function(ed, url) {
+            var buttonOpts = {};
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			ed.addCommand('mceTimedContent', function() {
 				ed.windowManager.open({
 					file : ajaxurl + '?action=timedContentPluginGetTinyMCEDialog',
 					width : 640 + parseInt(ed.getLang('timed_content.delta_width', 0)),
-					height : 400 + parseInt(ed.getLang('timed_content.delta_height', 0)),
+					height : 420 + parseInt(ed.getLang('timed_content.delta_height', 0)),
 					inline : 1
 				}, {
 					plugin_url : url, // Plugin absolute URL
 				});
 			});
 
+            if (timedContentAdminTinyMCEOptions.image.length > 0) {
+                buttonOpts.title = timedContentAdminTinyMCEOptions.desc;
+                buttonOpts.cmd = 'mceTimedContent';
+                buttonOpts.image = url + timedContentAdminTinyMCEOptions.image;
+            } else {
+                buttonOpts.title = timedContentAdminTinyMCEOptions.desc;
+                buttonOpts.cmd = 'mceTimedContent';
+            }
+            buttonOpts.stateSelector = "img";
+
 			// Register example button
-			ed.addButton('timed_content', {
-				title : timedContentAdminTinyMCEOptions.desc,
-				cmd : 'mceTimedContent',
-				image : url + '/clock.gif'
-			});
+			ed.addButton('timed_content', buttonOpts);
 
 			// Add a node change handler, selects the button in the UI when a image is selected
-			ed.onNodeChange.add(function(ed, cm, n) {
-				cm.setActive('timed_content', n.nodeName == 'IMG');
-			});
+//			ed.on( 'NodeChange', function(ed, cm, n) {
+//				cm.setActive('timed_content', n.nodeName == 'IMG');
+//			});
 		},
 
 		/**

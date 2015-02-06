@@ -6,12 +6,12 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough
-Version: 2.4
+Version: 2.5
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if ( !class_exists( "timedContentPlugin" ) ) {
 
-	define( "TIMED_CONTENT_VERSION", "2.4" );
+	define( "TIMED_CONTENT_VERSION", "2.5" );
 	define( "TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/timed-content' );
 	define( "TIMED_CONTENT_CLIENT_TAG", "timed-content-client" );
 	define( "TIMED_CONTENT_SERVER_TAG", "timed-content-server" );
@@ -41,7 +41,144 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 
 		}
 
-        /**
+		/** https://core.trac.wordpress.org/ticket/25768
+		 *
+		 * Modified from the original patch to use the currently set
+		 * timezone from PHP, like PHP's date(), and to make the code
+		 * more readable.
+		 *
+		 * @param      $j
+		 * @param      $req_format
+		 * @param bool $i
+		 * @param bool $gmt
+		 * @return bool|string
+		 */
+		function fix_date_i18n($j, $req_format, $i = false, $gmt = false)
+		{
+			/* @var $wp_locale WP_Locale */
+			global $wp_locale;
+			$timestamp = $i;
+
+			// get current timestamp if $i is false
+			if (false === $timestamp)
+			{
+				if ($gmt)
+					$timestamp = time();
+				else
+					$timestamp = current_time('timestamp');
+			}
+
+
+			// get components of the date (timestamp) as array
+			$date_components = getdate($timestamp);
+
+			// numeric representation of a month, with leading zeros
+			$date_month = $wp_locale->get_month($date_components['mon']);
+			$date_month_abbrev = $wp_locale->get_month_abbrev($date_month);
+			// numeric representation of the day of the week
+			$date_weekday = $wp_locale->get_weekday($date_components['wday']);
+			$date_weekday_abbrev = $wp_locale->get_weekday_abbrev($date_weekday);
+			// get if hour is Ante meridiem or Post meridiem
+			$meridiem = $date_components['hours'] >= 12 ? 'pm' : 'am';
+			// lowercase Ante meridiem and Post meridiem hours
+			$date_meridiem = $wp_locale->get_meridiem($meridiem);
+			// uppercase Ante meridiem and Post meridiem
+			$date_meridiem_capital = $wp_locale->get_meridiem(strtoupper($meridiem));
+
+			// escape literals
+			$date_weekday_abbrev = backslashit($date_weekday_abbrev);
+			$date_month = backslashit($date_month);
+			$date_weekday = backslashit($date_weekday);
+			$date_month_abbrev = backslashit($date_month_abbrev);
+			$date_meridiem = backslashit($date_meridiem);
+			$date_meridiem_capital = backslashit($date_meridiem_capital);
+
+			// the translated format string
+			$translated_date_format_string = '';
+			// the 2 arrays map a format literal to its translation (e. g. 'F' to the escaped month translation)
+			$translate_formats = array('D', 'F', 'l', 'M', 'a', 'A', 'c', 'r');
+			$translations = array(
+				$date_weekday_abbrev, // D
+				$date_month, // F
+				$date_weekday, // l
+				$date_month_abbrev, // M
+				$date_meridiem, // a
+				$date_meridiem_capital, // A
+				'Y-m-d\TH:i:sP', // c
+				sprintf('%s, d %s Y H:i:s O', $date_weekday_abbrev, $date_month_abbrev), // r
+			);
+
+			// find each format literal that needs translation and replace it by its translation
+			// respects the escaping
+			// iterate $req_format from ending to beginning
+			for ($i = strlen($req_format) - 1; $i > -1; $i--)
+			{
+				// test if current char is format literal that needs translation
+				$translate_formats_index = array_search($req_format[$i], $translate_formats);
+
+				if ($translate_formats_index !== false)
+				{
+					// counts the slashes (the escape char) in front of the current char
+					$slashes_counter = 0;
+
+					// count all slashes left-hand side of the current char
+					for ($j = $i - 1; $j > -1; $j--)
+					{
+						if ($req_format[$j] == '\\')
+							$slashes_counter++;
+						else
+							break;
+					}
+
+					// number of slashes is even
+					if ($slashes_counter % 2 == 0)
+						// current char is not escaped, therefore it is a format literal
+						$translated_date_format_string = $translations[$translate_formats_index] . $translated_date_format_string;
+					else
+						// current char is escaped, therefore it is not a format literal, just add it unchanged
+						$translated_date_format_string = $req_format[$i] . $translated_date_format_string;
+				}
+				else
+					// current char is no a format literal, just add it unchanged
+					$translated_date_format_string = $req_format[$i] . $translated_date_format_string;
+			}
+
+			$req_format = $translated_date_format_string;
+
+			if ($gmt)
+				// get GMT date string
+				$date_formatted = gmdate($req_format, $timestamp);
+			else
+			{
+				// get Wordpress time zone
+				// $timezone_string = get_option('timezone_string');
+				// Haha, just kidding. Let's get the currently set timezone, as God and Rasmus intended
+				$timezone_string = date_default_timezone_get();
+
+				if ($timezone_string)
+				{
+					// create time zone object
+					$timezone_object = timezone_open($timezone_string);
+					// create date object from time zone object
+					$local_date_object = date_create(null, $timezone_object);
+					// set time and date of $local_date_object to $timestamp
+					$date_components = isset($date_components) ? $date_components : getdate($timestamp);
+					date_date_set($local_date_object, $date_components['year'], $date_components['mon'], $date_components['mday']);
+					date_time_set($local_date_object, $date_components['hours'], $date_components['minutes'], $date_components['seconds']);
+					// format date according to the Wordpress time zone
+					$date_formatted = date_format($local_date_object, $req_format);
+				}
+				else
+				{
+					// fall back if no Wordpress time zone set
+					$date_formatted = date($req_format, $i);
+				}
+			}
+
+			return $date_formatted;
+		}
+
+		/**
          * Creates the Timed Content Rule post type and registers it with Wordpress
          *
          */
@@ -81,7 +218,6 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			); 
 			register_post_type( TIMED_CONTENT_RULE_TYPE, $args );
 		}
-
 
         /**
          * Filter to customize CRUD messages for Timed Content Rules
@@ -438,9 +574,10 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			$exceptions_dates = $args['exceptions_dates'];
             //print_r($days_of_week);
 
+			add_filter('date_i18n', array( &$this, "fix_date_i18n" ), 10, 4);
 			$temp_tz = date_default_timezone_get();
 			date_default_timezone_set( $timezone );
-            $right_now_t = time();
+            $right_now_t = current_time( 'timestamp', 1 );
 
 			$instance_start = strtotime( $this->__datetimeToEnglish( $instance_start_date, $instance_start_time ) . " " . $timezone );	// Beginning of first occurrence
 			$instance_end = strtotime( $this->__datetimeToEnglish( $instance_end_date, $instance_end_time ) . " " . $timezone );    		// End of first occurrence
@@ -457,7 +594,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				$active_periods[$period_count]["end"] = date_i18n( TIMED_CONTENT_DT_FORMAT, $end_current );
 				if ( $right_now_t < $current )  {
 					$active_periods[$period_count]["status"] = "upcoming";
-					$active_periods[$period_count]["time"] = sprintf( _x( '%s from now.', 'Human readable time difference', 'timed-content' ), human_time_diff( $current, $right_now_t ) );
+					$active_periods[$period_count]["time"] = sprintf( _x( '%s from now.', 'Human readable time difference', 'timed-content' ), human_time_diff( $right_now_t, $current ) );
 				} elseif  ( ( $current <= $right_now_t ) && ( $right_now_t <= $end_current ) ) {
 					$active_periods[$period_count]["status"] = "active";
 					$active_periods[$period_count]["time"] = __( "Right now!", 'timed-content' );
@@ -529,6 +666,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 
 			}
 			date_default_timezone_set( $temp_tz );
+			remove_filter('date_i18n', array( &$this, "fix_date_i18n" ), 10, 4);
 			return $active_periods;
 		}
 
@@ -822,13 +960,16 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			$the_class = TIMED_CONTENT_CLIENT_TAG . $show_attr . $hide_attr ;
 			$the_tag = ( $display == "div" ? "div" : "span" );
 
+			$the_filter = "timed_content_filter";
+			$the_filter = apply_filters( "timed_content_filter_override", $the_filter );
+
 			$the_HTML = "<"
 				. $the_tag
 				. " class='"
 				. $the_class
 				. "'"
 				. ( ( $show_attr != "" ) ? " style='display: none;'" : "" ) .">"
-				. apply_filters( "timed_content_filter", $content )
+				. str_replace( ']]>', ']]&gt;', apply_filters( $the_filter, $content ) )
 				. "</" . $the_tag . ">";
 
 			return $the_HTML;
@@ -846,10 +987,14 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			extract( shortcode_atts( array( 'show' => TIMED_CONTENT_ZERO_TIME , 'hide' => TIMED_CONTENT_END_TIME, 'debug' => 'false'  ), $atts ) );
 			$show_t = strtotime( $this->__datetimeToEnglish( $show ) );
 			$hide_t = strtotime( $this->__datetimeToEnglish( $hide ) );
-			$right_now_t = time();
+			$right_now_t = current_time( 'timestamp', 1 );
 			$debug_message = "";
 
+			$the_filter = "timed_content_filter";
+			$the_filter = apply_filters( "timed_content_filter_override", $the_filter );
+
 			if ( ( $debug == "true" ) && ( current_user_can( "edit_post", $post->post_id ) ) ) {
+				add_filter('date_i18n', array( &$this, "fix_date_i18n" ), 10, 4);
 				$temp_tz = date_default_timezone_get();
 				date_default_timezone_set( get_option( 'timezone_string' ) );
 
@@ -882,16 +1027,19 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 									. __( 'The Timed Content plugin thinks the intended date/time is', 'timed-content') . ": " . date_i18n( TIMED_CONTENT_DT_FORMAT, $hide_t )
 									. " (" . $hide_diff_str . ").</p>\n";
 
-                $debug_message .= "<p>" . __( 'Current Date/Time:', 'timed-content') . "&nbsp;" . $right_now . "</p>\n";
-                $debug_message .= "<p>" . _x( 'Content:', "Noun", 'timed-content') . "&nbsp;" . $content . "</p>\n";
+                $debug_message .= "<p>" . __( 'Current Date/Time:', 'timed-content') . "&nbsp;" . $right_now . "<br />\n";
+				$debug_message .= __( 'Content Filter:', 'timed-content') . "&nbsp;" . $the_filter . "</p>\n";
+				$debug_message .= "<p>" . _x( 'Content:', "Noun", 'timed-content') . "&nbsp;" . $content . "</p>\n";
 
                 $debug_message .= "</div>\n";
 
 				date_default_timezone_set( $temp_tz );
+				remove_filter('date_i18n', array( &$this, "fix_date_i18n" ), 10, 4);
 			}
-			
+
+
 			if ( ( $show_t <= $right_now_t ) && ( $right_now_t <= $hide_t ) )
-                return  $debug_message . apply_filters( "timed_content_filter", $content ) . "\n";
+                return  $debug_message . str_replace( ']]>', ']]&gt;', apply_filters( $the_filter, $content ) ) . "\n";
 			else
                 return  $debug_message . "\n";
 
@@ -909,7 +1057,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			if ( TIMED_CONTENT_RULE_TYPE != get_post_type( $id ) ) return;
 
 			$prefix = TIMED_CONTENT_RULE_POSTMETA_PREFIX;
-			$right_now_t = time();
+			$right_now_t = current_time( 'timestamp' );
 			$rule_is_active = false;
 			
 			$active_periods = $this->getRulePeriodsById( $id, false );
@@ -921,9 +1069,12 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 					break;
 				}
 			}
-			
+
+			$the_filter = "timed_content_filter";
+			$the_filter = apply_filters( "timed_content_filter_override", $the_filter );
+
 			if ( ( ( $rule_is_active == true ) && ( $action_is_show == true ) ) || ( ( $rule_is_active == false ) && ( $action_is_show == false ) ) )
-				return apply_filters( "timed_content_filter", $content );
+				return str_replace( ']]>', ']]&gt;', apply_filters( $the_filter, $content ) );
 			else
 				return "";
 		}
@@ -990,11 +1141,12 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			if ( ( isset( $_GET['post_type'] ) && $_GET['post_type'] == TIMED_CONTENT_RULE_TYPE )
 				|| ( isset( $post_type ) && $post_type == TIMED_CONTENT_RULE_TYPE )
 				|| ( isset( $_GET['post'] ) && get_post_type( $_GET['post'] ) == TIMED_CONTENT_RULE_TYPE ) ) {
-                wp_enqueue_style( 'timed-content-css', TIMED_CONTENT_CSS, false, TIMED_CONTENT_VERSION );
+				wp_enqueue_style( 'thickbox' );
+				wp_enqueue_style( 'timed-content-css', TIMED_CONTENT_CSS, false, TIMED_CONTENT_VERSION );
 				// Enqueue the JavaScript file that manages the meta box UI
 				wp_enqueue_script( 'timed-content-admin_js', TIMED_CONTENT_PLUGIN_URL . '/js/timed-content-admin.js', array( 'jquery' ), TIMED_CONTENT_VERSION );
 				// Enqueue the JavaScript file that makes AJAX requests
-				wp_enqueue_script( 'timed-content-ajax_js', TIMED_CONTENT_PLUGIN_URL . '/js/timed-content-ajax.js', array( 'jquery', 'jquery-ui-dialog' ), TIMED_CONTENT_VERSION );
+				wp_enqueue_script( 'timed-content-ajax_js', TIMED_CONTENT_PLUGIN_URL . '/js/timed-content-ajax.js', array( 'jquery', 'thickbox' ), TIMED_CONTENT_VERSION );
 
 				// Set up local variables used in the Admin JavaScript file
 				wp_localize_script( 'timed-content-admin_js', 'timedContentRuleAdmin', array(
@@ -1005,10 +1157,10 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 					'start_label' => _x( 'Start', 'Scheduled Dates/Times dialog - Beginning of active period table header', 'timed-content' ),
 					'end_label' => _x( 'End', 'Scheduled Dates/Times dialog - End of active period table header', 'timed-content' ),
 					'dialog_label' => _x( 'Scheduled Dates/Times', 'Scheduled Dates/Times dialog - dialog header', 'timed-content' ),
+					'button_loading_label' => __( 'Calculating Dates/Times', 'timed-content' ),
+					'button_finished_label' => __( 'Show Projected Dates/Times', 'timed-content' ),
 					'dialog_width' => 800,
 					'dialog_height' => 500,
-					'close_label' => _x( 'Close', 'Scheduled Dates/Times dialog - Close button HTML label', 'timed-content' ),
-					'loadingimg' => TIMED_CONTENT_PLUGIN_URL . '/img/wpspin.gif',
 					'error' => __( "Error", 'timed-content' ),
 					'error_desc' => __( "Something unexpected has happened along the way.  The specific details are below:", 'timed-content' ) ) );
 			}
@@ -1241,7 +1393,8 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 											"<div id=\"schedule_desc\" style=\"font-style: italic;\">"
 											. ( isset( $_GET['post'] ) && ( TIMED_CONTENT_RULE_TYPE === get_post_type( $_GET['post'] ) ) ? $this->getScheduleDescriptionById( intval( $_GET['post'] ) ) : $this->getScheduleDescriptionById( intval( 0 ) ) )
 											. "</div>"
-											. "<div style=\"padding-top: 10px;\"><input type=\"button\" class=\"button-primary\" id=\"timed_content_rule_test\" value=\"" . __( 'Show Projected Dates/Times', 'timed-content' ) . "\" /></div>",
+											. "<div id=\"tcr-dialogHolder\" style=\"display:none;\"></div>"
+											. "<div style=\"padding-top: 10px;\"><input type=\"button\" class=\"button button-primary\" id=\"timed_content_rule_test\" value=\"" . __( 'Show Projected Dates/Times', 'timed-content' ) . "\" /></div>",
 											TIMED_CONTENT_RULE_POSTMETA_PREFIX,
 											array( TIMED_CONTENT_RULE_TYPE ),
 											array() ); 
@@ -1275,6 +1428,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			define( "TIMED_CONTENT_DT_FORMAT", __( "l, F jS, Y, g:i A T" , 'timed-content' ) );
 
         }
+
 	}
 
 } //End Class timedContentPlugin

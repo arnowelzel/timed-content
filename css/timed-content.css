@@ -29,24 +29,33 @@ div.tcr-warning .heading, div.tcr-error .heading {
     font-size: 14px;
     font-weight: bold;
 }
-div#tcr-dialogHolder table tr td {
+table.tcr-dates {
+    width: 100%;;
+}
+table.tcr-dates tr td {
     padding: 2px;
 }
-div#tcr-dialogHolder table tr.upcoming {
+table.tcr-dates tr.upcoming {
     background-color: #faff92;
+    color: #000000;
 }
-div#tcr-dialogHolder table tr.active {
-    background-color: #d3ffc6;
+table.tcr-dates tr.active {
+    background-color: #009900;
+    color: #ffffff;
 }
-div#tcr-dialogHolder table tr.expired {
-    background-color: #fbefe6;
+table.tcr-dates tr.expired {
+    background-color: #eeeeee;
+    color: #000000;
 }
-div#tcr-dialogHolder table tr:hover {
+table.tcr-dates tr:hover {
     background-color: #ffffff;
     border: 1px solid #000000;
 }
-div#tcr-dialogHolder table tr th {
-    background-color: #21759b;
-    color: #eeeeee;
-
+table.tcr-dates tr.active:hover {
+    color: #009900;
+    background-color: #ffffff;
+}
+table.tcr-dates tr th {
+    background-color: #333366;
+    color: #ffffff;
  }

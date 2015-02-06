@@ -43,7 +43,6 @@ jQuery(document).ready( function() {
             args.ex_days[ex_days_num] = jQuery( this ).val();
             ex_days_num++;
         });
-        //alert(JSON.stringify(args.ex_days));
 
         return args;
     }
@@ -51,19 +50,16 @@ jQuery(document).ready( function() {
 	jQuery('#timed_content_rule_test').click( function() {
 		var args = getArgs();
 		//This tag will the hold the dialog content.
-		var tag =  jQuery("<div id='tcr-dialogHolder'></div>");
+		var tag =  jQuery("div#tcr-dialogHolder");
+        tag.children().remove();
         var dialogHTML;
-        tag.append('<div id="tcr-loading"><img src="' + timedContentRuleAjax.loadingimg + '" /> Loading...</div>');
-        tag.dialog({modal: 'true',
-            title: timedContentRuleAjax.dialog_label,
-            width: timedContentRuleAjax.dialog_width,
-            height: timedContentRuleAjax.dialog_height,
-            buttons: [{	"text": timedContentRuleAjax.close_label,
-                "click": function() {
-                    jQuery( this ).dialog( "close" );
-                }
-            }]
-        }).dialog('open');
+        var button = jQuery('input#timed_content_rule_test');
+
+        button.prop('disabled', 'disabled')
+            .removeClass("button-primary")
+            .addClass("button-secondary")
+            .val(timedContentRuleAjax.button_loading_label)
+            .after(jQuery('<span class="spinner" style="float: left;"></span>').show());
 
 		jQuery.post(
 			timedContentRuleAjax.ajaxurl,
@@ -88,24 +84,36 @@ jQuery(document).ready( function() {
 			},
 			function(data, textStatus, jqXHR) {
 				// code that's executed when the request is processed successfully
-                dialogHTML = "<table style='width: 100%;'>";
+                dialogHTML = "<table class='tcr-dates'>";
                 dialogHTML += "<tr class='heading_row'><th>" + timedContentRuleAjax.start_label + "</th><th>" + timedContentRuleAjax.end_label + "</th></tr>";
                 dialogHTML += '</table>';
 
-                tag.find("div#tcr-loading").remove();
                 tag.append(dialogHTML);
+                var the_table = tag.find("table");
 				jQuery.each(data, function(key, value)  {
-					tag.find("table").append('<tr class="day_row ' + value.status + '" title="' + value.time + '"><td>' + value.start + '</td><td>' + value.end + '</td></tr>');
+                    the_table.append('<tr class="day_row ' + value.status + '" title="' + value.time + '"><td>' + value.start + '</td><td>' + value.end + '</td></tr>');
 				});
-			},
+                tb_show(timedContentRuleAjax.dialog_label, "#TB_inline?width=" + timedContentRuleAjax.dialog_width + "&height=" + timedContentRuleAjax.dialog_height + "&inlineId=tcr-dialogHolder");
+                button.val(timedContentRuleAjax.button_finished_label)
+                    .removeClass("button-secondary")
+                    .addClass("button-primary")
+                    .removeAttr('disabled')
+                    .next()
+                    .remove();
+            },
 			'json'
 		).fail( function(xhr, textStatus, errorThrown) {
-                tag.find("div#tcr-loading").remove();
-                var errorText = '<div class="tcr-error"><p><strong>' + timedContentRuleAjax.error + '</strong></p>';
-                errorText += '<p class="heading">' + timedContentRuleAjax.error_desc + '</p>';
-                errorText += '<div>' + xhr.responseText + '</div></div>';
+                var errorText = '<p class="heading">' + timedContentRuleAjax.error_desc + '</p>';
+                errorText += '<div>' + xhr.responseText + '</div>';
                 tag.append(errorText);
-        });
+                tb_show(timedContentRuleAjax.error, "#TB_inline?width=" + timedContentRuleAjax.dialog_width + "&height=" + timedContentRuleAjax.dialog_height + "&inlineId=tcr-dialogHolder");
+                button.html(timedContentRuleAjax.button_finished_label)
+                    .removeClass("button-secondary")
+                    .addClass("button-primary")
+                    .removeAttr('disabled')
+                    .next()
+                    .remove();
+            });
 	});
 	
 	jQuery( 'input[id^="timed_content_rule_"], select[id^="timed_content_rule_"]' ).change(function(e) {

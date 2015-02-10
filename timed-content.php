@@ -1071,10 +1071,10 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			}
 
 			$the_filter = "timed_content_filter";
-			//$the_filter = apply_filters( "timed_content_filter_override", $the_filter );
+			$the_filter = apply_filters( "timed_content_filter_override", $the_filter );
 
 			if ( ( ( $rule_is_active == true ) && ( $action_is_show == true ) ) || ( ( $rule_is_active == false ) && ( $action_is_show == false ) ) )
-				return str_replace( ']]>', ']]&gt;', apply_filters( "timed_content_filter", $content ) );
+				return str_replace( ']]>', ']]&gt;', apply_filters( $the_filter, $content ) );
 			else
 				return "";
 		}

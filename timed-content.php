@@ -6,12 +6,12 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough
-Version: 2.5
+Version: 2.5.1
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if ( !class_exists( "timedContentPlugin" ) ) {
 
-	define( "TIMED_CONTENT_VERSION", "2.5" );
+	define( "TIMED_CONTENT_VERSION", "2.5.1" );
 	define( "TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/timed-content' );
 	define( "TIMED_CONTENT_CLIENT_TAG", "timed-content-client" );
 	define( "TIMED_CONTENT_SERVER_TAG", "timed-content-server" );
@@ -1057,7 +1057,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			if ( TIMED_CONTENT_RULE_TYPE != get_post_type( $id ) ) return;
 
 			$prefix = TIMED_CONTENT_RULE_POSTMETA_PREFIX;
-			$right_now_t = current_time( 'timestamp' );
+			$right_now_t = current_time( 'timestamp', 1 );
 			$rule_is_active = false;
 			
 			$active_periods = $this->getRulePeriodsById( $id, false );
@@ -1071,10 +1071,10 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			}
 
 			$the_filter = "timed_content_filter";
-			$the_filter = apply_filters( "timed_content_filter_override", $the_filter );
+			//$the_filter = apply_filters( "timed_content_filter_override", $the_filter );
 
 			if ( ( ( $rule_is_active == true ) && ( $action_is_show == true ) ) || ( ( $rule_is_active == false ) && ( $action_is_show == false ) ) )
-				return str_replace( ']]>', ']]&gt;', apply_filters( $the_filter, $content ) );
+				return str_replace( ']]>', ']]&gt;', apply_filters( "timed_content_filter", $content ) );
 			else
 				return "";
 		}

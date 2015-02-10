@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5F58E
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
 Requires at least: 2.0.2
 Tested up to: 4.1
-Stable tag: 2.5
+Stable tag: 2.5.1
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
@@ -56,6 +56,9 @@ is the same for 3.8.
 10. An example showing use of the `[timed-content-server]` shortcode with `debug` set to `true`. You'll only see it if you're logged in and it's on a Page/Post you can edit (Your regular visitors won't see this at all).
 
 == Changelog ==
+= 2.5.1 =
+* Fixed `current_time()` bug in __rulesShowHTML() introduced in 2.5.
+
 = 2.5 =
 * Removed dependency on jQuery UI Dialog; now uses Thickbox.
 * Added and modified `fix_date_i18n()` from https://core.trac.wordpress.org/ticket/25768 to better handle DST and timezones with i18n.
@@ -121,6 +124,9 @@ is the same for 3.8.
 * Initial release.
 
 == Upgrade Notice ==
+= 2.5.1 =
+Fixed `current_time()` bug in __rulesShowHTML() introduced in 2.5.  Upgrade now
+
 = 2.5 =
 Better handling od dates w/ i18n.  Upgrade now
 

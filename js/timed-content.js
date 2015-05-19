@@ -1,8 +1,8 @@
 jQuery( document ).ready( function() {
-	jQuery( "div[class^='timed-content-client'] " ).each( function( index, element ) {
+	jQuery( "div[class^='timed-content-client']" ).each( function( index, element ) {
 		var clsname = jQuery( this ).attr( "class" );
 		var params = clsname.split( "_" );
-		for ( i = 1; i < params.length; i += 4 )  {
+		for ( var i = 1; i < params.length; i += 4 )  {
 			var action = params[i];
 			var minutes = parseInt( params[i+1] );
 			var seconds = parseInt( params[i+2] );
@@ -25,10 +25,10 @@ jQuery( document ).ready( function() {
 		}
 	} );
 
-	jQuery( "span[class^='timed-content-client'] " ).each( function( index, element ) {
+	jQuery( "span[class^='timed-content-client']" ).each( function( index, element ) {
 		var clsname = jQuery( this ).attr( "class" );
 		var params = clsname.split( "_" );
-		for ( i = 1; i < params.length; i += 4 )  {
+		for ( var i = 1; i < params.length; i += 4 )  {
 			var action = params[i];
 			var minutes = parseInt( params[i+1] );
 			var seconds = parseInt( params[i+2] );

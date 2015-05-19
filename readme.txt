@@ -3,8 +3,8 @@ Contributors: kjvtough
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5F58ELJ9R3PVL&lc=CA&item_name=Timed%20Content%20Wordpress%20Plugin%20Donation&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
 Requires at least: 2.0.2
-Tested up to: 4.1
-Stable tag: 2.5.1
+Tested up to: 4.2.2
+Stable tag: 2.6
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
@@ -56,13 +56,19 @@ is the same for 3.8.
 10. An example showing use of the `[timed-content-server]` shortcode with `debug` set to `true`. You'll only see it if you're logged in and it's on a Page/Post you can edit (Your regular visitors won't see this at all).
 
 == Changelog ==
+= 2.6 =
+* New action hooks.
+* `[timed-content-rule]` shortcode now accepts a Timed Content Rule name as well as an ID.
+* Streamlined i18n for date/time pickers (Use values available in Wordpress settings and `$wp_locale` when available, combined *-i18n.js files into one).
+* Some developer docs in the `readme.txt`
+
 = 2.5.1 =
 * Fixed `current_time()` bug in __rulesShowHTML() introduced in 2.5.
 
 = 2.5 =
 * Removed dependency on jQuery UI Dialog; now uses Thickbox.
 * Added and modified `fix_date_i18n()` from https://core.trac.wordpress.org/ticket/25768 to better handle DST and timezones with i18n.
-* Added custom filter `timed_content_filter_override` so admins can modify/replace `timed_content_filter` in necessary.
+* Added custom filter `timed_content_filter_override` so admins can modify/replace `timed_content_filter` if necessary.
 * Using built-in spinner image now instead of `wpspin.gif`
 
 = 2.4 =
@@ -215,6 +221,61 @@ Both `show` and `hide` attributes are optional, but at least one attribute must 
 
 **The timed-content-rule shortcode**
 
-`[timed-content-rule id="rule_id"]Example Text[/timed-content-rule]`
+`[timed-content-rule id="{rule_id}|{rule_name}"]Example Text[/timed-content-rule]`
 
 You can find the correct shortcode from the Timed Content Rules overview page, or use the TinyMCE dialog.
+
+== Developer Documentation ==
+
+**Action hooks**
+
+`add_action( "timed_content_server_show", "{function_name}", {priority_level}, 4 );`
+
+Fired when the `[timed-content-server]` shortcode is encountered *AND* the content is to be displayed based on the shortcode's show/hide attributes.  Functions using this hook should accept the following arguments in order:
+
+* `$post_id` - the ID of the currently displayed Post/Page
+* `$show` - the value of the `show` attribute. If not set, defaults to "1970-Jan-01 00:00:00 +000"
+* `$hide` - the value of the `hide` attribute. If not set, defaults to "2038-Jan-19 03:14:07 +000"
+* `$content` - The content enclosed by the shortcode
+
+`add_action( "timed_content_server_hide", "{function_name}", {priority_level}, 4 );`
+
+Fired when the `[timed-content-server]` shortcode is encountered *AND* the content is to be hidden based on the shortcode's show/hide attributes.  Functions using this hook should accept the following arguments in order:
+
+* `$post_id` - the ID of the currently displayed Post/Page
+* `$show` - the value of the `show` attribute. If not set, defaults to "1970-Jan-01 00:00:00 +000"
+* `$hide` - the value of the `hide` attribute. If not set, defaults to "2038-Jan-19 03:14:07 +000"
+* `$content` - The content enclosed by the shortcode
+
+`add_action( "timed_content_rule_show", "{function_name}", {priority_level}, 3 );`
+
+Fired when the `[timed-content-rule]` shortcode is encountered *AND* the content is to be displayed based on the Timed Content Rule's properties.  Functions using this hook should accept the following arguments in order:
+
+* `$post_id` - the ID of the currently displayed Post/Page
+* `$rule_id` - the ID of the Timed Content Rule being called. Use `get_post_meta( $rule_id )` to get the Rule's properties.
+* `$content` - The content enclosed by the shortcode
+
+`add_action( "timed_content_rule_hide", "{function_name}", {priority_level}, 3 );`
+
+Fired when the `[timed-content-rule]` shortcode is encountered *AND* the content is to be hidden based on the Timed Content Rule's properties.  Functions using this hook should accept the following arguments in order:
+
+* `$post_id` - the ID of the currently displayed Post/Page
+* `$rule_id` - the ID of the Timed Content Rule being called. Use `get_post_meta( $rule_id )` to get the Rule's properties.
+* `$content` - The content enclosed by the shortcode
+
+**Filter hooks**
+
+`timed_content_filter`
+
+Filter for any content enclosed by a Timed Content shortcode.  Implements the same filters as `the_content`:
+
+* `wptexturize`
+* `convert_smilies`
+* `convert_chars`
+* `wpautop`
+* `prepend_attachment`
+* `do_shortcode`
+
+`timed_content_filter_override`
+
+Replaces the `timed_content_filter` with another pre-existing filter to use for any content enclosed by a Timed Content shortcode.  Any function hooked into this filter must return the name of a filter (as a string).

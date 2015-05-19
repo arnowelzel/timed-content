@@ -22,4 +22,16 @@ jQuery(function($){
         showMonthAfterYear: TimedContentJQDatepickerI18n.showMonthAfterYear,
         yearSuffix: TimedContentJQDatepickerI18n.yearSuffix	};
     $.datepicker.setDefaults($.datepicker.regional['timed-content-i18n']);
+
+    $.timepicker.regional['timed-content-i18n'] = {
+        hourText: TimedContentJQTimepickerI18n.hourText,
+        minuteText: TimedContentJQTimepickerI18n.minuteText,
+        amPmText: TimedContentJQTimepickerI18n.amPmText,
+        showPeriod: TimedContentJQTimepickerI18n.showPeriod,
+        timeSeparator: TimedContentJQTimepickerI18n.timeSeparator,
+        closeButtonText: TimedContentJQTimepickerI18n.closeButtonText,
+        nowButtonText: TimedContentJQTimepickerI18n.nowButtonText,
+        deselectButtonText: TimedContentJQTimepickerI18n.deselectButtonText };
+    $.timepicker.setDefaults($.timepicker.regional['timed-content-i18n']);
+
 });

@@ -6,14 +6,15 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough
-Version: 2.5.1
+Version: 2.6
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if ( !class_exists( "timedContentPlugin" ) ) {
 
-	define( "TIMED_CONTENT_VERSION", "2.5.1" );
-	define( "TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/timed-content' );
-	define( "TIMED_CONTENT_CLIENT_TAG", "timed-content-client" );
+	define( "TIMED_CONTENT_VERSION", "2.6" );
+    define( "TIMED_CONTENT_SLUG", "timed-content" );
+	define( "TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/' . TIMED_CONTENT_SLUG );
+    define( "TIMED_CONTENT_CLIENT_TAG", "timed-content-client" );
 	define( "TIMED_CONTENT_SERVER_TAG", "timed-content-server" );
 	define( "TIMED_CONTENT_RULE_TAG", "timed-content-rule" );
 	define( "TIMED_CONTENT_ZERO_TIME", "1970-Jan-01 00:00:00 +000" );  // Start of Unix Epoch
@@ -1038,10 +1039,13 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			}
 
 
-			if ( ( $show_t <= $right_now_t ) && ( $right_now_t <= $hide_t ) )
-                return  $debug_message . str_replace( ']]>', ']]&gt;', apply_filters( $the_filter, $content ) ) . "\n";
-			else
-                return  $debug_message . "\n";
+			if ( ( $show_t <= $right_now_t ) && ( $right_now_t <= $hide_t ) ) {
+                do_action("timed_content_server_show", $post->ID, $show, $hide, $content);
+                return $debug_message . str_replace(']]>', ']]&gt;', apply_filters($the_filter, $content)) . "\n";
+            } else {
+                do_action("timed_content_server_hide", $post->ID, $show, $hide, $content);
+                return $debug_message . "\n";
+            }
 
 		}
 
@@ -1053,7 +1057,13 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          * @return string
          */
 		function rulesShowHTML( $atts, $content = null ) {
-			extract( shortcode_atts( array( 'id' => '0' ), $atts ) );
+            global $post;
+			extract( shortcode_atts( array( 'id' => 0 ), $atts ) );
+            if ( !is_numeric( $id ) ) {
+                $page = get_page_by_title( $id, OBJECT, TIMED_CONTENT_RULE_TYPE );
+                if ( $page == null ) return;
+                $id = $page->ID;
+            }
 			if ( TIMED_CONTENT_RULE_TYPE != get_post_type( $id ) ) return;
 
 			$prefix = TIMED_CONTENT_RULE_POSTMETA_PREFIX;
@@ -1073,10 +1083,13 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			$the_filter = "timed_content_filter";
 			$the_filter = apply_filters( "timed_content_filter_override", $the_filter );
 
-			if ( ( ( $rule_is_active == true ) && ( $action_is_show == true ) ) || ( ( $rule_is_active == false ) && ( $action_is_show == false ) ) )
-				return str_replace( ']]>', ']]&gt;', apply_filters( $the_filter, $content ) );
-			else
-				return "";
+			if ( ( ( $rule_is_active == true ) && ( $action_is_show == true ) ) || ( ( $rule_is_active == false ) && ( $action_is_show == false ) ) ) {
+                do_action("timed_content_rule_show", $post->ID, $id, $content);
+                return str_replace(']]>', ']]&gt;', apply_filters($the_filter, $content));
+            } else {
+                do_action("timed_content_rule_hide", $post->ID, $id, $content);
+                return "";
+            }
 		}
 
         /**
@@ -1251,23 +1264,19 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          *
          */
 		function timedContentPluginGetTinyMCEDialog()  {
-            include( "lib/jquery-ui-datetime-i18n.php" );
+            include("lib/jquery-ui-datetime-i18n.php");
 
-            wp_enqueue_style( 'timed-content-jquery-ui-css', TIMED_CONTENT_JQUERY_UI_CSS, false, TIMED_CONTENT_VERSION );
-			wp_enqueue_script( 'jquery-ui-datepicker' );
-            if( !( wp_script_is( 'timed-content-jquery-ui-datepicker-i18n-js', 'registered' ) ) ) {
-                wp_register_script( 'timed-content-jquery-ui-datepicker-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/timed-content-datepicker-i18n.js", array( 'jquery', 'jquery-ui-datepicker' ), TIMED_CONTENT_VERSION );
-                wp_enqueue_script( 'timed-content-jquery-ui-datepicker-i18n-js' );
-                wp_localize_script( 'timed-content-jquery-ui-datepicker-i18n-js', 'TimedContentJQDatepickerI18n', $jquery_ui_datetime_datepicker_i18n );
-            }
-			wp_register_style( 'timed-content-jquery-ui-timepicker-css', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS, array( TIMED_CONTENT_JQUERY_UI_CSS ), TIMED_CONTENT_VERSION );
-			wp_enqueue_style( 'timed-content-jquery-ui-timepicker-css' );
-			wp_register_script( 'timed-content-jquery-ui-timepicker-js', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS, array( 'jquery', 'jquery-ui-datepicker' ), TIMED_CONTENT_VERSION );
-			wp_enqueue_script( 'timed-content-jquery-ui-timepicker-js' );
-            if( !( wp_script_is( 'timed-content-jquery-ui-timepicker-i18n-js', 'registered' ) ) ) {
-                wp_register_script( 'timed-content-jquery-ui-timepicker-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/timed-content-timepicker-i18n.js", array( 'jquery', 'jquery-ui-datepicker', 'timed-content-jquery-ui-timepicker-js' ), TIMED_CONTENT_VERSION );
-                wp_enqueue_script( 'timed-content-jquery-ui-timepicker-i18n-js' );
-                wp_localize_script( 'timed-content-jquery-ui-timepicker-i18n-js', 'TimedContentJQTimepickerI18n', $jquery_ui_datetime_timepicker_i18n );
+            wp_enqueue_style(TIMED_CONTENT_SLUG . '-jquery-ui-css', TIMED_CONTENT_JQUERY_UI_CSS);
+            wp_enqueue_script('jquery-ui-datepicker');
+            wp_register_style(TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-css', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS);
+            wp_enqueue_style(TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-css');
+            wp_register_script(TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-js', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS, array('jquery', 'jquery-ui-datepicker'), TIMED_CONTENT_VERSION);
+            wp_enqueue_script(TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-js');
+            if (!(wp_script_is(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', 'registered'))) {
+                wp_register_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/content-protector-datetime-i18n.js", array('jquery', 'jquery-ui-datepicker', TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-js'), TIMED_CONTENT_VERSION);
+                wp_enqueue_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js');
+                wp_localize_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', 'TimedContentJQDatepickerI18n', $jquery_ui_datetime_datepicker_i18n);
+                wp_localize_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', 'TimedContentJQTimepickerI18n', $jquery_ui_datetime_timepicker_i18n);
             }
 
 			ob_start();

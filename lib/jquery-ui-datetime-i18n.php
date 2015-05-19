@@ -1,63 +1,38 @@
 <?php
-// Let's figure out i18n for the date- and timepickers
-if ( !isset( $jquery_ui_datetime_dayNames ) )
-    $jquery_ui_datetime_dayNames = array( __( "Sunday", 'timed-content' ),
-        __( "Monday", 'timed-content' ),
-        __( "Tuesday", 'timed-content' ),
-        __( "Wednesday", 'timed-content' ),
-        __( "Thursday", 'timed-content' ),
-        __( "Friday", 'timed-content' ),
-        __( "Saturday", 'timed-content' ) );
+global $wp_locale;
 
-if ( !isset( $jquery_ui_datetime_dayNamesShort ) )
-    $jquery_ui_datetime_dayNamesShort = array( _x( "Sun", "Three-letter abbreviation for Sunday", 'timed-content' ),
-        _x( "Mon", "Three-letter abbreviation for Monday", 'timed-content' ),
-        _x( "Tue", "Three-letter abbreviation for Tuesday", 'timed-content' ),
-        _x( "Wed", "Three-letter abbreviation for Wednesday", 'timed-content' ),
-        _x( "Thu", "Three-letter abbreviation for Thursday", 'timed-content' ),
-        _x( "Fri", "Three-letter abbreviation for Friday", 'timed-content' ),
-        _x( "Sat", "Three-letter abbreviation for Saturday", 'timed-content' ) );
+if (!function_exists("ca_aliencyborg_strip_array_indices")) {
+    function ca_aliencyborg_strip_array_indices($ArrayToStrip)
+    {
+        foreach ($ArrayToStrip as $objArrayItem) {
+            $NewArray[] = $objArrayItem;
+        }
 
-if ( !isset( $jquery_ui_datetime_dayNamesMin ) )
-    $jquery_ui_datetime_dayNamesMin = array( _x( "Su", "Two-letter abbreviation for Sunday", 'timed-content' ),
-        _x( "Mo", "Two-letter abbreviation for Monday", 'timed-content' ),
-        _x( "Tu", "Two-letter abbreviation for Tuesday", 'timed-content' ),
-        _x( "We", "Two-letter abbreviation for Wednesday", 'timed-content' ),
-        _x( "Th", "Two-letter abbreviation for Thursday", 'timed-content' ),
-        _x( "Fr", "Two-letter abbreviation for Friday", 'timed-content' ),
-        _x( "Sa", "Two-letter abbreviation for Saturday", 'timed-content' ) );
+        return $NewArray;
+    }
+}
 
-if ( !isset( $jquery_ui_datetime_monthNames ) )
-    $jquery_ui_datetime_monthNames = array( __( "January", 'timed-content' ),
-        __( "February", 'timed-content' ),
-        __( "March", 'timed-content' ),
-        __( "April", 'timed-content' ),
-        __( "May", 'timed-content' ),
-        __( "June", 'timed-content' ),
-        __( "July", 'timed-content' ),
-        __( "August", 'timed-content' ),
-        __( "September", 'timed-content' ),
-        __( "October", 'timed-content' ),
-        __( "November", 'timed-content' ),
-        __( "December", 'timed-content' ) );
-
-if ( !isset( $jquery_ui_datetime_monthNamesShort ) )
-    $jquery_ui_datetime_monthNamesShort = array( _x( "Jan", "Three-letter abbreviation for January", 'timed-content' ),
-        _x( "Feb", "Three-letter abbreviation for February", 'timed-content' ),
-        _x( "Mar", "Three-letter abbreviation for March", 'timed-content' ),
-        _x( "Apr", "Three-letter abbreviation for April", 'timed-content' ),
-        _x( "May", "Three-letter abbreviation for May", 'timed-content' ),
-        _x( "Jun", "Three-letter abbreviation for June", 'timed-content' ),
-        _x( "Jul", "Three-letter abbreviation for July", 'timed-content' ),
-        _x( "Aug", "Three-letter abbreviation for August", 'timed-content' ),
-        _x( "Sep", "Three-letter abbreviation for September", 'timed-content' ),
-        _x( "Oct", "Three-letter abbreviation for October", 'timed-content' ),
-        _x( "Nov", "Three-letter abbreviation for November", 'timed-content' ),
-        _x( "Dec", "Three-letter abbreviation for December", 'timed-content' ) );
-
-if ( !isset( $jquery_ui_datetime_timePeriods ) )
-    $jquery_ui_datetime_timePeriods = array( _x( "AM", "Abbreviation for first 12-hour period in a day", 'timed-content' ),
-        _x( "PM", "Abbreviation for second 12-hour period in a day", 'timed-content' ) );
+if (!function_exists("ca_aliencyborg_date_format_php_to_js")) {
+    function ca_aliencyborg_date_format_php_to_js($sFormat)
+    {
+        switch ($sFormat) {
+            //Predefined WP date formats
+            case 'F j, Y':
+                return ('MM dd, yy');
+                break;
+            case 'Y/m/d':
+                return ('yy/mm/dd');
+                break;
+            case 'm/d/Y':
+                return ('mm/dd/yy');
+                break;
+            case 'd/m/Y':
+                return ('dd/mm/yy');
+                break;
+            default: return $sFormat;
+        }
+    }
+}
 
 if ( !isset( $jquery_ui_datetime_datepicker_i18n ) )
     $jquery_ui_datetime_datepicker_i18n = array(
@@ -65,29 +40,48 @@ if ( !isset( $jquery_ui_datetime_datepicker_i18n ) )
         "prevText" => _x( "Prev", "jQuery UI Datepicker Previous label", "timed-content" ), // Display text for previous month link
         "nextText" => _x( "Next", "jQuery UI Datepicker Next label", "timed-content" ), // Display text for next month link
         "currentText" => _x( "Today", "jQuery UI Datepicker Today label", "timed-content" ), // Display text for current month link
-        "monthNames" => $jquery_ui_datetime_monthNames, // Names of months for drop-down and formatting
-        "monthNamesShort" => $jquery_ui_datetime_monthNamesShort, // For formatting
-        "dayNames" => $jquery_ui_datetime_dayNames, // For formatting
-        "dayNamesShort" => $jquery_ui_datetime_dayNamesShort, // For formatting
-        "dayNamesMin" => $jquery_ui_datetime_dayNamesShort, // Column headings for days starting at Sunday
         "weekHeader" => _x( "Wk", "jQuery UI Datepicker Week label", "timed-content" ), // Column header for week of the year
-        /* translators:  http://jqueryui.com/datepicker/#date-formats */
-        "dateFormat" => _x( "MM d, yy", "jQuery UI Datepicker Date format", 'timed-content' ),
-        "firstDay" => ( int )( _x( "0", "jQuery UI Datepicker 'First day of week' as integer ( Sunday = 0 ( 'zero' ), Monday = 1, ... )", 'timed-content' ) ), // The first day of the week, Sun = 0, Mon = 1, ...
-        "isRTL" => ( _x( "false", "jQuery UI Datepicker: Is translated language read right-to-left ( Value must be either English 'true' or 'false' )?", 'timed-content' ) == "false" ? false : true ), // True if right-to-left language, false if left-to-right
+        // Replace the text indices for the following arrays with 0-based arrays
+        "monthNames" => ca_aliencyborg_strip_array_indices( $wp_locale->month ), // Names of months for drop-down and formatting
+        "monthNamesShort" => ca_aliencyborg_strip_array_indices( $wp_locale->month_abbrev ), // For formatting
+        "dayNames" => ca_aliencyborg_strip_array_indices( $wp_locale->weekday ), // For formatting
+        "dayNamesShort" => ca_aliencyborg_strip_array_indices( $wp_locale->weekday_abbrev ), // For formatting
+        "dayNamesMin" => ca_aliencyborg_strip_array_indices( $wp_locale->weekday_initial ), // Column headings for days starting at Sunday
+        "dateFormat" => ca_aliencyborg_date_format_php_to_js( get_option( 'date_format' ) ),
+        "firstDay" => get_option( 'start_of_week' ),
+        "isRTL" => $wp_locale->is_rtl(),
         "showMonthAfterYear" => false, // True if the year select precedes month, false for month then year
         "yearSuffix" => '' // Additional text to append to the year in the month headers
-     );
+    );
+$tf = get_option( 'time_format' );
+if ( false !== strpos( $tf, "A") ) {
+    $meridiem = array($wp_locale->meridiem['AM'], $wp_locale->meridiem['PM']);
+    $show_period = true;
+    $show_period_labels = true;
+    $show_leading_zero = false;
+} elseif ( false !== strpos( $tf, "a") ) {
+    $meridiem = array($wp_locale->meridiem['am'], $wp_locale->meridiem['pm']);
+    $show_period = true;
+    $show_period_labels = true;
+    $show_leading_zero = false;
+} else {
+    $meridiem = array('', '');
+    $show_period = false;
+    $show_period_labels = false;
+    $show_leading_zero = true;
+}
 
 if ( !isset( $jquery_ui_datetime_timepicker_i18n ) )
     $jquery_ui_datetime_timepicker_i18n = array(
         "hourText" => _x( "Hour", "jQuery UI Timepicker 'Hour' label", "timed-content" ),
-        "minuteText" => _x( "Minute", "jQuery UI Timepicker 'Minute' label", "timed-content" ),
-        "amPmText" => $jquery_ui_datetime_timePeriods,
-        "showPeriod" => ( _x( "true", "jQuery UI Datepicker: Does translated language show 'AM' or 'PM' (or equivalent) when displaying a time  ( Value must be either English 'true' or 'false' )?", 'timed-content' ) == "true" ? true : false ),
+        "minuteText" => _x( "Minute", "jQuery UI Timepicker 'Minute' label", "content-protector" ),
         "timeSeparator" => _x( ":", "jQuery UI Datepicker: Character used to separate hours and minutes in translated language", 'timed-content' ),
         "closeButtonText" => _x( "Done", "jQuery UI Timepicker 'Done' label", "timed-content" ),
         "nowButtonText" => _x( "Now", "jQuery UI Timepicker 'Now' label", "timed-content" ),
-        "deselectButtonText" => _x( "Deselect", "jQuery UI Timepicker 'Deselect' label", "timed-content" ) );
+        "deselectButtonText" => _x( "Deselect", "jQuery UI Timepicker 'Deselect' label", "timed-content" ),
+        "amPmText" => $meridiem,
+        "showPeriod" => $show_period,
+        "showPeriodLabels" => $show_period_labels,
+        "showLeadingZero" => $show_leading_zero );
 
 ?>

@@ -94,25 +94,22 @@ if ( !class_exists('customFieldsInterface') ) {
 
 					wp_enqueue_style( 'wp-color-picker' );
 					wp_enqueue_script( 'wp-color-picker' );
-                    wp_enqueue_style( 'timed-content-jquery-ui-css', TIMED_CONTENT_JQUERY_UI_CSS, false, TIMED_CONTENT_VERSION );
-					wp_enqueue_script( 'jquery-ui-datepicker' );
-					if( !( wp_script_is( 'timed-content-jquery-ui-datepicker-i18n-js', 'registered' ) ) ) {
-						wp_register_script( 'timed-content-jquery-ui-datepicker-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/timed-content-datepicker-i18n.js", array( 'jquery', 'jquery-ui-datepicker' ), TIMED_CONTENT_VERSION );
-						wp_enqueue_script( 'timed-content-jquery-ui-datepicker-i18n-js' );
-						wp_localize_script( 'timed-content-jquery-ui-datepicker-i18n-js', 'TimedContentJQDatepickerI18n', $jquery_ui_datetime_datepicker_i18n );
-					}
-						
-					wp_enqueue_script( 'jquery-ui-spinner' ); 
-					wp_register_style( 'timed-content-jquery-ui-timepicker-css', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS, array( TIMED_CONTENT_JQUERY_UI_CSS ), TIMED_CONTENT_VERSION );
-					wp_enqueue_style( 'timed-content-jquery-ui-timepicker-css' );
-					wp_register_script( 'timed-content-jquery-ui-timepicker-js', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS, array('jquery', 'jquery-ui-datepicker'), TIMED_CONTENT_VERSION );
-					wp_enqueue_script( 'timed-content-jquery-ui-timepicker-js' );
-                    if( !( wp_script_is( 'timed-content-jquery-ui-timepicker-i18n-js', 'registered' ) ) ) {
-						wp_register_script( 'timed-content-jquery-ui-timepicker-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/timed-content-timepicker-i18n.js", array( 'jquery', 'jquery-ui-datepicker', 'timed-content-jquery-ui-timepicker-js' ), TIMED_CONTENT_VERSION );
-						wp_enqueue_script( 'timed-content-jquery-ui-timepicker-i18n-js' );
-						wp_localize_script( 'timed-content-jquery-ui-timepicker-i18n-js', 'TimedContentJQTimepickerI18n', $jquery_ui_datetime_timepicker_i18n );
-					}
-					if ( function_exists( 'add_meta_box' ) ) 
+                    wp_enqueue_script( 'jquery-ui-spinner' );
+
+                    wp_enqueue_style(TIMED_CONTENT_SLUG . '-jquery-ui-css', TIMED_CONTENT_JQUERY_UI_CSS);
+                    wp_enqueue_script('jquery-ui-datepicker');
+                    wp_register_style(TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-css', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS);
+                    wp_enqueue_style(TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-css');
+                    wp_register_script(TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-js', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS, array('jquery', 'jquery-ui-datepicker'), TIMED_CONTENT_VERSION);
+                    wp_enqueue_script(TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-js');
+                    if (!(wp_script_is(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', 'registered'))) {
+                        wp_register_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/content-protector-datetime-i18n.js", array('jquery', 'jquery-ui-datepicker', TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-js'), TIMED_CONTENT_VERSION);
+                        wp_enqueue_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js');
+                        wp_localize_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', 'TimedContentJQDatepickerI18n', $jquery_ui_datetime_datepicker_i18n);
+                        wp_localize_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', 'TimedContentJQTimepickerI18n', $jquery_ui_datetime_timepicker_i18n);
+                    }
+
+					if ( function_exists( 'add_meta_box' ) )
 						add_meta_box( $this->handle, $this->label, array( &$this, 'displayCustomFields' ), $a_postType, 'normal', 'high' );
 				}
 			}

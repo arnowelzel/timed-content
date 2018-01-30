@@ -5,13 +5,13 @@ Text Domain: timed-content
 Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
-Author: K. Tough
-Version: 2.6
+Author: K. Tough, Arno Welzel
+Version: 2.7
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if ( !class_exists( "timedContentPlugin" ) ) {
 
-	define( "TIMED_CONTENT_VERSION", "2.6" );
+	define( "TIMED_CONTENT_VERSION", "2.7" );
     define( "TIMED_CONTENT_SLUG", "timed-content" );
 	define( "TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/' . TIMED_CONTENT_SLUG );
     define( "TIMED_CONTENT_CLIENT_TAG", "timed-content-client" );
@@ -37,11 +37,16 @@ if ( !class_exists( "timedContentPlugin" ) ) {
      */
     class timedContentPlugin {
 				
-		function timedContentPlugin() { 
+		function __construct() { 
 			//constructor
 
 		}
 
+		function timedContentPlugin() { 
+			self::__construct();
+
+		}
+		
 		/** https://core.trac.wordpress.org/ticket/25768
 		 *
 		 * Modified from the original patch to use the currently set

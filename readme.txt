@@ -2,36 +2,33 @@
 Contributors: kjvtough, awelzel
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
 Requires at least: 2.0.2
-Tested up to: 4.2.2
+Tested up to: 4.9
 Stable tag: 2.6
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
 
 == Description ==
-The Timed Content plugin allows users to specify that a portion of a Page or Post should appear/be visible or
-disappear/be invisible based on given time characteristics. Suppose, for example, you embed a video into a Post; once the viewer has enough information 
-from the video, the request to take a specific action can be set to appear.  You can also make portions of a Post or Page be visible at certain dates and
-times; you can even set up a schedule!
+The Timed Content plugin allows users to specify that a portion of a Page or Post should appear/be visible or disappear/be invisible based on given time characteristics. You can also make portions of a Post or Page be visible at certain dates and times; you can even set up a schedule!
 
 The plugin adds the following:
 
-* A "client-side" shortcode that allows the marking of content to appear or disappear after a given time interval; a "fade" 
-effect is included.  This functionality is intended to be used for special effects only, as content marked in this manner 
-is still visible in the HTML source and, therefore, not a secure method of hiding content.
-* Two "server-side" shortcodes that allow the marking of content to be visible only during specified date/time intervals.  This
-functionality **can** be used as a secure method of hiding content, because the marked content will be included in the Page/Post 
-**only** when viewed in the specified date/time intervals.
+* A "client-side" shortcode that allows the marking of content to appear or disappear after a given time interval; a "fade" effect is included.  This functionality is intended to be used for special effects only, as content marked in this manner is still visible in the HTML source and, therefore, not a secure method of hiding content.
+* Two "server-side" shortcodes that allow the marking of content to be visible only during specified date/time intervals.  This functionality **can** be used as a secure method of hiding content, because the marked content will be included in the Page/Post **only** when viewed in the specified date/time intervals.
 
 A TinyMCE dialog is included to help users build the shortcodes. See the Screenshots tab for more info.
 
 == Installation ==
+
 **Note:** `XXX` refers to the current version release.
+
 = Automatic method =
+
 1. Click 'Add New' on the 'Plugins' page.
 1. Upload `timed-content-XXX.zip` using the file uploader on the page
 
 = Manual method =
+
 1. Unzip `timed-content-XXX.zip` and upload the `timed-content` folder to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
@@ -41,9 +38,7 @@ No "frequent" questions as of yet, but come ask away in the Support forum.
 
 == Screenshots ==
 
-1. An example showing use of the `[timed-content-client]` shortcode.  The "alarm clock" button on the editor menubar brings up a
-dialog box to help build the Timed Content shortcodes. All of the Admin-side screenshots are from Wordpress 3.7, but the functionality
-is the same for 3.8.
+1. An example showing use of the `[timed-content-client]` shortcode.  The "alarm clock" button on the editor menubar brings up a dialog box to help build the Timed Content shortcodes. All of the Admin-side screenshots are from Wordpress 3.7, but the functionality is the same for 3.8.
 2. The "Add Timed Content shortcode" dialog showing the Client tab.  Check the attribute you want to add and fill in the textboxes.
 3. The "Add Timed Content shortcode" dialog showing the Server tab.  Check the attribute you want to add, then click on the Date and Time textboxes.
 4. The date and time pickers help you format a correct date and time.  Here's the jQuery UI Datepicker in action.
@@ -55,6 +50,8 @@ is the same for 3.8.
 10. An example showing use of the `[timed-content-server]` shortcode with `debug` set to `true`. You'll only see it if you're logged in and it's on a Page/Post you can edit (Your regular visitors won't see this at all).
 
 == Changelog ==
+= 2.7 =
+* Fixed deprecated class constructors.
 = 2.6 =
 * New action hooks.
 * `[timed-content-rule]` shortcode now accepts a Timed Content Rule name as well as an ID.

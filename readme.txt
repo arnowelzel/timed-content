@@ -1,14 +1,16 @@
 === Timed Content ===
+
 Contributors: kjvtough, awelzel
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
 Requires at least: 2.0.2
 Tested up to: 4.9
-Stable tag: 2.7
+Stable tag: 2.8
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
 
 == Description ==
+
 The Timed Content plugin allows users to specify that a portion of a Page or Post should appear/be visible or disappear/be invisible based on given time characteristics. You can also make portions of a Post or Page be visible at certain dates and times; you can even set up a schedule!
 
 The plugin adds the following:
@@ -17,6 +19,8 @@ The plugin adds the following:
 * Two "server-side" shortcodes that allow the marking of content to be visible only during specified date/time intervals.  This functionality **can** be used as a secure method of hiding content, because the marked content will be included in the Page/Post **only** when viewed in the specified date/time intervals.
 
 A TinyMCE dialog is included to help users build the shortcodes. See the Screenshots tab for more info.
+
+For testing the behaviour of server side rules at specific times, you may use the GET parameter `tctest`, followed by date and time in the format `YYYY-MM-DD+hh:mm:ss`. This works only you are logged in with a user which has the right to edit the displayed page or post. For example, if you add `?tctest=2018-02-10+19:16:00` the plugin will show the content as if it was February 2, 2018 at 19:16.
 
 == Installation ==
 
@@ -50,65 +54,86 @@ No "frequent" questions as of yet, but come ask away in the Support forum.
 10. An example showing use of the `[timed-content-server]` shortcode with `debug` set to `true`. You'll only see it if you're logged in and it's on a Page/Post you can edit (Your regular visitors won't see this at all).
 
 == Changelog ==
+
+= 2.8 =
+
+* Added debug parameter `tctest`.
+
 = 2.7 =
+
 * Fixed deprecated class constructors.
+
 = 2.6 =
+
 * New action hooks.
 * `[timed-content-rule]` shortcode now accepts a Timed Content Rule name as well as an ID.
 * Streamlined i18n for date/time pickers (Use values available in Wordpress settings and `$wp_locale` when available, combined *-i18n.js files into one).
 * Some developer docs in the `readme.txt`
 
 = 2.5.1 =
+
 * Fixed `current_time()` bug in __rulesShowHTML() introduced in 2.5.
 
 = 2.5 =
+
 * Removed dependency on jQuery UI Dialog; now uses Thickbox.
 * Added and modified `fix_date_i18n()` from https://core.trac.wordpress.org/ticket/25768 to better handle DST and timezones with i18n.
 * Added custom filter `timed_content_filter_override` so admins can modify/replace `timed_content_filter` if necessary.
 * Using built-in spinner image now instead of `wpspin.gif`
 
 = 2.4 =
+
 * Removed `timed-content-admin-tinymce.js` (No need anymore; required JS variables now hooked directly into editor). Fixes incompatibility with OptimizePress.
 
 = 2.3.1 =
+
 * Fixed minor bugs related to Exception Dates.
 * Optimized rule periods arrays (array only needs 'status' and 'time' when it's meant to be human-readable).
 * Added custom filter `timed_content_filter` to emulate `apply_filter( 'the_content', ... )` functionality for content.
 
 = 2.3 =
+
 * Fixed bug when setting up weekly recurrence for Timed Content Rules.
 * NEW! Exception Dates (dates on which your Timed Content Rule shouldn't run).
 
 = 2.2 =
+
 * Much improved i18n
 * New Spanish translation - Many thanks to Andrew Kurtis and Jelena Kovacevic from WebHostingHub (Nueva traducción de español - Muchas gracias a Andrew Kurtis y Jelena Kovacevic desde WebHostingHub).
 
 = 2.1.5 =
+
 * Unified dashicons among all of my plugins.
 * Minor improvements in TinyMCE dialog UI and Date/Time UI controls.
 
 = 2.1.4 =
+
 * Fixed TinyMCE editor button for TinyMCE 4.x.
 
 = 2.1.3 =
+
 * Removed support for PHP4 in `customFieldsInterface.php`.
 * Fixed Wordpress version check for deciding which image to use for TinyMCE button.
 * Fixed "Strict Standards" warning in PHP 5.4 in `__getNextWeek()`.
 
 = 2.1.2 =
+
 * Dashicons support for WP 3.8 + added. Support for old-style icons in Admin/TinyMCE is deprecated.
 * Added versioning to all `wp_enqueue_style()` calls.
 
 = 2.1.1 =
+
 * CSS for JQuery UI now loaded locally as required by Wordpress plugin repository rules.
 * Improved UX on TinyMCE dialog and Timed Content Rules detail page.
 
 = 2.1 =
+
 * Fixed inconsistency in how the days of week to repeat on were being set up between the front and back ends.
 * Fixed variable scope bug that occurred on activation.
 * Improved i18n.
 
 = 2.0 =
+
 * Added Timed Content Rules.
 * Replaced AnyTime plugin with jQuery UI Timepicker (http://fgelinas.com/code/timepicker) and Wordpress's internal jQuery UI Datepicker.
 * HTML code created by `[timed-content-client]` can now either be enclosed in either `<div>` or `<span>` tags.
@@ -116,50 +141,66 @@ No "frequent" questions as of yet, but come ask away in the Support forum.
 * Improved code documentation.
 
 = 1.2 =
+
 * Upgraded AnyTime jQuery plugin.
 * `timed-content.js` is now always loaded (Size > 1KB, so not a lot of extra overhead); fixes bug when multiple/nested shortcodes are used.
 
 = 1.1 =
+
 * Fixed some internal filename discrepancies.
 
 = 1.0 =
+
 * Initial release.
 
 == Upgrade Notice ==
+
 = 2.5.1 =
+
 Fixed `current_time()` bug in __rulesShowHTML() introduced in 2.5.  Upgrade now
 
 = 2.5 =
+
 Better handling od dates w/ i18n.  Upgrade now
 
 = 2.4 =
+
 New version fixes incompatibility with OptimizePress.  Upgrade now
 
 = 2.3 =
+
 Fixed bug when setting up weekly recurrence for Timed Content Rules.  Upgrade now
 
 = 2.1.4 =
+
 Fixed TinyMCE button issue.  Upgrade now
 
 = 2.1.3 =
+
 Fixed various minor bugs.  Upgrade now
 
 = 2.1.2 =
+
 Dashicons support for WP 3.8 +.  Upgrade once you've upgraded Wordpress to >= 3.8.
 
 = 2.1.1 =
+
 CSS for JQuery UI now loaded locally as required by Wordpress plugin repository rules.  Upgrade now
 
 = 2.1 =
+
 Fixed bug in how the days of week to repeat on were being set up between the front and back ends. Upgrade now
 
 = 2.0 =
+
 New Timed Content Rules feature; AnyTime replaced due to licensing. Upgrade now.
 
 = 1.2 =
+
 AnyTime JavaScript library was outdated, breaking the Timed Content dialog box. Upgrade now.
 
 = 1.1 =
+
 Fixed some internal filename discrepancies, causing visual editor to break.  Upgrade now.
 
 == Examples ==

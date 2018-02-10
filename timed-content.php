@@ -6,12 +6,12 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough, Arno Welzel
-Version: 2.7
+Version: 2.8
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if ( !class_exists( "timedContentPlugin" ) ) {
 
-	define( "TIMED_CONTENT_VERSION", "2.7" );
+	define( "TIMED_CONTENT_VERSION", "2.8" );
     define( "TIMED_CONTENT_SLUG", "timed-content" );
 	define( "TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/' . TIMED_CONTENT_SLUG );
     define( "TIMED_CONTENT_CLIENT_TAG", "timed-content-client" );
@@ -72,9 +72,14 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 					$timestamp = time();
 				else
 					$timestamp = current_time('timestamp');
+
+				// use debug parameter if current user is allowed to edit the post
+				if(isset($_GET['tctest']) && current_user_can( "edit_post", $post->post_id)) {
+					$dt = DateTime::createFromFormat('Y-m-d H:i:s', $_GET['tctest']);
+					if($dt != FALSE) $timestamp = $dt->getTimestamp();
+				}
 			}
-
-
+			
 			// get components of the date (timestamp) as array
 			$date_components = getdate($timestamp);
 
@@ -585,6 +590,12 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			date_default_timezone_set( $timezone );
             $right_now_t = current_time( 'timestamp', 1 );
 
+			// use debug parameter if current user is allowed to edit the post
+			if(isset($_GET['tctest']) && current_user_can( "edit_post", $post->post_id)) {
+				$dt = DateTime::createFromFormat('Y-m-d H:i:s', $_GET['tctest']);
+				if($dt != FALSE) $right_now_t = $dt->getTimestamp();
+			}
+			
 			$instance_start = strtotime( $this->__datetimeToEnglish( $instance_start_date, $instance_start_time ) . " " . $timezone );	// Beginning of first occurrence
 			$instance_end = strtotime( $this->__datetimeToEnglish( $instance_end_date, $instance_end_time ) . " " . $timezone );    		// End of first occurrence
 			$current = $instance_start;
@@ -995,7 +1006,13 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			$hide_t = strtotime( $this->__datetimeToEnglish( $hide ) );
 			$right_now_t = current_time( 'timestamp', 1 );
 			$debug_message = "";
-
+			
+			// use debug parameter if current user is allowed to edit the post
+			if(isset($_GET['tctest']) && current_user_can( "edit_post", $post->post_id)) {
+				$dt = DateTime::createFromFormat('Y-m-d H:i:s', $_GET['tctest']);
+				if($dt != FALSE) $right_now_t = $dt->getTimestamp();
+			}
+			
 			$the_filter = "timed_content_filter";
 			$the_filter = apply_filters( "timed_content_filter_override", $the_filter );
 
@@ -1074,6 +1091,12 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 			$prefix = TIMED_CONTENT_RULE_POSTMETA_PREFIX;
 			$right_now_t = current_time( 'timestamp', 1 );
 			$rule_is_active = false;
+
+			// use debug parameter if current user is allowed to edit the post
+			if(isset($_GET['tctest']) && current_user_can( "edit_post", $post->post_id)) {
+				$dt = DateTime::createFromFormat('Y-m-d H:i:s', $_GET['tctest']);
+				if($dt != FALSE) $right_now_t = $dt->getTimestamp();
+			}
 			
 			$active_periods = $this->getRulePeriodsById( $id, false );
 			$action_is_show = (bool) get_post_meta( $id, $prefix . 'action', true );

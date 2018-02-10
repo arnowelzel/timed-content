@@ -20,8 +20,6 @@ The plugin adds the following:
 
 A TinyMCE dialog is included to help users build the shortcodes. See the Screenshots tab for more info.
 
-For testing the behaviour of server side rules at specific times, you may use the GET parameter `tctest`, followed by date and time in the format `YYYY-MM-DD+hh:mm:ss`. This works only you are logged in with a user which has the right to edit the displayed page or post. For example, if you add `?tctest=2018-02-10+19:16:00` the plugin will show the content as if it was February 2, 2018 at 19:16.
-
 == Installation ==
 
 **Note:** `XXX` refers to the current version release.
@@ -261,6 +259,10 @@ Both `show` and `hide` attributes are optional, but at least one attribute must 
 `[timed-content-rule id="{rule_id}|{rule_name}"]Example Text[/timed-content-rule]`
 
 You can find the correct shortcode from the Timed Content Rules overview page, or use the TinyMCE dialog.
+
+**Testing server side rules**
+
+For testing the behaviour of server side rules at specific times, you may use the GET parameter `tctest` in an URL, followed by date and time in the format `YYYY-MM-DD+hh:mm:ss`. This works only you are logged in with a user which has the right to edit the displayed page or post. For example: `http://mysite.example?tctest=2018-02-10+19:16:00` will show the content as if it was February 2, 2018 at 19:16.
 
 == Developer Documentation ==
 

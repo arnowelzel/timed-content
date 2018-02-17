@@ -6,12 +6,12 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough, Arno Welzel
-Version: 2.8
+Version: 2.9
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if ( !class_exists( "timedContentPlugin" ) ) {
 
-	define( "TIMED_CONTENT_VERSION", "2.8" );
+	define( "TIMED_CONTENT_VERSION", "2.9" );
     define( "TIMED_CONTENT_SLUG", "timed-content" );
 	define( "TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/' . TIMED_CONTENT_SLUG );
     define( "TIMED_CONTENT_CLIENT_TAG", "timed-content-client" );
@@ -228,6 +228,23 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				'supports' => array( 'title' )
 			); 
 			register_post_type( TIMED_CONTENT_RULE_TYPE, $args );
+		}
+		
+        /**
+         * Filter to change sort order to title
+         *
+         * @param array $messages   Array of currently defined messages for post types
+         * @return mixed            Array of messages with appropriate messages for Timed Content Rules added in
+         */
+		function timedContentPreGetPosts($query) {
+			if($query->is_admin) {
+				if ($query->get('post_type') == TIMED_CONTENT_RULE_TYPE)
+				{
+					$query->set('orderby', 'title');
+					$query->set('order', 'ASC');
+				}
+			}
+			return $query;
 		}
 
         /**
@@ -1485,7 +1502,7 @@ if ( isset( $timedContentPluginInstance ) ) {
 	add_filter('timed_content_filter', 'wpautop');
 	add_filter('timed_content_filter', 'prepend_attachment');
 	add_filter('timed_content_filter', 'do_shortcode');
-
+	
 	add_action( "plugins_loaded", array( &$timedContentPluginInstance, "i18nInit" ), 1 );
 	add_action( "init", array( &$timedContentPluginInstance, "timedContentRuleTypeInit" ), 2 );
 	add_action( "init", array( &$timedContentPluginInstance, "setUpCustomFields" ), 2 );
@@ -1510,5 +1527,7 @@ if ( isset( $timedContentPluginInstance ) ) {
     add_shortcode( TIMED_CONTENT_CLIENT_TAG, array( &$timedContentPluginInstance, "clientShowHTML" ), 1 );
 	add_shortcode( TIMED_CONTENT_SERVER_TAG, array( &$timedContentPluginInstance, "serverShowHTML" ), 1 );
 	add_shortcode( TIMED_CONTENT_RULE_TAG, array( &$timedContentPluginInstance, "rulesShowHTML" ), 1 );
+	
+	add_filter('pre_get_posts', array( &$timedContentPluginInstance, "timedContentPreGetPosts") );
 }
 ?>

@@ -6,12 +6,12 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough, Arno Welzel
-Version: 2.9
+Version: 2.10
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if ( !class_exists( "timedContentPlugin" ) ) {
 
-	define( "TIMED_CONTENT_VERSION", "2.9" );
+	define( "TIMED_CONTENT_VERSION", "2.10" );
     define( "TIMED_CONTENT_SLUG", "timed-content" );
 	define( "TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/' . TIMED_CONTENT_SLUG );
     define( "TIMED_CONTENT_CLIENT_TAG", "timed-content-client" );
@@ -1496,10 +1496,8 @@ if ( class_exists( "timedContentPlugin" ) ) {
 if ( isset( $timedContentPluginInstance ) ) {
 	global $wp_version;
 
-	add_filter('timed_content_filter', 'wptexturize');
 	add_filter('timed_content_filter', 'convert_smilies');
 	add_filter('timed_content_filter', 'convert_chars');
-	add_filter('timed_content_filter', 'wpautop');
 	add_filter('timed_content_filter', 'prepend_attachment');
 	add_filter('timed_content_filter', 'do_shortcode');
 	

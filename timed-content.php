@@ -10,7 +10,7 @@ Version: 2.10
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if (!class_exists("TimedContentPlugin")) {
-    define("TIMED_CONTENT_VERSION", "2.10");
+    define("TIMED_CONTENT_VERSION", "2.11");
     define("TIMED_CONTENT_SLUG", "timed-content");
     define("TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/' . TIMED_CONTENT_SLUG);
     define("TIMED_CONTENT_CLIENT_TAG", "timed-content-client");

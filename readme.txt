@@ -4,7 +4,7 @@ Contributors: kjvtough, awelzel
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
 Requires at least: 2.0.2
 Tested up to: 4.9
-Stable tag: 2.10
+Stable tag: 2.11
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
@@ -52,6 +52,10 @@ No "frequent" questions as of yet, but come ask away in the Support forum.
 10. An example showing use of the `[timed-content-server]` shortcode with `debug` set to `true`. You'll only see it if you're logged in and it's on a Page/Post you can edit (Your regular visitors won't see this at all).
 
 == Changelog ==
+
+= 2.11 =
+
+* Fixed wrong date format when picking a date in the TinyMCE dialog to make sure it is always mm/dd/yyyy.
 
 = 2.10 =
 

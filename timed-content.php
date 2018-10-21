@@ -6,12 +6,12 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough, Arno Welzel
-Version: 2.12
+Version: 2.13
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 if ( !class_exists( "timedContentPlugin" ) ) {
 
-	define( "TIMED_CONTENT_VERSION", "2.12" );
+	define( "TIMED_CONTENT_VERSION", "2.13" );
     define( "TIMED_CONTENT_SLUG", "timed-content" );
 	define( "TIMED_CONTENT_PLUGIN_URL", plugins_url() . '/' . TIMED_CONTENT_SLUG );
     define( "TIMED_CONTENT_CLIENT_TAG", "timed-content-client" );
@@ -27,7 +27,8 @@ if ( !class_exists( "timedContentPlugin" ) ) {
     define( "TIMED_CONTENT_JQUERY_UI_CSS", TIMED_CONTENT_PLUGIN_URL . "/css/jqueryui/1.10.3/themes/smoothness/jquery-ui.css"  );
     define( "TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS", TIMED_CONTENT_PLUGIN_URL . "/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js" );
     define( "TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS", TIMED_CONTENT_PLUGIN_URL . "/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.css" );
-
+    // this forma is used for human readable output in debug messages
+    define( "TIMED_CONTENT_DT_FORMAT", "Y-m-d H:i O" ); 
 
     /**
      * Class timedContentPlugin
@@ -1018,9 +1019,31 @@ if ( !class_exists( "timedContentPlugin" ) ) {
          */
 		function serverShowHTML( $atts, $content = null ) {
             global $post;
-			extract( shortcode_atts( array( 'show' => TIMED_CONTENT_ZERO_TIME , 'hide' => TIMED_CONTENT_END_TIME, 'debug' => 'false'  ), $atts ) );
-			$show_t = strtotime( $this->__datetimeToEnglish( $show ) );
-			$hide_t = strtotime( $this->__datetimeToEnglish( $hide ) );
+            extract( shortcode_atts( array( 'show' => TIMED_CONTENT_ZERO_TIME , 'hide' => TIMED_CONTENT_END_TIME, 'debug' => 'false'  ), $atts ) );
+            $date_format = get_option('date_format') . ' G:i';
+            
+            $pos = strrpos($show, ' ');
+            if ($pos !== false) {
+                $show_time = substr($show, 0, $pos);
+                $show_tz = substr($show, $pos+1);
+            } else {
+                $show_time = $show;
+                $show_tz = date_default_timezone_get();
+            }
+            $show_dt = DateTime::createFromFormat($date_format, $show_time, new DateTimeZone($show_tz));
+            if($show_dt != false) $show_t = $show_dt->getTimeStamp();else $show_t = 0;
+
+            $pos = strrpos($hide, ' ');
+            if ($pos !== false) {
+                $hide_time = substr($hide, 0, $pos);
+                $hide_tz = substr($hide, $pos+1);
+            } else {
+                $hide_time = $hide;
+                $hide_tz = date_default_timezone_get();
+            }
+            $hide_dt = DateTime::createFromFormat($date_format, $hide_time, new DateTimeZone($hide_tz));
+            if($hide_dt != false) $hide_t = $hide_dt->getTimeStamp();else $hide_t = 0;
+
 			$right_now_t = current_time( 'timestamp', 1 );
 			$debug_message = "";
 			
@@ -1318,7 +1341,7 @@ if ( !class_exists( "timedContentPlugin" ) ) {
             wp_register_script(TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-js', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS, array('jquery', 'jquery-ui-datepicker'), TIMED_CONTENT_VERSION);
             wp_enqueue_script(TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-js');
             if (!(wp_script_is(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', 'registered'))) {
-                wp_register_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/content-protector-datetime-i18n.js", array('jquery', 'jquery-ui-datepicker', TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-js'), TIMED_CONTENT_VERSION);
+                wp_register_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/timed-content-datetime-i18n.js", array('jquery', 'jquery-ui-datepicker', TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-js'), TIMED_CONTENT_VERSION);
                 wp_enqueue_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js');
                 wp_localize_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', 'TimedContentJQDatepickerI18n', $jquery_ui_datetime_datepicker_i18n);
                 wp_localize_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', 'TimedContentJQTimepickerI18n', $jquery_ui_datetime_timepicker_i18n);
@@ -1476,11 +1499,6 @@ if ( !class_exists( "timedContentPlugin" ) ) {
 				TIMED_CONTENT_RULE_POSTMETA_PREFIX,
 				array( TIMED_CONTENT_RULE_TYPE ),
 				$timed_content_rule_exceptions_custom_fields );
-
-            // Initially loaded at the top; defining this constant here means it can get i18n'd
-            /* translators:  date/time format for debugging messages. http://ca2.php.net/manual/en/function.date.php */
-			define( "TIMED_CONTENT_DT_FORMAT", __( "l, F jS, Y, g:i A T" , 'timed-content' ) );
-
         }
 
 	}

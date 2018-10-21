@@ -41,7 +41,7 @@ var TimedContentDialog = {
 						{
 							changeMonth: true,
 							changeYear: true,
-							dateFormat: 'mm/dd/yy'
+							dateFormat: datepickParam.dateFormat
 						}
 					);
 					jQuery('#server_show_time').timepicker(
@@ -65,7 +65,7 @@ var TimedContentDialog = {
 						{
 							changeMonth: true,
 							changeYear: true,
-							dateFormat: 'mm/dd/yy'
+							dateFormat: datepickParam.dateFormat
 						}
 					);
 					jQuery('#server_hide_time').timepicker(

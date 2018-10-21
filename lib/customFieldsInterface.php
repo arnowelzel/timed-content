@@ -103,7 +103,7 @@ if ( !class_exists('customFieldsInterface') ) {
                     wp_register_script(TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-js', TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS, array('jquery', 'jquery-ui-datepicker'), TIMED_CONTENT_VERSION);
                     wp_enqueue_script(TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-js');
                     if (!(wp_script_is(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', 'registered'))) {
-                        wp_register_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/content-protector-datetime-i18n.js", array('jquery', 'jquery-ui-datepicker', TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-js'), TIMED_CONTENT_VERSION);
+                        wp_register_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', TIMED_CONTENT_PLUGIN_URL . "/js/timed-content-datetime-i18n.js", array('jquery', 'jquery-ui-datepicker', TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-js'), TIMED_CONTENT_VERSION);
                         wp_enqueue_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js');
                         wp_localize_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', 'TimedContentJQDatepickerI18n', $jquery_ui_datetime_datepicker_i18n);
                         wp_localize_script(TIMED_CONTENT_SLUG . '-jquery-ui-datetime-i18n-js', 'TimedContentJQTimepickerI18n', $jquery_ui_datetime_timepicker_i18n);
@@ -310,7 +310,7 @@ if ( !class_exists('customFieldsInterface') ) {
 		jQuery( "#<?php echo $this->prefix . $customField[ 'name' ]; ?>_date" ).datepicker(
 			{
 				changeMonth: true,
-				changeYear: true
+                changeYear: true
 			}
 		);
 		jQuery( "#<?php echo $this->prefix . $customField[ 'name' ]; ?>_time" ).timepicker(

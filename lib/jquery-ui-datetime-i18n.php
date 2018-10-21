@@ -15,22 +15,11 @@ if (!function_exists("ca_aliencyborg_strip_array_indices")) {
 if (!function_exists("ca_aliencyborg_date_format_php_to_js")) {
     function ca_aliencyborg_date_format_php_to_js($sFormat)
     {
-        switch ($sFormat) {
-            //Predefined WP date formats
-            case 'F j, Y':
-                return ('MM dd, yy');
-                break;
-            case 'Y/m/d':
-                return ('yy/mm/dd');
-                break;
-            case 'm/d/Y':
-                return ('mm/dd/yy');
-                break;
-            case 'd/m/Y':
-                return ('dd/mm/yy');
-                break;
-            default: return $sFormat;
-        }
+        return str_replace(
+            array('d',  'j', 'l',  'm',  'n', 'F', 'Y'),
+            array('dd', 'd', 'DD', 'mm', 'm', 'MM', 'yy'),
+            $sFormat
+        );
     }
 }
 

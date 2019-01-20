@@ -2,9 +2,9 @@
 
 Contributors: kjvtough, awelzel
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
-Requires at least: 2.0.2
+Requires at least: 3.8
 Tested up to: 5.0
-Stable tag: 2.12
+Stable tag: 2.20
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
@@ -22,21 +22,12 @@ A TinyMCE dialog is included to help users build the shortcodes. See the Screens
 
 == Installation ==
 
-**Note:** `XXX` refers to the current version release.
-
-= Automatic method =
-
-1. Click 'Add New' on the 'Plugins' page.
-1. Upload `timed-content-XXX.zip` using the file uploader on the page
-
-= Manual method =
-
-1. Unzip `timed-content-XXX.zip` and upload the `timed-content` folder to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
+1. Extract the contents of the package to the `/wp-content/plugins/timed-content` directory
+2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
 
-No "frequent" questions as of yet, but come ask away in the Support forum.
+No "frequent" questions yet.
 
 == Screenshots ==
 
@@ -52,6 +43,16 @@ No "frequent" questions as of yet, but come ask away in the Support forum.
 10. An example showing use of the `[timed-content-server]` shortcode with `debug` set to `true`. You'll only see it if you're logged in and it's on a Page/Post you can edit (Your regular visitors won't see this at all).
 
 == Changelog ==
+
+= 2.20 =
+
+* Code refactoring and cleanup
+* Increased minimum required WordPress version to 3.8
+* TODO: Date format for shortcodes and rules is now always similar to ISO 8601 (yyyy-mm-dd HH:MM), existing dates in rules will be parsed as "mm/dd/yyyy HH:MM" if they contain slashes, existing shortcodes will work with old formats as well
+
+= 2.15 =
+
+* Fixed 404 error caused by wrong URL for jquery date/time picker localization.
 
 = 2.10 =
 
@@ -161,6 +162,10 @@ No "frequent" questions as of yet, but come ask away in the Support forum.
 
 == Upgrade Notice ==
 
+= 2.15 =
+
+* Fixed 404 errors caused by wrong URL for date/time picker localization.
+
 = 2.12 =
 
 Fixed a problem with date format for server side rules in TinyMCE plugin to make sure it is alway mm/dd/yyyy.
@@ -260,9 +265,11 @@ Your users must have JavaScript enabled for this shortcode to work.
 
 `[timed-content-server show="datetime" hide="datetime" debug="true|false"]Example Text[/timed-content-server]`
 
-* `show` - Specifies the date/time when the marked content should start being included on the web page. The attribute consists of `datetime` - a human-readable date/time description. The plugin uses PHP's <a href="http://www.php.net/manual/en/function.strtotime.php">strtotime</a> function to process dates/times, so anything it can understand can be used.
-* `hide` - Specifies the date/time after which the marked content should stop being included on the web page. The attribute consists of `datetime` - a human-readable date/time description. The plugin uses PHP's <a href="http://www.php.net/manual/en/function.strtotime.php">strtotime</a> function to process dates/times, so anything it can understand can be used.
+* `show` - Specifies the date/time when the marked content should start being included on the web page.
+* `hide` - Specifies the date/time after which the marked content should stop being included on the web page.
 * `debug` - If `true`, adds some debugging statements to the web page as HTML comments. Defaults to `false`.
+
+The date and time are expected to be yyyy-mm-dd HH:MM (similar to ISO 8601), for example `2019-04-07 15:30` for April 7, 2019, 15:30. For backward compatiblity old "human readable" date formats should also work, but these should not be used any longer!
 
 Both `show` and `hide` attributes are optional, but at least one attribute must be included. The shortcode's behaviour depends on which attributes are used:
 

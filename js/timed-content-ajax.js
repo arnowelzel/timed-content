@@ -125,7 +125,7 @@ jQuery(document).ready( function() {
         var button = jQuery('input#timed_content_rule_test');
 
         button.prop('disabled', 'disabled');
-        tag.html('<img src="' + timedContentRuleAjax.loadingimg + '" /> Loading...');
+        tag.html('Loading...');
 
 		jQuery.post(
 			timedContentRuleAjax.ajaxurl,

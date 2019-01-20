@@ -2,38 +2,36 @@ div.tcr-loading {
     margin: auto;
 }
 div.tcr-error, div.tcr-warning  {
-    border-radius: 3px 3px 3px 3px;
     border-style: solid;
     border-width: 1px;
-    margin: 5px 15px 2px;
-    padding: 0 0.6em;
-    font-style: normal;
-    font-size: 12px;
-    font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
+    padding: 0.5em;
 }
 div.tcr-warning {
     background-color: #FEEFB3;
+}
+div.tcr-warning p {
+    margin:0;
+    padding:0;
 }
 div.tcr-error {
     background-color: #feddce;
 }
 div.tcr-warning ul {
 	list-style-type: disc; 
-	padding-left: 20px; 
-	margin-bottom: 10px;
+	padding-left: 1.5em;
+	margin-bottom: 1em;
 }
 div.tcr-warning ul li {
     margin-bottom: 0px;
 }
 div.tcr-warning .heading, div.tcr-error .heading {
-    font-size: 14px;
     font-weight: bold;
 }
 table.tcr-dates {
     width: 100%;;
 }
 table.tcr-dates tr td {
-    padding: 2px;
+    padding: 0.125em;
 }
 table.tcr-dates tr.upcoming {
     background-color: #faff92;
@@ -55,7 +53,6 @@ table.tcr-dates tr.active:hover {
     color: #009900;
     background-color: #ffffff;
 }
-table.tcr-dates tr th {
-    background-color: #333366;
-    color: #ffffff;
- }
+#schedule_desc {
+    min-height:14em;
+}

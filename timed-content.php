@@ -991,7 +991,7 @@ class timedContentPlugin
         $args['monthly_pattern_day'] = get_post_meta( $ID, $prefix . 'monthly_nth_weekday_of_month_weekday', true );
         $args['exceptions_dates']    = get_post_meta( $ID, $prefix . 'exceptions_dates', true );
 
-        $args = $this->convertDate2ISO($args);
+        $args = $this->convertDateTimeParametersToISO($args);
 
         return $this->__getRulePeriods( $args );
     }
@@ -1278,7 +1278,7 @@ class timedContentPlugin
         $args['exceptions_dates']    = ( false === get_post_meta( $ID, $prefix . 'exceptions_dates',
             true ) ? $defaults['exceptions_dates'] : get_post_meta( $ID, $prefix . 'exceptions_dates', true ) );
 
-        $args = $this->convertDate2ISO( $args );
+        $args = $this->convertDateTimeParametersToISO( $args );
 
         return $this->__getScheduleDescription( $args );
     }
@@ -1382,7 +1382,6 @@ class timedContentPlugin
             'hide'  => TIMED_CONTENT_TIME_END,
             'debug' => 'false'
         ), $atts ) );
-        $date_format = get_option( 'date_format' ) . ' G:i';
 
         $pos = strrpos( $show, ' ' );
         if ( $pos !== false ) {
@@ -1394,9 +1393,9 @@ class timedContentPlugin
         }
 
         // Try to parse date as ISO first
-        $show_dt = DateTime::createFromFormat( 'Y-m-d H:i:s', $show_time, new DateTimeZone( $show_tz ) );
+        $show_dt = DateTime::createFromFormat( 'Y-m-d G:i', $show_time, new DateTimeZone( $show_tz ) );
         if ($show_dt === false) {
-            $show_dt = DateTime::createFromFormat($date_format, $show_time, new DateTimeZone($show_tz));
+            $show_dt = DateTime::createFromFormat('m/d/Y G:i', $show_time, new DateTimeZone($show_tz));
         }
 
         if ( $show_dt !== false ) {
@@ -1417,7 +1416,7 @@ class timedContentPlugin
         // Try to parse date as ISO first
         $hide_dt = DateTime::createFromFormat( 'Y-m-d H:i:s', $hide_time, new DateTimeZone( $show_tz ) );
         if ($hide_dt === false) {
-            $hide_dt = DateTime::createFromFormat( $date_format, $hide_time, new DateTimeZone( $hide_tz ) );
+            $hide_dt = DateTime::createFromFormat( 'm/d/Y G:i', $hide_time, new DateTimeZone( $hide_tz ) );
         }
         if ( $hide_dt !== false ) {
             $hide_t = $hide_dt->getTimeStamp();
@@ -2209,15 +2208,14 @@ FUNC;
     }
 
     /**
-     * Convert dates to ISO format if needed
+     * Convert dates and times to ISO format if needed
      *
      * @param array args Existing date values
      *
      * @return array     Converted date values in ISO format
      */
-    function convertDate2ISO($args)
+    function convertDateTimeParametersToISO($args)
     {
-        // Convert possible old date values to ISO format if needed
         $date_parsed = date_create_from_format('Y-m-d', $args['instance_start']['date']);
         if ($date_parsed === false) {
             $date_source = strtotime($this->__datetimeToEnglish($args['instance_start']['date']));
@@ -2229,6 +2227,10 @@ FUNC;
             $date_source = strtotime($this->__datetimeToEnglish($args['instance_end']['date']));
             $args['instance_end']['date'] = strftime('%Y-%m-%d', $date_source);
         }
+
+        $args['instance_start']['time'] = $this->convertTimeToISO($args['instance_start']['time']);
+
+        $args['instance_end']['time'] = $this->convertTimeToISO($args['instance_end']['time']);
 
         $date_parsed = date_create_from_format('Y-m-d', $args['end_date']);
         if ($date_parsed === false) {
@@ -2247,6 +2249,24 @@ FUNC;
         }
 
         return $args;
+    }
+
+    function convertTimeToISO($time) {
+        if (strpos($time, 'AM') !== false) {
+            $time_base = trim(substr($time, 0, strlen($time)-2));
+            $time_dt = date_create_from_format('G:i', $time_base);
+            if($time_dt !== false) {
+                $time = strftime('%H:%M', $time_dt->getTimestamp());
+            }
+        } else if (strpos($time, 'PM') !== false) {
+            $time_base = trim(substr($time, 0, strlen($time)-2));
+            $time_dt = date_create_from_format('G:i', $time_base);
+            if($time_dt !== false) {
+                $time = strftime('%H:%M', $time_dt->getTimestamp() + 43200);
+            }
+        }
+
+        return $time;
     }
 }
 

@@ -35,7 +35,7 @@
             'serverNoHideTime': '<?php _e( 'Please set a time for the Hide action.', 'timed-content' ); ?>',
             'serverHideBeforeShow': '<?php _e( 'When using both Show and Hide actions, the Hide time must be later than the Show time.', 'timed-content' ); ?>',
             'serverNoAction': '<?php _e( 'Please select an action to perform.', 'timed-content' ); ?>' };
-        var datepickParam = { 'dateFormat' : '<?php echo $this->dateFormatPhpToJs(get_option('date_format')); ?>' };
+        var datepickParam = { 'dateFormat' : 'yy-mm-dd' };
     </script>
     <script type="text/javascript" src="<?php echo TIMED_CONTENT_PLUGIN_URL; ?>/tinymce_plugin/dialog.js"></script>
 </head>

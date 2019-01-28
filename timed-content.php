@@ -141,7 +141,7 @@ class timedContentPlugin
             "dayNames" => $this->stripArrayIndices( $wp_locale->weekday ), // For formatting
             "dayNamesShort" => $this->stripArrayIndices( $wp_locale->weekday_abbrev ), // For formatting
             "dayNamesMin" => $this->stripArrayIndices( $wp_locale->weekday_initial ), // Column headings for days starting at Sunday
-            "dateFormat" => $this->dateFormatPhpToJs( get_option( 'date_format' ) ),
+            "dateFormat" => 'yy-mm-dd',
             "firstDay" => get_option( 'start_of_week' ),
             "isRTL" => $wp_locale->is_rtl(),
             "showMonthAfterYear" => false, // True if the year select precedes month, false for month then year
@@ -733,12 +733,17 @@ class timedContentPlugin
     {
         $errors = array();
 
+/*
         $instance_start = strtotime( $this->__datetimeToEnglish( $args['instance_start']['date'],
                 $args['instance_start']['time'] ) . ' ' . $args['timezone'] );
         $instance_end   = strtotime( $this->__datetimeToEnglish( $args['instance_end']['date'],
                 $args['instance_end']['time'] ) . ' ' . $args['timezone'] );
         $end_date       = strtotime( $this->__datetimeToEnglish( $args['end_date'],
                 $args['instance_start']['time'] ) . ' ' . $args['timezone'] );
+*/
+        $instance_start = date_create_from_format('Y-m-d G:i', $args['instance_start']['date']);
+        $instance_end= date_create_from_format('Y-m-d G:i', $args['instance_end']['date']);
+        $end_date = date_create_from_format('Y-m-d G:i', $args['end_date']);
 
         if ( $args['instance_start']['date'] == "" ) {
             $errors[] = __( "Date in Starting Date/Time must not be empty.", 'timed-content' );
@@ -767,10 +772,10 @@ class timedContentPlugin
         if ( ( $args['end_date'] == "" ) && ( $args['recurr_type'] == "recurrence_duration_end_date" ) ) {
             $errors[] = __( "End Date must not be empty.", 'timed-content' );
         }
-        if ( false === $instance_start ) {
+        if ( false === $args['instance_start'] ) {
             $errors[] = __( "Starting Date/Time must be valid.", 'timed-content' );
         }
-        if ( false === $instance_end ) {
+        if ( false === $args['instance_end'] ) {
             $errors[] = __( "Ending Date/Time must be valid.", 'timed-content' );
         }
         if ( $instance_start > $instance_end ) {
@@ -986,15 +991,17 @@ class timedContentPlugin
         $args['monthly_pattern_day'] = get_post_meta( $ID, $prefix . 'monthly_nth_weekday_of_month_weekday', true );
         $args['exceptions_dates']    = get_post_meta( $ID, $prefix . 'exceptions_dates', true );
 
-        return $this->__getRulePeriods( $args );
+        $args = $this->convertDate2ISO($args);
 
+        return $this->__getRulePeriods( $args );
     }
 
     /**
      * Wrapper for calling timedContentPlugin::__getRulePeriods() based on the contents of the form fields
      * of the Add Timed Content Rule and Edit Timed Content Rule screens. Output is sent to output as JSON
      */
-    function timedContentPluginGetRulePeriodsAjax() {
+    function timedContentPluginGetRulePeriodsAjax()
+    {
         if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
             $prefix = TIMED_CONTENT_RULE_POSTMETA_PREFIX;
             $args   = array();
@@ -1031,7 +1038,8 @@ class timedContentPlugin
      *
      * @return string
      */
-    function __getScheduleDescription( $args ) {
+    function __getScheduleDescription( $args )
+    {
         $interval_multiplier = 1;
         $desc                = "";
 
@@ -1173,12 +1181,8 @@ class timedContentPlugin
                 array_shift( $exceptions_dates );
             }
             if ( ! empty( $exceptions_dates ) ) {
-                $formatted_dates = array();
-                foreach ( $exceptions_dates as $a_date ) {
-                    $formatted_dates[] = date( 'Y-m-d', $a_date );
-                }
                 $desc .= "<br />" . sprintf( __( 'This rule will be inactive on the following dates: %s.',
-                        'timed-content' ), join( ", ", $formatted_dates ) );
+                        'timed-content' ), join( ", ", $exceptions_dates ) );
             }
         }
 
@@ -1194,7 +1198,8 @@ class timedContentPlugin
      *
      * @return string
      */
-    function getScheduleDescriptionById( $ID ) {
+    function getScheduleDescriptionById( $ID )
+    {
         $defaults = array();
 
         foreach ( $this->rule_occurrence_custom_fields as $field ) {
@@ -1273,15 +1278,17 @@ class timedContentPlugin
         $args['exceptions_dates']    = ( false === get_post_meta( $ID, $prefix . 'exceptions_dates',
             true ) ? $defaults['exceptions_dates'] : get_post_meta( $ID, $prefix . 'exceptions_dates', true ) );
 
-        return $this->__getScheduleDescription( $args );
+        $args = $this->convertDate2ISO( $args );
 
+        return $this->__getScheduleDescription( $args );
     }
 
     /**
      * Wrapper for calling timedContentPlugin::__getRulePeriods() based on the contents of the form fields
      * of the Add Timed Content Rule and Edit Timed Content Rule screens.  Output is sent to output as plain text
      */
-    function timedContentPluginGetScheduleDescriptionAjax() {
+    function timedContentPluginGetScheduleDescriptionAjax()
+    {
         if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
             $prefix = TIMED_CONTENT_RULE_POSTMETA_PREFIX;
             $args   = array();
@@ -1318,7 +1325,8 @@ class timedContentPlugin
      *
      * @return string
      */
-    function clientShowHTML( $atts, $content = null ) {
+    function clientShowHTML( $atts, $content = null )
+    {
         $show_attr = "";
         $hide_attr = "";
         extract( shortcode_atts( array( 'show' => '0:00:000', 'hide' => '0:00:000', 'display' => 'div' ), $atts ) );
@@ -1366,7 +1374,8 @@ class timedContentPlugin
      *
      * @return string
      */
-    function serverShowHTML( $atts, $content = null ) {
+    function serverShowHTML( $atts, $content = null )
+    {
         global $post;
         extract( shortcode_atts( array(
             'show'  => TIMED_CONTENT_TIME_ZERO,
@@ -1383,8 +1392,14 @@ class timedContentPlugin
             $show_time = $show;
             $show_tz   = date_default_timezone_get();
         }
-        $show_dt = DateTime::createFromFormat( $date_format, $show_time, new DateTimeZone( $show_tz ) );
-        if ( $show_dt != false ) {
+
+        // Try to parse date as ISO first
+        $show_dt = DateTime::createFromFormat( 'Y-m-d H:i:s', $show_time, new DateTimeZone( $show_tz ) );
+        if ($show_dt === false) {
+            $show_dt = DateTime::createFromFormat($date_format, $show_time, new DateTimeZone($show_tz));
+        }
+
+        if ( $show_dt !== false ) {
             $show_t = $show_dt->getTimeStamp();
         } else {
             $show_t = 0;
@@ -1398,8 +1413,13 @@ class timedContentPlugin
             $hide_time = $hide;
             $hide_tz   = date_default_timezone_get();
         }
-        $hide_dt = DateTime::createFromFormat( $date_format, $hide_time, new DateTimeZone( $hide_tz ) );
-        if ( $hide_dt != false ) {
+
+        // Try to parse date as ISO first
+        $hide_dt = DateTime::createFromFormat( 'Y-m-d H:i:s', $hide_time, new DateTimeZone( $show_tz ) );
+        if ($hide_dt === false) {
+            $hide_dt = DateTime::createFromFormat( $date_format, $hide_time, new DateTimeZone( $hide_tz ) );
+        }
+        if ( $hide_dt !== false ) {
             $hide_t = $hide_dt->getTimeStamp();
         } else {
             $hide_t = 0;
@@ -1554,7 +1574,8 @@ class timedContentPlugin
     /**
      * Enqueues the JavaScript code necessary for the functionality of the [timed-content-client] shortcode.
      */
-    function addHeaderCode() {
+    function addHeaderCode()
+    {
         if ( ! is_admin() ) {
             wp_enqueue_style( 'timed-content-css', TIMED_CONTENT_CSS, false, TIMED_CONTENT_VERSION );
             wp_enqueue_script( 'timed-content_js', TIMED_CONTENT_PLUGIN_URL . '/js/timed-content.js',
@@ -1566,7 +1587,8 @@ class timedContentPlugin
      * Enqueues the CSS code necessary for custom icons for the Timed Content Rules management screens
      * and the TinyMCE editor.  Echo'd to output.
      */
-    function addPostTypeIcons() {
+    function addPostTypeIcons()
+    {
         wp_enqueue_style( 'timed-content-dashicons', TIMED_CONTENT_CSS_DASHICONS, false, TIMED_CONTENT_VERSION );
         ?>
         <style type="text/css" media="screen">
@@ -1595,7 +1617,8 @@ class timedContentPlugin
     /**
      * Enqueues the JavaScript code necessary for the functionality of the Timed Content Rules management screens.
      */
-    function addAdminHeaderCode() {
+    function addAdminHeaderCode()
+    {
         if ( ( isset( $_GET['post_type'] ) && $_GET['post_type'] == TIMED_CONTENT_RULE_TYPE )
              || ( isset( $post_type ) && $post_type == TIMED_CONTENT_RULE_TYPE )
              || ( isset( $_GET['post'] ) && get_post_type( $_GET['post'] ) == TIMED_CONTENT_RULE_TYPE ) ) {
@@ -1636,7 +1659,8 @@ class timedContentPlugin
     /**
      *  Initializes the TinyMCE plugin bundled with this Wordpress plugin
      */
-    function initTinyMCEPlugin() {
+    function initTinyMCEPlugin()
+    {
         if ( ( ! current_user_can( 'edit_posts' ) ) && ( ! current_user_can( 'edit_pages' ) ) ) {
             return;
         }
@@ -1652,7 +1676,8 @@ class timedContentPlugin
      * Sets up variables to use in the TinyMCE plugin's plugin.js.
      *
      */
-    function setTinyMCEPluginVars() {
+    function setTinyMCEPluginVars()
+    {
         global $wp_version;
         if ( ( ! current_user_can( 'edit_posts' ) ) && ( ! current_user_can( 'edit_pages' ) ) ) {
             return;
@@ -1682,7 +1707,8 @@ class timedContentPlugin
      *
      * @return array            The array of TinyMCE menu buttons with ours now loaded in as well
      */
-    function registerTinyMCEButton( $buttons ) {
+    function registerTinyMCEButton( $buttons )
+    {
         array_push( $buttons, "|", "timed_content" );
 
         return $buttons;
@@ -1695,7 +1721,8 @@ class timedContentPlugin
      *
      * @return array                The array of TinyMCE plugins with ours now loaded in as well
      */
-    function addTimedContentTinyMCEPlugin( $plugin_array ) {
+    function addTimedContentTinyMCEPlugin( $plugin_array )
+    {
         $plugin_array['timed_content'] = TIMED_CONTENT_PLUGIN_URL . "/tinymce_plugin/plugin.js";
 
         return $plugin_array;
@@ -1707,7 +1734,8 @@ class timedContentPlugin
      *
      * @return string
      */
-    function __getRulesJS() {
+    function __getRulesJS()
+    {
         $the_js    = "var rules = [\n";
         $args      = array(
             'post_type'      => TIMED_CONTENT_RULE_TYPE,
@@ -1738,7 +1766,8 @@ class timedContentPlugin
      * Display a dialog box for this plugin's associated TinyMCE plugin.  Called from TinyMCE via AJAX.
      *
      */
-    function timedContentPluginGetTinyMCEDialog() {
+    function timedContentPluginGetTinyMCEDialog()
+    {
         wp_enqueue_style( TIMED_CONTENT_SLUG . '-jquery-ui-css', TIMED_CONTENT_JQUERY_UI_CSS );
         wp_enqueue_script( 'jquery-ui-datepicker' );
         wp_register_style( TIMED_CONTENT_SLUG . '-jquery-ui-timepicker-css',
@@ -1771,7 +1800,8 @@ class timedContentPlugin
      * Adds support for i18n (internationalization)
      *
      */
-    function i18nInit() {
+    function i18nInit()
+    {
         $plugin_dir = basename( dirname( __FILE__ ) ) . "/lang/";
         load_plugin_textdomain( 'timed-content', false, $plugin_dir );
     }
@@ -1780,7 +1810,8 @@ class timedContentPlugin
      * Add custom columns to the Timed Content Rules overview page
      *
      */
-    function addDescColumnHead( $defaults ) {
+    function addDescColumnHead( $defaults )
+    {
         unset( $defaults['date'] );
         $defaults['description'] = __( 'Description', 'timed-content' );
         $defaults['shortcode']   = __( 'Shortcode', 'timed-content' );
@@ -1794,7 +1825,8 @@ class timedContentPlugin
      * @param $column_name  Name of the column to be displayed
      * @param $post_ID      ID of the Timed Content Rule being listed
      */
-    function addDescColumnContent( $column_name, $post_ID ) {
+    function addDescColumnContent( $column_name, $post_ID )
+    {
         if ( $column_name == 'shortcode' ) {
             echo '<code>[' . TIMED_CONTENT_SHORTCODE_RULE . ' id="' . $post_ID . '"]...[/' . TIMED_CONTENT_SHORTCODE_RULE . ']</code>';
         }
@@ -2174,6 +2206,47 @@ FUNC;
             array('dd', 'd', 'DD', 'mm', 'm', 'MM', 'yy'),
             $sFormat
         );
+    }
+
+    /**
+     * Convert dates to ISO format if needed
+     *
+     * @param array args Existing date values
+     *
+     * @return array     Converted date values in ISO format
+     */
+    function convertDate2ISO($args)
+    {
+        // Convert possible old date values to ISO format if needed
+        $date_parsed = date_create_from_format('Y-m-d', $args['instance_start']['date']);
+        if ($date_parsed === false) {
+            $date_source = strtotime($this->__datetimeToEnglish($args['instance_start']['date']));
+            $args['instance_start']['date'] = strftime('%Y-%m-%d', $date_source);
+        }
+
+        $date_parsed = date_create_from_format('Y-m-d', $args['instance_end']['date']);
+        if ($date_parsed === false) {
+            $date_source = strtotime($this->__datetimeToEnglish($args['instance_end']['date']));
+            $args['instance_end']['date'] = strftime('%Y-%m-%d', $date_source);
+        }
+
+        $date_parsed = date_create_from_format('Y-m-d', $args['end_date']);
+        if ($date_parsed === false) {
+            $date_source = strtotime($this->__datetimeToEnglish($args['end_date']));
+            $args['end_date'] = strftime('%Y-%m-%d', $date_source);
+        }
+
+        if( is_array($args['exceptions_dates'])) {
+            foreach ($args['exceptions_dates'] as $key => $value) {
+                $date_parsed = date_create_from_format('Y-m-d', $value);
+                if ($date_parsed === false) {
+                    $date_source = strtotime($this->__datetimeToEnglish($args['end_date']));
+                    $args['exceptions_dates'][$key] = strftime('%Y-%m-%d', $date_source);
+                }
+            }
+        }
+
+        return $args;
     }
 }
 

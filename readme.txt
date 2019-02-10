@@ -4,7 +4,7 @@ Contributors: kjvtough, awelzel
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
 Requires at least: 3.8
 Tested up to: 5.0
-Stable tag: 2.20
+Stable tag: 2.50
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.

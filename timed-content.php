@@ -6,7 +6,7 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough, Arno Welzel
-Version: 2.20
+Version: 2.50
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 defined('ABSPATH') or die();
@@ -173,10 +173,11 @@ class timedContentPlugin
             "closeButtonText" => _x( "Done", "jQuery UI Timepicker 'Done' label", "timed-content" ),
             "nowButtonText" => _x( "Now", "jQuery UI Timepicker 'Now' label", "timed-content" ),
             "deselectButtonText" => _x( "Deselect", "jQuery UI Timepicker 'Deselect' label", "timed-content" ),
-            "amPmText" => $this->meridiem,
-            "showPeriod" => $this->show_period,
-            "showPeriodLabels" => $this->show_period_labels,
-            "showLeadingZero" => $this->show_leading_zero
+            "amPmText" => array('', ''),
+            "showPeriod" => false,
+            "showPeriodLabels" => false,
+            "showLeadingZero" => false,
+            "timeFormat" => 'G:i'
         );
 
         $this->timedContentRuleTypeInit();
@@ -459,12 +460,12 @@ class timedContentPlugin
     }
 
     /**
-     * Advances a date/time by a set number of days
+     * Advances a date by a set number of days
      *
-     * @param int $current UNIX timestamp of the date/time before incrementing
+     * @param int $current             UNIX timestamp of the date before incrementing
      * @param int $interval_multiplier Number of days to advance
      *
-     * @return int                         Unix timestamp of the new date/time
+     * @return int                     Unix timestamp of the new date
      */
     function __getNextDay( $current, $interval_multiplier )
     {
@@ -477,7 +478,7 @@ class timedContentPlugin
      * @param int $current UNIX timestamp of the date/time before incrementing
      * @param int $interval_multiplier Number of hours to advance
      *
-     * @return int                         Unix timestamp of the new date/time
+     * @return int Unix timestamp of the new date/time
      */
     function __getNextHour( $current, $interval_multiplier )
     {
@@ -491,12 +492,12 @@ class timedContentPlugin
      * advance the date/time to the next day in that array in the jumped-to week. Use this function if you're
      * repeating an action on specific days of the week (i.e., on Weekdays, Tuesdays and Thursdays, etc.).
      *
-     * @param int $current UNIX timestamp of the date/time before incrementing
+     * @param int $current             UNIX timestamp of the date before incrementing
      * @param int $interval_multiplier Number of weeks to advance
-     * @param array $days Array of integers symbolizing the days of the week to
-     *                                     repeat on (0 - Sunday, 1 - Monday, ..., 6 - Saturday).
+     * @param array $days              Array of integers symbolizing the days of the week to
+     *                                 repeat on (0 - Sunday, 1 - Monday, ..., 6 - Saturday).
      *
-     * @return int                         Unix timestamp of the new date/time
+     * @return int                     Unix timestamp of the new date
      */
     function __getNextWeek( $current, $interval_multiplier, $days = array() )
     {
@@ -530,17 +531,17 @@ class timedContentPlugin
     }
 
     /**
-     * Advances a date/time by a set number of months
+     * Advances a date by a set number of months
      *
-     * Advances a date/time by a set number of months.  When the date/time of the first active period lies
-     * on the 29th, 30th, or 31st of the month, this function will return a date/time on the the last day
+     * Advances a date by a set number of months.  When the date of the first active period lies
+     * on the 29th, 30th, or 31st of the month, this function will return a date on the the last day
      * of the month for those months not containing those days.
      *
-     * @param int $current UNIX timestamp of the date/time before incrementing
-     * @param int $start UNIX timestamp of the first active period's date/time
+     * @param int $current             UNIX timestamp of the date before incrementing
+     * @param int $start               UNIX timestamp of the first active period's date
      * @param int $interval_multiplier Number of months to advance
      *
-     * @return int                         Unix timestamp of the new date/time
+     * @return int                     Unix timestamp of the new date
      */
     function __getNextMonth( $current, $start, $interval_multiplier )
     {
@@ -629,16 +630,16 @@ class timedContentPlugin
     }
 
     /**
-     * Advances a date/time to the 'n'th weekday of the next month (eg., first Wednesday, third Monday, last Friday, etc.).
+     * Advances a date to the 'n'th weekday of the next month (eg., first Wednesday, third Monday, last Friday, etc.).
      *
      * NB: if $ordinal is set to '4' and $day is set to '7', it wil return the last day of the month.
      *
-     * @param int $current UNIX timestamp of the date/time before incrementing
+     * @param int $current UNIX timestamp of the date before incrementing
      * @param int $ordinal Integer symbolizing the ordinal (0 - first, 1 - second, 2 - third, 3 - fourth, 4 - last)
-     * @param int $day integers symbolizing the days of the week to
-     *                                     repeat on (0 - Sunday, 1 - Monday, ..., 6 - Saturday, 7 - day).
+     * @param int $day     Integers symbolizing the days of the week to repeat on
+     *                     (0 - Sunday, 1 - Monday, ..., 6 - Saturday, 7 - day).
      *
-     * @return int                         Unix timestamp of the new date/time
+     * @return int         Unix timestamp of the new date
      */
     function __getNthWeekdayOfMonth( $current, $ordinal, $day )
     {
@@ -702,7 +703,7 @@ class timedContentPlugin
             }
         }
 
-        // Build the date/time string for the correct day and return its timestamp
+        // Build the date string for the correct day and return its timestamp
         $pattern = $the_month . " " . $the_day . ", " . $the_year . ", " . $current_time;
 
         return strtotime( $pattern );
@@ -710,12 +711,12 @@ class timedContentPlugin
     }
 
     /**
-     * Advances a date/time by a set number of years
+     * Advances a date by a set number of years
      *
-     * @param int $current UNIX timestamp of the date/time before incrementing
+     * @param int $current             UNIX timestamp of the date before incrementing
      * @param int $interval_multiplier Number of years to advance
      *
-     * @return int                         Unix timestamp of the new date/time
+     * @return int                     Unix timestamp of the new date
      */
     function __getNextYear( $current, $interval_multiplier )
     {
@@ -725,22 +726,14 @@ class timedContentPlugin
     /**
      * Validates the various Timed Content Rule parameters and returns a series of error messages.
      *
-     * @param $args         Array of Timed Content Rule parameters
+     * @param $args  Array of Timed Content Rule parameters
      *
-     * @return array        Array of error messages
+     * @return array Array of error messages
      */
     function __validate( $args )
     {
         $errors = array();
 
-/*
-        $instance_start = strtotime( $this->__datetimeToEnglish( $args['instance_start']['date'],
-                $args['instance_start']['time'] ) . ' ' . $args['timezone'] );
-        $instance_end   = strtotime( $this->__datetimeToEnglish( $args['instance_end']['date'],
-                $args['instance_end']['time'] ) . ' ' . $args['timezone'] );
-        $end_date       = strtotime( $this->__datetimeToEnglish( $args['end_date'],
-                $args['instance_start']['time'] ) . ' ' . $args['timezone'] );
-*/
         $instance_start = DateTime::createFromFormat('Y-m-d', $args['instance_start']['date']);
         if($instance_start != false) {
             $instance_start = $instance_start->getTimestamp();
@@ -754,44 +747,44 @@ class timedContentPlugin
             $end_date = $end_date->getTimestamp();
         }
 
-        if ( $args['instance_start']['date'] == "" ) {
-            $errors[] = __( "Date in starting date/time must not be empty.", 'timed-content' );
+        if ($args['instance_start']['date'] == "") {
+            $errors[] = __( "Starting date must not be empty.", 'timed-content' );
         }
-        if ( $args['instance_start']['time'] == "" ) {
-            $errors[] = __( "Time in starting date/time must not be empty.", 'timed-content' );
+        if ($args['instance_start']['time'] == "") {
+            $errors[] = __("Starting time must not be empty.", 'timed-content');
         }
-        if ( $args['instance_end']['date'] == "" ) {
-            $errors[] = __( "Date in ending date/time must not be empty.", 'timed-content' );
+        if ($args['instance_end']['date'] == "") {
+            $errors[] = __("Ending date must not be empty.", 'timed-content');
         }
-        if ( $args['instance_end']['time'] == "" ) {
-            $errors[] = __( "Time in ending date/time must not be empty.", 'timed-content' );
+        if ($args['instance_end']['time'] == "") {
+            $errors[] = __("Ending time must not be empty.", 'timed-content');
         }
-        if ( $args['interval_multiplier'] == "" ) {
-            $errors[] = __( "Number of recurrences must not be empty.", 'timed-content' );
+        if ($args['interval_multiplier'] == "") {
+            $errors[] = __("Number of recurrences must not be empty.", 'timed-content');
         }
-        if ( ! is_numeric( $args['interval_multiplier'] ) ) {
-            $errors[] = __( "Number of recurrences must be a number.", 'timed-content' );
+        if (! is_numeric($args['interval_multiplier'])) {
+            $errors[] = __("Number of recurrences must be a number.", 'timed-content');
         }
-        if ( ( $args['num_repeat'] == "" ) && ( $args['recurr_type'] == "recurrence_duration_num_repeat" ) ) {
-            $errors[] = __( "Number of repetitions must not be empty.", 'timed-content' );
+        if (($args['num_repeat'] == "") && ($args['recurr_type'] == "recurrence_duration_num_repeat")) {
+            $errors[] = __("Number of repetitions must not be empty.", 'timed-content');
         }
-        if ( ( ! is_numeric( $args['num_repeat'] ) ) && ( $args['recurr_type'] == "recurrence_duration_num_repeat" ) ) {
-            $errors[] = __( "Number of repetitions must be a number.", 'timed-content' );
+        if ((! is_numeric($args['num_repeat'])) && ($args['recurr_type'] == "recurrence_duration_num_repeat")) {
+            $errors[] = __("Number of repetitions must be a number.", 'timed-content');
         }
-        if ( ( $args['end_date'] == "" ) && ( $args['recurr_type'] == "recurrence_duration_end_date" ) ) {
-            $errors[] = __( "End date must not be empty.", 'timed-content' );
+        if (($args['end_date'] == "") && ($args['recurr_type'] == "recurrence_duration_end_date")) {
+            $errors[] = __("End date must not be empty.", 'timed-content');
         }
-        if ( false === $args['instance_start'] ) {
-            $errors[] = __( "Starting date/time must be valid.", 'timed-content' );
+        if (false === $args['instance_start']) {
+            $errors[] = __("Starting date/time must be valid.", 'timed-content');
         }
-        if ( false === $args['instance_end'] ) {
-            $errors[] = __( "Ending date/time must be valid.", 'timed-content' );
+        if (false === $args['instance_end']) {
+            $errors[] = __("Ending date/time must be valid.", 'timed-content');
         }
-        if ( $instance_start > $instance_end ) {
-            $errors[] = __( "Starting date/time must be before ending date/time.", 'timed-content' );
+        if ($instance_start > $instance_end) {
+            $errors[] = __("Starting date/time must be before ending date/time.", 'timed-content');
         }
-        if ( ( $instance_end > $end_date ) && ( $args['recurr_type'] == "recurrence_duration_end_date" ) ) {
-            $errors[] = __( "End date must be after ending date/time.", 'timed-content' );
+        if (($instance_end > $end_date) && ($args['recurr_type'] == "recurrence_duration_end_date")) {
+            $errors[] = __("Recurrence end date must be after ending date/time.", 'timed-content');
         }
 
         return $errors;
@@ -800,12 +793,11 @@ class timedContentPlugin
     /**
      * Calculates the active periods for a Timed Content Rule
      *
-     * @param $args         Array of Timed Content Rule parameters
+     * @param $args  Array of Timed Content Rule parameters
      *
-     * @return array        Array of active periods. Each value in the array describes an active period as
-     *                      an array itself with "start" and "end" keys and values that are either UNIX
-     *                      timestamps or human-readable dates, based on whether $args['human_readable']
-     *                      is set to true or false.
+     * @return array Array of active periods. Each value in the array describes an active period as an array itself
+     *               with "start" and "end" keys and values that are either UNIX timestamps or human-readable dates,
+     *               based on whether $args['human_readable'] is set to true or false.
      */
     function __getRulePeriods( $args )
     {
@@ -956,9 +948,9 @@ class timedContentPlugin
      * Wrapper for calling timedContentPlugin::__getRulePeriods() by the ID of a Timed Content Rule
      *
      * @param int  $ID ID of the   Timed Content Rule
-     * @param bool $human_readable If true, the active periods are returned as a human-readable date/time
-     *                             as defined by the constant TIMED_CONTENT_DT_FORMAT_OUTPUT otherwise, they are
-     *                             returned as UNIX timestamps.
+     * @param bool $human_readable If true, the active periods are returned as a human-readable date
+     *                             as defined by the constant TIMED_CONTENT_DT_FORMAT_OUTPUT otherwise,
+     *                             they are returned as UNIX timestamps.
      *
      * @return array               Array of active periods
      */
@@ -1045,7 +1037,7 @@ class timedContentPlugin
      *
      * @param $args   Array of Timed Content Rule parameters
      *
-     * @return string
+     * @return string Schedule description or warning, if the rule may not work properly
      */
     function __getScheduleDescription( $args )
     {
@@ -1329,10 +1321,10 @@ class timedContentPlugin
     /**
      * Processes the [timed-content-client] shortcode.
      *
-     * @param array $atts
-     * @param null $content
+     * @param array $atts   Shortcode attributes
+     * @param null $content Content inside the shortcode
      *
-     * @return string
+     * @return string       Processed output
      */
     function clientShowHTML( $atts, $content = null )
     {
@@ -1378,10 +1370,10 @@ class timedContentPlugin
     /**
      * Processes the [timed-content-server] shortcode.
      *
-     * @param array $atts
-     * @param null $content
+     * @param array $atts   Shortcode attributes
+     * @param null $content Content inside the shortcode
      *
-     * @return string
+     * @return string       Processed output
      */
     function serverShowHTML( $atts, $content = null )
     {
@@ -1496,7 +1488,7 @@ class timedContentPlugin
                                   . " (" . $hide_diff_str . ").</p>\n";
             }
 
-            $debug_message .= "<p>" . __( 'Current date/time:',
+            $debug_message .= "<p>" . __( 'Current date:',
                     'timed-content' ) . "&nbsp;" . $right_now . "<br />\n";
             $debug_message .= __( 'Content filter:', 'timed-content' ) . "&nbsp;" . $the_filter . "</p>\n";
             $debug_message .= "<p>" . _x( 'Content:', "Noun", 'timed-content' ) . "&nbsp;" . $content . "</p>\n";
@@ -1523,10 +1515,10 @@ class timedContentPlugin
     /**
      * Processes the [timed-content-rule] shortcode.
      *
-     * @param array $atts
-     * @param null $content
+     * @param array $atts   Shortcode attributes
+     * @param null $content Content inside the shortcode
      *
-     * @return string
+     * @return string       Processed output
      */
     function rulesShowHTML( $atts, $content = null )
     {
@@ -1665,7 +1657,9 @@ class timedContentPlugin
     }
 
     /**
-     *  Initializes the TinyMCE plugin bundled with this Wordpress plugin
+     * Initializes the TinyMCE plugin bundled with this Wordpress plugin
+     *
+     * @return void
      */
     function initTinyMCEPlugin()
     {
@@ -1683,6 +1677,7 @@ class timedContentPlugin
     /**
      * Sets up variables to use in the TinyMCE plugin's plugin.js.
      *
+     * @return void
      */
     function setTinyMCEPluginVars()
     {
@@ -1713,7 +1708,7 @@ class timedContentPlugin
      *
      * @param array $buttons Array of menu buttons already registered with TinyMCE
      *
-     * @return array            The array of TinyMCE menu buttons with ours now loaded in as well
+     * @return array         The array of TinyMCE menu buttons with ours now loaded in as well
      */
     function registerTinyMCEButton( $buttons )
     {
@@ -1737,10 +1732,10 @@ class timedContentPlugin
     }
 
     /**
-     * Generates JavaScript array of objects describing Timed Content Rules.  Used in the dialog box created by
+     * Generates JavaScript array of objects describing Timed Content rules.  Used in the dialog box created by
      * timedContentPlugin::timedContentPluginGetTinyMCEDialog().
      *
-     * @return string
+     * @return string JavaScript array describing the Timed Content rules
      */
     function __getRulesJS()
     {
@@ -1753,6 +1748,7 @@ class timedContentPlugin
         $the_rules = get_posts( $args );
         foreach ( $the_rules as $rule ) {
             $desc = $this->getScheduleDescriptionById( $rule->ID );
+            $desc = str_replace('<br />', ' ', $desc);
             // Only add a rule if there's no errors or warnings
             if ( false === strpos( $desc, "tcr-warning" ) ) {
                 $the_js .= "    { 'ID': " . $rule->ID . ", 'title': '" . esc_js( ( ( strlen( $rule->post_title ) > 0 ) ? $rule->post_title : _x( "(no title)",
@@ -1773,6 +1769,7 @@ class timedContentPlugin
     /**
      * Display a dialog box for this plugin's associated TinyMCE plugin.  Called from TinyMCE via AJAX.
      *
+     * @return void
      */
     function timedContentPluginGetTinyMCEDialog()
     {
@@ -1807,6 +1804,7 @@ class timedContentPlugin
     /**
      * Adds support for i18n (internationalization)
      *
+     * @return void
      */
     function i18nInit()
     {
@@ -1817,6 +1815,7 @@ class timedContentPlugin
     /**
      * Add custom columns to the Timed Content Rules overview page
      *
+     * @return void
      */
     function addDescColumnHead( $defaults )
     {
@@ -1828,7 +1827,7 @@ class timedContentPlugin
     }
 
     /**
-     * Display content associated with custom columns on the Timed Content Rules overview page
+     * Display content associated with custom columns on the Timed Content rules overview page
      *
      * @param $column_name  Name of the column to be displayed
      * @param $post_ID      ID of the Timed Content Rule being listed
@@ -1847,8 +1846,9 @@ class timedContentPlugin
     }
 
     /**
-     * Display a count of Timed Content Rules in the Dashboard's Right Now widget
+     * Display a count of Timed Content rules in the Dashboard's Right Now widget
      *
+     * @return void
      */
     function addRulesCount() {
         if ( ! post_type_exists( TIMED_CONTENT_RULE_TYPE ) ) {
@@ -1884,7 +1884,9 @@ class timedContentPlugin
     }
 
     /**
-     * Setup custom fields for timed content rules
+     * Setup custom fields for Timed Content rules
+     *
+     * @return void
      */
     function setupCustomFields()
     {
@@ -1908,196 +1910,196 @@ class timedContentPlugin
 
         $this->rule_occurrence_custom_fields = array(
             array(
-                "name"            => "action",
-                "display"        => "block",
-                "title"            => __( "Action", 'timed-content' ),
-                "description"    => __( "Sets the action to be performed when the rule is active.", 'timed-content' ),
-                "type"            => "radio",
-                "values"        => array(1 => __( "Show the content", 'timed-content' ),
-                                         0 => __( "Hide the content", 'timed-content' ) ),
-                "default"        => 1,
-                "scope"            => array(TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "action",
+                "display"     => "block",
+                "title"       => __( "Action", 'timed-content' ),
+                "description" => __( "Sets the action to be performed when the rule is active.", 'timed-content' ),
+                "type"        => "radio",
+                "values"      => array(1 => __( "Show the content", 'timed-content' ),
+                                       0 => __( "Hide the content", 'timed-content' ) ),
+                "default"     => 1,
+                "scope"       => array(TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             ),
             array(
-                "name"            => "instance_start",
-                "display"        => "block",
-                "title"            => __( "Starting date/time", 'timed-content' ),
-                "description"    => __( "Sets the date and time for the beginning of the first active period for this rule.", 'timed-content' ),
-                "type"            => "datetime",
-                "default"        => array("date" => date_i18n( get_option('date_format'), strtotime( "+1 hour", $now_t ) ),
-                                         "time" => date_i18n( get_option('time_format'), strtotime( "+1 hour", $now_t ) ) ),
-                "scope"            => array(TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "instance_start",
+                "display"     => "block",
+                "title"       => __( "Starting date/time", 'timed-content' ),
+                "description" => __( "Sets the date and time for the beginning of the first active period for this rule.", 'timed-content' ),
+                "type"        => "datetime",
+                "default"     => array("date" => date_i18n( get_option('date_format'), strtotime( "+1 hour", $now_t ) ),
+                                       "time" => date_i18n( get_option('time_format'), strtotime( "+1 hour", $now_t ) ) ),
+                "scope"       => array(TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             ),
             array(
-                "name"            => "instance_end",
-                "display"        => "block",
-                "title"            => __( "Ending date/time", 'timed-content' ),
-                "description"    => __( "Sets the date and time for the end of the first active period for this rule.", 'timed-content' ),
-                "type"            => "datetime",
-                "default"        => array(     "date" => date_i18n( get_option('date_format'), strtotime( "+2 hour", $now_t ) ),
-                                               "time" => date_i18n( get_option('time_format'), strtotime( "+2 hour", $now_t ) ) ),
-                "scope"            => array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "instance_end",
+                "display"     => "block",
+                "title"       => __( "Ending date/time", 'timed-content' ),
+                "description" => __( "Sets the date and time for the end of the first active period for this rule.", 'timed-content' ),
+                "type"        => "datetime",
+                "default"     => array("date" => date_i18n( get_option('date_format'), strtotime( "+2 hour", $now_t ) ),
+                                       "time" => date_i18n( get_option('time_format'), strtotime( "+2 hour", $now_t ) ) ),
+                "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             ),
             array(
-                "name"            => "timezone",
-                "display"        => "block",
-                "title"            => __( "Timezone", 'timed-content' ),
-                "description"    => __( "Select the timezone you wish to use for this rule.", 'timed-content' ),
-                "type"            => "timezone-list",
-                "default"        => get_option( 'timezone_string' ),
-                "scope"            => array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "timezone",
+                "display"     => "block",
+                "title"       => __( "Timezone", 'timed-content' ),
+                "description" => __( "Select the timezone you wish to use for this rule.", 'timed-content' ),
+                "type"        => "timezone-list",
+                "default"     => get_option( 'timezone_string' ),
+                "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             )
         );
 
         $this->rule_pattern_custom_fields = array(
             array(
-                "name"            => "frequency",
-                "display"        => "block",
-                "title"            => __( "Frequency", 'timed-content' ),
-                "description"    => __( "Sets the frequency at which the action should be repeated.", 'timed-content' ),
-                "type"            => "list",
-                "default"        => "1",
-                "values"        =>  $this->rule_freq_array,
-                "scope"            =>    array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "frequency",
+                "display"     => "block",
+                "title"       => __( "Frequency", 'timed-content' ),
+                "description" => __( "Sets the frequency at which the action should be repeated.", 'timed-content' ),
+                "type"        => "list",
+                "default"     => "1",
+                "values"      => $this->rule_freq_array,
+                "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             ),
             array(
-                "name"            => "hourly_num_of_hours",
-                "display"        => "none",
-                "title"            => __( "Number of recurrences", 'timed-content' ),
-                "description"    => __( "Repeat this action every X hours.", 'timed-content' ),
-                "type"            => "number",
-                "default"        => "1",
-                "min"            => "1",
-                "scope"            =>    array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "hourly_num_of_hours",
+                "display"     => "none",
+                "title"       => __( "Number of recurrences", 'timed-content' ),
+                "description" => __( "Repeat this action every X hours.", 'timed-content' ),
+                "type"        => "number",
+                "default"     => "1",
+                "min"         => "1",
+                "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             ),
             array(
-                "name"            => "daily_num_of_days",
-                "display"        => "none",
-                "title"            => __( "Number of recurrences", 'timed-content' ),
-                "description"    => __( "Repeat this action every X days.", 'timed-content' ),
-                "type"            => "number",
-                "default"        => "1",
-                "min"            => "1",
-                "scope"            =>    array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "daily_num_of_days",
+                "display"     => "none",
+                "title"       => __( "Number of recurrences", 'timed-content' ),
+                "description" => __( "Repeat this action every X days.", 'timed-content' ),
+                "type"        => "number",
+                "default"     => "1",
+                "min"         => "1",
+                "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             ),
             array(
-                "name"            => "weekly_num_of_weeks",
-                "display"        => "none",
-                "title"            => __( "Number of recurrences", 'timed-content' ),
-                "description"    => __( "Repeat this action every X weeks.", 'timed-content' ),
-                "type"            => "number",
-                "default"        => "1",
-                "min"            => "1",
-                "scope"            =>    array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "weekly_num_of_weeks",
+                "display"     => "none",
+                "title"       => __( "Number of recurrences", 'timed-content' ),
+                "description" => __( "Repeat this action every X weeks.", 'timed-content' ),
+                "type"        => "number",
+                "default"     => "1",
+                "min"         => "1",
+                "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             ),
             array(
-                "name"            => "weekly_days_of_week_to_repeat",
-                "display"        => "none",
-                "title"            => __( "Repeat on the following days", 'timed-content' ),
-                "description"    => __( "Repeat this action on these days of the week <strong>instead</strong> of the day of week the starting date/time falls on.", 'timed-content' ),
-                "type"            => "checkbox-list",
-                "default"        => array(),
-                "values"        =>  $this->rule_days_array,
-                "scope"            =>    array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "weekly_days_of_week_to_repeat",
+                "display"     => "none",
+                "title"       => __( "Repeat on the following days", 'timed-content' ),
+                "description" => __( "Repeat this action on these days of the week <strong>instead</strong> of the day of week the starting date/time falls on.", 'timed-content' ),
+                "type"        => "checkbox-list",
+                "default"     => array(),
+                "values"      =>  $this->rule_days_array,
+                "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             ),
             array(
-                "name"            => "monthly_num_of_months",
-                "display"        => "none",
-                "title"            => __( "Number of recurrences", 'timed-content' ),
-                "description"    => __( "Repeat this action every X months.", 'timed-content' ),
-                "type"            => "number",
-                "default"        => "1",
-                "min"            => "1",
-                "scope"            =>    array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "monthly_num_of_months",
+                "display"     => "none",
+                "title"       => __( "Number of recurrences", 'timed-content' ),
+                "description" => __( "Repeat this action every X months.", 'timed-content' ),
+                "type"        => "number",
+                "default"     => "1",
+                "min"         => "1",
+                "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             ),
             array(
-                "name"            => "monthly_nth_weekday_of_month",
-                "display"        => "none",
-                "title"            => __( "Repeat on a specific weekday of the month", 'timed-content' ),
-                "description"    => __( "Repeat this action on a specific weekday of the month (for example, \"every third Tuesday\"). Check this box to select a pattern below.", 'timed-content' ),
-                "type"            => "checkbox",
-                "default"        => "no",
-                "scope"            =>    array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "monthly_nth_weekday_of_month",
+                "display"     => "none",
+                "title"       => __( "Repeat on a specific weekday of the month", 'timed-content' ),
+                "description" => __( "Repeat this action on a specific weekday of the month (for example, \"every third Tuesday\"). Check this box to select a pattern below.", 'timed-content' ),
+                "type"        => "checkbox",
+                "default"     => "no",
+                "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             ),
             array(
-                "name"            => "monthly_nth_weekday_of_month_nth",
-                "display"        => "none",
-                "title"            => __( "Weekday ordinal", 'timed-content' ),
-                "description"    => __( "Select a value for week of the month (for example \"first\", \"second\", etc.).", 'timed-content' ),
-                "type"            => "list",
-                "default"        => 0,
-                "values"        =>  $this->rule_ordinal_array,
-                "scope"            =>    array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "monthly_nth_weekday_of_month_nth",
+                "display"     => "none",
+                "title"       => __( "Weekday ordinal", 'timed-content' ),
+                "description" => __( "Select a value for week of the month (for example \"first\", \"second\", etc.).", 'timed-content' ),
+                "type"        => "list",
+                "default"     => 0,
+                "values"      => $this->rule_ordinal_array,
+                "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             ),
             array(
-                "name"            => "monthly_nth_weekday_of_month_weekday",
-                "display"        => "none",
-                "title"            => __( "Day of the week", 'timed-content' ),
-                "description"    => __( "Select the day of week.", 'timed-content' ),
-                "type"            => "list",
-                "default"        => 0,
-                "values"        =>  $this->rule_ordinal_days_array,
-                "scope"            =>    array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "monthly_nth_weekday_of_month_weekday",
+                "display"     => "none",
+                "title"       => __( "Day of the week", 'timed-content' ),
+                "description" => __( "Select the day of week.", 'timed-content' ),
+                "type"        => "list",
+                "default"     => 0,
+                "values"      =>  $this->rule_ordinal_days_array,
+                "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             ),
             array(
-                "name"            => "yearly_num_of_years",
-                "display"        => "none",
-                "title"            => __( "Number of recurrences", 'timed-content' ),
-                "description"    => __( "Repeat this action every X years.", 'timed-content' ),
-                "type"            => "number",
-                "default"        => "1",
-                "min"            => "1",
-                "scope"            =>    array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "yearly_num_of_years",
+                "display"     => "none",
+                "title"       => __( "Number of recurrences", 'timed-content' ),
+                "description" => __( "Repeat this action every X years.", 'timed-content' ),
+                "type"        => "number",
+                "default"     => "1",
+                "min"         => "1",
+                "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             )
         );
 
         $this->rule_recurrence_custom_fields = array(
             array(
-                "name"            => "recurrence_duration",
-                "display"        => "block",
-                "title"            => __( "How often to repeat this action", 'timed-content' ),
-                "description"    => "",
-                "type"            => "radio",
-                "values"        =>  array(     "recurrence_duration_end_date" => __( "Keep repeating until a given date", 'timed-content' ),
-                                              "recurrence_duration_num_repeat" => __( "Repeat a set number of times", 'timed-content' ) ),
-                "default"        =>    "recurrence_duration_end_date",
-                "scope"            =>    array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "recurrence_duration",
+                "display"     => "block",
+                "title"       => __( "How often to repeat this action", 'timed-content' ),
+                "description" => "",
+                "type"        => "radio",
+                "values"      =>  array("recurrence_duration_end_date" => __( "Keep repeating until a given date", 'timed-content' ),
+                                        "recurrence_duration_num_repeat" => __( "Repeat a set number of times", 'timed-content' ) ),
+                "default"     => "recurrence_duration_end_date",
+                "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             ),
             array(
-                "name"            => "recurrence_duration_end_date",
-                "display"        => "none",
-                "title"            => __( "End Date", 'timed-content' ),
-                "description"    => __( "Using the settings above, repeat this action until this date.", 'timed-content' ),
-                "type"            => "date",
-                "default"        =>  date_i18n( get_option('date_format'), strtotime( "+1 year", $now_t ) ),
-                "scope"            =>    array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "recurrence_duration_end_date",
+                "display"     => "none",
+                "title"       => __( "End Date", 'timed-content' ),
+                "description" => __( "Using the settings above, repeat this action until this date.", 'timed-content' ),
+                "type"        => "date",
+                "default"     => date_i18n( get_option('date_format'), strtotime( "+1 year", $now_t ) ),
+                "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             ),
             array(
-                "name"            => "recurrence_duration_num_repeat",
-                "display"        => "none",
-                "title"            => __( "Number of repetitions", 'timed-content' ),
-                "description"    => __( "Using the settings above, repeat this action this many times.", 'timed-content' ),
-                "type"            => "number",
-                "default"        => "1",
-                "min"            => "1",
-                "scope"            =>    array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "name"        => "recurrence_duration_num_repeat",
+                "display"     => "none",
+                "title"       => __( "Number of repetitions", 'timed-content' ),
+                "description" => __( "Using the settings above, repeat this action this many times.", 'timed-content' ),
+                "type"        => "number",
+                "default"     => "1",
+                "min"         => "1",
+                "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"  => "edit_posts"
             )
         );
 
@@ -2113,33 +2115,33 @@ FUNC;
 
         $this->rule_exceptions_custom_fields = array(
             array(
-                "name"            => "exceptions_dates_picker",
-                "display"        => "block",
+                "name"             => "exceptions_dates_picker",
+                "display"          => "block",
                 "title"            => __( "Add exception date:", 'timed-content' ),
-                "description"    => __( "Select a date to add to the exception dates list.", 'timed-content' ),
-                "type"            => "date",
-                "default"        =>  "",
-                "scope"            =>    array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts",
-                "custom_functions"    => $exceptions_dates_picker_on_select
+                "description"      => __( "Select a date to add to the exception dates list.", 'timed-content' ),
+                "type"             => "date",
+                "default"          => "",
+                "scope"            => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"       => "edit_posts",
+                "custom_functions" => $exceptions_dates_picker_on_select
             ),
             array(
-                "name"            => "exceptions_dates",
-                "display"        => "block",
+                "name"             => "exceptions_dates",
+                "display"          => "block",
                 "title"            => __( "Exception dates list", 'timed-content' ),
-                "description"    => __( "Dates that this Timed Content rule will not be active.  Double-click on a date to remove it from the list.", 'timed-content' ),
-                "type"            => "menu",
-                "values"        =>  $timed_content_rules_exceptions_dates_array,
-                "size"            =>    "10",
-                "default"        =>    array(),
-                "scope"            =>    array( TIMED_CONTENT_RULE_TYPE ),
-                "capability"    => "edit_posts"
+                "description"      => __( "Dates that this Timed Content rule will not be active.  Double-click on a date to remove it from the list.", 'timed-content' ),
+                "type"             => "menu",
+                "values"           => $timed_content_rules_exceptions_dates_array,
+                "size"             => "10",
+                "default"          => array(),
+                "scope"            => array( TIMED_CONTENT_RULE_TYPE ),
+                "capability"       => "edit_posts"
             )
         );
 
         $scf = new customFieldsInterface( "timed_content_rule_schedule",
             __( 'Rule description/schedule', 'timed-content' ),
-            "<div id=\"schedule_desc\" style=\"font-style: italic;\">"
+            "<div id=\"schedule_desc\" style=\"font-style: italic; overflow-y: auto;\">"
             . ( isset( $_GET['post'] ) && ( TIMED_CONTENT_RULE_TYPE === get_post_type( $_GET['post'] ) ) ? $this->getScheduleDescriptionById( intval( $_GET['post'] ) ) : $this->getScheduleDescriptionById( intval( 0 ) ) )
             . "</div>"
             . "<div id=\"tcr-dialogHolder\" style=\"display:none;\"></div>"
@@ -2189,7 +2191,7 @@ FUNC;
      *
      * @param $ArrayToStrip
      *
-     * @return array
+     * @return array Processed array
      */
     function stripArrayIndices($ArrayToStrip)
     {
@@ -2219,9 +2221,9 @@ FUNC;
     /**
      * Convert dates and times to ISO format if needed
      *
-     * @param array args Existing date values
+     * @param array $args Existing date and time values
      *
-     * @return array     Converted date values in ISO format
+     * @return array      Converted date values in ISO format
      */
     function convertDateTimeParametersToISO($args)
     {
@@ -2260,6 +2262,13 @@ FUNC;
         return $args;
     }
 
+    /**
+     * Convert time to ISO format if needed
+     *
+     * @param string $time Existing time value
+     *
+     * @return string      Converted time values in ISO format
+     */
     function convertTimeToISO($time) {
         if (strpos($time, 'AM') !== false) {
             $time_base = trim(substr($time, 0, strlen($time)-2));

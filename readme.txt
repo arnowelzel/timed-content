@@ -27,7 +27,17 @@ A TinyMCE dialog is included to help users build the shortcodes. See the Screens
 
 == Frequently Asked Questions ==
 
-No "frequent" questions yet.
+= Old rules after updating to version 2.50 =
+
+In versions prior to 2.50 the date/time format was not handled very well which caused quite some confusion. Therefore version 2.50 now uses a fixed format similar to ISO 8601: yyyy-mm-dd HH:MM
+
+Existing shortcodes and rules containing dates in the format mm/dd/yyyy should still work, but when editing rules the date value is converted to the new format.
+
+To be sure, you should check your existing rules and shortcodes if you upgraded from a version below 2.50.
+
+= Using Timed Content in Gutenberg =
+
+If you want to use Timed Content with Gutenberg you have to add a "Classic" block. There is no way to show or hide other content blocks with Timed Content.
 
 == Screenshots ==
 
@@ -36,19 +46,16 @@ No "frequent" questions yet.
 3. The "Add Timed Content shortcode" dialog showing the Server tab.  Check the attribute you want to add, then click on the Date and Time textboxes.
 4. The date and time pickers help you format a correct date and time.  Here's the jQuery UI Datepicker in action.
 5. The "Add Timed Content shortcode" dialog showing the Timed Content Rules tab.
-6. You can use both shortcodes together and with other shortcodes supported by your Wordpress installation.
-7. The Timed Content Rules overview page.  Timed Content Rules allow you to set up a schedule for showing/hiding your content.
-8. Editing a Timed Content Rule.  Here, you can see the jQuery UI Timepicker in action.
-9. Check the Scheduled Dates/Times to verify when your rule will be active.
-10. An example showing use of the `[timed-content-server]` shortcode with `debug` set to `true`. You'll only see it if you're logged in and it's on a Page/Post you can edit (Your regular visitors won't see this at all).
 
 == Changelog ==
 
-= 2.20 =
+= 2.50 =
 
-* Code refactoring and cleanup
+* Major code refactoring and cleanup - please check your existing rules and shortcodes if they still work as expected and change them if needed!
 * Increased minimum required WordPress version to 3.8
-* TODO: Date format for shortcodes and rules is now always similar to ISO 8601 (yyyy-mm-dd HH:MM), existing dates in rules will be parsed as "mm/dd/yyyy HH:MM" if they contain slashes, existing shortcodes will work with old formats as well
+* Date format for new shortcodes and rules is now always "yyyy-mm-dd HH:MM" (similar to ISO 8601)
+* Existing dates in rules and shortcodes will be parsed as "mm/dd/yyyy HH:MM" if they contain slashes
+* Time values containing "AM" or "PM" will still work but converted to 24h format internally
 
 = 2.15 =
 

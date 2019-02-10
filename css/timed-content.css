@@ -6,7 +6,7 @@ div.tcr-error, div.tcr-warning  {
     border-width: 1px;
     padding: 0.5em;
 }
-div.tcr-warning {
+div.tcr-warning, div.tcr-warning p, div.tcr-warning code {
     background-color: #FEEFB3;
 }
 div.tcr-warning p {

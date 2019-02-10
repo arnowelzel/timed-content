@@ -88,7 +88,7 @@ var TimedContentDialog = {
 				var id = jQuery( this ).val();
 				jQuery.each( rules, function( key, value ) {
 					if ( id == value['ID'] ) 
-						jQuery( "span#rules_desc" ).html( value['desc'] );
+						jQuery( "span#rules_desc" ).html(value['desc']);
 				});
                 if ( id < 0 ) {
                     jQuery('select#rules_list').prop('disabled', 'disabled');

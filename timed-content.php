@@ -19,8 +19,8 @@ define('TIMED_CONTENT_PLUGIN_URL', plugins_url() . '/' . TIMED_CONTENT_SLUG);
 define('TIMED_CONTENT_SHORTCODE_CLIENT', 'timed-content-client');
 define('TIMED_CONTENT_SHORTCODE_SERVER', 'timed-content-server');
 define('TIMED_CONTENT_SHORTCODE_RULE', 'timed-content-rule');
-define('TIMED_CONTENT_TIME_ZERO', '1970-Jan-01 00:00:00 +000');  // Start of Unix Epoch (32 bit)
-define('TIMED_CONTENT_TIME_END', '2038-Jan-19 03:14:07 +000');   // End of Unix Epoch (32 bit)
+define('TIMED_CONTENT_TIME_ZERO', '1970-01-01 00:00:00 +000');  // Start of Unix Epoch (32 bit)
+define('TIMED_CONTENT_TIME_END', '2038-01-19 03:14:06 +000');   // End of Unix Epoch (32 bit)
 define('TIMED_CONTENT_RULE_TYPE', 'timed_content_rule');
 define('TIMED_CONTENT_RULE_POSTMETA_PREFIX', TIMED_CONTENT_RULE_TYPE . '_');
 define('TIMED_CONTENT_CSS', TIMED_CONTENT_PLUGIN_URL . '/css/timed-content.css');
@@ -93,21 +93,21 @@ class timedContentPlugin
         global $wp_locale;
 
         $this->rule_freq_array = array(
-            0 => __('Hourly', 'timed-content'),
-            1 => __('Daily', 'timed-content'),
-            2 => __('Weekly', 'timed-content'),
-            3 => __('Monthly', 'timed-content'),
-            4 => __('Yearly', 'timed-content')
+            0 => __('hourly', 'timed-content'),
+            1 => __('daily', 'timed-content'),
+            2 => __('weekly', 'timed-content'),
+            3 => __('monthly', 'timed-content'),
+            4 => __('yearly', 'timed-content')
         );
 
         $this->rule_days_array = array(
-            0 => __('Sundays', 'timed-content'),
-            1 => __('Mondays', 'timed-content'),
-            2 => __('Tuesdays', 'timed-content'),
-            3 => __('Wednesdays', 'timed-content'),
-            4 => __('Thursdays', 'timed-content'),
-            5 => __('Fridays', 'timed-content'),
-            6 => __('Saturdays', 'timed-content')
+            0 => __('Sunday', 'timed-content'),
+            1 => __('Monday', 'timed-content'),
+            2 => __('Tuesday', 'timed-content'),
+            3 => __('Wednesday', 'timed-content'),
+            4 => __('Thursday', 'timed-content'),
+            5 => __('Friday', 'timed-content'),
+            6 => __('Saturday', 'timed-content')
         );
 
         $this->rule_ordinal_array = array(
@@ -189,23 +189,23 @@ class timedContentPlugin
     function timedContentRuleTypeInit()
     {
         $labels = array(
-            'name'               => _x( 'Timed Content Rules', 'post type general name', 'timed-content' ),
-            'singular_name'      => _x( 'Timed Content Rule', 'post type singular name', 'timed-content' ),
-            'add_new'            => _x( 'Add New', 'Menu item/button label on Timed Content Rules admin page',
+            'name'               => _x( 'Timed Content rules', 'post type general name', 'timed-content' ),
+            'singular_name'      => _x( 'Timed Content rule', 'post type singular name', 'timed-content' ),
+            'add_new'            => _x( 'Add new', 'Menu item/button label on Timed Content Rules admin page',
                 'timed-content' ),
-            'add_new_item'       => __( 'Add New Timed Content Rule', 'timed-content' ),
-            'edit_item'          => __( 'Edit Timed Content Rule', 'timed-content' ),
-            'new_item'           => __( 'New Timed Content Rule', 'timed-content' ),
-            'view_item'          => __( 'View Timed Content Rule', 'timed-content' ),
-            'search_items'       => __( 'Search Timed Content Rules', 'timed-content' ),
-            'not_found'          => __( 'No Timed Content Rules found', 'timed-content' ),
-            'not_found_in_trash' => __( 'No Timed Content Rules found in Trash', 'timed-content' ),
+            'add_new_item'       => __( 'Add new Timed Content rule', 'timed-content' ),
+            'edit_item'          => __( 'Edit Timed Content rule', 'timed-content' ),
+            'new_item'           => __( 'New Timed Content rule', 'timed-content' ),
+            'view_item'          => __( 'View Timed Content rule', 'timed-content' ),
+            'search_items'       => __( 'Search Timed Content rules', 'timed-content' ),
+            'not_found'          => __( 'No Timed Content rules found', 'timed-content' ),
+            'not_found_in_trash' => __( 'No Timed Content rules found in trash', 'timed-content' ),
             'parent_item_colon'  => '',
-            'menu_name'          => _x( 'Timed Content Rules', 'post type general name', 'timed-content' )
+            'menu_name'          => _x( 'Timed Content rules', 'post type general name', 'timed-content' )
         );
         $args   = array(
             'labels'              => $labels,
-            'description'         => __( 'Create regular schedules to show or hide selected content in a Page or Post.',
+            'description'         => __( 'Create regular schedules to show or hide selected content in a page or post.',
                 'timed-content' ),
             'public'              => false,
             'publicly_queryable'  => false,
@@ -741,48 +741,57 @@ class timedContentPlugin
         $end_date       = strtotime( $this->__datetimeToEnglish( $args['end_date'],
                 $args['instance_start']['time'] ) . ' ' . $args['timezone'] );
 */
-        $instance_start = date_create_from_format('Y-m-d G:i', $args['instance_start']['date']);
-        $instance_end= date_create_from_format('Y-m-d G:i', $args['instance_end']['date']);
-        $end_date = date_create_from_format('Y-m-d G:i', $args['end_date']);
+        $instance_start = DateTime::createFromFormat('Y-m-d', $args['instance_start']['date']);
+        if($instance_start != false) {
+            $instance_start = $instance_start->getTimestamp();
+        }
+        $instance_end= DateTime::createFromFormat('Y-m-d', $args['instance_end']['date']);
+        if($instance_end != false) {
+            $instance_end = $instance_end->getTimestamp();
+        }
+        $end_date = DateTime::createFromFormat('Y-m-d', $args['end_date']);
+        if($end_date != false) {
+            $end_date = $end_date->getTimestamp();
+        }
 
         if ( $args['instance_start']['date'] == "" ) {
-            $errors[] = __( "Date in Starting Date/Time must not be empty.", 'timed-content' );
+            $errors[] = __( "Date in starting date/time must not be empty.", 'timed-content' );
         }
         if ( $args['instance_start']['time'] == "" ) {
-            $errors[] = __( "Time in Starting Date/Time must not be empty.", 'timed-content' );
+            $errors[] = __( "Time in starting date/time must not be empty.", 'timed-content' );
         }
         if ( $args['instance_end']['date'] == "" ) {
-            $errors[] = __( "Date in Ending Date/Time must not be empty.", 'timed-content' );
+            $errors[] = __( "Date in ending date/time must not be empty.", 'timed-content' );
         }
         if ( $args['instance_end']['time'] == "" ) {
-            $errors[] = __( "Time in Ending Date/Time must not be empty.", 'timed-content' );
+            $errors[] = __( "Time in ending date/time must not be empty.", 'timed-content' );
         }
         if ( $args['interval_multiplier'] == "" ) {
-            $errors[] = __( "Repeat How Often? must not be empty.", 'timed-content' );
+            $errors[] = __( "Number of recurrences must not be empty.", 'timed-content' );
         }
         if ( ! is_numeric( $args['interval_multiplier'] ) ) {
-            $errors[] = __( "Repeat How Often? must be a number.", 'timed-content' );
+            $errors[] = __( "Number of recurrences must be a number.", 'timed-content' );
         }
         if ( ( $args['num_repeat'] == "" ) && ( $args['recurr_type'] == "recurrence_duration_num_repeat" ) ) {
-            $errors[] = __( "Repeat How Many Times? must not be empty.", 'timed-content' );
+            $errors[] = __( "Number of repetitions must not be empty.", 'timed-content' );
         }
         if ( ( ! is_numeric( $args['num_repeat'] ) ) && ( $args['recurr_type'] == "recurrence_duration_num_repeat" ) ) {
-            $errors[] = __( "Repeat How Many Times? must be a number.", 'timed-content' );
+            $errors[] = __( "Number of repetitions must be a number.", 'timed-content' );
         }
         if ( ( $args['end_date'] == "" ) && ( $args['recurr_type'] == "recurrence_duration_end_date" ) ) {
-            $errors[] = __( "End Date must not be empty.", 'timed-content' );
+            $errors[] = __( "End date must not be empty.", 'timed-content' );
         }
         if ( false === $args['instance_start'] ) {
-            $errors[] = __( "Starting Date/Time must be valid.", 'timed-content' );
+            $errors[] = __( "Starting date/time must be valid.", 'timed-content' );
         }
         if ( false === $args['instance_end'] ) {
-            $errors[] = __( "Ending Date/Time must be valid.", 'timed-content' );
+            $errors[] = __( "Ending date/time must be valid.", 'timed-content' );
         }
         if ( $instance_start > $instance_end ) {
-            $errors[] = __( "Starting Date/Time must be before Ending Date/Time.", 'timed-content' );
+            $errors[] = __( "Starting date/time must be before ending date/time.", 'timed-content' );
         }
         if ( ( $instance_end > $end_date ) && ( $args['recurr_type'] == "recurrence_duration_end_date" ) ) {
-            $errors[] = __( "End Date must be after Ending Date/Time.", 'timed-content' );
+            $errors[] = __( "End date must be after ending date/time.", 'timed-content' );
         }
 
         return $errors;
@@ -1053,7 +1062,7 @@ class timedContentPlugin
                 $messages .= "    <li>" . $error . "</li>\n";
             }
             $messages .= "</ul>\n";
-            $messages .= "<p>" . __( "Check that all of the conditions for this rule are correct, and use Show Projected Dates/Times to ensure your rule is working properly.", 'timed-content' ) . "</p>\n";
+            $messages .= "<p>" . __( "Check that all of the conditions for this rule are correct, and use <b>Show projected dates/times</b> to ensure your rule is working properly.", 'timed-content' ) . "</p>\n";
             $messages .= "</div>\n";
 
             return $messages;
@@ -1107,23 +1116,23 @@ class timedContentPlugin
                             $days[0], $days[1] );
                         break;
                     case 3:
-                        $days_list = sprintf( _x( '%1$s, %2$s, and %3$s', 'List of three weekdays',
+                        $days_list = sprintf( _x( '%1$s, %2$s and %3$s', 'List of three weekdays',
                             'timed-content' ), $days[0], $days[1], $days[2] );
                         break;
                     case 4:
-                        $days_list = sprintf( _x( '%1$s, %2$s, %3$s, and %4$s', 'List of four weekdays',
+                        $days_list = sprintf( _x( '%1$s, %2$s, %3$s and %4$s', 'List of four weekdays',
                             'timed-content' ), $days[0], $days[1], $days[2], $days[3] );
                         break;
                     case 5:
-                        $days_list = sprintf( _x( '%1$s, %2$s, %3$s, %4$s, and %5$s', 'List of five weekdays',
+                        $days_list = sprintf( _x( '%1$s, %2$s, %3$s, %4$s and %5$s', 'List of five weekdays',
                             'timed-content' ), $days[0], $days[1], $days[2], $days[3], $days[4] );
                         break;
                     case 6:
-                        $days_list = sprintf( _x( '%1$s, %2$s, %3$s, %4$s, %5$s, and %6$s', 'List of six weekdays',
+                        $days_list = sprintf( _x( '%1$s, %2$s, %3$s, %4$s, %5$s and %6$s', 'List of six weekdays',
                             'timed-content' ), $days[0], $days[1], $days[2], $days[3], $days[4], $days[5] );
                         break;
                     case 7:
-                        $days_list = sprintf( _x( '%1$s, %2$s, %3$s, %4$s, %5$s, %6$s, and %7$s',
+                        $days_list = sprintf( _x( '%1$s, %2$s, %3$s, %4$s, %5$s, %6$s and %7$s',
                             'List of all weekdays', 'timed-content' ), $days[0], $days[1], $days[2], $days[3],
                             $days[4], $days[5], $days[6] );
                         break;
@@ -1168,7 +1177,7 @@ class timedContentPlugin
         }
 
         if ( $recurr_type == "recurrence_duration_num_repeat" ) {
-            $desc .= "<br />" . sprintf( _n( 'This rule will be active for 1 recurrence.',
+            $desc .= "<br />" . sprintf( _n( 'This rule will be active for one recurrence.',
                     'This rule will be active for %d recurrences.', $num_repeat, 'timed-content' ), $num_repeat );
         } elseif ( $recurr_type == "recurrence_duration_end_date" ) {
             $desc .= "<br />" . sprintf( __( 'This rule will be active until %s.', 'timed-content' ), $end_date );
@@ -1642,14 +1651,14 @@ class timedContentPlugin
                     'Scheduled Dates/Times dialog - Beginning of active period table header', 'timed-content' ),
                 'end_label'             => _x( 'End',
                     'Scheduled Dates/Times dialog - End of active period table header', 'timed-content' ),
-                'dialog_label'          => _x( 'Scheduled Dates/Times',
+                'dialog_label'          => _x( 'Scheduled dates/times',
                     'Scheduled Dates/Times dialog - dialog header', 'timed-content' ),
-                'button_loading_label'  => __( 'Calculating Dates/Times', 'timed-content' ),
-                'button_finished_label' => __( 'Show Projected Dates/Times', 'timed-content' ),
+                'button_loading_label'  => __( 'Calculating dates/times', 'timed-content' ),
+                'button_finished_label' => __( 'Show projected dates/times', 'timed-content' ),
                 'dialog_width'          => 800,
                 'dialog_height'         => 500,
                 'error'                 => __( "Error", 'timed-content' ),
-                'error_desc'            => __( "Something unexpected has happened along the way.  The specific details are below:",
+                'error_desc'            => __( "Something unexpected has happened along the way. The specific details are below:",
                     'timed-content' )
             ) );
         }
@@ -1848,7 +1857,7 @@ class timedContentPlugin
 
         $num_posts = wp_count_posts( TIMED_CONTENT_RULE_TYPE );
         $num       = number_format_i18n( $num_posts->publish );
-        $text      = _n( 'Timed Content Rule', 'Timed Content Rules', intval( $num_posts->publish ),
+        $text      = _n( 'Timed Content rule', 'Timed Content rules', intval( $num_posts->publish ),
             'timed-content' );
         if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
             echo "<a href='edit.php?post_type=" . TIMED_CONTENT_RULE_TYPE . "'>"
@@ -1861,7 +1870,7 @@ class timedContentPlugin
 
         if ( $num_posts->pending > 0 ) {
             $num  = number_format_i18n( $num_posts->pending );
-            $text = _n( 'Timed Content Rule Pending', 'Timed Content Rules Pending', intval( $num_posts->pending ),
+            $text = _n( 'Timed Content rule pending', 'Timed Content rules pending', intval( $num_posts->pending ),
                 'timed-content' );
             if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
                 echo "<a href='edit.php?post_status=pending&post_type=" . TIMED_CONTENT_RULE_TYPE . "'>"
@@ -2060,7 +2069,7 @@ class timedContentPlugin
             array(
                 "name"            => "recurrence_duration",
                 "display"        => "block",
-                "title"            => __( "How Often To Repeat This Action", 'timed-content' ),
+                "title"            => __( "How often to repeat this action", 'timed-content' ),
                 "description"    => "",
                 "type"            => "radio",
                 "values"        =>  array(     "recurrence_duration_end_date" => __( "Keep repeating until a given date", 'timed-content' ),
@@ -2082,7 +2091,7 @@ class timedContentPlugin
             array(
                 "name"            => "recurrence_duration_num_repeat",
                 "display"        => "none",
-                "title"            => __( "Repeat How Many Times", 'timed-content' ),
+                "title"            => __( "Number of repetitions", 'timed-content' ),
                 "description"    => __( "Using the settings above, repeat this action this many times.", 'timed-content' ),
                 "type"            => "number",
                 "default"        => "1",
@@ -2106,8 +2115,8 @@ FUNC;
             array(
                 "name"            => "exceptions_dates_picker",
                 "display"        => "block",
-                "title"            => __( "Add Exception Date:", 'timed-content' ),
-                "description"    => __( "Select a date to add to the Exception Dates List.", 'timed-content' ),
+                "title"            => __( "Add exception date:", 'timed-content' ),
+                "description"    => __( "Select a date to add to the exception dates list.", 'timed-content' ),
                 "type"            => "date",
                 "default"        =>  "",
                 "scope"            =>    array( TIMED_CONTENT_RULE_TYPE ),
@@ -2117,8 +2126,8 @@ FUNC;
             array(
                 "name"            => "exceptions_dates",
                 "display"        => "block",
-                "title"            => __( "Exception Dates List", 'timed-content' ),
-                "description"    => __( "Dates that this Timed Content Rule will not be active.  Double-click on a date to remove it from the list.", 'timed-content' ),
+                "title"            => __( "Exception dates list", 'timed-content' ),
+                "description"    => __( "Dates that this Timed Content rule will not be active.  Double-click on a date to remove it from the list.", 'timed-content' ),
                 "type"            => "menu",
                 "values"        =>  $timed_content_rules_exceptions_dates_array,
                 "size"            =>    "10",
@@ -2129,12 +2138,12 @@ FUNC;
         );
 
         $scf = new customFieldsInterface( "timed_content_rule_schedule",
-            __( 'Rule Description/Schedule', 'timed-content' ),
+            __( 'Rule description/schedule', 'timed-content' ),
             "<div id=\"schedule_desc\" style=\"font-style: italic;\">"
             . ( isset( $_GET['post'] ) && ( TIMED_CONTENT_RULE_TYPE === get_post_type( $_GET['post'] ) ) ? $this->getScheduleDescriptionById( intval( $_GET['post'] ) ) : $this->getScheduleDescriptionById( intval( 0 ) ) )
             . "</div>"
             . "<div id=\"tcr-dialogHolder\" style=\"display:none;\"></div>"
-            . "<div style=\"padding-top: 10px;\"><input type=\"button\" class=\"button button-primary\" id=\"timed_content_rule_test\" value=\"" . __( 'Show Projected Dates/Times',
+            . "<div style=\"padding-top: 10px;\"><input type=\"button\" class=\"button button-primary\" id=\"timed_content_rule_test\" value=\"" . __( 'Show projected dates/times',
                 'timed-content' ) . "\" /></div>",
             TIMED_CONTENT_RULE_POSTMETA_PREFIX,
             array( TIMED_CONTENT_RULE_TYPE ),

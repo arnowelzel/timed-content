@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Timed Content\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/timed-content\n"
 "POT-Creation-Date: 2019-02-10 10:40+0000\n"
-"PO-Revision-Date: 2019-02-10 10:42+0000\n"
+"PO-Revision-Date: 2019-02-10 17:32+0000\n"
 "Last-Translator: Arno Welzel <privat@arnowelzel.local>\n"
 "Language-Team: Deutsch\n"
 "MIME-Version: 1.0\n"
@@ -519,7 +519,7 @@ msgstr[1] "Diese Regel wird für %d Wiederholungen aktiv sein."
 #: timed-content.php:1174
 #, php-format
 msgid "This rule will be active until %s."
-msgstr "Diese Regel wird bis % aktiv sein."
+msgstr "Diese Regel wird bis %s aktiv sein."
 
 #: timed-content.php:1184
 #, php-format

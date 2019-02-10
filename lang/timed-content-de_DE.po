@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Timed Content\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/timed-content\n"
 "POT-Creation-Date: 2019-02-10 10:40+0000\n"
-"PO-Revision-Date: 2019-02-10 17:32+0000\n"
+"PO-Revision-Date: 2019-02-10 17:36+0000\n"
 "Last-Translator: Arno Welzel <privat@arnowelzel.local>\n"
 "Language-Team: Deutsch\n"
 "MIME-Version: 1.0\n"
@@ -412,7 +412,7 @@ msgstr[1] "Diese Aktion alle %d Stunden wiederholen."
 #, php-format
 msgid "Repeat this action every day."
 msgid_plural "Repeat this action every %d days."
-msgstr[0] "Dies Aktion jeden Tag wiederholen."
+msgstr[0] "Diese Aktion jeden Tag wiederholen."
 msgstr[1] "Diese Aktion jeden %d Tag wiederholen."
 
 #: timed-content.php:1103
@@ -499,15 +499,15 @@ msgstr "Diese Aktion alle %1$d Monate am %2$s %3$s des Monats wiederholen."
 #, php-format
 msgid "Repeat this action every month."
 msgid_plural "Repeat this action every %d months."
-msgstr[0] "Dies Aktion jeden Monat wiederholen."
-msgstr[1] "Dies Aktion alle %d Monate wiederholen."
+msgstr[0] "Diese Aktion jeden Monat wiederholen."
+msgstr[1] "Diese Aktion alle %d Monate wiederholen."
 
 #: timed-content.php:1166
 #, php-format
 msgid "Repeat this action every year."
 msgid_plural "Repeat this action every %d years."
-msgstr[0] "Dies Aktion jedes Jahr wiederholen."
-msgstr[1] "Dies Aktion alle %d Jahre wiederholen."
+msgstr[0] "Diese Aktion jedes Jahr wiederholen."
+msgstr[1] "Diese Aktion alle %d Jahre wiederholen."
 
 #: timed-content.php:1171
 #, php-format

@@ -41,7 +41,7 @@ If you want to use Timed Content with Gutenberg you have to add a "Classic" bloc
 
 == Screenshots ==
 
-1. An example showing use of the `[timed-content-client]` shortcode.  The "alarm clock" button on the editor menubar brings up a dialog box to help build the Timed Content shortcodes. All of the Admin-side screenshots are from Wordpress 3.7, but the functionality is the same for 3.8.
+1. An example showing use of the `[timed-content-client]` shortcode.  The "alarm clock" button on the editor menubar brings up a dialog box to help build the Timed Content shortcodes.
 2. The "Add Timed Content shortcode" dialog showing the Client tab.  Check the attribute you want to add and fill in the textboxes.
 3. The "Add Timed Content shortcode" dialog showing the Server tab.  Check the attribute you want to add, then click on the Date and Time textboxes.
 4. The date and time pickers help you format a correct date and time.  Here's the jQuery UI Datepicker in action.

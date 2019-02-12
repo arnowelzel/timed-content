@@ -1415,7 +1415,7 @@ class timedContentPlugin
         }
 
         // Try to parse date as ISO first
-        $hide_dt = DateTime::createFromFormat( 'Y-m-d H:i', $hide_time, new DateTimeZone( $show_tz ) );
+        $hide_dt = DateTime::createFromFormat( 'Y-m-d G:i', $hide_time, new DateTimeZone( $show_tz ) );
         if ($hide_dt === false) {
             $hide_dt = DateTime::createFromFormat( 'm/d/Y G:i', $hide_time, new DateTimeZone( $hide_tz ) );
         }

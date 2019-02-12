@@ -6,14 +6,14 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough, Arno Welzel
-Version: 2.50
+Version: 2.51
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 defined('ABSPATH') or die();
 
 include 'lib/customFieldsInterface.php';
 
-define('TIMED_CONTENT_VERSION', '2.50');
+define('TIMED_CONTENT_VERSION', '2.51');
 define('TIMED_CONTENT_SLUG', 'timed-content');
 define('TIMED_CONTENT_PLUGIN_URL', plugins_url() . '/' . TIMED_CONTENT_SLUG);
 define('TIMED_CONTENT_SHORTCODE_CLIENT', 'timed-content-client');
@@ -1415,7 +1415,7 @@ class timedContentPlugin
         }
 
         // Try to parse date as ISO first
-        $hide_dt = DateTime::createFromFormat( 'Y-m-d H:i:s', $hide_time, new DateTimeZone( $show_tz ) );
+        $hide_dt = DateTime::createFromFormat( 'Y-m-d H:i', $hide_time, new DateTimeZone( $show_tz ) );
         if ($hide_dt === false) {
             $hide_dt = DateTime::createFromFormat( 'm/d/Y G:i', $hide_time, new DateTimeZone( $hide_tz ) );
         }
@@ -2200,22 +2200,6 @@ FUNC;
         }
 
         return $NewArray;
-    }
-
-    /**
-     * Convert a PHP date format to the format required by jQuery
-     *
-     * @param string $sFormat Format as used in PHP
-     *
-     * @return mixed Format as used in jQuery
-     */
-    function dateFormatPhpToJs($sFormat)
-    {
-        return str_replace(
-            array('d',  'j', 'l',  'm',  'n', 'F', 'Y'),
-            array('dd', 'd', 'DD', 'mm', 'm', 'MM', 'yy'),
-            $sFormat
-        );
     }
 
     /**

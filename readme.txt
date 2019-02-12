@@ -4,7 +4,7 @@ Contributors: kjvtough, awelzel
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
 Requires at least: 3.8
 Tested up to: 5.0
-Stable tag: 2.50
+Stable tag: 2.51
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
@@ -49,6 +49,10 @@ If you want to use Timed Content with Gutenberg you have to add a "Classic" bloc
 
 == Changelog ==
 
+= 2.51 =
+
+* Fixed a bug for server side shortcodes with "hide" code, where the date/time was not parsed correctly.
+
 = 2.50 =
 
 * Major code refactoring and cleanup - please check your existing rules and shortcodes if they still work as expected and change them if needed!
@@ -60,6 +64,7 @@ If you want to use Timed Content with Gutenberg you have to add a "Classic" bloc
 = 2.15 =
 
 * Fixed 404 error caused by wrong URL for jquery date/time picker localization.
+* Current date/time in TinyMCE dialog will be displayed as "yyyy-mm-dd HH:MM" as well.
 
 = 2.10 =
 

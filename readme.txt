@@ -4,7 +4,7 @@ Contributors: kjvtough, awelzel
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
 Requires at least: 3.8
 Tested up to: 5.0
-Stable tag: 2.52
+Stable tag: 2.53
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
@@ -49,13 +49,18 @@ If you want to use Timed Content with Gutenberg you have to add a "Classic" bloc
 
 == Changelog ==
 
+= 2.53 =
+
+* Added support for old shortcodes with localized date formats again. Every date/time which can be used in `strtotime()` should work now as well.
+* Improved format of debug output.
+
 = 2.52 =
 
-* Fixed a bug for server which caused side shortcodes without "hide" code to hide content always.
+* Fixed a bug for server side shortcodes without or invalid "hide" attribute which did always hide the content.
 
 = 2.51 =
 
-* Fixed a bug for server side shortcodes with "hide" code, where the date/time was not parsed correctly.
+* Fixed a bug where the "hide" attribute of server side shortcodes did not get parsed correctly.
 
 = 2.50 =
 

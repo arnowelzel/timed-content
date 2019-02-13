@@ -6,14 +6,14 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough, Arno Welzel
-Version: 2.52
+Version: 2.53
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 defined('ABSPATH') or die();
 
 include 'lib/customFieldsInterface.php';
 
-define('TIMED_CONTENT_VERSION', '2.52');
+define('TIMED_CONTENT_VERSION', '2.53');
 define('TIMED_CONTENT_SLUG', 'timed-content');
 define('TIMED_CONTENT_PLUGIN_URL', plugins_url() . '/' . TIMED_CONTENT_SLUG);
 define('TIMED_CONTENT_SHORTCODE_CLIENT', 'timed-content-client');
@@ -1379,8 +1379,8 @@ class timedContentPlugin
     {
         global $post;
         extract( shortcode_atts( array(
-            'show'  => TIMED_CONTENT_TIME_ZERO,
-            'hide'  => TIMED_CONTENT_TIME_END,
+            'show'  => 0,
+            'hide'  => 0,
             'debug' => 'false'
         ), $atts ) );
 
@@ -1395,14 +1395,18 @@ class timedContentPlugin
 
         // Try to parse date as ISO first
         $show_dt = DateTime::createFromFormat( 'Y-m-d G:i', $show_time, new DateTimeZone( $show_tz ) );
+		// Fallback to American format
         if ($show_dt === false) {
             $show_dt = DateTime::createFromFormat('m/d/Y G:i', $show_time, new DateTimeZone($show_tz));
         }
-
+		
         if ( $show_dt !== false ) {
             $show_t = $show_dt->getTimeStamp();
         } else {
-            $show_t = 0;
+			// If nothing else worked so far, try strtotime()
+			// as it was before version 2.50
+            $show_t = strtotime($show);
+			if($show_t === false) $show_t = 0;
         }
 
         $pos = strrpos( $hide, ' ' );
@@ -1415,14 +1419,17 @@ class timedContentPlugin
         }
 
         // Try to parse date as ISO first
-        $hide_dt = DateTime::createFromFormat( 'Y-m-d G:i', $hide_time, new DateTimeZone( $show_tz ) );
+        $hide_dt = DateTime::createFromFormat( 'Y-m-d G:i', $hide_time, new DateTimeZone( $hide_tz ) );
         if ($hide_dt === false) {
             $hide_dt = DateTime::createFromFormat( 'm/d/Y G:i', $hide_time, new DateTimeZone( $hide_tz ) );
         }
         if ( $hide_dt !== false ) {
             $hide_t = $hide_dt->getTimeStamp();
         } else {
-            $hide_t = 0;
+			// If nothing else worked so far, try strtotime()
+			// as it was before version 2.50
+            $hide_t = strtotime($hide);
+			if($hide_t === false) $hide_t = 0;
         }
 
         $right_now_t   = current_time( 'timestamp', 1 );
@@ -1439,6 +1446,11 @@ class timedContentPlugin
         $the_filter = "timed_content_filter";
         $the_filter = apply_filters( "timed_content_filter_override", $the_filter );
 
+		$show_content = false;
+        if ( ( $show_t <= $right_now_t ) && ( $right_now_t <= $hide_t || $hide_t == 0 ) ) {
+			$show_content = true;
+		}
+		
         if ( ( $debug == "true" ) && ( current_user_can( "edit_post", $post->post_id ) ) ) {
             add_filter( 'date_i18n', array( &$this, "fix_date_i18n" ), 10, 4 );
             $temp_tz = date_default_timezone_get();
@@ -1463,11 +1475,11 @@ class timedContentPlugin
 
             $debug_message = "<div class=\"tcr-warning\">\n";
             $debug_message .= "<p class=\"heading\">" . _x( "Notice", "Noun", 'timed-content' ) . "</p>\n";
-            $debug_message .= "<p>" . sprintf( __( 'Debugging has been turned on for a %1$s shortcode on this Post/Page. Only website users who are currently logged in and can edit this Post/Page will see this.  To turn off this message, remove the %2$s attribute from the shortcode.',
+            $debug_message .= "<p>" . sprintf( __( 'Debugging has been turned on for a %1$s shortcode on this post/page. Only website users who are currently logged in and can edit this post/page will see this.  To turn off this message, remove the %2$s attribute from the shortcode.',
                     'timed-content' ), "<code>[timed-content-server]</code>", "<code>debug</code>" ) . "</p>\n";
 
-            if ( $show == TIMED_CONTENT_TIME_ZERO ) {
-                $debug_message .= "<p>" . sprintf( __( 'The %s attribute is not set.', 'timed-content' ),
+            if ( $show_t === 0 ) {
+                $debug_message .= "<p>" . sprintf( __( 'The %s attribute is not set or invalid.', 'timed-content' ),
                         "<code>show</code>" ) . "</p>\n";
             } else {
                 $debug_message .= "<p>" . sprintf( __( 'The %s attribute is currently set to', 'timed-content' ),
@@ -1477,8 +1489,8 @@ class timedContentPlugin
                                   . " (" . $show_diff_str . ")</p>\n";
             }
 
-            if ( $hide == TIMED_CONTENT_TIME_END ) {
-                $debug_message .= "<p>" . sprintf( __( 'The %s attribute is not set.', 'timed-content' ),
+            if ( $hide === 0 ) {
+                $debug_message .= "<p>" . sprintf( __( 'The %s attribute is not set or invalid.', 'timed-content' ),
                         "<code>hide</code>" ) . "</p>\n";
             } else {
                 $debug_message .= "<p>" . sprintf( __( 'The %s attribute is currently set to', 'timed-content' ),
@@ -1489,24 +1501,29 @@ class timedContentPlugin
             }
 
             $debug_message .= "<p>" . __( 'Current date:',
-                    'timed-content' ) . "&nbsp;" . $right_now . "<br />\n";
-            $debug_message .= __( 'Content filter:', 'timed-content' ) . "&nbsp;" . $the_filter . "</p>\n";
-            $debug_message .= "<p>" . _x( 'Content:', "Noun", 'timed-content' ) . "&nbsp;" . $content . "</p>\n";
+                    'timed-content' ) . "&nbsp;" . $right_now . "</p>\n";
+            $debug_message .= "<p>" . __( 'Content filter:', 'timed-content' ) . "&nbsp;" . $the_filter . "</p>\n";
+            $debug_message .= "<p>" . _x( 'Content:', "Noun", 'timed-content' ) . "</p><p><code>" . htmlspecialchars($content) . "</code></p>\n";
+
+			if ( $show_content === true ) {
+				$debug_message .= "<p>" . __( 'The plugin will show the content.', 'timed-content' ) . "</p>";
+			} else {
+				$debug_message .= "<p>" . __( 'The plugin will hide the content.', 'timed-content' ). "</p>";
+			}
 
             $debug_message .= "</div>\n";
-
+			
             date_default_timezone_set( $temp_tz );
             remove_filter( 'date_i18n', array( &$this, "fix_date_i18n" ), 10, 4 );
-        }
+		}
 
-
-        if ( ( $show_t <= $right_now_t ) && ( $right_now_t <= $hide_t || $hide_t == 0 ) ) {
+        if ( $show_content === true ) {
             do_action( "timed_content_server_show", $post->ID, $show, $hide, $content );
-
+			
             return $debug_message . str_replace( ']]>', ']]&gt;', apply_filters( $the_filter, $content ) ) . "\n";
         } else {
             do_action( "timed_content_server_hide", $post->ID, $show, $hide, $content );
-
+			
             return $debug_message . "\n";
         }
 

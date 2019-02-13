@@ -11,7 +11,7 @@ div.tcr-warning, div.tcr-warning p, div.tcr-warning code {
 }
 div.tcr-warning p {
     margin:0;
-    padding:0;
+    padding:0.5em;
 }
 div.tcr-error {
     background-color: #feddce;

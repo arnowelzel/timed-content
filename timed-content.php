@@ -1395,18 +1395,18 @@ class timedContentPlugin
 
         // Try to parse date as ISO first
         $show_dt = DateTime::createFromFormat( 'Y-m-d G:i', $show_time, new DateTimeZone( $show_tz ) );
-		// Fallback to American format
+        // Fallback to American format
         if ($show_dt === false) {
             $show_dt = DateTime::createFromFormat('m/d/Y G:i', $show_time, new DateTimeZone($show_tz));
         }
-		
+
         if ( $show_dt !== false ) {
             $show_t = $show_dt->getTimeStamp();
         } else {
-			// If nothing else worked so far, try strtotime()
-			// as it was before version 2.50
+            // If nothing else worked so far, try strtotime()
+            // as it was before version 2.50
             $show_t = strtotime($show);
-			if($show_t === false) $show_t = 0;
+            if($show_t === false) $show_t = 0;
         }
 
         $pos = strrpos( $hide, ' ' );
@@ -1426,10 +1426,10 @@ class timedContentPlugin
         if ( $hide_dt !== false ) {
             $hide_t = $hide_dt->getTimeStamp();
         } else {
-			// If nothing else worked so far, try strtotime()
-			// as it was before version 2.50
+            // If nothing else worked so far, try strtotime()
+            // as it was before version 2.50
             $hide_t = strtotime($hide);
-			if($hide_t === false) $hide_t = 0;
+            if($hide_t === false) $hide_t = 0;
         }
 
         $right_now_t   = current_time( 'timestamp', 1 );
@@ -1446,11 +1446,11 @@ class timedContentPlugin
         $the_filter = "timed_content_filter";
         $the_filter = apply_filters( "timed_content_filter_override", $the_filter );
 
-		$show_content = false;
+        $show_content = false;
         if ( ( $show_t <= $right_now_t ) && ( $right_now_t <= $hide_t || $hide_t == 0 ) ) {
-			$show_content = true;
-		}
-		
+            $show_content = true;
+        }
+
         if ( ( $debug == "true" ) && ( current_user_can( "edit_post", $post->post_id ) ) ) {
             add_filter( 'date_i18n', array( &$this, "fix_date_i18n" ), 10, 4 );
             $temp_tz = date_default_timezone_get();
@@ -1505,25 +1505,25 @@ class timedContentPlugin
             $debug_message .= "<p>" . __( 'Content filter:', 'timed-content' ) . "&nbsp;" . $the_filter . "</p>\n";
             $debug_message .= "<p>" . _x( 'Content:', "Noun", 'timed-content' ) . "</p><p><code>" . htmlspecialchars($content) . "</code></p>\n";
 
-			if ( $show_content === true ) {
-				$debug_message .= "<p>" . __( 'The plugin will show the content.', 'timed-content' ) . "</p>";
-			} else {
-				$debug_message .= "<p>" . __( 'The plugin will hide the content.', 'timed-content' ). "</p>";
-			}
+            if ( $show_content === true ) {
+                $debug_message .= "<p>" . __( 'The plugin will show the content.', 'timed-content' ) . "</p>";
+            } else {
+                $debug_message .= "<p>" . __( 'The plugin will hide the content.', 'timed-content' ). "</p>";
+            }
 
             $debug_message .= "</div>\n";
-			
+
             date_default_timezone_set( $temp_tz );
             remove_filter( 'date_i18n', array( &$this, "fix_date_i18n" ), 10, 4 );
-		}
+        }
 
         if ( $show_content === true ) {
             do_action( "timed_content_server_show", $post->ID, $show, $hide, $content );
-			
+
             return $debug_message . str_replace( ']]>', ']]&gt;', apply_filters( $the_filter, $content ) ) . "\n";
         } else {
             do_action( "timed_content_server_hide", $post->ID, $show, $hide, $content );
-			
+
             return $debug_message . "\n";
         }
 

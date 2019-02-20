@@ -6,14 +6,14 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough, Arno Welzel
-Version: 2.53
+Version: 2.54
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 defined('ABSPATH') or die();
 
 include 'lib/customFieldsInterface.php';
 
-define('TIMED_CONTENT_VERSION', '2.53');
+define('TIMED_CONTENT_VERSION', '2.54');
 define('TIMED_CONTENT_SLUG', 'timed-content');
 define('TIMED_CONTENT_PLUGIN_URL', plugins_url() . '/' . TIMED_CONTENT_SLUG);
 define('TIMED_CONTENT_SHORTCODE_CLIENT', 'timed-content-client');
@@ -1909,7 +1909,17 @@ class timedContentPlugin
     {
         global $post;
 
-        $now_t = current_time( "timestamp" );
+		$now_ts = current_time( 'timestamp' );
+		$now_plus1h_dt = new DateTime();
+		$now_plus2h_dt = new DateTime();
+		$now_plus1y_dt = new DateTime();
+		$now_plus1h_dt->setTimeStamp($now_ts);
+		$now_plus2h_dt->setTimeStamp($now_ts);
+		$now_plus1y_dt->setTimeStamp($now_ts);
+		$now_plus1h_dt->add(new DateInterval('PT1H'));
+		$now_plus2h_dt->add(new DateInterval('PT2H'));
+		$now_plus1y_dt->add(new DateInterval('P1Y'));
+		
         $post_id = ( isset( $_GET['post'] ) && ( TIMED_CONTENT_RULE_TYPE === get_post_type( $_GET['post'] ) ) ? intval( $_GET['post'] ) : intval( 0 ) );
         $timed_content_rules_exceptions_dates = ( "" === get_post_meta( $post_id, TIMED_CONTENT_RULE_POSTMETA_PREFIX . "exceptions_dates", true ) ? array() : get_post_meta( $post_id, TIMED_CONTENT_RULE_POSTMETA_PREFIX . "exceptions_dates", true ) );
         if ( empty( $timed_content_rules_exceptions_dates ) )
@@ -1944,8 +1954,8 @@ class timedContentPlugin
                 "title"       => __( "Starting date/time", 'timed-content' ),
                 "description" => __( "Sets the date and time for the beginning of the first active period for this rule.", 'timed-content' ),
                 "type"        => "datetime",
-                "default"     => array("date" => date_i18n( get_option('date_format'), strtotime( "+1 hour", $now_t ) ),
-                                       "time" => date_i18n( get_option('time_format'), strtotime( "+1 hour", $now_t ) ) ),
+                "default"     => array("date" => strftime('%Y-%m-%d', $now_plus1h_dt->getTimeStamp()),
+                                       "time" => strftime('%H:%M', $now_plus1h_dt->getTimeStamp())),
                 "scope"       => array(TIMED_CONTENT_RULE_TYPE ),
                 "capability"  => "edit_posts"
             ),
@@ -1955,8 +1965,8 @@ class timedContentPlugin
                 "title"       => __( "Ending date/time", 'timed-content' ),
                 "description" => __( "Sets the date and time for the end of the first active period for this rule.", 'timed-content' ),
                 "type"        => "datetime",
-                "default"     => array("date" => date_i18n( get_option('date_format'), strtotime( "+2 hour", $now_t ) ),
-                                       "time" => date_i18n( get_option('time_format'), strtotime( "+2 hour", $now_t ) ) ),
+                "default"     => array("date" => strftime('%Y-%m-%d', $now_plus2h_dt->getTimeStamp()),
+                                       "time" => strftime('%H:%M', $now_plus2h_dt->getTimeStamp())),
                 "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
                 "capability"  => "edit_posts"
             ),
@@ -2103,7 +2113,7 @@ class timedContentPlugin
                 "title"       => __( "End Date", 'timed-content' ),
                 "description" => __( "Using the settings above, repeat this action until this date.", 'timed-content' ),
                 "type"        => "date",
-                "default"     => date_i18n( get_option('date_format'), strtotime( "+1 year", $now_t ) ),
+                "default"     => strftime('%Y-%m-%d', $now_plus1y_dt->getTimeStamp()),
                 "scope"       => array( TIMED_CONTENT_RULE_TYPE ),
                 "capability"  => "edit_posts"
             ),

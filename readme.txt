@@ -3,7 +3,7 @@
 Contributors: kjvtough, awelzel
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
 Requires at least: 3.8
-Tested up to: 5.0
+Tested up to: 5.1
 Stable tag: 2.54
 License: GPL2
 

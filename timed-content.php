@@ -1384,20 +1384,41 @@ class timedContentPlugin
             'debug' => 'false'
         ), $atts ) );
 
+        // Get time and timezone object for "show" time
         $pos = strrpos( $show, ' ' );
         if ( $pos !== false ) {
             $show_time = substr( $show, 0, $pos );
-            $show_tz   = substr( $show, $pos + 1 );
+            $show_tzname = substr( $show, $pos + 1 );
         } else {
             $show_time = $show;
-            $show_tz   = date_default_timezone_get();
+            $show_tzname = date_default_timezone_get();
+        }
+        try {
+            $show_tz = new DateTimeZone($show_tzname);
+        } catch(Exception $e)  {
+            $show_tz = new DateTimeZone('+0000');
+        }
+
+        // Create time and timezone object for "hide" time
+        $pos = strrpos( $hide, ' ' );
+        if ( $pos !== false ) {
+            $hide_time = substr( $hide, 0, $pos );
+            $hide_tzname = substr( $hide, $pos + 1 );
+        } else {
+            $hide_time = $hide;
+            $hide_tzname = date_default_timezone_get();
+        }
+        try {
+            $hide_tz = new DateTimeZone($hide_tzname);
+        } catch(Exception $e)  {
+            $hide_tz = new DateTimeZone('+0000');
         }
 
         // Try to parse date as ISO first
-        $show_dt = DateTime::createFromFormat( 'Y-m-d G:i', $show_time, new DateTimeZone( $show_tz ) );
+        $show_dt = DateTime::createFromFormat( 'Y-m-d G:i', $show_time, $show_tz);
         // Fallback to American format
         if ($show_dt === false) {
-            $show_dt = DateTime::createFromFormat('m/d/Y G:i', $show_time, new DateTimeZone($show_tz));
+            $show_dt = DateTime::createFromFormat('m/d/Y G:i', $show_time, $show_tz);
         }
 
         if ( $show_dt !== false ) {
@@ -1407,21 +1428,15 @@ class timedContentPlugin
             // as it was before version 2.50
             $show_t = strtotime($show);
             if($show_t === false) $show_t = 0;
-        }
-
-        $pos = strrpos( $hide, ' ' );
-        if ( $pos !== false ) {
-            $hide_time = substr( $hide, 0, $pos );
-            $hide_tz   = substr( $hide, $pos + 1 );
-        } else {
-            $hide_time = $hide;
-            $hide_tz   = date_default_timezone_get();
+            $show_dt = new DateTime();
+            $show_dt->setTimeStamp($show_t);
+            $show_dt->setTimezone($show_tz);
         }
 
         // Try to parse date as ISO first
-        $hide_dt = DateTime::createFromFormat( 'Y-m-d G:i', $hide_time, new DateTimeZone( $hide_tz ) );
+        $hide_dt = DateTime::createFromFormat( 'Y-m-d G:i', $hide_time, $hide_tz);
         if ($hide_dt === false) {
-            $hide_dt = DateTime::createFromFormat( 'm/d/Y G:i', $hide_time, new DateTimeZone( $hide_tz ) );
+            $hide_dt = DateTime::createFromFormat( 'm/d/Y G:i', $hide_time, $hide_tz);
         }
         if ( $hide_dt !== false ) {
             $hide_t = $hide_dt->getTimeStamp();
@@ -1430,6 +1445,9 @@ class timedContentPlugin
             // as it was before version 2.50
             $hide_t = strtotime($hide);
             if($hide_t === false) $hide_t = 0;
+            $hide_dt = new DateTime();
+            $hide_dt->setTimeStamp($hide_t);
+            $hide_dt->setTimezone($hide_tz);
         }
 
         $right_now_t   = current_time( 'timestamp', 1 );
@@ -1485,7 +1503,7 @@ class timedContentPlugin
                 $debug_message .= "<p>" . sprintf( __( 'The %s attribute is currently set to', 'timed-content' ),
                         "<code>show</code>" ) . ": " . $show . ",<br />\n "
                                   . __( 'The Timed Content plugin thinks the intended date/time is',
-                        'timed-content' ) . ": " . date_i18n( TIMED_CONTENT_DATE_FORMAT_OUTPUT, $show_t )
+                        'timed-content' ) . ": " . $show_dt->format( TIMED_CONTENT_DATE_FORMAT_OUTPUT)
                                   . " (" . $show_diff_str . ")</p>\n";
             }
 
@@ -1496,7 +1514,7 @@ class timedContentPlugin
                 $debug_message .= "<p>" . sprintf( __( 'The %s attribute is currently set to', 'timed-content' ),
                         "<code>hide</code>" ) . ": " . $hide . ",<br />\n"
                                   . __( 'The Timed Content plugin thinks the intended date/time is',
-                        'timed-content' ) . ": " . date_i18n( TIMED_CONTENT_DATE_FORMAT_OUTPUT, $hide_t )
+                        'timed-content' ) . ": " . $hide_dt->format(TIMED_CONTENT_DATE_FORMAT_OUTPUT)
                                   . " (" . $hide_diff_str . ").</p>\n";
             }
 
@@ -1909,17 +1927,17 @@ class timedContentPlugin
     {
         global $post;
 
-		$now_ts = current_time( 'timestamp' );
-		$now_plus1h_dt = new DateTime();
-		$now_plus2h_dt = new DateTime();
-		$now_plus1y_dt = new DateTime();
-		$now_plus1h_dt->setTimeStamp($now_ts);
-		$now_plus2h_dt->setTimeStamp($now_ts);
-		$now_plus1y_dt->setTimeStamp($now_ts);
-		$now_plus1h_dt->add(new DateInterval('PT1H'));
-		$now_plus2h_dt->add(new DateInterval('PT2H'));
-		$now_plus1y_dt->add(new DateInterval('P1Y'));
-		
+        $now_ts = current_time( 'timestamp' );
+        $now_plus1h_dt = new DateTime();
+        $now_plus2h_dt = new DateTime();
+        $now_plus1y_dt = new DateTime();
+        $now_plus1h_dt->setTimeStamp($now_ts);
+        $now_plus2h_dt->setTimeStamp($now_ts);
+        $now_plus1y_dt->setTimeStamp($now_ts);
+        $now_plus1h_dt->add(new DateInterval('PT1H'));
+        $now_plus2h_dt->add(new DateInterval('PT2H'));
+        $now_plus1y_dt->add(new DateInterval('P1Y'));
+
         $post_id = ( isset( $_GET['post'] ) && ( TIMED_CONTENT_RULE_TYPE === get_post_type( $_GET['post'] ) ) ? intval( $_GET['post'] ) : intval( 0 ) );
         $timed_content_rules_exceptions_dates = ( "" === get_post_meta( $post_id, TIMED_CONTENT_RULE_POSTMETA_PREFIX . "exceptions_dates", true ) ? array() : get_post_meta( $post_id, TIMED_CONTENT_RULE_POSTMETA_PREFIX . "exceptions_dates", true ) );
         if ( empty( $timed_content_rules_exceptions_dates ) )

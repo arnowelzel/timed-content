@@ -262,11 +262,11 @@ Fixed some internal filename discrepancies, causing visual editor to break.  Upg
 
 `[timed-content-client show="1:00:500" hide="5:00:2000"]Show me after one minute with a 500 millisecond (a half-second) fade-in, then hide me after five minutes with a 2000 millisecond (2 seconds) fade-out.[/timed-content-client]`
 
-`[timed-content-server show="2013-Sep-13 20:30:00 -0600"]Show me starting at 8:30 PM Central Standard Time on September 13th, 2013. I will not be displayed before then.[/timed-content-server]`
+`[timed-content-server show="2013-09-13 20:30:00 -0600"]Show me starting at 8:30 PM Central Standard Time on September 13th, 2013. I will not be displayed before then.[/timed-content-server]`
 
-`[timed-content-server hide="2013-Sep-13 20:30:00 America/Chicago"]Hide me starting at 8:30 PM Central Daylight Time (i.e., the same timezone as Chicago) on September 13th, 2013.  I will not be displayed after then[/timed-content-server]`
+`[timed-content-server hide="2013-09-13 20:30:00 America/Chicago"]Hide me starting at 8:30 PM Central Daylight Time (i.e., the same timezone as Chicago) on September 13th, 2013.  I will not be displayed after then[/timed-content-server]`
 
-`[timed-content-server show="2013-Sep-13 20:30:00 -0600" hide="2013-Sep-13 21:30:00 -0600"]Show me starting at 8:30 PM Central Standard Time on September 13th, 2013, then hide me an hour later. I will not be displayed before or after then.[/timed-content-server]`
+`[timed-content-server show="2013-09-13 20:30:00 -0600" hide="2013-09-13 21:30:00 -0600"]Show me starting at 8:30 PM Central Standard Time on September 13th, 2013, then hide me an hour later. I will not be displayed before or after then.[/timed-content-server]`
 
 `[timed-content-rule id="164"]Display me based on the settings for the Timed Content Rule whoseID is 164.[/timed-content-rule]`
 

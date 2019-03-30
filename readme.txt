@@ -51,7 +51,7 @@ If you want to use Timed Content with Gutenberg you have to add a "Classic" bloc
 
 = 2.56 =
 
-* Use of 'UTC' instead of '+0000' as default time zone to avoid problems with older PHP versions (eventhough you should better update to a support PHP version).
+* Use of 'UTC' instead of '+0000' as default time zone to avoid problems with older PHP versions (eventhough you should better update to a supported PHP version).
 
 = 2.55 =
 

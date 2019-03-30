@@ -194,68 +194,6 @@ If you want to use Timed Content with Gutenberg you have to add a "Classic" bloc
 
 * Initial release.
 
-== Upgrade Notice ==
-
-= 2.15 =
-
-* Fixed 404 errors caused by wrong URL for date/time picker localization.
-
-= 2.12 =
-
-Fixed a problem with date format for server side rules in TinyMCE plugin to make sure it is alway mm/dd/yyyy.
-
-= 2.10 =
-
-Fixed a problem with unexpected `p` elements inside server side timed content sections.  Upgrade now
-
-= 2.5.1 =
-
-Fixed `current_time()` bug in __rulesShowHTML() introduced in 2.5.  Upgrade now
-
-= 2.5 =
-
-Better handling od dates w/ i18n.  Upgrade now
-
-= 2.4 =
-
-New version fixes incompatibility with OptimizePress.  Upgrade now
-
-= 2.3 =
-
-Fixed bug when setting up weekly recurrence for Timed Content Rules.  Upgrade now
-
-= 2.1.4 =
-
-Fixed TinyMCE button issue.  Upgrade now
-
-= 2.1.3 =
-
-Fixed various minor bugs.  Upgrade now
-
-= 2.1.2 =
-
-Dashicons support for WP 3.8 +.  Upgrade once you've upgraded Wordpress to >= 3.8.
-
-= 2.1.1 =
-
-CSS for JQuery UI now loaded locally as required by Wordpress plugin repository rules.  Upgrade now
-
-= 2.1 =
-
-Fixed bug in how the days of week to repeat on were being set up between the front and back ends. Upgrade now
-
-= 2.0 =
-
-New Timed Content Rules feature; AnyTime replaced due to licensing. Upgrade now.
-
-= 1.2 =
-
-AnyTime JavaScript library was outdated, breaking the Timed Content dialog box. Upgrade now.
-
-= 1.1 =
-
-Fixed some internal filename discrepancies, causing visual editor to break.  Upgrade now.
-
 == Examples ==
 
 `[timed-content-client show="1:00"]Show me after one minute.  Since we don't want a fade-in, we can leave it out of the "show" attribute completely.[/timed-content-client]`

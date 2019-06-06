@@ -1469,7 +1469,8 @@ class timedContentPlugin
             $show_content = true;
         }
 
-        if ( ( $debug == "true" ) && ( current_user_can( "edit_post", $post->post_id ) ) ) {
+        if ( ( ( $debug == "true" ) || ( ( ! $show_content ) && ( $debug == "when_hidden" ) ) )
+                && ( current_user_can( "edit_post", $post->post_id ) ) ) {
             add_filter( 'date_i18n', array( &$this, "fix_date_i18n" ), 10, 4 );
             $temp_tz = date_default_timezone_get();
             date_default_timezone_set( get_option( 'timezone_string' ) );

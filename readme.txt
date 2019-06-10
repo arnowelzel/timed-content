@@ -235,11 +235,11 @@ Your users must have JavaScript enabled for this shortcode to work.
 
 **The timed-content-server shortcode**
 
-`[timed-content-server show="datetime" hide="datetime" debug="true|false"]Example Text[/timed-content-server]`
+`[timed-content-server show="datetime" hide="datetime" debug="true|false|when_hidden"]Example Text[/timed-content-server]`
 
 * `show` - Specifies the date/time when the marked content should start being included on the web page.
 * `hide` - Specifies the date/time after which the marked content should stop being included on the web page.
-* `debug` - If `true`, adds some debugging statements to the web page as HTML comments. Defaults to `false`.
+* `debug` - If `true`, adds some debugging statements to the web page as HTML comments. If `when_hidden`, the debugging statements are added only when the content is hidden. Defaults to `false`.
 
 The date and time are expected to be yyyy-mm-dd HH:MM (similar to ISO 8601), for example `2019-04-07 15:30` for April 7, 2019, 15:30. For backward compatiblity old "human readable" date formats should also work, but these should not be used any longer!
 

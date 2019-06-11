@@ -1522,7 +1522,7 @@ class timedContentPlugin
             $debug_message .= "<p>" . __( 'Current date:',
                     'timed-content' ) . "&nbsp;" . $right_now . "</p>\n";
             $debug_message .= "<p>" . __( 'Content filter:', 'timed-content' ) . "&nbsp;" . $the_filter . "</p>\n";
-            $debug_message .= "<p>" . _x( 'Content:', "Noun", 'timed-content' ) . "</p><p><code>" . htmlspecialchars($content) . "</code></p>\n";
+            $debug_message .= "<p>" . _x( 'Content:', "Noun", 'timed-content' ) . "</p><p>" . $content . "</p>\n";
 
             if ( $show_content === true ) {
                 $debug_message .= "<p>" . __( 'The plugin will show the content.', 'timed-content' ) . "</p>";

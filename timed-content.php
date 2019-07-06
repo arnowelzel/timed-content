@@ -5,15 +5,15 @@ Text Domain: timed-content
 Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
-Author: K. Tough, Arno Welzel
-Version: 2.57
+Author: K. Tough, Arno Welzel, Enrico Bacis
+Version: 2.60
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 defined('ABSPATH') or die();
 
 include 'lib/customFieldsInterface.php';
 
-define('TIMED_CONTENT_VERSION', '2.57');
+define('TIMED_CONTENT_VERSION', '2.60');
 define('TIMED_CONTENT_SLUG', 'timed-content');
 define('TIMED_CONTENT_PLUGIN_URL', plugins_url() . '/' . TIMED_CONTENT_SLUG);
 define('TIMED_CONTENT_SHORTCODE_CLIENT', 'timed-content-client');
@@ -760,7 +760,7 @@ class timedContentPlugin
             $errors[] = __("Ending time must not be empty.", 'timed-content');
         }
         if ($args['interval_multiplier'] == "") {
-            $errors[] = __("Number of recurrences must not be empty.", 'timed-content');
+            $errors[] = __("Interval must not be empty.", 'timed-content');
         }
         if (! is_numeric($args['interval_multiplier'])) {
             $errors[] = __("Number of recurrences must be a number.", 'timed-content');
@@ -820,7 +820,6 @@ class timedContentPlugin
         $monthly_pattern_ord = $args['monthly_pattern_ord'];
         $monthly_pattern_day = $args['monthly_pattern_day'];
         $exceptions_dates    = $args['exceptions_dates'];
-        //print_r($days_of_week);
 
         add_filter( 'date_i18n', array( &$this, "fix_date_i18n" ), 10, 4 );
         $temp_tz = date_default_timezone_get();
@@ -849,60 +848,21 @@ class timedContentPlugin
                     $instance_start_time ) . " " . $timezone );
         }
 
-        if ( $human_readable == true ) {
-            $active_periods[ $period_count ]["start"] = date_i18n( TIMED_CONTENT_DATE_FORMAT_OUTPUT, $current );
-            $active_periods[ $period_count ]["end"]   = date_i18n( TIMED_CONTENT_DATE_FORMAT_OUTPUT, $end_current );
-            if ( $right_now_t < $current ) {
-                $active_periods[ $period_count ]["status"] = "upcoming";
-                $active_periods[ $period_count ]["time"]   = sprintf( _x( '%s from now.',
-                    'Human readable time difference', 'timed-content' ),
-                    human_time_diff( $right_now_t, $current ) );
-            } elseif ( ( $current <= $right_now_t ) && ( $right_now_t <= $end_current ) ) {
-                $active_periods[ $period_count ]["status"] = "active";
-                $active_periods[ $period_count ]["time"]   = __( "Right now!", 'timed-content' );
-            } else {
-                $active_periods[ $period_count ]["status"] = "expired";
-                $active_periods[ $period_count ]["time"]   = sprintf( _x( '%s ago.',
-                    'Human readable time difference', 'timed-content' ),
-                    human_time_diff( $end_current, $right_now_t ) );
-            }
-        } else {
-            $active_periods[ $period_count ]["start"] = $current;
-            $active_periods[ $period_count ]["end"]   = $end_current;
-        }
-        $period_count ++;
-
         if ( $recurr_type == "recurrence_duration_end_date" ) {
-            $loop_test = "return ( \$current < \$last_occurrence_start );";
+            $loop_test = "return ( \$current <= \$last_occurrence_start );";
         } else {
-            $loop_test = "return ( \$period_count <= \$num_repeat );";
+            $loop_test = "return ( \$period_count < \$num_repeat );";
         }
 
         while ( eval ( $loop_test ) ) {
-            $temp_current = "";
-            if ( $freq == 0 ) {
-                $current = $this->__getNextHour( $current, $interval_multiplier );
-            } elseif ( $freq == 1 ) {
-                $current = $this->__getNextDay( $current, $interval_multiplier );
-            } elseif ( $freq == 2 ) {
-                $current = $this->__getNextWeek( $current, $interval_multiplier, $days_of_week );
-            } elseif ( $freq == 3 ) {
-                $current      = $this->__getNextMonth( $current, $instance_start, $interval_multiplier );
-                $temp_current = $current;
-                if ( $monthly_pattern == "yes" ) {
-                    $current = $this->__getNthWeekdayOfMonth( $current, $monthly_pattern_ord,
-                        $monthly_pattern_day );
-                } else {
-                    $current = $temp_current;
-                }
-            } elseif ( $freq == 4 ) {
-                $current = $this->__getNextYear( $current, $interval_multiplier );
-            }
-
             $exception_period = false;
+            $current_date = date('Y-m-d', $current);
             if ( is_array( $exceptions_dates ) ) {
-                foreach ( $exceptions_dates as $date ) {
-                    if ( ( $current >= $date ) && ( $current < strtotime( "+1 day", $date ) ) ) {
+                foreach ( $exceptions_dates as $exceptions_date ) {
+                    if (is_numeric($exceptions_date)) {
+                        $exceptions_date = date('Y-m-d', $exceptions_date);
+                    }
+                    if ( $current_date === $exceptions_date ) {
                         $exception_period = true;
                         break;
                     }
@@ -937,6 +897,24 @@ class timedContentPlugin
                 }
             }
 
+            if ( $freq == 0 ) {
+                $current = $this->__getNextHour( $current, $interval_multiplier );
+            } elseif ( $freq == 1 ) {
+                $current = $this->__getNextDay( $current, $interval_multiplier );
+            } elseif ( $freq == 2 ) {
+                $current = $this->__getNextWeek( $current, $interval_multiplier, $days_of_week );
+            } elseif ( $freq == 3 ) {
+                $current      = $this->__getNextMonth( $current, $instance_start, $interval_multiplier );
+                $temp_current = $current;
+                if ( $monthly_pattern == "yes" ) {
+                    $current = $this->__getNthWeekdayOfMonth( $current, $monthly_pattern_ord,
+                        $monthly_pattern_day );
+                } else {
+                    $current = $temp_current;
+                }
+            } elseif ( $freq == 4 ) {
+                $current = $this->__getNextYear( $current, $interval_multiplier );
+            }
         }
         date_default_timezone_set( $temp_tz );
         remove_filter( 'date_i18n', array( &$this, "fix_date_i18n" ), 10, 4 );
@@ -990,7 +968,13 @@ class timedContentPlugin
         $args['monthly_pattern']     = get_post_meta( $ID, $prefix . 'monthly_nth_weekday_of_month', true );
         $args['monthly_pattern_ord'] = get_post_meta( $ID, $prefix . 'monthly_nth_weekday_of_month_nth', true );
         $args['monthly_pattern_day'] = get_post_meta( $ID, $prefix . 'monthly_nth_weekday_of_month_weekday', true );
-        $args['exceptions_dates']    = get_post_meta( $ID, $prefix . 'exceptions_dates', true );
+
+        $exceptions_dates = get_post_meta( $ID, $prefix . 'exceptions_dates' );
+        if (false !== $exceptions_dates && is_array($exceptions_dates[0])) {
+            $args['exceptions_dates'] = $exceptions_dates[0];
+        } else {
+            $args['exceptions_dates'] = false;
+        }
 
         $args = $this->convertDateTimeParametersToISO($args);
 
@@ -1276,8 +1260,12 @@ class timedContentPlugin
             $prefix . 'monthly_nth_weekday_of_month_weekday',
             true ) ? $defaults['monthly_nth_weekday_of_month_weekday'] : get_post_meta( $ID,
             $prefix . 'monthly_nth_weekday_of_month_weekday', true ) );
-        $args['exceptions_dates']    = ( false === get_post_meta( $ID, $prefix . 'exceptions_dates',
-            true ) ? $defaults['exceptions_dates'] : get_post_meta( $ID, $prefix . 'exceptions_dates', true ) );
+        $execptions_dates = get_post_meta( $ID, $prefix . 'exceptions_dates' );
+        if (false !== $execptions_dates && is_array($execptions_dates[0])) {
+            $args['exceptions_dates'] = $execptions_dates[0];
+        } else {
+            $args['exceptions_dates'] = $defaults['exceptions_dates'];
+        }
 
         $args = $this->convertDateTimeParametersToISO( $args );
 
@@ -1687,7 +1675,7 @@ class timedContentPlugin
                 'dialog_height'         => 500,
                 'error'                 => __( "Error", 'timed-content' ),
                 'error_desc'            => __( "Something unexpected has happened along the way. The specific details are below:",
-                    'timed-content' )
+                'timed-content' )
             ) );
         }
     }
@@ -1940,18 +1928,24 @@ class timedContentPlugin
         $now_plus1y_dt->add(new DateInterval('P1Y'));
 
         $post_id = ( isset( $_GET['post'] ) && ( TIMED_CONTENT_RULE_TYPE === get_post_type( $_GET['post'] ) ) ? intval( $_GET['post'] ) : intval( 0 ) );
-        $timed_content_rules_exceptions_dates = ( "" === get_post_meta( $post_id, TIMED_CONTENT_RULE_POSTMETA_PREFIX . "exceptions_dates", true ) ? array() : get_post_meta( $post_id, TIMED_CONTENT_RULE_POSTMETA_PREFIX . "exceptions_dates", true ) );
-        if ( empty( $timed_content_rules_exceptions_dates ) )
-            $timed_content_rules_exceptions_dates_array = array( "0" => __( "- No exceptions set -", 'timed-content' ) );
-        else {
+        $exceptions_dates = get_post_meta( $post_id, TIMED_CONTENT_RULE_POSTMETA_PREFIX . "exceptions_dates" );
+        if (false !== $exceptions_dates && is_array($exceptions_dates[0])) {
+            $timed_content_rules_exceptions_dates = $exceptions_dates[0];
             sort( $timed_content_rules_exceptions_dates, SORT_NUMERIC );
             $timed_content_rules_exceptions_dates = array_unique( $timed_content_rules_exceptions_dates );
-            $formatted_dates = array();
-            foreach ( $timed_content_rules_exceptions_dates as $a_date ) {
-                $a_date_idx = $a_date * 1000;
-                $formatted_dates[$a_date_idx] = date('Y-m-d', $a_date);
+
+            // If the exceptions are stored as timestamps, convert them to ISO first
+            $num = 0;
+            while ($num<count($timed_content_rules_exceptions_dates)) {
+                if (is_numeric($timed_content_rules_exceptions_dates[$num])) {
+                    $timed_content_rules_exceptions_dates[$num] = date('Y-m-d', $timed_content_rules_exceptions_dates[$num]);
+                }
+                $num++;
             }
-            $timed_content_rules_exceptions_dates_array = array_combine($timed_content_rules_exceptions_dates, $formatted_dates);
+
+            $timed_content_rules_exceptions_dates_array = array_combine($timed_content_rules_exceptions_dates, $timed_content_rules_exceptions_dates);
+        } else {
+            $timed_content_rules_exceptions_dates_array = array( "0" => __( "- No exceptions set -", 'timed-content' ) );
         }
 
         $this->rule_occurrence_custom_fields = array(
@@ -2016,7 +2010,7 @@ class timedContentPlugin
             array(
                 "name"        => "hourly_num_of_hours",
                 "display"     => "none",
-                "title"       => __( "Number of recurrences", 'timed-content' ),
+                "title"       => __( "Interval of recurrences", 'timed-content' ),
                 "description" => __( "Repeat this action every X hours.", 'timed-content' ),
                 "type"        => "number",
                 "default"     => "1",
@@ -2027,7 +2021,7 @@ class timedContentPlugin
             array(
                 "name"        => "daily_num_of_days",
                 "display"     => "none",
-                "title"       => __( "Number of recurrences", 'timed-content' ),
+                "title"       => __( "Interval of recurrences", 'timed-content' ),
                 "description" => __( "Repeat this action every X days.", 'timed-content' ),
                 "type"        => "number",
                 "default"     => "1",
@@ -2038,7 +2032,7 @@ class timedContentPlugin
             array(
                 "name"        => "weekly_num_of_weeks",
                 "display"     => "none",
-                "title"       => __( "Number of recurrences", 'timed-content' ),
+                "title"       => __( "Interval of recurrences", 'timed-content' ),
                 "description" => __( "Repeat this action every X weeks.", 'timed-content' ),
                 "type"        => "number",
                 "default"     => "1",
@@ -2060,7 +2054,7 @@ class timedContentPlugin
             array(
                 "name"        => "monthly_num_of_months",
                 "display"     => "none",
-                "title"       => __( "Number of recurrences", 'timed-content' ),
+                "title"       => __( "Interval of recurrences", 'timed-content' ),
                 "description" => __( "Repeat this action every X months.", 'timed-content' ),
                 "type"        => "number",
                 "default"     => "1",
@@ -2103,7 +2097,7 @@ class timedContentPlugin
             array(
                 "name"        => "yearly_num_of_years",
                 "display"     => "none",
-                "title"       => __( "Number of recurrences", 'timed-content' ),
+                "title"       => __( "Interval of recurrences", 'timed-content' ),
                 "description" => __( "Repeat this action every X years.", 'timed-content' ),
                 "type"        => "number",
                 "default"     => "1",
@@ -2151,9 +2145,8 @@ class timedContentPlugin
 
         $exceptions_dates_picker_on_select = <<<FUNC
 onSelect: function (dateText, inst) {
-                //alert(dateText);
                 jQuery("#timed_content_rule_exceptions_dates option[value='0']" ).remove();
-                jQuery("#timed_content_rule_exceptions_dates").append( '<option value="' + parseInt(Date.parse(dateText) / 1000) + '">' + dateText + '</option>' );
+                jQuery("#timed_content_rule_exceptions_dates").append( '<option value="' + dateText + '">' + dateText + '</option>' );
                 jQuery(this).val("");
                 jQuery(this).trigger("change");
             },

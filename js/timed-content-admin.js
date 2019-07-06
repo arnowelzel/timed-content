@@ -57,10 +57,9 @@ jQuery(document).ready(function () {
             jQuery("#timed_content_rule_recurrence_duration_end_date_div").css("display", "none");
             jQuery("#timed_content_rule_recurrence_duration_num_repeat_div").css("display", "block");
         }
-    }).trigger("change");
+    }).trigger("change");timed_content_rule_exceptions_dates_picker
 
     jQuery("#timed_content_rule_exceptions_dates").on("dblclick", "option", function(){
-        //alert(jQuery(this).val());
         jQuery(this).remove();
         if (jQuery("#timed_content_rule_exceptions_dates option").length == 0 )
             jQuery("#timed_content_rule_exceptions_dates").append( '<option value="0">' + timedContentRuleAdmin.no_exceptions_label + '</option>' );

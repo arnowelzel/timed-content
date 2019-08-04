@@ -6,7 +6,7 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough, Arno Welzel, Enrico Bacis
-Version: 2.60
+Version: 2.61
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 defined('ABSPATH') or die();
@@ -970,7 +970,7 @@ class timedContentPlugin
         $args['monthly_pattern_day'] = get_post_meta( $ID, $prefix . 'monthly_nth_weekday_of_month_weekday', true );
 
         $exceptions_dates = get_post_meta( $ID, $prefix . 'exceptions_dates' );
-        if (false !== $exceptions_dates && is_array($exceptions_dates[0])) {
+        if (false !== $exceptions_dates && isset($exceptions_dates[0]) && is_array($exceptions_dates[0])) {
             $args['exceptions_dates'] = $exceptions_dates[0];
         } else {
             $args['exceptions_dates'] = false;

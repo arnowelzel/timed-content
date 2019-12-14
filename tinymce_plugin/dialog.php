@@ -168,7 +168,7 @@
                 </legend>
                 <p><?php _ex( 'Select a city whose timezone you wish to use:', 'TinyMCE Dialog - Timezone <select> HTML label', 'timed-content' ); ?>
                     <select name="server_tz" id="server_tz" style="width: auto;">
-                        <?php echo customFieldsInterface::__generateTimezoneSelectOptions(get_option('timezone_string')); ?>
+                        <?php echo customFieldsInterface::generateTimezoneSelectOptions(get_option('timezone_string')); ?>
                     </select>
                 </p>
 

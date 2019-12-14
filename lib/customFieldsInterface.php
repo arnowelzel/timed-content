@@ -56,7 +56,7 @@ class customFieldsInterface
 	}
 
 	// Inspired by http://ca1.php.net/manual/en/function.timezone-identifiers-list.php#79284
-	static function __generateTimezoneSelectOptions($default_tz)
+	static function generateTimezoneSelectOptions($default_tz)
     {
 		$timezone_identifiers = timezone_identifiers_list();
 		sort( $timezone_identifiers );
@@ -265,7 +265,7 @@ class customFieldsInterface
 
 									echo "<label for=\"" . $this->prefix . $customField['name'] . "\" style=\"display:inline;\"><strong>" . $customField['title'] . "</strong></label><br />\n";
 									echo "<select name=\"" . $this->prefix . $customField['name'] . "\" id=\"" . $this->prefix . $customField['name'] . "\" style=\"width: auto;\">\n";
-									echo customFieldsInterface::__generateTimezoneSelectOptions( $selected_value );
+									echo customFieldsInterface::generateTimezoneSelectOptions( $selected_value );
 									echo "</select>\n";
 								}
 								break;

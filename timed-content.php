@@ -6,7 +6,7 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough, Arno Welzel, Enrico Bacis
-Version: 2.61
+Version: 2.62
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 defined('ABSPATH') or die();
@@ -424,7 +424,7 @@ class timedContentPlugin
         return $messages;
     }
 
-    function __datetimeToEnglish( $date, $time = "" )
+    function datetimeToEnglish( $date, $time = "" )
     {
         $months       = array(
             "January",
@@ -467,7 +467,7 @@ class timedContentPlugin
      *
      * @return int                     Unix timestamp of the new date
      */
-    function __getNextDay( $current, $interval_multiplier )
+    function getNextDay( $current, $interval_multiplier )
     {
         return strtotime( $interval_multiplier . " day", $current );
     }
@@ -480,7 +480,7 @@ class timedContentPlugin
      *
      * @return int Unix timestamp of the new date/time
      */
-    function __getNextHour( $current, $interval_multiplier )
+    function getNextHour( $current, $interval_multiplier )
     {
         return strtotime( $interval_multiplier . " hour", $current );
     }
@@ -499,7 +499,7 @@ class timedContentPlugin
      *
      * @return int                     Unix timestamp of the new date
      */
-    function __getNextWeek( $current, $interval_multiplier, $days = array() )
+    function getNextWeek( $current, $interval_multiplier, $days = array() )
     {
         // If $days is empty, advance $interval_multiplier weeks from $current and return the timestamp
         if ( empty( $days ) ) {
@@ -543,7 +543,7 @@ class timedContentPlugin
      *
      * @return int                     Unix timestamp of the new date
      */
-    function __getNextMonth( $current, $start, $interval_multiplier )
+    function getNextMonth( $current, $start, $interval_multiplier )
     {
         // For most days in the month, it's pretty easy. Get the day of month of the starting date.
         $startDay = date( "j", $start );
@@ -641,7 +641,7 @@ class timedContentPlugin
      *
      * @return int         Unix timestamp of the new date
      */
-    function __getNthWeekdayOfMonth( $current, $ordinal, $day )
+    function getNthWeekdayOfMonth( $current, $ordinal, $day )
     {
         // First, get the month/year we need to work with
         $the_month        = date( "F", $current );
@@ -718,7 +718,7 @@ class timedContentPlugin
      *
      * @return int                     Unix timestamp of the new date
      */
-    function __getNextYear( $current, $interval_multiplier )
+    function getNextYear( $current, $interval_multiplier )
     {
         return strtotime( $interval_multiplier . " year", $current );
     }
@@ -730,7 +730,7 @@ class timedContentPlugin
      *
      * @return array Array of error messages
      */
-    function __validate( $args )
+    function validate( $args )
     {
         $errors = array();
 
@@ -799,7 +799,7 @@ class timedContentPlugin
      *               with "start" and "end" keys and values that are either UNIX timestamps or human-readable dates,
      *               based on whether $args['human_readable'] is set to true or false.
      */
-    function __getRulePeriods( $args )
+    function getRulePeriods( $args )
     {
         $active_periods = array();
         $period_count   = 0;
@@ -834,9 +834,9 @@ class timedContentPlugin
             }
         }
 
-        $instance_start = strtotime( $this->__datetimeToEnglish( $instance_start_date,
+        $instance_start = strtotime( $this->datetimeToEnglish( $instance_start_date,
                 $instance_start_time ) . " " . $timezone );    // Beginning of first occurrence
-        $instance_end   = strtotime( $this->__datetimeToEnglish( $instance_end_date,
+        $instance_end   = strtotime( $this->datetimeToEnglish( $instance_end_date,
                 $instance_end_time ) . " " . $timezone );            // End of first occurrence
         $current        = $instance_start;
         $end_current    = $instance_end;
@@ -844,7 +844,7 @@ class timedContentPlugin
         if ( $recurr_type == "recurrence_duration_num_repeat" ) {
             $last_occurrence_start = strtotime( TIMED_CONTENT_TIME_END );
         } else {
-            $last_occurrence_start = strtotime( $this->__datetimeToEnglish( $end_date,
+            $last_occurrence_start = strtotime( $this->datetimeToEnglish( $end_date,
                     $instance_start_time ) . " " . $timezone );
         }
 
@@ -898,22 +898,22 @@ class timedContentPlugin
             }
 
             if ( $freq == 0 ) {
-                $current = $this->__getNextHour( $current, $interval_multiplier );
+                $current = $this->getNextHour( $current, $interval_multiplier );
             } elseif ( $freq == 1 ) {
-                $current = $this->__getNextDay( $current, $interval_multiplier );
+                $current = $this->getNextDay( $current, $interval_multiplier );
             } elseif ( $freq == 2 ) {
-                $current = $this->__getNextWeek( $current, $interval_multiplier, $days_of_week );
+                $current = $this->getNextWeek( $current, $interval_multiplier, $days_of_week );
             } elseif ( $freq == 3 ) {
-                $current      = $this->__getNextMonth( $current, $instance_start, $interval_multiplier );
+                $current      = $this->getNextMonth( $current, $instance_start, $interval_multiplier );
                 $temp_current = $current;
                 if ( $monthly_pattern == "yes" ) {
-                    $current = $this->__getNthWeekdayOfMonth( $current, $monthly_pattern_ord,
+                    $current = $this->getNthWeekdayOfMonth( $current, $monthly_pattern_ord,
                         $monthly_pattern_day );
                 } else {
                     $current = $temp_current;
                 }
             } elseif ( $freq == 4 ) {
-                $current = $this->__getNextYear( $current, $interval_multiplier );
+                $current = $this->getNextYear( $current, $interval_multiplier );
             }
         }
         date_default_timezone_set( $temp_tz );
@@ -978,7 +978,7 @@ class timedContentPlugin
 
         $args = $this->convertDateTimeParametersToISO($args);
 
-        return $this->__getRulePeriods( $args );
+        return $this->getRulePeriods( $args );
     }
 
     /**
@@ -1006,7 +1006,7 @@ class timedContentPlugin
             $args['monthly_pattern_day'] = $_POST[ $prefix . 'monthly_nth_weekday_of_month_weekday' ];
             $args['exceptions_dates']    = ( isset( $_POST[ $prefix . 'exceptions_dates' ] ) ? $_POST[ $prefix . 'exceptions_dates' ] : array() );
 
-            $response = json_encode( $this->__getRulePeriods( $args ) );
+            $response = json_encode( $this->getRulePeriods( $args ) );
 
             // response output
             header( "Content-Type: application/json" );
@@ -1023,12 +1023,12 @@ class timedContentPlugin
      *
      * @return string Schedule description or warning, if the rule may not work properly
      */
-    function __getScheduleDescription( $args )
+    function getScheduleDescription( $args )
     {
         $interval_multiplier = 1;
         $desc                = "";
 
-        $errors = $this->__validate( $args );
+        $errors = $this->validate( $args );
         if ( $errors ) {
             $messages = "<div class=\"tcr-warning\">\n";
             $messages .= "<p class=\"heading\">" . __( "Warning!", 'timed-content' ) . "</p>\n";
@@ -1269,7 +1269,7 @@ class timedContentPlugin
 
         $args = $this->convertDateTimeParametersToISO( $args );
 
-        return $this->__getScheduleDescription( $args );
+        return $this->getScheduleDescription( $args );
     }
 
     /**
@@ -1297,7 +1297,7 @@ class timedContentPlugin
             $args['monthly_pattern_day'] = $_POST[ $prefix . 'monthly_nth_weekday_of_month_weekday' ];
             $args['exceptions_dates']    = ( isset( $_POST[ $prefix . 'exceptions_dates' ] ) ? $_POST[ $prefix . 'exceptions_dates' ] : array() );
 
-            $response = $this->__getScheduleDescription( $args );
+            $response = $this->getScheduleDescription( $args );
 
             // response output
             header( "Content-Type: text/plain" );
@@ -1761,7 +1761,7 @@ class timedContentPlugin
      *
      * @return string JavaScript array describing the Timed Content rules
      */
-    function __getRulesJS()
+    function getRulesJS()
     {
         $the_js    = "var rules = [\n";
         $args      = array(
@@ -2252,13 +2252,13 @@ FUNC;
     {
         $date_parsed = date_create_from_format('Y-m-d', $args['instance_start']['date']);
         if ($date_parsed === false) {
-            $date_source = strtotime($this->__datetimeToEnglish($args['instance_start']['date']));
+            $date_source = strtotime($this->datetimeToEnglish($args['instance_start']['date']));
             $args['instance_start']['date'] = strftime('%Y-%m-%d', $date_source);
         }
 
         $date_parsed = date_create_from_format('Y-m-d', $args['instance_end']['date']);
         if ($date_parsed === false) {
-            $date_source = strtotime($this->__datetimeToEnglish($args['instance_end']['date']));
+            $date_source = strtotime($this->datetimeToEnglish($args['instance_end']['date']));
             $args['instance_end']['date'] = strftime('%Y-%m-%d', $date_source);
         }
 
@@ -2268,7 +2268,7 @@ FUNC;
 
         $date_parsed = date_create_from_format('Y-m-d', $args['end_date']);
         if ($date_parsed === false) {
-            $date_source = strtotime($this->__datetimeToEnglish($args['end_date']));
+            $date_source = strtotime($this->datetimeToEnglish($args['end_date']));
             $args['end_date'] = strftime('%Y-%m-%d', $date_source);
         }
 
@@ -2276,7 +2276,7 @@ FUNC;
             foreach ($args['exceptions_dates'] as $key => $value) {
                 $date_parsed = date_create_from_format('Y-m-d', $value);
                 if ($date_parsed === false) {
-                    $date_source = strtotime($this->__datetimeToEnglish($args['end_date']));
+                    $date_source = strtotime($this->datetimeToEnglish($args['end_date']));
                     $args['exceptions_dates'][$key] = strftime('%Y-%m-%d', $date_source);
                 }
             }

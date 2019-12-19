@@ -21,7 +21,7 @@
     </style>
     <?php wp_print_scripts(); ?>
     <script type="text/javascript">
-        <?php echo $this->__getRulesJS(); ?>
+        <?php echo $this->getRulesJS(); ?>
         var tags = { 'client': '<?php echo TIMED_CONTENT_SHORTCODE_CLIENT; ?>',
             'server': '<?php echo TIMED_CONTENT_SHORTCODE_SERVER; ?>',
             'rule': '<?php echo TIMED_CONTENT_SHORTCODE_RULE; ?>' };
@@ -191,7 +191,7 @@
 
             <p><?php _ex( 'Rule:', 'TinyMCE Dialog - Timed Content Rules <select> HTML label', 'timed-content' ); ?>
                 <select name="rules_list" id="rules_list" style="width: auto;">
-                    <!-- options list generated using $this->__getRulesJS() above and TimedContentDialog.init JS function in /tinymce_plugin/js/dialog.js -->
+                    <!-- options list generated using $this->getRulesJS() above and TimedContentDialog.init JS function in /tinymce_plugin/js/dialog.js -->
                 </select>
             </p>
             <fieldset>

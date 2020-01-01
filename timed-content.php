@@ -6,7 +6,7 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough, Arno Welzel, Enrico Bacis
-Version: 2.64
+Version: 2.65
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 defined('ABSPATH') or die();
@@ -1260,9 +1260,9 @@ class timedContentPlugin
             $prefix . 'monthly_nth_weekday_of_month_weekday',
             true ) ? $defaults['monthly_nth_weekday_of_month_weekday'] : get_post_meta( $ID,
             $prefix . 'monthly_nth_weekday_of_month_weekday', true ) );
-        $execptions_dates = get_post_meta( $ID, $prefix . 'exceptions_dates' );
-        if (false !== $execptions_dates && is_array($execptions_dates[0])) {
-            $args['exceptions_dates'] = $execptions_dates[0];
+        $exceptions_dates = get_post_meta( $ID, $prefix . 'exceptions_dates' );
+        if (false !== $exceptions_dates && isset($exceptions_dates[0]) && is_array($exceptions_dates[0])) {
+            $args['exceptions_dates'] = $exceptions_dates[0];
         } else {
             $args['exceptions_dates'] = $defaults['exceptions_dates'];
         }
@@ -1929,7 +1929,7 @@ class timedContentPlugin
 
         $post_id = ( isset( $_GET['post'] ) && ( TIMED_CONTENT_RULE_TYPE === get_post_type( $_GET['post'] ) ) ? intval( $_GET['post'] ) : intval( 0 ) );
         $exceptions_dates = get_post_meta( $post_id, TIMED_CONTENT_RULE_POSTMETA_PREFIX . "exceptions_dates" );
-        if (false !== $exceptions_dates && is_array($exceptions_dates[0])) {
+        if (false !== $exceptions_dates && isset($exceptions_dates[0]) && is_array($exceptions_dates[0])) {
             $timed_content_rules_exceptions_dates = $exceptions_dates[0];
             sort( $timed_content_rules_exceptions_dates, SORT_NUMERIC );
             $timed_content_rules_exceptions_dates = array_unique( $timed_content_rules_exceptions_dates );

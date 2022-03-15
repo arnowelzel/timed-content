@@ -6,14 +6,14 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough, Arno Welzel, Enrico Bacis
-Version: 2.67
+Version: 2.68
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 defined('ABSPATH') or die();
 
 include 'lib/customFieldsInterface.php';
 
-define('TIMED_CONTENT_VERSION', '2.67');
+define('TIMED_CONTENT_VERSION', '2.68');
 define('TIMED_CONTENT_SLUG', 'timed-content');
 define('TIMED_CONTENT_PLUGIN_URL', plugins_url() . '/' . TIMED_CONTENT_SLUG);
 define('TIMED_CONTENT_SHORTCODE_CLIENT', 'timed-content-client');
@@ -1373,15 +1373,11 @@ class timedContentPlugin
     {
         global $post;
 
-        if (empty($post)) {
-            return;
-        }
-
         extract(shortcode_atts(array(
             'show'  => 0,
             'hide'  => 0,
             'debug' => 'false'
-       ), $atts));
+        ), $atts));
 
         // Get time and timezone object for "show" time
         $pos = strrpos($show, ' ');
@@ -1535,11 +1531,19 @@ class timedContentPlugin
         }
 
         if ($show_content === true) {
-            do_action("timed_content_server_show", $post->ID, $show, $hide, $content);
+            if (!empty($post)) {
+                do_action("timed_content_server_show", $post->ID, $show, $hide, $content);
+            } else {
+                do_action("timed_content_server_show", null, $show, $hide, $content);
+            }
 
             return $debug_message . str_replace(']]>', ']]&gt;', apply_filters($the_filter, $content)) . "\n";
         } else {
-            do_action("timed_content_server_hide", $post->ID, $show, $hide, $content);
+            if (!empty($post)) {
+                do_action("timed_content_server_hide", $post->ID, $show, $hide, $content);
+            } else {
+                do_action("timed_content_server_show", null, $show, $hide, $content);
+            }
 
             return $debug_message . "\n";
         }
@@ -1557,10 +1561,6 @@ class timedContentPlugin
     function rulesShowHTML($atts, $content = null)
     {
         global $post;
-
-        if (empty($post)) {
-            return;
-        }
 
         extract(shortcode_atts(array('id' => 0), $atts));
         if (!is_numeric($id)) {
@@ -1600,11 +1600,19 @@ class timedContentPlugin
         $the_filter = apply_filters("timed_content_filter_override", $the_filter);
 
         if ((($rule_is_active == true) && ($action_is_show == true)) || (($rule_is_active == false) && ($action_is_show == false))) {
-            do_action("timed_content_rule_show", $post->ID, $id, $content);
+            if (!empty($post)) {
+                do_action("timed_content_rule_show", $post->ID, $id, $content);
+            } else {
+                do_action("timed_content_rule_show", null, $id, $content);
+            }
 
             return str_replace(']]>', ']]&gt;', apply_filters($the_filter, $content));
         } else {
-            do_action("timed_content_rule_hide", $post->ID, $id, $content);
+            if (!empty($post)) {
+                do_action("timed_content_rule_hide", $post->ID, $id, $content);
+            } else {
+                do_action("timed_content_rule_hide", null, $id, $content);
+            }
 
             return "";
         }

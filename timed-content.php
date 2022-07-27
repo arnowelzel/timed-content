@@ -6,14 +6,14 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough, Arno Welzel, Enrico Bacis
-Version: 2.68
+Version: 2.70
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 defined('ABSPATH') or die();
 
 include 'lib/customFieldsInterface.php';
 
-define('TIMED_CONTENT_VERSION', '2.68');
+define('TIMED_CONTENT_VERSION', '2.70');
 define('TIMED_CONTENT_SLUG', 'timed-content');
 define('TIMED_CONTENT_PLUGIN_URL', plugins_url() . '/' . TIMED_CONTENT_SLUG);
 define('TIMED_CONTENT_SHORTCODE_CLIENT', 'timed-content-client');
@@ -29,6 +29,12 @@ define('TIMED_CONTENT_JQUERY_UI_CSS', TIMED_CONTENT_PLUGIN_URL . '/css/jqueryui/
 define('TIMED_CONTENT_JQUERY_UI_TIMEPICKER_JS', TIMED_CONTENT_PLUGIN_URL . '/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js');
 define('TIMED_CONTENT_JQUERY_UI_TIMEPICKER_CSS', TIMED_CONTENT_PLUGIN_URL . '/js/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.css');
 define('TIMED_CONTENT_DATE_FORMAT_OUTPUT', 'Y-m-d H:i O');
+define('TIMED_CONTENT_FREQ_HOURLY', 0);
+define('TIMED_CONTENT_FREQ_DAILY', 1);
+define('TIMED_CONTENT_FREQ_WEEKLY', 2);
+define('TIMED_CONTENT_FREQ_MONTHLY', 3);
+define('TIMED_CONTENT_FREQ_YEARLY', 4);
+
 
 /**
  * Class timedContentPlugin
@@ -860,7 +866,26 @@ class timedContentPlugin
             $loop_test = "return (\$period_count < \$num_repeat);";
         }
 
-        while (eval ($loop_test)) {
+        $day_limit = 0;
+        switch($freq) {
+            case TIMED_CONTENT_FREQ_HOURLY:
+                $day_limit = 1;
+                break;
+            case TIMED_CONTENT_FREQ_DAILY:
+                $day_limit = 7;
+                break;
+            case TIMED_CONTENT_FREQ_WEEKLY:
+                $day_limit = 21;
+                break;
+            case TIMED_CONTENT_FREQ_MONTHLY:
+                $day_limit = 80;
+                break;
+            default: // TIMED_CONTENT_FREQ_YEARLY:
+                $day_limit = 380;
+                break;
+        }
+        $future_repeats = 0;
+        while (eval ($loop_test) && ($current < $right_now_t || $future_repeats<20)) {
             $exception_period = false;
             $current_date = date('Y-m-d', $current);
             if (is_array($exceptions_dates)) {
@@ -875,7 +900,10 @@ class timedContentPlugin
                 }
             }
 
-            if ((eval ($loop_test)) && (!($exception_period))) {
+            if ((eval ($loop_test)) && (!($exception_period)) && $current > $right_now_t-$day_limit*86400) {
+                if ($current > $right_now_t) {
+                    $future_repeats++;
+                }
                 $end_current = $current + ($instance_end - $instance_start);
                 if ($human_readable == true) {
                     $active_periods[ $period_count ]["start"] = date_i18n(TIMED_CONTENT_DATE_FORMAT_OUTPUT, $current);
@@ -889,37 +917,48 @@ class timedContentPlugin
                         $active_periods[ $period_count ]["status"] = "active";
                         $active_periods[ $period_count ]["time"]   = __("Right now!", 'timed-content');
                     } else {
-                        $active_periods[ $period_count ]["status"] = "expired";
-                        $active_periods[ $period_count ]["time"]   = sprintf(_x('%s ago.',
-                            'Human readable time difference', 'timed-content'),
-                            human_time_diff($end_current, $right_now_t));
+                        $active_periods[$period_count]["status"] = "expired";
+                        $active_periods[$period_count]["time"] = sprintf(
+                            _x(
+                                '%s ago.',
+                                'Human readable time difference',
+                                'timed-content'
+                            ),
+                            human_time_diff($end_current, $right_now_t)
+                        );
                     }
                 } else {
-                    $active_periods[ $period_count ]["start"] = $current;
-                    $active_periods[ $period_count ]["end"]   = $end_current;
+                    $active_periods[$period_count]["start"] = $current;
+                    $active_periods[$period_count]["end"] = $end_current;
                 }
                 if (!($exception_period)) {
                     $period_count ++;
                 }
             }
 
-            if ($freq == 0) {
-                $current = $this->getNextHour($current, $interval_multiplier);
-            } elseif ($freq == 1) {
-                $current = $this->getNextDay($current, $interval_multiplier);
-            } elseif ($freq == 2) {
-                $current = $this->getNextWeek($current, $interval_multiplier, $days_of_week);
-            } elseif ($freq == 3) {
-                $current      = $this->getNextMonth($current, $instance_start, $interval_multiplier);
-                $temp_current = $current;
-                if ($monthly_pattern == "yes") {
-                    $current = $this->getNthWeekdayOfMonth($current, $monthly_pattern_ord,
-                        $monthly_pattern_day);
-                } else {
-                    $current = $temp_current;
-                }
-            } elseif ($freq == 4) {
-                $current = $this->getNextYear($current, $interval_multiplier);
+            switch ($freq) {
+                case TIMED_CONTENT_FREQ_HOURLY:
+                    $current = $this->getNextHour($current, $interval_multiplier);
+                    break;
+                case TIMED_CONTENT_FREQ_DAILY:
+                    $current = $this->getNextDay($current, $interval_multiplier);
+                    break;
+                case TIMED_CONTENT_FREQ_WEEKLY:
+                    $current = $this->getNextWeek($current, $interval_multiplier, $days_of_week);
+                    break;
+                case TIMED_CONTENT_FREQ_MONTHLY:
+                    $current      = $this->getNextMonth($current, $instance_start, $interval_multiplier);
+                    $temp_current = $current;
+                    if ($monthly_pattern == "yes") {
+                        $current = $this->getNthWeekdayOfMonth($current, $monthly_pattern_ord,
+                            $monthly_pattern_day);
+                    } else {
+                        $current = $temp_current;
+                    }
+                    break;
+                default: // TIMED_CONTENT_FREQ_YEARLY:
+                    $current = $this->getNextYear($current, $interval_multiplier);
+                    break;
             }
         }
         date_default_timezone_set($temp_tz);

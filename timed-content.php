@@ -6,7 +6,7 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough, Arno Welzel, Enrico Bacis
-Version: 2.70
+Version: 2.71
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 defined('ABSPATH') or die();
@@ -73,7 +73,6 @@ class timedContentPlugin
         add_filter('pre_get_posts', array($this, 'timedContentPreGetPosts'));
         add_filter('post_updated_messages', array($this, 'timedContentRuleUpdatedMessages'), 1);
 
-        add_action('plugins_loaded', array($this, 'i18nInit'), 1);
         add_action('init', array($this, 'init'), 2);
         add_action('wp_head', array($this, 'addHeaderCode'), 1);
         add_action('manage_' . TIMED_CONTENT_RULE_TYPE . '_posts_custom_column', array($this, 'addDescColumnContent'), 10, 2);
@@ -97,6 +96,8 @@ class timedContentPlugin
     function init()
     {
         global $wp_locale;
+
+        load_plugin_textdomain('timed-content', false, basename(dirname(__FILE__)) . '/lang/');
 
         $this->rule_freq_array = array(
             0 => __('hourly', 'timed-content'),
@@ -1885,17 +1886,6 @@ class timedContentPlugin
         ob_end_clean();
         echo $content;
         die();
-    }
-
-    /**
-     * Adds support for i18n (internationalization)
-     *
-     * @return void
-     */
-    function i18nInit()
-    {
-        $plugin_dir = basename(dirname(__FILE__)) . "/lang/";
-        load_plugin_textdomain('timed-content', false, $plugin_dir);
     }
 
     /**

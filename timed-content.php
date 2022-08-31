@@ -6,7 +6,7 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough, Arno Welzel, Enrico Bacis
-Version: 2.71
+Version: 2.72
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 defined('ABSPATH') or die();
@@ -2019,8 +2019,8 @@ class timedContentPlugin
                 "title"       => __("Starting date/time", 'timed-content'),
                 "description" => __("Sets the date and time for the beginning of the first active period for this rule.", 'timed-content'),
                 "type"        => "datetime",
-                "default"     => array("date" => strftime('%Y-%m-%d', $now_plus1h_dt->getTimeStamp()),
-                                       "time" => strftime('%H:%M', $now_plus1h_dt->getTimeStamp())),
+                "default"     => array("date" => date('Y-m-d', $now_plus1h_dt->getTimeStamp()),
+                                       "time" => date('H:i', $now_plus1h_dt->getTimeStamp())),
                 "scope"       => array(TIMED_CONTENT_RULE_TYPE),
                 "capability"  => "edit_posts"
            ),
@@ -2030,8 +2030,8 @@ class timedContentPlugin
                 "title"       => __("Ending date/time", 'timed-content'),
                 "description" => __("Sets the date and time for the end of the first active period for this rule.", 'timed-content'),
                 "type"        => "datetime",
-                "default"     => array("date" => strftime('%Y-%m-%d', $now_plus2h_dt->getTimeStamp()),
-                                       "time" => strftime('%H:%M', $now_plus2h_dt->getTimeStamp())),
+                "default"     => array("date" => date('Y-m-d', $now_plus2h_dt->getTimeStamp()),
+                                       "time" => date('H:i', $now_plus2h_dt->getTimeStamp())),
                 "scope"       => array(TIMED_CONTENT_RULE_TYPE),
                 "capability"  => "edit_posts"
            ),
@@ -2178,7 +2178,7 @@ class timedContentPlugin
                 "title"       => __("End Date", 'timed-content'),
                 "description" => __("Using the settings above, repeat this action until this date.", 'timed-content'),
                 "type"        => "date",
-                "default"     => strftime('%Y-%m-%d', $now_plus1y_dt->getTimeStamp()),
+                "default"     => date('Y-m-d', $now_plus1y_dt->getTimeStamp()),
                 "scope"       => array(TIMED_CONTENT_RULE_TYPE),
                 "capability"  => "edit_posts"
            ),
@@ -2305,13 +2305,13 @@ FUNC;
         $date_parsed = date_create_from_format('Y-m-d', $args['instance_start']['date']);
         if ($date_parsed === false) {
             $date_source = strtotime($this->datetimeToEnglish($args['instance_start']['date']));
-            $args['instance_start']['date'] = strftime('%Y-%m-%d', $date_source);
+            $args['instance_start']['date'] = date('Y-m-d', $date_source);
         }
 
         $date_parsed = date_create_from_format('Y-m-d', $args['instance_end']['date']);
         if ($date_parsed === false) {
             $date_source = strtotime($this->datetimeToEnglish($args['instance_end']['date']));
-            $args['instance_end']['date'] = strftime('%Y-%m-%d', $date_source);
+            $args['instance_end']['date'] = date('Y-m-d', $date_source);
         }
 
         $args['instance_start']['time'] = $this->convertTimeToISO($args['instance_start']['time']);
@@ -2321,7 +2321,7 @@ FUNC;
         $date_parsed = date_create_from_format('Y-m-d', $args['end_date']);
         if ($date_parsed === false) {
             $date_source = strtotime($this->datetimeToEnglish($args['end_date']));
-            $args['end_date'] = strftime('%Y-%m-%d', $date_source);
+            $args['end_date'] = date('Y-m-d', $date_source);
         }
 
         if(is_array($args['exceptions_dates'])) {
@@ -2329,7 +2329,7 @@ FUNC;
                 $date_parsed = date_create_from_format('Y-m-d', $value);
                 if ($date_parsed === false) {
                     $date_source = strtotime($this->datetimeToEnglish($args['end_date']));
-                    $args['exceptions_dates'][$key] = strftime('%Y-%m-%d', $date_source);
+                    $args['exceptions_dates'][$key] = date('Y-m-d', $date_source);
                 }
             }
         }
@@ -2349,13 +2349,13 @@ FUNC;
             $time_base = trim(substr($time, 0, strlen($time)-2));
             $time_dt = date_create_from_format('G:i', $time_base);
             if($time_dt !== false) {
-                $time = strftime('%H:%M', $time_dt->getTimestamp());
+                $time = date('H:i', $time_dt->getTimestamp());
             }
         } else if (strpos($time, 'PM') !== false) {
             $time_base = trim(substr($time, 0, strlen($time)-2));
             $time_dt = date_create_from_format('G:i', $time_base);
             if($time_dt !== false) {
-                $time = strftime('%H:%M', $time_dt->getTimestamp() + 43200);
+                $time = date('H:i', $time_dt->getTimestamp() + 43200);
             }
         }
 

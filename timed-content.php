@@ -6,14 +6,14 @@ Domain Path: /lang
 Plugin URI: http://wordpress.org/plugins/timed-content/
 Description: Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.  These actions can either be processed either server-side or client-side, depending on the desired effect.
 Author: K. Tough, Arno Welzel, Enrico Bacis
-Version: 2.72
+Version: 2.73
 Author URI: http://wordpress.org/plugins/timed-content/
 */
 defined('ABSPATH') or die();
 
 include 'lib/customFieldsInterface.php';
 
-define('TIMED_CONTENT_VERSION', '2.72');
+define('TIMED_CONTENT_VERSION', '2.73');
 define('TIMED_CONTENT_SLUG', 'timed-content');
 define('TIMED_CONTENT_PLUGIN_URL', plugins_url() . '/' . TIMED_CONTENT_SLUG);
 define('TIMED_CONTENT_SHORTCODE_CLIENT', 'timed-content-client');
@@ -1376,10 +1376,18 @@ class timedContentPlugin
         @list($s_min, $s_sec, $s_fade) = explode(":", $show);
         @list($h_min, $h_sec, $h_fade) = explode(":", $hide);
 
-        if (((int) $s_min + (int) $s_sec) > 0) {
+        // Make sure, that we only use numeric values
+        $s_min = intval($s_min);
+        $s_sec = intval($s_sec);
+        $s_fade = intval($s_fade);
+        $h_min = intval($h_min);
+        $h_sec = intval($h_sec);
+        $h_fade = intval($h_fade);
+
+        if (($s_min + $s_sec) > 0) {
             $show_attr = "_show_" . $s_min . "_" . $s_sec . "_" . $s_fade;
         }
-        if (((int) $h_min + (int) $h_sec) > 0) {
+        if (($h_min + $h_sec) > 0) {
             $hide_attr = "_hide_" . $h_min . "_" . $h_sec . "_" . $h_fade;
         }
 

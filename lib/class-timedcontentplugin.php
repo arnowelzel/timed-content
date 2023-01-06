@@ -59,7 +59,7 @@ class TimedContentPlugin {
 	function init() {
 		global $wp_locale;
 
-		load_plugin_textdomain( 'timed-content', false, basename( dirname( __FILE__ ) ) . '/lang/' );
+		load_plugin_textdomain( 'timed-content', false, '/timed-content/lang/' );
 
 		$this->rule_freq_array = array(
 			0 => __( 'hourly', 'timed-content' ),
@@ -343,7 +343,7 @@ class TimedContentPlugin {
 
 		// Otherwise, set up an array combining the days of the week to repeat on and the current day
 		// (keys and values of the array will be the same, and the array is sorted)
-		$current_day_of_week_index = $this->format_timetamp( 'w', $current );
+		$current_day_of_week_index = $this->format_timestamp( 'w', $current );
 		$days                      = array_merge( array( $current_day_of_week_index ), $days );
 		$days                      = array_unique( $days );
 		$days                      = array_values( $days );
@@ -380,7 +380,7 @@ class TimedContentPlugin {
 	 */
 	function get_next_month( $current, $start, $interval_multiplier ) {
 		// For most days in the month, it's pretty easy. Get the day of month of the starting date.
-		$start_day = $this->format_timetamp( 'j', $start );
+		$start_day = $this->format_timestamp( 'j', $start );
 
 		// If it's before or on the 28th, just jump the number of months and be done with it.
 		if ( $start_day <= 28 ) {
@@ -415,7 +415,7 @@ class TimedContentPlugin {
 			$temp_pattern = '';
 
 			// Get the number of days in the month of the current date.
-			$last_day_this_month = $this->format_timetamp( 't', strtotime( 'this month', $temp_current ) );
+			$last_day_this_month = $this->format_timestamp( 't', strtotime( 'this month', $temp_current ) );
 
 			// Get the number of days for the next month relative to the current date .
 			// Subtract 3 days from the next month to counter known month skipping bugs in PHP's relative date
@@ -682,7 +682,7 @@ class TimedContentPlugin {
 
 		// Beginning of first occurrence
 		$instance_start = strtotime( $this->date_time_to_english( $instance_start_date, $instance_start_time ) . ' ' . $timezone );
-		$start_has_dst  = $this->format_timetamp( 'I', $instance_start );
+		$start_has_dst  = $this->format_timestamp( 'I', $instance_start );
 
 		// End of first occurrence
 		$instance_end = strtotime( $this->date_time_to_english( $instance_end_date, $instance_end_time ) . ' ' . $timezone );
@@ -724,11 +724,11 @@ class TimedContentPlugin {
 			( $current < $right_now_t || $future_repeats < 20 )
 		) {
 			$exception_period = false;
-			$current_date     = $this->format_timetamp( 'Y-m-d', $current );
+			$current_date     = $this->format_timestamp( 'Y-m-d', $current );
 			if ( is_array( $exceptions_dates ) ) {
 				foreach ( $exceptions_dates as $exceptions_date ) {
 					if ( is_numeric( $exceptions_date ) ) {
-						$exceptions_date = $this->format_timetamp( 'Y-m-d', $exceptions_date );
+						$exceptions_date = $this->format_timestamp( 'Y-m-d', $exceptions_date );
 					}
 					if ( $current_date === $exceptions_date ) {
 						$exception_period = true;
@@ -740,7 +740,7 @@ class TimedContentPlugin {
 			if ( ! $exception_period && $current > $right_now_t - $day_limit * 86400 ) {
 				// Adjust current date offset if start DST differs from current DST
 				$current_adjusted = $current;
-				$current_has_dst  = $this->format_timetamp( 'I', $current );
+				$current_has_dst  = $this->format_timestamp( 'I', $current );
 				if ( '1' === $start_has_dst && '0' === $current_has_dst ) {
 					$current_adjusted += 3600;
 				} if ( '0' === $start_has_dst && '1' === $current_has_dst ) {
@@ -752,8 +752,8 @@ class TimedContentPlugin {
 				}
 				$end_current = $current_adjusted + ( $instance_end - $instance_start );
 				if ( true === $human_readable ) {
-					$active_periods[ $period_count ]['start']    = $this->format_timetamp( TIMED_CONTENT_DATE_FORMAT_OUTPUT, $current_adjusted );
-					$active_periods[ $period_count ]['end']      = $this->format_timetamp( TIMED_CONTENT_DATE_FORMAT_OUTPUT, $end_current );
+					$active_periods[ $period_count ]['start']    = $this->format_timestamp( TIMED_CONTENT_DATE_FORMAT_OUTPUT, $current_adjusted );
+					$active_periods[ $period_count ]['end']      = $this->format_timestamp( TIMED_CONTENT_DATE_FORMAT_OUTPUT, $end_current );
 					$active_periods[ $period_count ]['timezone'] = $timezone;
 					if ( $right_now_t < $current ) {
 						$active_periods[ $period_count ]['status'] = 'upcoming';
@@ -847,20 +847,24 @@ class TimedContentPlugin {
 		$args['num_repeat']     = get_post_meta( $id, $prefix . 'recurrence_duration_num_repeat', true );
 		$args['end_date']       = get_post_meta( $id, $prefix . 'recurrence_duration_end_date', true );
 		$args['days_of_week']   = get_post_meta( $id, $prefix . 'weekly_days_of_week_to_repeat', true );
-		if ( 0 === $args['freq'] ) {
-			$args['interval_multiplier'] = get_post_meta( $id, $prefix . 'hourly_num_of_hours', true );
-		}
-		if ( 1 === $args['freq'] ) {
-			$args['interval_multiplier'] = get_post_meta( $id, $prefix . 'daily_num_of_days', true );
-		}
-		if ( 2 === $args['freq'] ) {
-			$args['interval_multiplier'] = get_post_meta( $id, $prefix . 'weekly_num_of_weeks', true );
-		}
-		if ( 3 === $args['freq'] ) {
-			$args['interval_multiplier'] = get_post_meta( $id, $prefix . 'monthly_num_of_months', true );
-		}
-		if ( 4 === $args['freq'] ) {
-			$args['interval_multiplier'] = get_post_meta( $id, $prefix . 'yearly_num_of_years', true );
+		switch ( intval( $args['freq'] ) ) {
+			case 0:
+				$args['interval_multiplier'] = get_post_meta( $id, $prefix . 'hourly_num_of_hours', true );
+				break;
+			case 1:
+				$args['interval_multiplier'] = get_post_meta( $id, $prefix . 'daily_num_of_days', true );
+				break;
+			case 2:
+				$args['interval_multiplier'] = get_post_meta( $id, $prefix . 'weekly_num_of_weeks', true );
+				break;
+			case 3:
+				$args['interval_multiplier'] = get_post_meta( $id, $prefix . 'monthly_num_of_months', true );
+				break;
+			case 4:
+				$args['interval_multiplier'] = get_post_meta( $id, $prefix . 'yearly_num_of_years', true );
+				break;
+			default:
+				$args['interval_multiplier'] = 1;
 		}
 		$args['instance_start']      = get_post_meta( $id, $prefix . 'instance_start', true );
 		$args['instance_end']        = get_post_meta( $id, $prefix . 'instance_end', true );
@@ -1623,7 +1627,7 @@ class TimedContentPlugin {
 
 		if ( ( ( 'true' === $debug ) || ( ( ! $show_content ) && ( 'when_hidden' === $debug ) ) ) && ( ! empty( $post ) && current_user_can( 'edit_post', $post->post_id ) ) ) {
 
-			$right_now = $this->format_timetamp( TIMED_CONTENT_DATE_FORMAT_OUTPUT, $right_now_t );
+			$right_now = $this->format_timestamp( TIMED_CONTENT_DATE_FORMAT_OUTPUT, $right_now_t );
 
 			if ( $show_t > $right_now_t ) {
 				$show_diff_str = sprintf(
@@ -2203,7 +2207,7 @@ class TimedContentPlugin {
 			$num = 0;
 			while ( $num < count( $timed_content_rules_exceptions_dates ) ) {
 				if ( is_numeric( $timed_content_rules_exceptions_dates[ $num ] ) ) {
-					$timed_content_rules_exceptions_dates[ $num ] = $this->format_timetamp( 'Y-m-d', $timed_content_rules_exceptions_dates[ $num ] );
+					$timed_content_rules_exceptions_dates[ $num ] = $this->format_timestamp( 'Y-m-d', $timed_content_rules_exceptions_dates[ $num ] );
 				}
 				$num++;
 			}
@@ -2235,8 +2239,8 @@ class TimedContentPlugin {
 				'description' => __( 'Sets the date and time for the beginning of the first active period for this rule.', 'timed-content' ),
 				'type'        => 'datetime',
 				'default'     => array(
-					'date' => $this->format_timetamp( 'Y-m-d', $now_plus1h_dt->getTimeStamp() ),
-					'time' => $this->format_timetamp( 'H:i', $now_plus1h_dt->getTimeStamp() ),
+					'date' => $this->format_timestamp( 'Y-m-d', $now_plus1h_dt->getTimeStamp() ),
+					'time' => $this->format_timestamp( 'H:i', $now_plus1h_dt->getTimeStamp() ),
 				),
 				'scope'       => array( TIMED_CONTENT_RULE_TYPE ),
 				'capability'  => 'edit_posts',
@@ -2248,8 +2252,8 @@ class TimedContentPlugin {
 				'description' => __( 'Sets the date and time for the end of the first active period for this rule.', 'timed-content' ),
 				'type'        => 'datetime',
 				'default'     => array(
-					'date' => $this->format_timetamp( 'Y-m-d', $now_plus2h_dt->getTimeStamp() ),
-					'time' => $this->format_timetamp( 'H:i', $now_plus2h_dt->getTimeStamp() ),
+					'date' => $this->format_timestamp( 'Y-m-d', $now_plus2h_dt->getTimeStamp() ),
+					'time' => $this->format_timestamp( 'H:i', $now_plus2h_dt->getTimeStamp() ),
 				),
 				'scope'       => array( TIMED_CONTENT_RULE_TYPE ),
 				'capability'  => 'edit_posts',
@@ -2399,7 +2403,7 @@ class TimedContentPlugin {
 				'title'       => __( 'End Date', 'timed-content' ),
 				'description' => __( 'Using the settings above, repeat this action until this date.', 'timed-content' ),
 				'type'        => 'date',
-				'default'     => $this->format_timetamp( 'Y-m-d', $now_plus1y_dt->getTimeStamp() ),
+				'default'     => $this->format_timestamp( 'Y-m-d', $now_plus1y_dt->getTimeStamp() ),
 				'scope'       => array( TIMED_CONTENT_RULE_TYPE ),
 				'capability'  => 'edit_posts',
 			),
@@ -2536,13 +2540,13 @@ FUNC;
 		$date_parsed = date_create_from_format( 'Y-m-d', $args['instance_start']['date'] );
 		if ( false === $date_parsed ) {
 			$date_source                    = strtotime( $this->date_time_to_english( $args['instance_start']['date'] ) );
-			$args['instance_start']['date'] = $this->format_timetamp( 'Y-m-d', $date_source );
+			$args['instance_start']['date'] = $this->format_timestamp( 'Y-m-d', $date_source );
 		}
 
 		$date_parsed = date_create_from_format( 'Y-m-d', $args['instance_end']['date'] );
 		if ( false === $date_parsed ) {
 			$date_source                  = strtotime( $this->date_time_to_english( $args['instance_end']['date'] ) );
-			$args['instance_end']['date'] = $this->format_timetamp( 'Y-m-d', $date_source );
+			$args['instance_end']['date'] = $this->format_timestamp( 'Y-m-d', $date_source );
 		}
 
 		$args['instance_start']['time'] = $this->convert_time_to_iso( $args['instance_start']['time'] );
@@ -2552,7 +2556,7 @@ FUNC;
 		$date_parsed = date_create_from_format( 'Y-m-d', $args['end_date'] );
 		if ( false === $date_parsed ) {
 			$date_source      = strtotime( $this->date_time_to_english( $args['end_date'] ) );
-			$args['end_date'] = $this->format_timetamp( 'Y-m-d', $date_source );
+			$args['end_date'] = $this->format_timestamp( 'Y-m-d', $date_source );
 		}
 
 		if ( is_array( $args['exceptions_dates'] ) ) {
@@ -2560,7 +2564,7 @@ FUNC;
 				$date_parsed = date_create_from_format( 'Y-m-d', $value );
 				if ( false === $date_parsed ) {
 					$date_source                      = strtotime( $this->date_time_to_english( $args['end_date'] ) );
-					$args['exceptions_dates'][ $key ] = $this->format_timetamp( 'Y-m-d', $date_source );
+					$args['exceptions_dates'][ $key ] = $this->format_timestamp( 'Y-m-d', $date_source );
 				}
 			}
 		}
@@ -2580,13 +2584,13 @@ FUNC;
 			$time_base = trim( substr( $time, 0, strlen( $time ) - 2 ) );
 			$time_dt   = date_create_from_format( 'G:i', $time_base );
 			if ( false !== $time_dt ) {
-				$time = $this->format_timetamp( 'H:i', $time_dt->getTimestamp() );
+				$time = $this->format_timestamp( 'H:i', $time_dt->getTimestamp() );
 			}
 		} elseif ( strpos( $time, 'PM' ) !== false ) {
 			$time_base = trim( substr( $time, 0, strlen( $time ) - 2 ) );
 			$time_dt   = date_create_from_format( 'G:i', $time_base );
 			if ( false !== $time_dt ) {
-				$time = $this->format_timetamp( 'H:i', $time_dt->getTimestamp() + 43200 );
+				$time = $this->format_timestamp( 'H:i', $time_dt->getTimestamp() + 43200 );
 			}
 		}
 
@@ -2613,7 +2617,7 @@ FUNC;
 	 *
 	 * @return string
 	 */
-	function format_timetamp( $format, $timestamp ) {
+	function format_timestamp( $format, $timestamp ) {
 		try {
 			$dt = new DateTime();
 			$dt->setTimezone( $this->current_timezone );

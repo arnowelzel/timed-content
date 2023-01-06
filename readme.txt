@@ -53,6 +53,7 @@ If you want to use Timed Content with Gutenberg you have to add a "Classic" bloc
 
 * Fixed security issue with client side shortcodes which allowed to insert raw HTML and JavaScript via the shortcode.
 * Refactored codebase according to WordPress Core coding guidelines.
+* Adjusted time calculation to keep time in rules independent of current DST.
 
 = 2.72 =
 

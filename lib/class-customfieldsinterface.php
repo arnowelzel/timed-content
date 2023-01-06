@@ -204,46 +204,49 @@ class CustomFieldsInterface {
 				}
 				// Output if allowed
 				if ( $output ) {
+					$field_name          = $this->prefix . $custom_field['name'];
+					$field_name_escaped  = htmlspecialchars( $field_name );
+					$field_title_escaped = htmlspecialchars( $custom_field['title'] );
 					?>
 					<div class="form-field form-required"
-						id="<?php echo $this->prefix . $custom_field['name']; ?>_div"
-						style="display: <?php echo $custom_field['display']; ?>">
+						id="<?php echo $field_name_escaped; ?>_div"
+						style="display: <?php echo htmlspecialchars( $custom_field['display'] ); ?>">
 						<?php
 						switch ( $custom_field['type'] ) {
 							case 'radio':
 									$checked_value = get_post_meta(
 										$post->ID,
-										$this->prefix . $custom_field['name'],
+										$field_name,
 										true
 									);
 								if ( '' === $checked_value || false === $checked_value ) {
 									$checked_value = $custom_field['default'];
 								}
-									echo '<strong>' . $custom_field['title'] . "</strong><br />\n";
+									echo '<strong>' . $field_title_escaped . "</strong><br />\n";
 								foreach ( $custom_field['values'] as $value => $label ) {
-									echo '<input type="radio" name="' . $this->prefix . $custom_field['name'] . '" id="' . $this->prefix . $custom_field['name'] . '_' . $value . '" value="' . $value . '"';
+									echo '<input type="radio" name="' . $field_name_escaped . '" id="' . $field_name_escaped . '_' . $value . '" value="' . $value . '"';
 									if ( $checked_value === $value || intval( $checked_value ) === $value ) {
 										echo ' checked="checked"';
 									}
-									echo ' /><label for="' . $this->prefix . $custom_field['name'] . '_' . $value . '" style="display: inline;">' . $label . "</label><br />\n";
+									echo ' /><label for="' . $field_name_escaped . '_' . $value . '" style="display: inline;">' . $label . "</label><br />\n";
 								}
 								break;
 							case 'menu':
 									// menu
-									echo '<label for="' . $this->prefix . $custom_field['name'] . '" style="display:inline;"><strong>' . $custom_field['title'] . "</strong></label><br />\n";
+									echo '<label for="' . $field_name_escaped . '" style="display:inline;"><strong>' . $field_title_escaped . "</strong></label><br />\n";
 								if ( sizeof( $custom_field['values'] ) === 0 ) {
 									echo '<em>' . __( 'This menu is empty.', 'timed-content' ) . "</em>\n";
 								} else {
 									$selected_value = ( '' === get_post_meta(
 										$post->ID,
-										$this->prefix . $custom_field['name'],
+										$field_name,
 										true
 									) ? $custom_field['default'] : get_post_meta(
 										$post->ID,
-										$this->prefix . $custom_field['name'],
+										$field_name,
 										true
 									) );
-									echo '<select name="' . $this->prefix . $custom_field['name'] . '[]" id="' . $this->prefix . $custom_field['name'] . '" style="width: auto; height: auto; padding: 3px;" size="' . $custom_field['size'] . "\" multiple=\"multiple\">\n";
+									echo '<select name="' . $field_name_escaped . '[]" id="' . $field_name_escaped . '" style="width: auto; height: auto; padding: 3px;" size="' . $custom_field['size'] . "\" multiple=\"multiple\">\n";
 									foreach ( $custom_field['values'] as $value => $label ) {
 										echo "\t<option value=\"" . $value . '"';
 										if ( $selected_value === $value || intval( $selected_value ) === $value ) {
@@ -256,20 +259,20 @@ class CustomFieldsInterface {
 								break;
 							case 'list':
 								// list
-								echo '<label for="' . $this->prefix . $custom_field['name'] . '" style="display:inline;"><strong>' . $custom_field['title'] . "</strong></label><br />\n";
+								echo '<label for="' . $field_name_escaped . '" style="display:inline;"><strong>' . $field_title_escaped . "</strong></label><br />\n";
 								if ( sizeof( $custom_field['values'] ) === 0 ) {
 									echo '<em>' . __( 'This menu is empty.', 'timed-content' ) . "</em>\n";
 								} else {
 									$selected_value = ( '' === get_post_meta(
 										$post->ID,
-										$this->prefix . $custom_field['name'],
+										$field_name,
 										true
 									) ? $custom_field['default'] : get_post_meta(
 										$post->ID,
-										$this->prefix . $custom_field['name'],
+										$field_name,
 										true
 									) );
-									echo '<select name="' . $this->prefix . $custom_field['name'] . '" id="' . $this->prefix . $custom_field['name'] . "\" style=\"width: auto;\">\n";
+									echo '<select name="' . $field_name_escaped . '" id="' . $field_name_escaped . "\" style=\"width: auto;\">\n";
 									foreach ( $custom_field['values'] as $value => $label ) {
 										echo "\t<option value=\"" . $value . '"';
 										if ( $selected_value === $value || intval( $selected_value ) === $value ) {
@@ -284,16 +287,16 @@ class CustomFieldsInterface {
 								// timezone list
 								$selected_value = ( '' === get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) ? $custom_field['default'] : get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) );
 
-								echo '<label for="' . $this->prefix . $custom_field['name'] . '" style="display:inline;"><strong>' . $custom_field['title'] . "</strong></label><br />\n";
-								echo '<select name="' . $this->prefix . $custom_field['name'] . '" id="' . $this->prefix . $custom_field['name'] . "\" style=\"width: auto;\">\n";
+								echo '<label for="' . $field_name_escaped . '" style="display:inline;"><strong>' . $field_title_escaped . "</strong></label><br />\n";
+								echo '<select name="' . $field_name_escaped . '" id="' . $field_name_escaped . "\" style=\"width: auto;\">\n";
 								echo CustomFieldsInterface::generate_timezone_select_options( $selected_value );
 								echo "</select>\n";
 								break;
@@ -301,16 +304,16 @@ class CustomFieldsInterface {
 								// Checkbox
 								$checked_value = ( '' === get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) ? $custom_field['default'] : get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) );
 
-								echo '<label for="' . $this->prefix . $custom_field['name'] . '" style="display:inline;"><strong>' . $custom_field['title'] . "</strong><br />\n";
-								echo '<input type="checkbox" name="' . $this->prefix . $custom_field['name'] . '" id="' . $this->prefix . $custom_field['name'] . '" value="yes"';
+								echo '<label for="' . $field_name_escaped . '" style="display:inline;"><strong>' . $field_title_escaped . "</strong><br />\n";
+								echo '<input type="checkbox" name="' . $field_name_escaped . '" id="' . $field_name_escaped . '" value="yes"';
 								if ( 'yes' === $checked_value ) {
 									echo ' checked="checked"';
 								}
@@ -320,28 +323,28 @@ class CustomFieldsInterface {
 								// Checkbox list
 								$checked_value = ( '' === get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) ? $custom_field['default'] : get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) );
 
-								echo '<strong>' . $custom_field['title'] . "</strong><br />\n";
+								echo '<strong>' . $field_title_escaped . "</strong><br />\n";
 								if ( sizeof( $custom_field['values'] ) === 0 ) {
 									echo '<em>' . __( 'This menu is empty.', 'timed-content' ) . "</em>\n";
 								} else {
 									foreach ( $custom_field['values'] as $value => $label ) {
-										echo '<input type="checkbox" name="' . $this->prefix . $custom_field['name'] . '[]" id="' . $this->prefix . $custom_field['name'] . '_' . $value . '" value="' . $value . '"';
+										echo '<input type="checkbox" name="' . $field_name_escaped . '[]" id="' . $field_name_escaped . '_' . $value . '" value="' . $value . '"';
 										if ( ( is_array( $checked_value ) ) && ( in_array(
-											$value,
+											(string) $value,
 											$checked_value,
 											true
 										) ) ) {
 											echo ' checked="checked"';
 										}
-										echo ' /><label for="' . $this->prefix . $custom_field['name'] . '_' . $value . '" style="display: inline;" >' . $label . "</label><br />\n";
+										echo ' /><label for="' . $field_name_escaped . '_' . $value . '" style="display: inline;" >' . $label . "</label><br />\n";
 									}
 								}
 								break;
@@ -350,24 +353,24 @@ class CustomFieldsInterface {
 								// Text area
 								$value = ( '' === get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) ? $custom_field['default'] : get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) );
-								echo '<label for="' . $this->prefix . $custom_field['name'] . '"><strong>' . $custom_field['title'] . "</strong></label><br />\n";
-								echo '<textarea name="' . $this->prefix . $custom_field['name'] . '" id="' . $this->prefix . $custom_field['name'] . '" columns="30" rows="3">' . htmlspecialchars( $value ) . "</textarea>\n";
+								echo '<label for="' . $field_name_escaped . '"><strong>' . $field_title_escaped . "</strong></label><br />\n";
+								echo '<textarea name="' . $field_name_escaped . '" id="' . $field_name_escaped . '" columns="30" rows="3">' . htmlspecialchars( $value ) . "</textarea>\n";
 								// WYSIWYG
 								if ( 'wysiwyg' === $custom_field['type'] ) {
 									?>
 							<script type="text/javascript">
 								//<![CDATA[
 								jQuery(document).ready(function () {
-									jQuery("<?php echo $this->prefix . $custom_field['name']; ?>").addClass("mceEditor");
+									jQuery("<?php echo $field_name_escaped; ?>").addClass("mceEditor");
 									if (typeof (tinyMCE) == "object" && typeof (tinyMCE.execCommand) == "function") {
-										tinyMCE.execCommand("mceAddControl", false, "<?php echo $this->prefix . $custom_field['name']; ?>");
+										tinyMCE.execCommand("mceAddControl", false, "<?php echo $field_name_escaped; ?>");
 									}
 								});
 								//]]>
@@ -378,11 +381,11 @@ class CustomFieldsInterface {
 							case 'color-picker':
 								$value = ( '' === get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) ? $custom_field['default'] : get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) );
 								// Color picker using WP's built-in Iris jQuery plugin
@@ -390,30 +393,29 @@ class CustomFieldsInterface {
 							<script type="text/javascript">
 								//<![CDATA[
 								jQuery(document).ready(function () {
-									var <?php echo $this->prefix . $custom_field['name']; ?>Options = {
+									var <?php echo $field_name_escaped; ?>Options = {
 										defaultColor: false,
 										hide: true,
 										palettes: true
 									};
 
-									jQuery("#<?php echo $this->prefix . $custom_field['name']; ?>").wpColorPicker(<?php echo $this->prefix . $custom_field['name']; ?>Options);
+									jQuery("#<?php echo $field_name_escaped; ?>").wpColorPicker(<?php echo $field_name_escaped; ?>Options);
 								});
 								//]]>
 							</script>
 								<?php
-								echo '<label for="' . $this->prefix . $custom_field['name'] . '"><strong>' . $custom_field['title'] . "</strong></label><br />\n";
-								echo '<input type="text" name="' . $this->prefix . $custom_field['name'] . '" id="' . $this->prefix . $custom_field['name'] . '" value="' . $value . "\" size=\"7\" maxlength=\"7\" style=\"width: 100px;\" />\n";
+								echo '<label for="' . $field_name_escaped . '"><strong>' . $field_title_escaped . "</strong></label><br />\n";
+								echo '<input type="text" name="' . $field_name_escaped . '" id="' . $field_name_escaped . '" value="' . $value . "\" size=\"7\" maxlength=\"7\" style=\"width: 100px;\" />\n";
 								break;
 							case 'date':
-								echo '<label for="' . $this->prefix . $custom_field['name'] . '" style="display:inline;"><strong>' . $custom_field['title'] . "</strong></label><br />\n";
-								//									echo "<span style=\"display:inline;\"><strong>" . $custom_field[ 'title' ] . "</strong></span>&nbsp;&nbsp;\n";
+								echo '<label for="' . $field_name_escaped . '" style="display:inline;"><strong>' . $field_title_escaped . "</strong></label><br />\n";
 								$value = ( '' === get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) ? $custom_field['default'] : get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) );
 								// Date picker using WP's built-in Datepicker jQuery plugin
@@ -421,7 +423,7 @@ class CustomFieldsInterface {
 							<script type="text/javascript">
 								//<![CDATA[
 								jQuery(document).ready(function () {
-									jQuery("#<?php echo $this->prefix . $custom_field['name']; ?>").datepicker(
+									jQuery("#<?php echo $field_name_escaped; ?>").datepicker(
 										{
 												<?php
 												if ( isset( $custom_field['custom_functions'] ) ) {
@@ -436,17 +438,17 @@ class CustomFieldsInterface {
 								//]]>
 							</script>
 								<?php
-								echo '<input type="text" name="' . $this->prefix . $custom_field['name'] . '" id="' . $this->prefix . $custom_field['name'] . '" value="' . htmlspecialchars( $value ) . "\" style=\"width: 175px;\" />\n";
+								echo '<input type="text" name="' . $field_name_escaped . '" id="' . $field_name_escaped . '" value="' . htmlspecialchars( $value ) . "\" style=\"width: 175px;\" />\n";
 								break;
 							case 'datetime':
-								echo '<span style="display:inline;"><strong>' . $custom_field['title'] . "</strong></span><br />\n";
+								echo '<span style="display:inline;"><strong>' . $field_title_escaped . "</strong></span><br />\n";
 								$value = ( '' === get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) ? $custom_field['default'] : get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) );
 								foreach ( $value as $k => $v ) {
@@ -458,13 +460,13 @@ class CustomFieldsInterface {
 							<script type="text/javascript">
 								//<![CDATA[
 								jQuery(document).ready(function () {
-									jQuery("#<?php echo $this->prefix . $custom_field['name']; ?>_date").datepicker(
+									jQuery("#<?php echo $field_name_escaped; ?>_date").datepicker(
 										{
 											changeMonth: true,
 											changeYear: true
 										}
 									);
-									jQuery("#<?php echo $this->prefix . $custom_field['name']; ?>_time").timepicker(
+									jQuery("#<?php echo $field_name_escaped; ?>_time").timepicker(
 										{
 											defaultTime: 'now'
 										}
@@ -473,23 +475,23 @@ class CustomFieldsInterface {
 								//]]>
 							</script>
 								<?php
-								echo '<label for="' . $this->prefix . $custom_field['name'] . '_date" style="display:inline;"><em>' . _x(
+								echo '<label for="' . $field_name_escaped . '_date" style="display:inline;"><em>' . _x(
 									'Date',
 									'Date field label',
 									'timed-content'
 								) . ":</em></label>\n";
-								echo '<input type="text" name="' . $this->prefix . $custom_field['name'] . '[date]" id="' . $this->prefix . $custom_field['name'] . '_date" value="' . $value['date'] . "\" style=\"width: 175px;\" />\n";
-								echo '<label for="' . $this->prefix . $custom_field['name'] . '_time" style="display:inline;"><em>' . _x(
+								echo '<input type="text" name="' . $field_name_escaped . '[date]" id="' . $field_name_escaped . '_date" value="' . $value['date'] . "\" style=\"width: 175px;\" />\n";
+								echo '<label for="' . $field_name_escaped . '_time" style="display:inline;"><em>' . _x(
 									'Time',
 									'Time field label',
 									'timed-content'
 								) . ":</em></label>\n";
-								echo '<input type="text" name="' . $this->prefix . $custom_field['name'] . '[time]" id="' . $this->prefix . $custom_field['name'] . '_time" value="' . $value['time'] . "\" style=\"width: 125px;\" />\n";
+								echo '<input type="text" name="' . $field_name_escaped . '[time]" id="' . $field_name_escaped . '_time" value="' . $value['time'] . "\" style=\"width: 125px;\" />\n";
 								break;
 							case 'number':
 								$value = get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								);
 								if ( '' === $value ) {
@@ -502,7 +504,7 @@ class CustomFieldsInterface {
 							<script type="text/javascript">
 								//<![CDATA[
 								jQuery(document).ready(function () {
-									jQuery("#<?php echo $this->prefix . $custom_field['name']; ?>").spinner(
+									jQuery("#<?php echo $field_name_escaped; ?>").spinner(
 										{
 											stop: function (event, ui) {
 												jQuery(this).trigger("change");
@@ -521,35 +523,35 @@ class CustomFieldsInterface {
 								//]]>
 							</script>
 								<?php
-								echo '<label for="' . $this->prefix . $custom_field['name'] . '" style="display:inline;"><strong>' . $custom_field['title'] . "</strong></label><br />\n";
-								echo '<input type="text" name="' . $this->prefix . $custom_field['name'] . '" id="' . $this->prefix . $custom_field['name'] . '" value="' . $value . "\" size=\"2\" />\n";
+								echo '<label for="' . $field_name_escaped . '" style="display:inline;"><strong>' . $field_title_escaped . "</strong></label><br />\n";
+								echo '<input type="text" name="' . $field_name_escaped . '" id="' . $field_name_escaped . '" value="' . $value . "\" size=\"2\" />\n";
 								break;
 							case 'hidden':
 								$value = ( '' === get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) ? $custom_field['default'] : get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) );
 								// Hidden field
-								echo '<input type="hidden" name="' . $this->prefix . $custom_field['name'] . '" id="' . $this->prefix . $custom_field['name'] . '" value="' . $value . "\" />\n";
+								echo '<input type="hidden" name="' . $field_name_escaped . '" id="' . $field_name_escaped . '" value="' . $value . "\" />\n";
 								break;
 							default:
 								$value = ( '' === get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) ? $custom_field['default'] : get_post_meta(
 									$post->ID,
-									$this->prefix . $custom_field['name'],
+									$field_name,
 									true
 								) );
 								// Plain text field
-								echo '<label for="' . $this->prefix . $custom_field['name'] . '"><strong>' . $custom_field['title'] . "</strong></label><br/>\n";
-								echo '<input type="text" name="' . $this->prefix . $custom_field['name'] . '" id="' . $this->prefix . $custom_field['name'] . '" value="' . $value . "\" />\n";
+								echo '<label for="' . $field_name_escaped . '"><strong>' . $field_title_escaped . "</strong></label><br/>\n";
+								echo '<input type="text" name="' . $field_name_escaped . '" id="' . $field_name_escaped . '" value="' . $value . "\" />\n";
 								break;
 						}
 						?>
@@ -592,15 +594,16 @@ class CustomFieldsInterface {
 		}
 		foreach ( $this->custom_fields as $custom_field ) {
 			if ( current_user_can( $custom_field['capability'], $post_id ) ) {
-				if ( isset( $_POST[ $this->prefix . $custom_field['name'] ] ) ) {
-					if ( is_array( $_POST[ $this->prefix . $custom_field['name'] ] ) ) {
-						foreach ( $_POST[ $this->prefix . $custom_field['name'] ] as $k => $v ) {
-							$_POST[ $this->prefix . $custom_field['name'] ][ $k ] = trim( $v );
+				$field_name = $this->prefix . $custom_field['name'];
+				if ( isset( $_POST[ $field_name ] ) ) {
+					if ( is_array( $_POST[ $field_name ] ) ) {
+						foreach ( $_POST[ $field_name ] as $k => $v ) {
+							$_POST[ $field_name ][ $k ] = trim( $v );
 						}
 					} else {
-						$_POST[ $this->prefix . $custom_field['name'] ] = trim( $_POST[ $this->prefix . $custom_field['name'] ] );
+						$_POST[ $field_name ] = trim( $_POST[ $field_name ] );
 					}
-					$value = $_POST[ $this->prefix . $custom_field['name'] ];
+					$value = $_POST[ $field_name ];
 					// Auto-paragraphs for any WYSIWYG
 					if ( 'wysiwyg' === $custom_field['type'] ) {
 						$value = wpautop( $value );
@@ -611,9 +614,9 @@ class CustomFieldsInterface {
 					if ( 'number' === $custom_field['type'] ) {
 						$value = intval( $value );
 					}
-					update_post_meta( $post_id, $this->prefix . $custom_field['name'], $value );
+					update_post_meta( $post_id, $field_name, $value );
 				} else {
-					delete_post_meta( $post_id, $this->prefix . $custom_field['name'] );
+					delete_post_meta( $post_id, $field_name );
 				}
 			}
 		}

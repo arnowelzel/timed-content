@@ -204,12 +204,11 @@ class CustomFieldsInterface {
 				}
 				// Output if allowed
 				if ( $output ) {
-					$field_name          = $this->prefix . $custom_field['name'];
-					$field_name_escaped  = htmlspecialchars( $field_name );
-					$field_title_escaped = htmlspecialchars( $custom_field['title'] );
+					$field_name  = $this->prefix . $custom_field['name'];
+					$field_title = $custom_field['title'];
 					?>
 					<div class="form-field form-required"
-						id="<?php echo $field_name_escaped; ?>_div"
+						id="<?php echo esc_html( $field_name ); ?>_div"
 						style="display: <?php echo htmlspecialchars( $custom_field['display'] ); ?>">
 						<?php
 						switch ( $custom_field['type'] ) {
@@ -222,18 +221,18 @@ class CustomFieldsInterface {
 								if ( '' === $checked_value || false === $checked_value ) {
 									$checked_value = $custom_field['default'];
 								}
-									echo '<strong>' . $field_title_escaped . "</strong><br />\n";
+								echo '<strong>' . esc_html( $field_title ) . "</strong><br />\n";
 								foreach ( $custom_field['values'] as $value => $label ) {
-									echo '<input type="radio" name="' . $field_name_escaped . '" id="' . $field_name_escaped . '_' . $value . '" value="' . $value . '"';
+									echo '<input type="radio" name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . '_' . $value . '" value="' . $value . '"';
 									if ( $checked_value === $value || intval( $checked_value ) === $value ) {
 										echo ' checked="checked"';
 									}
-									echo ' /><label for="' . $field_name_escaped . '_' . $value . '" style="display: inline;">' . $label . "</label><br />\n";
+									echo ' /><label for="' . esc_html( $field_name ) . '_' . $value . '" style="display: inline;">' . $label . "</label><br />\n";
 								}
 								break;
 							case 'menu':
 									// menu
-									echo '<label for="' . $field_name_escaped . '" style="display:inline;"><strong>' . $field_title_escaped . "</strong></label><br />\n";
+									echo '<label for="' . esc_html( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . "</strong></label><br />\n";
 								if ( sizeof( $custom_field['values'] ) === 0 ) {
 									echo '<em>' . __( 'This menu is empty.', 'timed-content' ) . "</em>\n";
 								} else {
@@ -246,7 +245,7 @@ class CustomFieldsInterface {
 										$field_name,
 										true
 									) );
-									echo '<select name="' . $field_name_escaped . '[]" id="' . $field_name_escaped . '" style="width: auto; height: auto; padding: 3px;" size="' . $custom_field['size'] . "\" multiple=\"multiple\">\n";
+									echo '<select name="' . esc_html( $field_name ) . '[]" id="' . esc_html( $field_name ) . '" style="width: auto; height: auto; padding: 3px;" size="' . $custom_field['size'] . "\" multiple=\"multiple\">\n";
 									foreach ( $custom_field['values'] as $value => $label ) {
 										echo "\t<option value=\"" . $value . '"';
 										if ( $selected_value === $value || intval( $selected_value ) === $value ) {
@@ -259,7 +258,7 @@ class CustomFieldsInterface {
 								break;
 							case 'list':
 								// list
-								echo '<label for="' . $field_name_escaped . '" style="display:inline;"><strong>' . $field_title_escaped . "</strong></label><br />\n";
+								echo '<label for="' . esc_html( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . "</strong></label><br />\n";
 								if ( sizeof( $custom_field['values'] ) === 0 ) {
 									echo '<em>' . __( 'This menu is empty.', 'timed-content' ) . "</em>\n";
 								} else {
@@ -272,7 +271,7 @@ class CustomFieldsInterface {
 										$field_name,
 										true
 									) );
-									echo '<select name="' . $field_name_escaped . '" id="' . $field_name_escaped . "\" style=\"width: auto;\">\n";
+									echo '<select name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . "\" style=\"width: auto;\">\n";
 									foreach ( $custom_field['values'] as $value => $label ) {
 										echo "\t<option value=\"" . $value . '"';
 										if ( $selected_value === $value || intval( $selected_value ) === $value ) {
@@ -295,8 +294,8 @@ class CustomFieldsInterface {
 									true
 								) );
 
-								echo '<label for="' . $field_name_escaped . '" style="display:inline;"><strong>' . $field_title_escaped . "</strong></label><br />\n";
-								echo '<select name="' . $field_name_escaped . '" id="' . $field_name_escaped . "\" style=\"width: auto;\">\n";
+								echo '<label for="' . esc_html( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . "</strong></label><br />\n";
+								echo '<select name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . "\" style=\"width: auto;\">\n";
 								echo CustomFieldsInterface::generate_timezone_select_options( $selected_value );
 								echo "</select>\n";
 								break;
@@ -312,8 +311,8 @@ class CustomFieldsInterface {
 									true
 								) );
 
-								echo '<label for="' . $field_name_escaped . '" style="display:inline;"><strong>' . $field_title_escaped . "</strong><br />\n";
-								echo '<input type="checkbox" name="' . $field_name_escaped . '" id="' . $field_name_escaped . '" value="yes"';
+								echo '<label for="' . esc_html( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . "</strong><br />\n";
+								echo '<input type="checkbox" name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . '" value="yes"';
 								if ( 'yes' === $checked_value ) {
 									echo ' checked="checked"';
 								}
@@ -331,12 +330,12 @@ class CustomFieldsInterface {
 									true
 								) );
 
-								echo '<strong>' . $field_title_escaped . "</strong><br />\n";
+								echo '<strong>' . esc_html( $field_title ) . "</strong><br />\n";
 								if ( sizeof( $custom_field['values'] ) === 0 ) {
 									echo '<em>' . __( 'This menu is empty.', 'timed-content' ) . "</em>\n";
 								} else {
 									foreach ( $custom_field['values'] as $value => $label ) {
-										echo '<input type="checkbox" name="' . $field_name_escaped . '[]" id="' . $field_name_escaped . '_' . $value . '" value="' . $value . '"';
+										echo '<input type="checkbox" name="' . esc_html( $field_name ) . '[]" id="' . esc_html( $field_name ) . '_' . $value . '" value="' . $value . '"';
 										if ( ( is_array( $checked_value ) ) && ( in_array(
 											(string) $value,
 											$checked_value,
@@ -344,7 +343,7 @@ class CustomFieldsInterface {
 										) ) ) {
 											echo ' checked="checked"';
 										}
-										echo ' /><label for="' . $field_name_escaped . '_' . $value . '" style="display: inline;" >' . $label . "</label><br />\n";
+										echo ' /><label for="' . esc_html( $field_name ) . '_' . $value . '" style="display: inline;" >' . $label . "</label><br />\n";
 									}
 								}
 								break;
@@ -360,17 +359,17 @@ class CustomFieldsInterface {
 									$field_name,
 									true
 								) );
-								echo '<label for="' . $field_name_escaped . '"><strong>' . $field_title_escaped . "</strong></label><br />\n";
-								echo '<textarea name="' . $field_name_escaped . '" id="' . $field_name_escaped . '" columns="30" rows="3">' . htmlspecialchars( $value ) . "</textarea>\n";
+								echo '<label for="' . esc_html( $field_name ) . '"><strong>' . esc_html( $field_title ) . "</strong></label><br />\n";
+								echo '<textarea name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . '" columns="30" rows="3">' . htmlspecialchars( $value ) . "</textarea>\n";
 								// WYSIWYG
 								if ( 'wysiwyg' === $custom_field['type'] ) {
 									?>
 							<script type="text/javascript">
 								//<![CDATA[
 								jQuery(document).ready(function () {
-									jQuery("<?php echo $field_name_escaped; ?>").addClass("mceEditor");
+									jQuery("<?php echo esc_html( $field_name ); ?>").addClass("mceEditor");
 									if (typeof (tinyMCE) == "object" && typeof (tinyMCE.execCommand) == "function") {
-										tinyMCE.execCommand("mceAddControl", false, "<?php echo $field_name_escaped; ?>");
+										tinyMCE.execCommand("mceAddControl", false, "<?php echo esc_html( $field_name ); ?>");
 									}
 								});
 								//]]>
@@ -393,22 +392,22 @@ class CustomFieldsInterface {
 							<script type="text/javascript">
 								//<![CDATA[
 								jQuery(document).ready(function () {
-									var <?php echo $field_name_escaped; ?>Options = {
+									var <?php echo esc_html( $field_name ); ?>Options = {
 										defaultColor: false,
 										hide: true,
 										palettes: true
 									};
 
-									jQuery("#<?php echo $field_name_escaped; ?>").wpColorPicker(<?php echo $field_name_escaped; ?>Options);
+									jQuery("#<?php echo esc_html( $field_name ); ?>").wpColorPicker(<?php echo esc_html( $field_name ); ?>Options);
 								});
 								//]]>
 							</script>
 								<?php
-								echo '<label for="' . $field_name_escaped . '"><strong>' . $field_title_escaped . "</strong></label><br />\n";
-								echo '<input type="text" name="' . $field_name_escaped . '" id="' . $field_name_escaped . '" value="' . $value . "\" size=\"7\" maxlength=\"7\" style=\"width: 100px;\" />\n";
+								echo '<label for="' . esc_html( $field_name ) . '"><strong>' . esc_html( $field_title ) . "</strong></label><br />\n";
+								echo '<input type="text" name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . '" value="' . $value . "\" size=\"7\" maxlength=\"7\" style=\"width: 100px;\" />\n";
 								break;
 							case 'date':
-								echo '<label for="' . $field_name_escaped . '" style="display:inline;"><strong>' . $field_title_escaped . "</strong></label><br />\n";
+								echo '<label for="' . esc_html( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . "</strong></label><br />\n";
 								$value = ( '' === get_post_meta(
 									$post->ID,
 									$field_name,
@@ -423,7 +422,7 @@ class CustomFieldsInterface {
 							<script type="text/javascript">
 								//<![CDATA[
 								jQuery(document).ready(function () {
-									jQuery("#<?php echo $field_name_escaped; ?>").datepicker(
+									jQuery("#<?php echo esc_html( $field_name ); ?>").datepicker(
 										{
 												<?php
 												if ( isset( $custom_field['custom_functions'] ) ) {
@@ -438,10 +437,10 @@ class CustomFieldsInterface {
 								//]]>
 							</script>
 								<?php
-								echo '<input type="text" name="' . $field_name_escaped . '" id="' . $field_name_escaped . '" value="' . htmlspecialchars( $value ) . "\" style=\"width: 175px;\" />\n";
+								echo '<input type="text" name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . '" value="' . htmlspecialchars( $value ) . "\" style=\"width: 175px;\" />\n";
 								break;
 							case 'datetime':
-								echo '<span style="display:inline;"><strong>' . $field_title_escaped . "</strong></span><br />\n";
+								echo '<span style="display:inline;"><strong>' . esc_html( $field_title ) . "</strong></span><br />\n";
 								$value = ( '' === get_post_meta(
 									$post->ID,
 									$field_name,
@@ -460,13 +459,13 @@ class CustomFieldsInterface {
 							<script type="text/javascript">
 								//<![CDATA[
 								jQuery(document).ready(function () {
-									jQuery("#<?php echo $field_name_escaped; ?>_date").datepicker(
+									jQuery("#<?php echo esc_html( $field_name ); ?>_date").datepicker(
 										{
 											changeMonth: true,
 											changeYear: true
 										}
 									);
-									jQuery("#<?php echo $field_name_escaped; ?>_time").timepicker(
+									jQuery("#<?php echo esc_html( $field_name ); ?>_time").timepicker(
 										{
 											defaultTime: 'now'
 										}
@@ -475,18 +474,18 @@ class CustomFieldsInterface {
 								//]]>
 							</script>
 								<?php
-								echo '<label for="' . $field_name_escaped . '_date" style="display:inline;"><em>' . _x(
+								echo '<label for="' . esc_html( $field_name ) . '_date" style="display:inline;"><em>' . _x(
 									'Date',
 									'Date field label',
 									'timed-content'
 								) . ":</em></label>\n";
-								echo '<input type="text" name="' . $field_name_escaped . '[date]" id="' . $field_name_escaped . '_date" value="' . $value['date'] . "\" style=\"width: 175px;\" />\n";
-								echo '<label for="' . $field_name_escaped . '_time" style="display:inline;"><em>' . _x(
+								echo '<input type="text" name="' . esc_html( $field_name ) . '[date]" id="' . esc_html( $field_name ) . '_date" value="' . $value['date'] . "\" style=\"width: 175px;\" />\n";
+								echo '<label for="' . esc_html( $field_name ) . '_time" style="display:inline;"><em>' . _x(
 									'Time',
 									'Time field label',
 									'timed-content'
 								) . ":</em></label>\n";
-								echo '<input type="text" name="' . $field_name_escaped . '[time]" id="' . $field_name_escaped . '_time" value="' . $value['time'] . "\" style=\"width: 125px;\" />\n";
+								echo '<input type="text" name="' . esc_html( $field_name ) . '[time]" id="' . esc_html( $field_name ) . '_time" value="' . $value['time'] . "\" style=\"width: 125px;\" />\n";
 								break;
 							case 'number':
 								$value = get_post_meta(
@@ -504,7 +503,7 @@ class CustomFieldsInterface {
 							<script type="text/javascript">
 								//<![CDATA[
 								jQuery(document).ready(function () {
-									jQuery("#<?php echo $field_name_escaped; ?>").spinner(
+									jQuery("#<?php echo esc_html( $field_name ); ?>").spinner(
 										{
 											stop: function (event, ui) {
 												jQuery(this).trigger("change");
@@ -523,8 +522,8 @@ class CustomFieldsInterface {
 								//]]>
 							</script>
 								<?php
-								echo '<label for="' . $field_name_escaped . '" style="display:inline;"><strong>' . $field_title_escaped . "</strong></label><br />\n";
-								echo '<input type="text" name="' . $field_name_escaped . '" id="' . $field_name_escaped . '" value="' . $value . "\" size=\"2\" />\n";
+								echo '<label for="' . esc_html( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . "</strong></label><br />\n";
+								echo '<input type="text" name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . '" value="' . $value . "\" size=\"2\" />\n";
 								break;
 							case 'hidden':
 								$value = ( '' === get_post_meta(
@@ -537,7 +536,7 @@ class CustomFieldsInterface {
 									true
 								) );
 								// Hidden field
-								echo '<input type="hidden" name="' . $field_name_escaped . '" id="' . $field_name_escaped . '" value="' . $value . "\" />\n";
+								echo '<input type="hidden" name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . '" value="' . $value . "\" />\n";
 								break;
 							default:
 								$value = ( '' === get_post_meta(
@@ -550,8 +549,8 @@ class CustomFieldsInterface {
 									true
 								) );
 								// Plain text field
-								echo '<label for="' . $field_name_escaped . '"><strong>' . $field_title_escaped . "</strong></label><br/>\n";
-								echo '<input type="text" name="' . $field_name_escaped . '" id="' . $field_name_escaped . '" value="' . $value . "\" />\n";
+								echo '<label for="' . esc_html( $field_name ) . '"><strong>' . esc_html( $field_title ) . "</strong></label><br/>\n";
+								echo '<input type="text" name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . '" value="' . $value . "\" />\n";
 								break;
 						}
 						?>

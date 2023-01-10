@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Class timedContentPlugin
- *
- * @package TimedContent
- */
 class TimedContentPlugin {
 	var $rule_freq_array;
 	var $rule_days_array;
@@ -202,10 +197,6 @@ class TimedContentPlugin {
 
 	/**
 	 * Filter to change sort order to title
-	 *
-	 * @param array $messages Array of currently defined messages for post types
-	 *
-	 * @return mixed            Array of messages with appropriate messages for Timed Content Rules added in
 	 */
 	function timed_content_pre_get_posts( $query ) {
 		if ( $query->is_admin ) {
@@ -220,10 +211,6 @@ class TimedContentPlugin {
 
 	/**
 	 * Filter to customize CRUD messages for Timed Content Rules
-	 *
-	 * @param array $messages Array of currently defined messages for post types
-	 *
-	 * @return mixed          Array of messages with appropriate messages for Timed Content Rules added in
 	 */
 	function timed_content_rule_updated_messages( $messages ) {
 		global $post;
@@ -263,6 +250,9 @@ class TimedContentPlugin {
 		return $messages;
 	}
 
+	/**
+	 * Convert localized date/time string to English
+	 */
 	function date_time_to_english( $date, $time = '' ) {
 		$months       = array(
 			'January',
@@ -299,11 +289,6 @@ class TimedContentPlugin {
 
 	/**
 	 * Advances a date by a set number of days
-	 *
-	 * @param int $current UNIX timestamp of the date before incrementing
-	 * @param int $interval_multiplier Number of days to advance
-	 *
-	 * @return int                     Unix timestamp of the new date
 	 */
 	function get_next_day( $current, $interval_multiplier ) {
 		return strtotime( $interval_multiplier . ' day', $current );
@@ -311,29 +296,15 @@ class TimedContentPlugin {
 
 	/**
 	 * Advances a date/time by a set number of hours
-	 *
-	 * @param int $current UNIX timestamp of the date/time before incrementing
-	 * @param int $interval_multiplier Number of hours to advance
-	 *
-	 * @return int Unix timestamp of the new date/time
 	 */
 	function get_next_hour( $current, $interval_multiplier ) {
 		return strtotime( $interval_multiplier . ' hour', $current );
 	}
 
 	/**
-	 * Advances a date/time by a set number of weeks
-	 *
 	 * Advances a date/time by a set number of weeks.  If given an array of days of the week, this function will
 	 * advance the date/time to the next day in that array in the jumped-to week. Use this function if you're
 	 * repeating an action on specific days of the week (i.e., on Weekdays, Tuesdays and Thursdays, etc.).
-	 *
-	 * @param int $current UNIX timestamp of the date before incrementing
-	 * @param int $interval_multiplier Number of weeks to advance
-	 * @param array $days Array of integers symbolizing the days of the week to
-	 *                                 repeat on (0 - Sunday, 1 - Monday, ..., 6 - Saturday).
-	 *
-	 * @return int                     Unix timestamp of the new date
 	 */
 	function get_next_week( $current, $interval_multiplier, $days = array() ) {
 		// If $days is empty, advance $interval_multiplier weeks from $current and return the timestamp
@@ -366,17 +337,9 @@ class TimedContentPlugin {
 	}
 
 	/**
-	 * Advances a date by a set number of months
-	 *
 	 * Advances a date by a set number of months.  When the date of the first active period lies
 	 * on the 29th, 30th, or 31st of the month, this function will return a date on the the last day
 	 * of the month for those months not containing those days.
-	 *
-	 * @param int $current UNIX timestamp of the date before incrementing
-	 * @param int $start UNIX timestamp of the first active period's date
-	 * @param int $interval_multiplier Number of months to advance
-	 *
-	 * @return int                     Unix timestamp of the new date
 	 */
 	function get_next_month( $current, $start, $interval_multiplier ) {
 		// For most days in the month, it's pretty easy. Get the day of month of the starting date.
@@ -462,14 +425,7 @@ class TimedContentPlugin {
 	/**
 	 * Advances a date to the 'n'th weekday of the next month (eg., first Wednesday, third Monday, last Friday, etc.).
 	 *
-	 * NB: if $ordinal is set to '4' and $day is set to '7', it wil return the last day of the month.
-	 *
-	 * @param int $current UNIX timestamp of the date before incrementing
-	 * @param int $ordinal Integer symbolizing the ordinal (0 - first, 1 - second, 2 - third, 3 - fourth, 4 - last)
-	 * @param int $day Integers symbolizing the days of the week to repeat on
-	 *                 (0 - Sunday, 1 - Monday, ..., 6 - Saturday, 7 - day).
-	 *
-	 * @return int         Unix timestamp of the new date
+	 * Note: If $ordinal is set to '4' and $day is set to '7', it wil return the last day of the month.
 	 */
 	function get_nth_weekday_of_month( $current, $ordinal, $day ) {
 		// First, get the month/year we need to work with
@@ -541,11 +497,6 @@ class TimedContentPlugin {
 
 	/**
 	 * Advances a date by a set number of years
-	 *
-	 * @param int $current UNIX timestamp of the date before incrementing
-	 * @param int $interval_multiplier Number of years to advance
-	 *
-	 * @return int                     Unix timestamp of the new date
 	 */
 	function get_next_year( $current, $interval_multiplier ) {
 		return strtotime( $interval_multiplier . ' year', $current );
@@ -553,19 +504,21 @@ class TimedContentPlugin {
 
 	/**
 	 * Validates the various Timed Content Rule parameters and returns a series of error messages.
-	 *
-	 * @param $args  Array of Timed Content Rule parameters
-	 *
-	 * @return array Array of error messages
 	 */
 	function validate( $args ) {
 		$errors = array();
 
-		$instance_start = DateTime::createFromFormat( 'Y-m-d', $args['instance_start']['date'] );
+		$instance_start = DateTime::createFromFormat(
+			'Y-m-d H:i',
+			$args['instance_start']['date'] . ' ' . $args['instance_start']['time']
+		);
 		if ( false !== $instance_start ) {
 			$instance_start = $instance_start->getTimestamp();
 		}
-		$instance_end = DateTime::createFromFormat( 'Y-m-d', $args['instance_end']['date'] );
+		$instance_end = DateTime::createFromFormat(
+			'Y-m-d H:i',
+			$args['instance_end']['date'] . ' ' . $args['instance_end']['time']
+		);
 		if ( false !== $instance_end ) {
 			$instance_end = $instance_end->getTimestamp();
 		}
@@ -620,14 +573,6 @@ class TimedContentPlugin {
 
 	/**
 	 * Helper to determine if the current rule loop is already finished
-	 *
-	 * @param $recurr_type
-	 * @param $current
-	 * @param $last_occurrence_start
-	 * @param $period_count
-	 * @param $num_repeat
-	 *
-	 * @return bool
 	 */
 	function loop_test( $recurr_type, $current, $last_occurrence_start, $period_count, $num_repeat ) {
 		if ( 'recurrence_duration_end_date' === $recurr_type ) {
@@ -640,11 +585,7 @@ class TimedContentPlugin {
 	/**
 	 * Calculates the active periods for a Timed Content Rule
 	 *
-	 * @param $args  Array of Timed Content Rule parameters
-	 *
-	 * @return array Array of active periods. Each value in the array describes an active period as an array itself
-	 *               with "start" and "end" keys and values that are either UNIX timestamps or human-readable dates,
-	 *               based on whether $args['human_readable'] is set to true or false.
+	 * Note: if $args['human_readable'] is set to true, then the result will be in human readable form
 	 */
 	function get_rule_periods( $args ) {
 		global $post;
@@ -652,7 +593,7 @@ class TimedContentPlugin {
 		$active_periods = array();
 		$period_count   = 0;
 
-		$human_readable      = $args['human_readable'];
+		$human_readable      = (bool) $args['human_readable'];
 		$freq                = $args['freq'];
 		$timezone            = $args['timezone'];
 		$recurr_type         = $args['recurr_type'];
@@ -674,7 +615,7 @@ class TimedContentPlugin {
 
 		// use debug parameter if current user is allowed to edit the post
 		if ( isset( $_GET['tctest'] ) && ! empty( $post ) && current_user_can( 'edit_post', $post->post_id ) ) {
-			$dt = DateTime::createFromFormat( 'Y-m-d H:i:s', $_GET['tctest'], $this->current_timezone );
+			$dt = DateTime::createFromFormat( 'Y-m-d H:i:s', sanitize_text_field( $_GET['tctest'] ), $this->current_timezone );
 			if ( false !== $dt ) {
 				$right_now_t = $dt->getTimestamp();
 			}
@@ -823,14 +764,7 @@ class TimedContentPlugin {
 	}
 
 	/**
-	 * Wrapper for calling timedContentPlugin::__getRulePeriods() by the ID of a Timed Content Rule
-	 *
-	 * @param int $id ID of the   Timed Content Rule
-	 * @param bool $human_readable If true, the active periods are returned as a human-readable date
-	 *                             as defined by the constant TIMED_CONTENT_DT_FORMAT_OUTPUT otherwise,
-	 *                             they are returned as UNIX timestamps.
-	 *
-	 * @return array               Array of active periods
+	 * Get stored rule periods by ID
 	 */
 	function get_rule_periods_by_id( $id, $human_readable = false ) {
 		if ( TIMED_CONTENT_RULE_TYPE !== get_post_type( $id ) ) {
@@ -885,28 +819,58 @@ class TimedContentPlugin {
 	}
 
 	/**
-	 * Wrapper for calling timedContentPlugin::__getRulePeriods() based on the contents of the form fields
-	 * of the Add Timed Content Rule and Edit Timed Content Rule screens. Output is sent to output as JSON
+	 * Helper to get a sanitized post parameter
+	 */
+	function get_post_param( $name ) {
+		$full_name = TIMED_CONTENT_RULE_POSTMETA_PREFIX . $name;
+		if ( ! isset( $_POST[ $full_name ] ) ) {
+			return '';
+		}
+
+		return sanitize_text_field( $_POST[ $full_name ] );
+	}
+
+	/**
+	 * Helper to get a sanitized post array parameter
+	 */
+	function get_post_array_param( $name ) {
+		$full_name = TIMED_CONTENT_RULE_POSTMETA_PREFIX . $name;
+
+		if ( ! isset( $_POST[ $full_name ] ) || ! is_array( $_POST[ $full_name ] ) ) {
+			return array();
+		}
+
+		$array = array();
+		foreach ( $_POST[ $full_name ] as $key => $value ) {
+			$array[ sanitize_text_field( $key ) ] = sanitize_text_field( $value );
+		}
+
+		return $array;
+	}
+
+	/**
+	 * Get rule periods based on the contents of the form fields of the Add Timed Content Rule and
+	 * Edit Timed Content Rule screens. Output is sent as JSON.
 	 */
 	function timed_content_plugin_get_rule_periods_ajax() {
 		if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
 			$prefix = TIMED_CONTENT_RULE_POSTMETA_PREFIX;
 			$args   = array();
 
-			$args['human_readable']      = ( ( ( isset( $_POST[ $prefix . 'human_readable' ] ) ) && ( 'true' === $_POST[ $prefix . 'human_readable' ] ) ) ? (bool) $_POST[ $prefix . 'human_readable' ] : false );
-			$args['freq']                = $_POST[ $prefix . 'frequency' ];
-			$args['timezone']            = $_POST[ $prefix . 'timezone' ];
-			$args['recurr_type']         = $_POST[ $prefix . 'recurrence_duration' ];
-			$args['num_repeat']          = $_POST[ $prefix . 'recurrence_duration_num_repeat' ];
-			$args['end_date']            = $_POST[ $prefix . 'recurrence_duration_end_date' ];
-			$args['days_of_week']        = ( isset( $_POST[ $prefix . 'weekly_days_of_week_to_repeat' ] ) ? $_POST[ $prefix . 'weekly_days_of_week_to_repeat' ] : array() );
-			$args['interval_multiplier'] = $_POST[ $prefix . 'interval_multiplier' ];
-			$args['instance_start']      = $_POST[ $prefix . 'instance_start' ];
-			$args['instance_end']        = $_POST[ $prefix . 'instance_end' ];
-			$args['monthly_pattern']     = $_POST[ $prefix . 'monthly_nth_weekday_of_month' ];
-			$args['monthly_pattern_ord'] = $_POST[ $prefix . 'monthly_nth_weekday_of_month_nth' ];
-			$args['monthly_pattern_day'] = $_POST[ $prefix . 'monthly_nth_weekday_of_month_weekday' ];
-			$args['exceptions_dates']    = ( isset( $_POST[ $prefix . 'exceptions_dates' ] ) ? $_POST[ $prefix . 'exceptions_dates' ] : array() );
+			$args['human_readable']      = $this->get_post_param( 'human_readable' );
+			$args['freq']                = $this->get_post_param( 'frequency' );
+			$args['timezone']            = $this->get_post_param( 'timezone' );
+			$args['recurr_type']         = $this->get_post_param( 'recurrence_duration' );
+			$args['num_repeat']          = $this->get_post_param( 'recurrence_duration_num_repeat' );
+			$args['end_date']            = $this->get_post_param( 'recurrence_duration_end_date' );
+			$args['days_of_week']        = $this->get_post_array_param( 'weekly_days_of_week_to_repeat' );
+			$args['interval_multiplier'] = $this->get_post_param( 'interval_multiplier' );
+			$args['instance_start']      = $this->get_post_array_param( 'instance_start' );
+			$args['instance_end']        = $this->get_post_array_param( 'instance_end' );
+			$args['monthly_pattern']     = $this->get_post_param( 'monthly_nth_weekday_of_month' );
+			$args['monthly_pattern_ord'] = $this->get_post_param( 'monthly_nth_weekday_of_month_nth' );
+			$args['monthly_pattern_day'] = $this->get_post_param( 'monthly_nth_weekday_of_month_weekday' );
+			$args['exceptions_dates']    = $this->get_post_array_param( 'exceptions_dates' );
 
 			$errors = $this->validate( $args );
 			if ( count( $errors ) === 0 ) {
@@ -920,10 +884,6 @@ class TimedContentPlugin {
 
 	/**
 	 * Returns a human-readable description of a Timed Content Rule
-	 *
-	 * @param $args   Array of Timed Content Rule parameters
-	 *
-	 * @return string Schedule description or warning, if the rule may not work properly
 	 */
 	function get_schedule_description( $args ) {
 		$interval_multiplier = 1;
@@ -931,18 +891,19 @@ class TimedContentPlugin {
 
 		$errors = $this->validate( $args );
 		if ( $errors ) {
-			$messages  = "<div class=\"tcr-warning\">\n";
-			$messages .= '<p class="heading">' . __( 'Warning!', 'timed-content' ) . "</p>\n";
-			$messages .= '<p>' . __( 'Some problems have been detected.  Although you can still publish this rule, it may not work the way you expect.', 'timed-content' ) . "</p>\n";
-			$messages .= "<ul>\n";
-			foreach ( $errors as $error ) {
-				$messages .= '    <li>' . $error . "</li>\n";
-			}
-			$messages .= "</ul>\n";
-			$messages .= '<p>' . __( 'Check that all of the conditions for this rule are correct, and use <b>Show projected dates/times</b> to ensure your rule is working properly.', 'timed-content' ) . "</p>\n";
-			$messages .= "</div>\n";
+			$message = sprintf(
+				'<div class="tcr-warning">' .
+				'<p class="heading">%s</p>' .
+				'<p>%s</p>' .
+				'<ul><li>%s</li></ul>' .
+				'<p>%s</p>',
+				__( 'Warning!', 'timed-content' ),
+				__( 'Some problems have been detected.  Although you can still publish this rule, it may not work the way you expect.', 'timed-content' ),
+				implode( '</li><li>', $errors ),
+				__( 'Check that all of the conditions for this rule are correct, and use <b>Show projected dates/times</b> to ensure your rule is working properly.', 'timed-content' )
+			);
 
-			return $messages;
+			return $message;
 		}
 
 		if ( $args['action'] ) {
@@ -1225,11 +1186,7 @@ class TimedContentPlugin {
 	}
 
 	/**
-	 * Wrapper for calling timedContentPlugin::__getScheduleDescription() by the ID of a Timed Content Rule
-	 *
-	 * @param int $id ID of the Timed Content Rule
-	 *
-	 * @return string
+	 * Get the description of a rule
 	 */
 	function get_schedule_description_by_id( $id ) {
 		$defaults = array();
@@ -1406,28 +1363,28 @@ class TimedContentPlugin {
 	}
 
 	/**
-	 * Wrapper for calling timedContentPlugin::__getRulePeriods() based on the contents of the form fields
-	 * of the Add Timed Content Rule and Edit Timed Content Rule screens.  Output is sent to output as plain text
+	 * Get the descroption based on the contents of the form fields of the Add Timed Content Rule and
+	 * Edit Timed Content Rule screens.  Output is sent to output as plain text.
 	 */
 	function timed_content_plugin_get_schedule_description_ajax() {
 		if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
 			$prefix = TIMED_CONTENT_RULE_POSTMETA_PREFIX;
 			$args   = array();
 
-			$args['action']              = $_POST[ $prefix . 'action' ];
-			$args['freq']                = $_POST[ $prefix . 'frequency' ];
-			$args['timezone']            = $_POST[ $prefix . 'timezone' ];
-			$args['recurr_type']         = $_POST[ $prefix . 'recurrence_duration' ];
-			$args['num_repeat']          = $_POST[ $prefix . 'recurrence_duration_num_repeat' ];
-			$args['end_date']            = $_POST[ $prefix . 'recurrence_duration_end_date' ];
-			$args['days_of_week']        = ( isset( $_POST[ $prefix . 'weekly_days_of_week_to_repeat' ] ) ? $_POST[ $prefix . 'weekly_days_of_week_to_repeat' ] : array() );
-			$args['interval_multiplier'] = $_POST[ $prefix . 'interval_multiplier' ];
-			$args['instance_start']      = $_POST[ $prefix . 'instance_start' ];
-			$args['instance_end']        = $_POST[ $prefix . 'instance_end' ];
-			$args['monthly_pattern']     = $_POST[ $prefix . 'monthly_nth_weekday_of_month' ];
-			$args['monthly_pattern_ord'] = $_POST[ $prefix . 'monthly_nth_weekday_of_month_nth' ];
-			$args['monthly_pattern_day'] = $_POST[ $prefix . 'monthly_nth_weekday_of_month_weekday' ];
-			$args['exceptions_dates']    = ( isset( $_POST[ $prefix . 'exceptions_dates' ] ) ? $_POST[ $prefix . 'exceptions_dates' ] : array() );
+			$args['action']              = $this->get_post_param( $prefix . 'action' );
+			$args['freq']                = $this->get_post_param( 'frequency' );
+			$args['timezone']            = $this->get_post_param( 'timezone' );
+			$args['recurr_type']         = $this->get_post_param( 'recurrence_duration' );
+			$args['num_repeat']          = $this->get_post_param( 'recurrence_duration_num_repeat' );
+			$args['end_date']            = $this->get_post_param( 'recurrence_duration_end_date' );
+			$args['days_of_week']        = $this->get_post_array_param( 'weekly_days_of_week_to_repeat' );
+			$args['interval_multiplier'] = $this->get_post_param( 'interval_multiplier' );
+			$args['instance_start']      = $this->get_post_array_param( 'instance_start' );
+			$args['instance_end']        = $this->get_post_array_param( 'instance_end' );
+			$args['monthly_pattern']     = $this->get_post_param( 'monthly_nth_weekday_of_month' );
+			$args['monthly_pattern_ord'] = $this->get_post_param( 'monthly_nth_weekday_of_month_nth' );
+			$args['monthly_pattern_day'] = $this->get_post_param( 'monthly_nth_weekday_of_month_weekday' );
+			$args['exceptions_dates']    = $this->get_post_array_param( 'exceptions_dates' );
 
 			$response = $this->get_schedule_description( $args );
 
@@ -1440,11 +1397,6 @@ class TimedContentPlugin {
 
 	/**
 	 * Processes the [timed-content-client] shortcode.
-	 *
-	 * @param array $atts Shortcode attributes
-	 * @param null $content Content inside the shortcode
-	 *
-	 * @return string       Processed output
 	 */
 	function client_show_html( $atts, $content = null ) {
 		$show_attr   = '';
@@ -1515,11 +1467,6 @@ class TimedContentPlugin {
 
 	/**
 	 * Processes the [timed-content-server] shortcode.
-	 *
-	 * @param array $atts Shortcode attributes
-	 * @param null $content Content inside the shortcode
-	 *
-	 * @return string       Processed output
 	 */
 	function server_show_html( $atts, $content = null ) {
 		global $post;
@@ -1611,7 +1558,7 @@ class TimedContentPlugin {
 
 		// use debug parameter if current user is allowed to edit the post
 		if ( isset( $_GET['tctest'] ) && ! empty( $post ) && current_user_can( 'edit_post', $post->post_id ) ) {
-			$dt = DateTime::createFromFormat( 'Y-m-d H:i:s', $_GET['tctest'] );
+			$dt = DateTime::createFromFormat( 'Y-m-d H:i:s', sanitize_text_field( $_GET['tctest'] ) );
 			if ( false !== $dt ) {
 				$right_now_t = $dt->getTimestamp();
 			}
@@ -1744,11 +1691,6 @@ class TimedContentPlugin {
 
 	/**
 	 * Processes the [timed-content-rule] shortcode.
-	 *
-	 * @param array $atts Shortcode attributes
-	 * @param null $content Content inside the shortcode
-	 *
-	 * @return string       Processed output
 	 */
 	function rules_show_html( $atts, $content = null ) {
 		global $post;
@@ -1773,7 +1715,7 @@ class TimedContentPlugin {
 
 		// use debug parameter if current user is allowed to edit the post
 		if ( isset( $_GET['tctest'] ) && current_user_can( 'edit_post', $post->post_id ) ) {
-			$dt = DateTime::createFromFormat( 'Y-m-d H:i:s', $_GET['tctest'] );
+			$dt = DateTime::createFromFormat( 'Y-m-d H:i:s', sanitize_text_field( $_GET['tctest'] ) );
 			if ( false !== $dt ) {
 				$right_now_t = $dt->getTimestamp();
 			}
@@ -1828,7 +1770,7 @@ class TimedContentPlugin {
 
 	/**
 	 * Enqueues the CSS code necessary for custom icons for the Timed Content Rules management screens
-	 * and the TinyMCE editor.  Echo'd to output.
+	 * and the TinyMCE editor.
 	 */
 	function add_post_type_icons() {
 		wp_enqueue_style( 'timed-content-dashicons', TIMED_CONTENT_CSS_DASHICONS, false, TIMED_CONTENT_VERSION );
@@ -1862,7 +1804,7 @@ class TimedContentPlugin {
 	function add_admin_header_code() {
 		if ( ( isset( $_GET['post_type'] ) && TIMED_CONTENT_RULE_TYPE === $_GET['post_type'] )
 			|| ( isset( $post_type ) && TIMED_CONTENT_RULE_TYPE === $post_type )
-			|| ( isset( $_GET['post'] ) && TIMED_CONTENT_RULE_TYPE === get_post_type( $_GET['post'] ) ) ) {
+			|| ( isset( $_GET['post'] ) && TIMED_CONTENT_RULE_TYPE === get_post_type( sanitize_text_field( $_GET['post'] ) ) ) ) {
 			wp_enqueue_style( 'thickbox' );
 			wp_enqueue_style( 'timed-content-css', TIMED_CONTENT_CSS, false, TIMED_CONTENT_VERSION );
 			// Enqueue the JavaScript file that manages the meta box UI
@@ -1926,8 +1868,6 @@ class TimedContentPlugin {
 
 	/**
 	 * Initializes the TinyMCE plugin bundled with this WordPress plugin
-	 *
-	 * @return void
 	 */
 	function init_tinymce_plugin() {
 		if ( ( ! current_user_can( 'edit_posts' ) ) && ( ! current_user_can( 'edit_pages' ) ) ) {
@@ -1943,8 +1883,6 @@ class TimedContentPlugin {
 
 	/**
 	 * Sets up variables to use in the TinyMCE plugin's plugin.js.
-	 *
-	 * @return void
 	 */
 	function set_tinymce_plugin_vars() {
 		global $wp_version;
@@ -1973,10 +1911,6 @@ class TimedContentPlugin {
 
 	/**
 	 * Sets up the button for the associated TinyMCE plugin for use in the editor menubar.
-	 *
-	 * @param array $buttons Array of menu buttons already registered with TinyMCE
-	 *
-	 * @return array         The array of TinyMCE menu buttons with ours now loaded in as well
 	 */
 	function register_tinymce_button( $buttons ) {
 		array_push( $buttons, '|', 'timed_content' );
@@ -1986,10 +1920,6 @@ class TimedContentPlugin {
 
 	/**
 	 * Loads the associated TinyMCE plugin into TinyMCE's plugin array
-	 *
-	 * @param array $plugin_array Array of plugins already registered with TinyMCE
-	 *
-	 * @return array                The array of TinyMCE plugins with ours now loaded in as well
 	 */
 	function add_timed_content_tinymce_plugin( $plugin_array ) {
 		$plugin_array['timed_content'] = TIMED_CONTENT_PLUGIN_URL . '/tinymce_plugin/plugin.js';
@@ -2000,8 +1930,6 @@ class TimedContentPlugin {
 	/**
 	 * Generates JavaScript array of objects describing Timed Content rules.  Used in the dialog box created by
 	 * timedContentPlugin::timedContentPluginGetTinyMCEDialog().
-	 *
-	 * @return string JavaScript array describing the Timed Content rules
 	 */
 	function get_rules_js() {
 		$the_js    = "var rules = [\n";
@@ -2039,8 +1967,6 @@ class TimedContentPlugin {
 
 	/**
 	 * Display a dialog box for this plugin's associated TinyMCE plugin.  Called from TinyMCE via AJAX.
-	 *
-	 * @return void
 	 */
 	function timed_content_plugin_get_tinymce_dialog() {
 		wp_enqueue_style( TIMED_CONTENT_SLUG . '-jquery-ui-css', TIMED_CONTENT_JQUERY_UI_CSS );
@@ -2102,8 +2028,6 @@ class TimedContentPlugin {
 
 	/**
 	 * Add custom columns to the Timed Content Rules overview page
-	 *
-	 * @return void
 	 */
 	function add_desc_column_head( $defaults ) {
 		unset( $defaults['date'] );
@@ -2115,26 +2039,26 @@ class TimedContentPlugin {
 
 	/**
 	 * Display content associated with custom columns on the Timed Content rules overview page
-	 *
-	 * @param $column_name  Name of the column to be displayed
-	 * @param $post_ID      ID of the Timed Content Rule being listed
 	 */
-	function add_desc_column_content( $column_name, $post_ID ) {
+	function add_desc_column_content( $column_name, $post_id ) {
 		if ( 'shortcode' === $column_name ) {
-			echo '<code>[' . TIMED_CONTENT_SHORTCODE_RULE . ' id="' . $post_ID . '"]...[/' . TIMED_CONTENT_SHORTCODE_RULE . ']</code>';
+			echo sprintf(
+				'<code>[%s id="%s"]...[/%s]</code>',
+				TIMED_CONTENT_SHORTCODE_RULE,
+				$post_id,
+				TIMED_CONTENT_SHORTCODE_RULE
+			);
 		}
 		if ( 'description' === $column_name ) {
-			$desc = $this->get_schedule_description_by_id( $post_ID );
+			$desc = $this->get_schedule_description_by_id( $post_id );
 			if ( $desc ) {
-				echo '<em>' . $desc . '</em>';
+				echo sprintf( '<em>%s</em>', $desc );
 			}
 		}
 	}
 
 	/**
 	 * Display a count of Timed Content rules in the Dashboard's Right Now widget
-	 *
-	 * @return void
 	 */
 	function add_rules_count() {
 		if ( ! post_type_exists( TIMED_CONTENT_RULE_TYPE ) ) {
@@ -2179,8 +2103,6 @@ class TimedContentPlugin {
 
 	/**
 	 * Setup custom fields for Timed Content rules
-	 *
-	 * @return void
 	 */
 	function setup_custom_fields() {
 		global $post;
@@ -2455,17 +2377,28 @@ FUNC;
 			),
 		);
 
+		$rule_description = '';
+		if ( isset( $_GET['post'] ) ) {
+			$post_id = intval( $_GET['post'] );
+			if ( get_post_type( $post_id ) === TIMED_CONTENT_RULE_TYPE ) {
+				$rule_description = $this->get_schedule_description_by_id( $post_id );
+			}
+		}
+
+		$label = sprintf(
+			'<div id="schedule_desc" style="font-style: italic; overflow-y: auto;">%s</div>' .
+			'<div id="tcr-dialogHolder" style="display:none;"></div>' .
+			'<div style="padding-top: 10px;">' .
+			'<input type="button" class="button button-primary" id="timed_content_rule_test" value="%s" />' .
+			'</div>',
+			$rule_description,
+			__( 'Show projected dates/times', 'timed-content' )
+		);
+
 		$scf = new CustomFieldsInterface(
 			'timed_content_rule_schedule',
 			__( 'Rule description/schedule', 'timed-content' ),
-			'<div id="schedule_desc" style="font-style: italic; overflow-y: auto;">'
-			. ( isset( $_GET['post'] ) && ( TIMED_CONTENT_RULE_TYPE === get_post_type( $_GET['post'] ) ) ? $this->get_schedule_description_by_id( intval( $_GET['post'] ) ) : $this->get_schedule_description_by_id( intval( 0 ) ) )
-			. '</div>'
-			. '<div id="tcr-dialogHolder" style="display:none;"></div>'
-			. '<div style="padding-top: 10px;"><input type="button" class="button button-primary" id="timed_content_rule_test" value="' . __(
-				'Show projected dates/times',
-				'timed-content'
-			) . '" /></div>',
+			$label,
 			TIMED_CONTENT_RULE_POSTMETA_PREFIX,
 			array( TIMED_CONTENT_RULE_TYPE ),
 			array(),
@@ -2516,10 +2449,6 @@ FUNC;
 
 	/**
 	 * Strips indices from an array
-	 *
-	 * @param $array_to_strip
-	 *
-	 * @return array Processed array
 	 */
 	function strip_array_indices( $array_to_strip ) {
 		foreach ( $array_to_strip as $array_item ) {
@@ -2531,10 +2460,6 @@ FUNC;
 
 	/**
 	 * Convert dates and times to ISO format if needed
-	 *
-	 * @param array $args Existing date and time values
-	 *
-	 * @return array      Converted date values in ISO format
 	 */
 	function convert_date_time_parameters_to_iso( $args ) {
 		$date_parsed = date_create_from_format( 'Y-m-d', $args['instance_start']['date'] );
@@ -2574,10 +2499,6 @@ FUNC;
 
 	/**
 	 * Convert time to ISO format if needed
-	 *
-	 * @param string $time Existing time value
-	 *
-	 * @return string      Converted time values in ISO format
 	 */
 	function convert_time_to_iso( $time ) {
 		if ( strpos( $time, 'AM' ) !== false ) {
@@ -2599,9 +2520,6 @@ FUNC;
 
 	/**
 	 * Set the timezone to be used for format_date()
-	 *
-	 * @param $timezone
-	 * @return void
 	 */
 	function set_format_timezone( $timezone ) {
 		$this->current_timezone = new DateTimeZone( $timezone );
@@ -2611,11 +2529,6 @@ FUNC;
 	}
 	/**
 	 * Format a given timestamp with the specified timezone
-	 *
-	 * @param int $timestamp
-	 * @param DateTimeZone $timezone
-	 *
-	 * @return string
 	 */
 	function format_timestamp( $format, $timestamp ) {
 		try {

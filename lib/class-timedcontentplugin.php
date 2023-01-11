@@ -2342,15 +2342,6 @@ class TimedContentPlugin {
 			),
 		);
 
-		$exceptions_dates_picker_on_select = <<<FUNC
-onSelect: function (dateText, inst) {
-                jQuery("#timed_content_rule_exceptions_dates option[value='0']").remove();
-                jQuery("#timed_content_rule_exceptions_dates").append('<option value="' + dateText + '">' + dateText + '</option>');
-                jQuery(this).val("");
-                jQuery(this).trigger("change");
-            },
-FUNC;
-
 		$this->rule_exceptions_custom_fields = array(
 			array(
 				'name'             => 'exceptions_dates_picker',
@@ -2361,7 +2352,6 @@ FUNC;
 				'default'          => '',
 				'scope'            => array( TIMED_CONTENT_RULE_TYPE ),
 				'capability'       => 'edit_posts',
-				'custom_functions' => $exceptions_dates_picker_on_select,
 			),
 			array(
 				'name'        => 'exceptions_dates',

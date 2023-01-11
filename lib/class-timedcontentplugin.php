@@ -1258,71 +1258,85 @@ class TimedContentPlugin {
 			$prefix . 'weekly_days_of_week_to_repeat',
 			true
 		) );
-		if ( '0' === $args['freq'] ) {
-			$args['interval_multiplier'] = ( false === get_post_meta(
-				$id,
-				$prefix . 'hourly_num_of_hours',
-				true
-			) ? $defaults['hourly_num_of_hours'] : get_post_meta(
-				$id,
-				$prefix . 'hourly_num_of_hours',
-				true
-			) );
+		switch ( $args['freq'] ) {
+			case '0':
+				$args['interval_multiplier'] = ( false === get_post_meta(
+					$id,
+					$prefix . 'hourly_num_of_hours',
+					true
+				) ? $defaults['hourly_num_of_hours'] : get_post_meta(
+					$id,
+					$prefix . 'hourly_num_of_hours',
+					true
+				) );
+				break;
+			case '1':
+				$args['interval_multiplier'] = ( false === get_post_meta(
+					$id,
+					$prefix . 'daily_num_of_days',
+					true
+				) ? $defaults['daily_num_of_days'] : get_post_meta(
+					$id,
+					$prefix . 'daily_num_of_days',
+					true
+				) );
+				break;
+			case '2':
+				$args['interval_multiplier'] = ( false === get_post_meta(
+					$id,
+					$prefix . 'weekly_num_of_weeks',
+					true
+				) ? $defaults['weekly_num_of_weeks'] : get_post_meta(
+					$id,
+					$prefix . 'weekly_num_of_weeks',
+					true
+				) );
+				break;
+			case '3':
+				$args['interval_multiplier'] = ( false === get_post_meta(
+					$id,
+					$prefix . 'monthly_num_of_months',
+					true
+				) ? $defaults['monthly_num_of_months'] : get_post_meta(
+					$id,
+					$prefix . 'monthly_num_of_months',
+					true
+				) );
+				break;
+			case '4':
+				$args['interval_multiplier'] = ( false === get_post_meta(
+					$id,
+					$prefix . 'yearly_num_of_years',
+					true
+				) ? $defaults['yearly_num_of_years'] : get_post_meta(
+					$id,
+					$prefix . 'yearly_num_of_years',
+					true
+				) );
+				break;
 		}
-		if ( '1' === $args['freq'] ) {
-			$args['interval_multiplier'] = ( false === get_post_meta(
-				$id,
-				$prefix . 'daily_num_of_days',
-				true
-			) ? $defaults['daily_num_of_days'] : get_post_meta(
-				$id,
-				$prefix . 'daily_num_of_days',
-				true
-			) );
-		}
-		if ( '2' === $args['freq'] ) {
-			$args['interval_multiplier'] = ( false === get_post_meta(
-				$id,
-				$prefix . 'weekly_num_of_weeks',
-				true
-			) ? $defaults['weekly_num_of_weeks'] : get_post_meta(
-				$id,
-				$prefix . 'weekly_num_of_weeks',
-				true
-			) );
-		}
-		if ( '3' === $args['freq'] ) {
-			$args['interval_multiplier'] = ( false === get_post_meta(
-				$id,
-				$prefix . 'monthly_num_of_months',
-				true
-			) ? $defaults['monthly_num_of_months'] : get_post_meta(
-				$id,
-				$prefix . 'monthly_num_of_months',
-				true
-			) );
-		}
-		if ( '4' === $args['freq'] ) {
-			$args['interval_multiplier'] = ( false === get_post_meta(
-				$id,
-				$prefix . 'yearly_num_of_years',
-				true
-			) ? $defaults['yearly_num_of_years'] : get_post_meta(
-				$id,
-				$prefix . 'yearly_num_of_years',
-				true
-			) );
-		}
-		$args['instance_start']      = ( false === get_post_meta(
+		$args['instance_start'] = ( false === get_post_meta(
 			$id,
 			$prefix . 'instance_start',
 			true
 		) ? $defaults['instance_start'] : get_post_meta( $id, $prefix . 'instance_start', true ) );
-		$args['instance_end']        = ( false === get_post_meta(
+		if ( ! is_array( $args['instance_start'] ) ) {
+			$args['instance_start'] = array(
+				'date' => '',
+				'time' => '',
+			);
+		}
+		$args['instance_end'] = ( false === get_post_meta(
 			$id,
 			$prefix . 'instance_end',
 			true
 		) ? $defaults['instance_end'] : get_post_meta( $id, $prefix . 'instance_end', true ) );
+		if ( ! is_array( $args['instance_end'] ) ) {
+			$args['instance_end'] = array(
+				'date' => '',
+				'time' => '',
+			);
+		}
 		$args['monthly_pattern']     = ( false === get_post_meta(
 			$id,
 			$prefix . 'monthly_nth_weekday_of_month',
@@ -2375,25 +2389,16 @@ class TimedContentPlugin {
 			}
 		}
 
-		$label = sprintf(
-			'<div id="schedule_desc" style="font-style: italic; overflow-y: auto;">%s</div>' .
-			'<div id="tcr-dialogHolder" style="display:none;"></div>' .
-			'<div style="padding-top: 10px;">' .
-			'<input type="button" class="button button-primary" id="timed_content_rule_test" value="%s" />' .
-			'</div>',
-			$rule_description,
-			__( 'Show projected dates/times', 'timed-content' )
-		);
-
 		$scf = new CustomFieldsInterface(
 			'timed_content_rule_schedule',
 			__( 'Rule description/schedule', 'timed-content' ),
-			$label,
+			'',
 			TIMED_CONTENT_RULE_POSTMETA_PREFIX,
 			array( TIMED_CONTENT_RULE_TYPE ),
 			array(),
 			$this->jquery_ui_datetime_datepicker_i18n,
-			$this->jquery_ui_datetime_timepicker_i18n
+			$this->jquery_ui_datetime_timepicker_i18n,
+			$rule_description,
 		);
 		$ocf = new CustomFieldsInterface(
 			'timed_content_rule_initial_event',

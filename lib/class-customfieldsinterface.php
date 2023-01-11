@@ -35,9 +35,14 @@ class CustomFieldsInterface {
 	var $jquery_ui_datetime_timepicker_i18n;
 
 	/**
+	 * @var string $rule_description_as_html Description of the rule as HTML
+	 */
+	var $rule_description_as_html;
+
+	/**
 	 * Constructor
 	 */
-	function __construct( $handle, $label, $desc, $prefix, $post_types, $custom_fields, $jquery_ui_datetime_datepicker_i18n, $jquery_ui_datetime_timepicker_i18n ) {
+	function __construct( $handle, $label, $desc, $prefix, $post_types, $custom_fields, $jquery_ui_datetime_datepicker_i18n, $jquery_ui_datetime_timepicker_i18n, $rule_description_as_html = '' ) {
 		$this->handle                             = $handle;
 		$this->label                              = $label;
 		$this->desc                               = $desc;
@@ -46,6 +51,7 @@ class CustomFieldsInterface {
 		$this->custom_fields                      = $custom_fields;
 		$this->jquery_ui_datetime_datepicker_i18n = $jquery_ui_datetime_datepicker_i18n;
 		$this->jquery_ui_datetime_timepicker_i18n = $jquery_ui_datetime_timepicker_i18n;
+		$this->rule_description_as_html           = $rule_description_as_html;
 
 		add_action( 'admin_menu', array( &$this, 'create_custom_fields' ) );
 		add_action( 'save_post', array( &$this, 'save_custom_fields' ), 1, 2 );
@@ -161,7 +167,7 @@ class CustomFieldsInterface {
 				if ( function_exists( 'add_meta_box' ) ) {
 					add_meta_box(
 						$this->handle,
-						wp_kses_post( $this->label ),
+						$this->label,
 						array( &$this, 'display_custom_fields' ),
 						$a_post_type,
 						'normal',
@@ -177,377 +183,384 @@ class CustomFieldsInterface {
 	 */
 	function display_custom_fields() {
 		global $post;
-		?>
-		<p><?php echo $this->desc; ?></p>
-		<div class="form-wrap">
-			<?php
-			wp_nonce_field( $this->handle, $this->handle . '_wpnonce', false, true );
-			foreach ( $this->custom_fields as $custom_field ) {
-				// Check scope
-				$scope  = $custom_field['scope'];
-				$output = false;
-				foreach ( $scope as $scope_item ) {
-					switch ( $scope_item ) {
-						default:
-							if ( $post->post_type === $scope_item ) {
-								$output = true;
-							}
-							break;
-					}
-					if ( $output ) {
+
+		if ( '' !== $this->rule_description_as_html ) {
+			// If there is a rule description, then use this as we are not allowed to use generated
+			// HTML code as variable without escaping or sanitizing but we need the button element
+
+			echo '<div id="schedule_desc" style="font-style: italic; overflow-y: auto;">';
+			echo wp_kses_post( $this->rule_description_as_html );
+			echo '</div>';
+			echo '<div id="tcr-dialogHolder" style="display:none;"></div>';
+			echo '<div style="padding-top: 10px;">';
+			echo '<input type="button" class="button button-primary" id="timed_content_rule_test" value="' .
+				__( 'Show projected dates/times', 'timed-content' ) .
+				'" />';
+			echo '</div>';
+		} else {
+			// Otherwise output the description as text
+
+			echo '<p>' . esc_html( $this->desc ) . '</p>';
+		}
+		echo '<div class="form-wrap">';
+		wp_nonce_field( $this->handle, $this->handle . '_wpnonce', false, true );
+		foreach ( $this->custom_fields as $custom_field ) {
+			// Check scope
+			$scope  = $custom_field['scope'];
+			$output = false;
+			foreach ( $scope as $scope_item ) {
+				switch ( $scope_item ) {
+					default:
+						if ( $post->post_type === $scope_item ) {
+							$output = true;
+						}
 						break;
-					}
 				}
-				// Check capability
-				if ( ! current_user_can( $custom_field['capability'], $post->ID ) ) {
-					$output = false;
-				}
-				// Output if allowed
 				if ( $output ) {
-					$field_name  = $this->prefix . $custom_field['name'];
-					$field_title = $custom_field['title'];
-					?>
-					<div class="form-field form-required"
-						id="<?php echo esc_attr( $field_name ); ?>_div"
-						style="display: <?php echo esc_attr( $custom_field['display'] ); ?>">
-						<?php
-						switch ( $custom_field['type'] ) {
-							case 'radio':
-									$checked_value = get_post_meta(
-										$post->ID,
-										$field_name,
-										true
-									);
-								if ( '' === $checked_value || false === $checked_value ) {
-									$checked_value = $custom_field['default'];
-								}
-								echo '<strong>' . esc_html( $field_title ) . "</strong><br />\n";
-								foreach ( $custom_field['values'] as $value => $label ) {
-									echo '<input type="radio" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '_' . $value . '" value="' . $value . '"';
-									if ( $checked_value === $value || intval( $checked_value ) === $value ) {
-										echo ' checked="checked"';
-									}
-									echo ' /><label for="' . esc_attr( $field_name ) . '_' . $value . '" style="display: inline;">' . $label . "</label><br />\n";
-								}
-								break;
-							case 'menu':
-									// menu
-									echo '<label for="' . esc_attr( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . "</strong></label><br />\n";
-								if ( sizeof( $custom_field['values'] ) === 0 ) {
-									echo '<em>' . __( 'This menu is empty.', 'timed-content' ) . "</em>\n";
-								} else {
-									$selected_value = ( '' === get_post_meta(
-										$post->ID,
-										$field_name,
-										true
-									) ? $custom_field['default'] : get_post_meta(
-										$post->ID,
-										$field_name,
-										true
-									) );
-									echo '<select name="' . esc_attr( $field_name ) . '[]" id="' . esc_attr( $field_name ) . '" style="width: auto; height: auto; padding: 3px;" size="' . $custom_field['size'] . "\" multiple=\"multiple\">\n";
-									foreach ( $custom_field['values'] as $value => $label ) {
-										echo "\t<option value=\"" . $value . '"';
-										if ( $selected_value === $value || intval( $selected_value ) === $value ) {
-											echo ' selected="selected"';
-										}
-										echo '>' . $label . "</option>\n";
-									}
-									echo "</select>\n";
-								}
-								break;
-							case 'list':
-								// list
-								echo '<label for="' . esc_attr( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . "</strong></label><br />\n";
-								if ( sizeof( $custom_field['values'] ) === 0 ) {
-									echo '<em>' . __( 'This menu is empty.', 'timed-content' ) . "</em>\n";
-								} else {
-									$selected_value = ( '' === get_post_meta(
-										$post->ID,
-										$field_name,
-										true
-									) ? $custom_field['default'] : get_post_meta(
-										$post->ID,
-										$field_name,
-										true
-									) );
-									echo '<select name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . "\" style=\"width: auto;\">\n";
-									foreach ( $custom_field['values'] as $value => $label ) {
-										echo "\t<option value=\"" . esc_attr( $value ) . '"';
-										if ( $selected_value === $value || intval( $selected_value ) === $value ) {
-											echo ' selected="selected"';
-										}
-										echo '>' . $label . "</option>\n";
-									}
-									echo "</select>\n";
-								}
-								break;
-							case 'timezone-list':
-								// timezone list
-								$selected_value = ( '' === get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) ? $custom_field['default'] : get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) );
-
-								echo '<label for="' . esc_attr( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . "</strong></label><br />\n";
-								echo '<select name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . "\" style=\"width: auto;\">\n";
-								echo CustomFieldsInterface::generate_timezone_select_options( $selected_value );
-								echo "</select>\n";
-								break;
-							case 'checkbox':
-								// Checkbox
-								$checked_value = ( '' === get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) ? $custom_field['default'] : get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) );
-
-								echo '<label for="' . esc_attr( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . "</strong><br />\n";
-								echo '<input type="checkbox" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" value="yes"';
-								if ( 'yes' === $checked_value ) {
-									echo ' checked="checked"';
-								}
-								echo ' />' . __( 'Yes', 'timed-content' ) . "</label>\n";
-								break;
-							case 'checkbox-list':
-								// Checkbox list
-								$checked_value = ( '' === get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) ? $custom_field['default'] : get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) );
-
-								echo '<strong>' . esc_html( $field_title ) . "</strong><br />\n";
-								if ( sizeof( $custom_field['values'] ) === 0 ) {
-									echo '<em>' . __( 'This menu is empty.', 'timed-content' ) . "</em>\n";
-								} else {
-									foreach ( $custom_field['values'] as $value => $label ) {
-										echo '<input type="checkbox" name="' . esc_attr( $field_name ) . '[]" id="' . esc_attr( $field_name ) . '_' . $value . '" value="' . $value . '"';
-										if ( ( is_array( $checked_value ) ) && ( in_array(
-											(string) $value,
-											$checked_value,
-											true
-										) ) ) {
-											echo ' checked="checked"';
-										}
-										echo ' /><label for="' . esc_attr( $field_name ) . '_' . $value . '" style="display: inline;" >' . $label . "</label><br />\n";
-									}
-								}
-								break;
-							case 'textarea':
-							case 'wysiwyg':
-								// Text area
-								$value = ( '' === get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) ? $custom_field['default'] : get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) );
-								echo '<label for="' . esc_attr( $field_name ) . '"><strong>' . esc_html( $field_title ) . "</strong></label><br />\n";
-								echo '<textarea name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" columns="30" rows="3">' . esc_html( $value ) . "</textarea>\n";
-								// WYSIWYG
-								if ( 'wysiwyg' === $custom_field['type'] ) {
-									echo '<script type="text/javascript">' . PHP_EOL;
-									echo '//<![CDATA[' . PHP_EOL;
-									echo 'jQuery(document).ready(function () {' . PHP_EOL;
-									echo '  jQuery("' . esc_js( $field_name ) . '").addClass("mceEditor");' . PHP_EOL;
-									echo '  if (typeof (tinyMCE) == "object" && typeof (tinyMCE.execCommand) == "function") {' . PHP_EOL;
-									echo '    tinyMCE.execCommand("mceAddControl", false, "' . esc_js( $field_name ) . '");' . PHP_EOL;
-									echo '  }' . PHP_EOL;
-									echo '});' . PHP_EOL;
-									echo '//]]>' . PHP_EOL;
-									echo '</script>' . PHP_EOL;
-								}
-								break;
-							case 'color-picker':
-								$value = ( '' === get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) ? $custom_field['default'] : get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) );
-								// Color picker using WP's built-in Iris jQuery plugin
-								echo '<script type="text/javascript">' . PHP_EOL;
-								echo '//<![CDATA[' . PHP_EOL;
-								echo 'jQuery(document).ready(function () {' . PHP_EOL;
-								echo '  var ' . esc_js( $field_name ) . 'Options = {' . PHP_EOL;
-								echo '    defaultColor: false,' . PHP_EOL;
-								echo '    hide: true,' . PHP_EOL;
-								echo '    palettes: true' . PHP_EOL;
-								echo '  };' . PHP_EOL;
-								echo '  jQuery("#' . esc_js( $field_name ) . '").wpColorPicker(' . esc_js( $field_name ) . 'Options);' . PHP_EOL;
-								echo '});' . PHP_EOL;
-								echo '//]]>' . PHP_EOL;
-								echo '</script>' . PHP_EOL;
-								echo '<label for="' . esc_attr( $field_name ) . '"><strong>' . esc_html( $field_title ) . "</strong></label><br />\n";
-								echo '<input type="text" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" value="' . $value . "\" size=\"7\" maxlength=\"7\" style=\"width: 100px;\" />\n";
-								break;
-							case 'date':
-								echo '<label for="' . esc_attr( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . "</strong></label><br />\n";
-								$value = ( '' === get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) ? $custom_field['default'] : get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) );
-								// Date picker using WP's built-in Datepicker jQuery plugin
-								echo '<script type="text/javascript">' . PHP_EOL;
-								echo '//<![CDATA[' . PHP_EOL;
-								echo 'jQuery(document).ready(function () {' . PHP_EOL;
-								echo '  jQuery("#' . esc_js( $field_name ) . '").datepicker(' . PHP_EOL;
-								echo '    {' . PHP_EOL;
-								echo '      onSelect: function (dateText, inst) {' . PHP_EOL;
-								echo '        jQuery("#timed_content_rule_exceptions_dates option[value=\'0\']").remove();' . PHP_EOL;
-								echo '        jQuery("#timed_content_rule_exceptions_dates").append(\'<option value="\' + dateText + \'">\' + dateText + \'</option>\');' . PHP_EOL;
-								echo '        jQuery(this).val("");' . PHP_EOL;
-								echo '        jQuery(this).trigger("change");' . PHP_EOL;
-								echo '      },' . PHP_EOL;
-								echo '      changeMonth: true,' . PHP_EOL;
-								echo '      changeYear: true' . PHP_EOL;
-								echo '    }' . PHP_EOL;
-								echo '  );' . PHP_EOL;
-								echo '});' . PHP_EOL;
-								echo '//]]>' . PHP_EOL;
-								echo '</script>' . PHP_EOL;
-								echo '<input type="text" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" value="' . esc_attr( $value ) . "\" style=\"width: 175px;\" />\n";
-								break;
-							case 'datetime':
-								echo '<span style="display:inline;"><strong>' . esc_html( $field_title ) . "</strong></span><br />\n";
-								$value = ( '' === get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) ? $custom_field['default'] : get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) );
-								foreach ( $value as $k => $v ) {
-									$value[ $k ] = esc_html( $v );
-								}
-								// Date picker using WP's built-in Datepicker jQuery plugin
-								// Time picker using jQuery UI Timepicker: http://fgelinas.com/code/timepicker
-								echo '<script type="text/javascript">' . PHP_EOL;
-								echo '//<![CDATA[' . PHP_EOL;
-								echo 'jQuery(document).ready(function () {' . PHP_EOL;
-								echo '  jQuery("#' . esc_js( $field_name ) . '_date").datepicker({' . PHP_EOL;
-								echo '    changeMonth: true,' . PHP_EOL;
-								echo '    changeYear: true' . PHP_EOL;
-								echo '  });' . PHP_EOL;
-								echo '  jQuery("#' . esc_js( $field_name ) . '_time").timepicker({' . PHP_EOL;
-								echo '    defaultTime: \'now\'' . PHP_EOL;
-								echo '  });' . PHP_EOL;
-								echo '});' . PHP_EOL;
-								echo '//]]>' . PHP_EOL;
-								echo '</script>' . PHP_EOL;
-								echo '<label for="' . esc_attr( $field_name ) . '_date" style="display:inline;"><em>' . _x(
-									'Date',
-									'Date field label',
-									'timed-content'
-								) . ":</em></label>\n";
-								echo '<input type="text" name="' . esc_attr( $field_name ) . '[date]" id="' . esc_attr( $field_name ) . '_date" value="' . $value['date'] . "\" style=\"width: 175px;\" />\n";
-								echo '<label for="' . esc_attr( $field_name ) . '_time" style="display:inline;"><em>' . _x(
-									'Time',
-									'Time field label',
-									'timed-content'
-								) . ":</em></label>\n";
-								echo '<input type="text" name="' . esc_attr( $field_name ) . '[time]" id="' . esc_attr( $field_name ) . '_time" value="' . $value['time'] . "\" style=\"width: 125px;\" />\n";
-								break;
-							case 'number':
-								$value = get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								);
-								if ( '' === $value ) {
-									$value = $custom_field['default'];
-								} else {
-									$value = intval( $value );
-								}
-								// Number picker using WP's built-in Spinner jQuery plugin
-								echo '<script type="text/javascript">' . PHP_EOL;
-								echo '//<![CDATA[' . PHP_EOL;
-								echo 'jQuery(document).ready(function () {' . PHP_EOL;
-								echo '  jQuery("#' . esc_js( $field_name ) . '").spinner({' . PHP_EOL;
-								echo '    stop: function (event, ui) {' . PHP_EOL;
-								echo '      jQuery(this).trigger("change");' . PHP_EOL;
-								echo '    },' . PHP_EOL;
-								if ( isset( $custom_field['min'] ) ) {
-									echo '    min: ' . esc_js( $custom_field['min'] ) . ', ';
-								}
-								if ( isset( $custom_field['max'] ) ) {
-									echo '	  max: ' . esc_js( $custom_field['max'] ) . ', ';
-								}
-								echo '  });' . PHP_EOL;
-								echo '});' . PHP_EOL;
-								echo '//]]>' . PHP_EOL;
-								echo '</script>' . PHP_EOL;
-								echo '<label for="' . esc_attr( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . '</strong></label><br />';
-								echo '<input type="text" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" value="' . $value . '" size="2" />';
-								break;
-							case 'hidden':
-								$value = ( '' === get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) ? $custom_field['default'] : get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) );
-								// Hidden field
-								echo '<input type="hidden" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" value="' . $value . "\" />\n";
-								break;
-							default:
-								$value = ( '' === get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) ? $custom_field['default'] : get_post_meta(
-									$post->ID,
-									$field_name,
-									true
-								) );
-								// Plain text field
-								echo '<label for="' . esc_attr( $field_name ) . '"><strong>' . esc_html( $field_title ) . "</strong></label><br/>\n";
-								echo '<input type="text" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" value="' . $value . "\" />\n";
-								break;
-						}
-						?>
-						<?php
-						if ( isset( $custom_field['description'] ) ) {
-							echo '<p>' . $custom_field['description'] . "</p>\n";
-						}
-						?>
-					</div>
-					<?php
+					break;
 				}
 			}
-			?>
-		</div>
-		<?php
+			// Check capability
+			if ( ! current_user_can( $custom_field['capability'], $post->ID ) ) {
+				$output = false;
+			}
+			// Output if allowed
+			if ( $output ) {
+				$field_name  = $this->prefix . $custom_field['name'];
+				$field_title = $custom_field['title'];
+				echo '<div class="form-field form-required"';
+				echo ' id="' . esc_attr( $field_name ) . '_div"';
+				echo ' style="display: ' . esc_attr( $custom_field['display'] ) . '">';
+				switch ( $custom_field['type'] ) {
+					case 'radio':
+						$checked_value = get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						);
+						if ( '' === $checked_value || false === $checked_value ) {
+							$checked_value = $custom_field['default'];
+						}
+						echo '<strong>' . esc_html( $field_title ) . '</strong><br />';
+						foreach ( $custom_field['values'] as $value => $label ) {
+							echo '<input type="radio" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '_' . esc_attr( $value ) . '" value="' . esc_attr( $value ) . '"';
+							if ( $checked_value === $value || intval( $checked_value ) === $value ) {
+								echo ' checked="checked"';
+							}
+							echo ' /><label for="' . esc_attr( $field_name ) . '_' . esc_attr( $value ) . '" style="display: inline;">' . esc_html( $label ) . '</label><br />';
+						}
+						break;
+					case 'menu':
+						echo '<label for="' . esc_attr( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . '</strong></label><br />';
+						if ( sizeof( $custom_field['values'] ) === 0 ) {
+							echo '<em>' . __( 'This menu is empty.', 'timed-content' ) . '</em>';
+						} else {
+							$selected_value = ( '' === get_post_meta(
+								$post->ID,
+								$field_name,
+								true
+							) ? $custom_field['default'] : get_post_meta(
+								$post->ID,
+								$field_name,
+								true
+							) );
+							echo '<select name="' . esc_attr( $field_name ) . '[]" id="' . esc_attr( $field_name ) . '" style="width: auto; height: auto; padding: 3px;" size="' . esc_attr( $custom_field['size'] ) . '" multiple="multiple">';
+							foreach ( $custom_field['values'] as $value => $label ) {
+								echo '<option value="' . esc_attr( $value ) . '"';
+								if ( $selected_value === $value || intval( $selected_value ) === $value ) {
+									echo ' selected="selected"';
+								}
+								echo '>' . esc_html( $label ) . '</option>';
+							}
+							echo '</select>';
+						}
+						break;
+					case 'list':
+						// list
+						echo '<label for="' . esc_attr( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . '</strong></label><br />';
+						if ( sizeof( $custom_field['values'] ) === 0 ) {
+							echo '<em>' . __( 'This menu is empty.', 'timed-content' ) . '</em>';
+						} else {
+							$selected_value = ( '' === get_post_meta(
+								$post->ID,
+								$field_name,
+								true
+							) ? $custom_field['default'] : get_post_meta(
+								$post->ID,
+								$field_name,
+								true
+							) );
+							echo '<select name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" style="width: auto;">';
+							foreach ( $custom_field['values'] as $value => $label ) {
+								echo '<option value="' . esc_attr( $value ) . '"';
+								if ( $selected_value === $value || intval( $selected_value ) === $value ) {
+									echo ' selected="selected"';
+								}
+								echo '>' . esc_html( $label ) . '</option>';
+							}
+							echo '</select>';
+						}
+						break;
+					case 'timezone-list':
+						// timezone list
+						$selected_value = ( '' === get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) ? $custom_field['default'] : get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) );
+
+						echo '<label for="' . esc_attr( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . '</strong></label><br />';
+						echo '<select name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" style="width: auto;">';
+						echo CustomFieldsInterface::generate_timezone_select_options( $selected_value );
+						echo '</select>';
+						break;
+					case 'checkbox':
+						// Checkbox
+						$checked_value = ( '' === get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) ? $custom_field['default'] : get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) );
+
+						echo '<label for="' . esc_attr( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . '</strong><br />';
+						echo '<input type="checkbox" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" value="yes"';
+						if ( 'yes' === $checked_value ) {
+							echo ' checked="checked"';
+						}
+						echo ' />' . __( 'Yes', 'timed-content' ) . '</label>';
+						break;
+					case 'checkbox-list':
+						// Checkbox list
+						$checked_value = ( '' === get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) ? $custom_field['default'] : get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) );
+
+						echo '<strong>' . esc_html( $field_title ) . '</strong><br />';
+						if ( sizeof( $custom_field['values'] ) === 0 ) {
+							echo '<em>' . __( 'This menu is empty.', 'timed-content' ) . '</em>';
+						} else {
+							foreach ( $custom_field['values'] as $value => $label ) {
+								echo '<input type="checkbox" name="' . esc_attr( $field_name ) . '[]" id="' . esc_attr( $field_name ) . '_' . esc_attr( $value ) . '" value="' . esc_attr( $value ) . '"';
+								if ( ( is_array( $checked_value ) ) && ( in_array(
+									(string) $value,
+									$checked_value,
+									true
+								) ) ) {
+									echo ' checked="checked"';
+								}
+								echo ' /><label for="' . esc_attr( $field_name ) . '_' . esc_attr( $value ) . '" style="display: inline;" >' . esc_html( $label ) . '</label><br />';
+							}
+						}
+						break;
+					case 'textarea':
+					case 'wysiwyg':
+						// Text area
+						$value = ( '' === get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) ? $custom_field['default'] : get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) );
+						echo '<label for="' . esc_attr( $field_name ) . '"><strong>' . esc_html( $field_title ) . '</strong></label><br />';
+						echo '<textarea name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" columns="30" rows="3">' . esc_html( $value ) . '</textarea>';
+						// WYSIWYG
+						if ( 'wysiwyg' === $custom_field['type'] ) {
+							echo '<script type="text/javascript">' . PHP_EOL;
+							echo '//<![CDATA[' . PHP_EOL;
+							echo 'jQuery(document).ready(function () {' . PHP_EOL;
+							echo '  jQuery("' . esc_js( $field_name ) . '").addClass("mceEditor");' . PHP_EOL;
+							echo '  if (typeof (tinyMCE) == "object" && typeof (tinyMCE.execCommand) == "function") {' . PHP_EOL;
+							echo '    tinyMCE.execCommand("mceAddControl", false, "' . esc_js( $field_name ) . '");' . PHP_EOL;
+							echo '  }' . PHP_EOL;
+							echo '});' . PHP_EOL;
+							echo '//]]>' . PHP_EOL;
+							echo '</script>' . PHP_EOL;
+						}
+						break;
+					case 'color-picker':
+						$value = ( '' === get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) ? $custom_field['default'] : get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) );
+						// Color picker using WP's built-in Iris jQuery plugin
+						echo '<script type="text/javascript">' . PHP_EOL;
+						echo '//<![CDATA[' . PHP_EOL;
+						echo 'jQuery(document).ready(function () {' . PHP_EOL;
+						echo '  var ' . esc_js( $field_name ) . 'Options = {' . PHP_EOL;
+						echo '    defaultColor: false,' . PHP_EOL;
+						echo '    hide: true,' . PHP_EOL;
+						echo '    palettes: true' . PHP_EOL;
+						echo '  };' . PHP_EOL;
+						echo '  jQuery("#' . esc_js( $field_name ) . '").wpColorPicker(' . esc_js( $field_name ) . 'Options);' . PHP_EOL;
+						echo '});' . PHP_EOL;
+						echo '//]]>' . PHP_EOL;
+						echo '</script>' . PHP_EOL;
+						echo '<label for="' . esc_attr( $field_name ) . '"><strong>' . esc_html( $field_title ) . '</strong></label><br />';
+						echo '<input type="text" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" value="' . esc_attr( $value ) . '" size="7" maxlength="7" style="width: 100px;" />';
+						break;
+					case 'date':
+						echo '<label for="' . esc_attr( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . '</strong></label><br />';
+						$value = ( '' === get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) ? $custom_field['default'] : get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) );
+						// Date picker using WP's built-in Datepicker jQuery plugin
+						echo '<script type="text/javascript">' . PHP_EOL;
+						echo '//<![CDATA[' . PHP_EOL;
+						echo 'jQuery(document).ready(function () {' . PHP_EOL;
+						echo '  jQuery("#' . esc_js( $field_name ) . '").datepicker(' . PHP_EOL;
+						echo '    {' . PHP_EOL;
+						echo '      onSelect: function (dateText, inst) {' . PHP_EOL;
+						echo '        jQuery("#timed_content_rule_exceptions_dates option[value=\'0\']").remove();' . PHP_EOL;
+						echo '        jQuery("#timed_content_rule_exceptions_dates").append(\'<option value="\' + dateText + \'">\' + dateText + \'</option>\');' . PHP_EOL;
+						echo '        jQuery(this).val("");' . PHP_EOL;
+						echo '        jQuery(this).trigger("change");' . PHP_EOL;
+						echo '      },' . PHP_EOL;
+						echo '      changeMonth: true,' . PHP_EOL;
+						echo '      changeYear: true' . PHP_EOL;
+						echo '    }' . PHP_EOL;
+						echo '  );' . PHP_EOL;
+						echo '});' . PHP_EOL;
+						echo '//]]>' . PHP_EOL;
+						echo '</script>' . PHP_EOL;
+						echo '<input type="text" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" value="' . esc_attr( $value ) . '" style="width: 175px;" />';
+						break;
+					case 'datetime':
+						echo '<span style="display:inline;"><strong>' . esc_html( $field_title ) . '</strong></span><br />';
+						$value = ( '' === get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) ? $custom_field['default'] : get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) );
+						foreach ( $value as $k => $v ) {
+							$value[ $k ] = esc_html( $v );
+						}
+						// Date picker using WP's built-in Datepicker jQuery plugin
+						// Time picker using jQuery UI Timepicker: http://fgelinas.com/code/timepicker
+						echo '<script type="text/javascript">' . PHP_EOL;
+						echo '//<![CDATA[' . PHP_EOL;
+						echo 'jQuery(document).ready(function () {' . PHP_EOL;
+						echo '  jQuery("#' . esc_js( $field_name ) . '_date").datepicker({' . PHP_EOL;
+						echo '    changeMonth: true,' . PHP_EOL;
+						echo '    changeYear: true' . PHP_EOL;
+						echo '  });' . PHP_EOL;
+						echo '  jQuery("#' . esc_js( $field_name ) . '_time").timepicker({' . PHP_EOL;
+						echo '    defaultTime: \'now\'' . PHP_EOL;
+						echo '  });' . PHP_EOL;
+						echo '});' . PHP_EOL;
+						echo '//]]>' . PHP_EOL;
+						echo '</script>' . PHP_EOL;
+						echo '<label for="' . esc_attr( $field_name ) . '_date" style="display:inline;"><em>' . _x(
+							'Date',
+							'Date field label',
+							'timed-content'
+						) . ':</em></label>';
+						echo '<input type="text" name="' . esc_attr( $field_name ) . '[date]" id="' . esc_attr( $field_name ) . '_date" value="' . esc_attr( $value['date'] ) . '" style="width: 175px;" />';
+						echo '<label for="' . esc_attr( $field_name ) . '_time" style="display:inline;"><em>' . _x(
+							'Time',
+							'Time field label',
+							'timed-content'
+						) . ":</em></label>\n";
+						echo '<input type="text" name="' . esc_attr( $field_name ) . '[time]" id="' . esc_attr( $field_name ) . '_time" value="' . esc_attr( $value['time'] ) . '" style="width: 125px;" />';
+						break;
+					case 'number':
+						$value = get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						);
+						if ( '' === $value ) {
+							$value = $custom_field['default'];
+						} else {
+							$value = intval( $value );
+						}
+						// Number picker using WP's built-in Spinner jQuery plugin
+						echo '<script type="text/javascript">' . PHP_EOL;
+						echo '//<![CDATA[' . PHP_EOL;
+						echo 'jQuery(document).ready(function () {' . PHP_EOL;
+						echo '  jQuery("#' . esc_js( $field_name ) . '").spinner({' . PHP_EOL;
+						echo '    stop: function (event, ui) {' . PHP_EOL;
+						echo '      jQuery(this).trigger("change");' . PHP_EOL;
+						echo '    },' . PHP_EOL;
+						if ( isset( $custom_field['min'] ) ) {
+							echo '    min: ' . esc_js( $custom_field['min'] ) . ', ';
+						}
+						if ( isset( $custom_field['max'] ) ) {
+							echo '	  max: ' . esc_js( $custom_field['max'] ) . ', ';
+						}
+						echo '  });' . PHP_EOL;
+						echo '});' . PHP_EOL;
+						echo '//]]>' . PHP_EOL;
+						echo '</script>' . PHP_EOL;
+						echo '<label for="' . esc_attr( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . '</strong></label><br />';
+						echo '<input type="text" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" value="' . esc_attr( $value ) . '" size="2" />';
+						break;
+					case 'hidden':
+						$value = ( '' === get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) ? $custom_field['default'] : get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) );
+						// Hidden field
+						echo '<input type="hidden" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" value="' . esc_attr( $value ) . ' />';
+						break;
+					default:
+						$value = ( '' === get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) ? $custom_field['default'] : get_post_meta(
+							$post->ID,
+							$field_name,
+							true
+						) );
+						// Plain text field
+						echo '<label for="' . esc_attr( $field_name ) . '"><strong>' . esc_html( $field_title ) . '</strong></label><br/>';
+						echo '<input type="text" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" value="' . esc_attr( $value ) . ' />';
+						break;
+				}
+				if ( isset( $custom_field['description'] ) ) {
+					echo '<p>' . esc_html( $custom_field['description'] ) . '</p>';
+				}
+				echo '</div>';
+			}
+		}
+		echo '</div>';
 	}
 
 	/**

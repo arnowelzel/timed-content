@@ -161,7 +161,7 @@ class CustomFieldsInterface {
 				if ( function_exists( 'add_meta_box' ) ) {
 					add_meta_box(
 						$this->handle,
-						wp_kses_post($this->label),
+						wp_kses_post( $this->label ),
 						array( &$this, 'display_custom_fields' ),
 						$a_post_type,
 						'normal',
@@ -273,7 +273,7 @@ class CustomFieldsInterface {
 									) );
 									echo '<select name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . "\" style=\"width: auto;\">\n";
 									foreach ( $custom_field['values'] as $value => $label ) {
-										echo "\t<option value=\"" . esc_attr($value) . '"';
+										echo "\t<option value=\"" . esc_attr( $value ) . '"';
 										if ( $selected_value === $value || intval( $selected_value ) === $value ) {
 											echo ' selected="selected"';
 										}
@@ -418,25 +418,25 @@ class CustomFieldsInterface {
 									true
 								) );
 								// Date picker using WP's built-in Datepicker jQuery plugin
-                                $script = '<script type="text/javascript">' . PHP_EOL .
-                                    '//<![CDATA['  . PHP_EOL .
-                                    'jQuery(document).ready(function () {' . PHP_EOL .
-                                    '  jQuery("#' . esc_html( $field_name ) . '").datepicker(' . PHP_EOL .
-                                    '    {'  . PHP_EOL .
-                                    '      onSelect: function (dateText, inst) {' . PHP_EOL .
-                                    '        jQuery("#timed_content_rule_exceptions_dates option[value=\'0\']").remove();' . PHP_EOL .
-                                    '        jQuery("#timed_content_rule_exceptions_dates").append(\'<option value="\' + dateText + \'">\' + dateText + \'</option>\');' . PHP_EOL .
-                                    '        jQuery(this).val("");' . PHP_EOL .
-                                    '        jQuery(this).trigger("change");' . PHP_EOL .
-                                    '      },' . PHP_EOL .
-                                    '      changeMonth: true,' . PHP_EOL .
-                                    '     changeYear: true' . PHP_EOL .
-                                    '    }' . PHP_EOL .
-                                    '  );' . PHP_EOL .
-                                    '});' . PHP_EOL .
-                                    '//]]>' . PHP_EOL .
-                                    '</script>' . PHP_EOL;
-                                echo $script;
+								$script = '<script type="text/javascript">' . PHP_EOL .
+									'//<![CDATA[' . PHP_EOL .
+									'jQuery(document).ready(function () {' . PHP_EOL .
+									'  jQuery("#' . esc_html( $field_name ) . '").datepicker(' . PHP_EOL .
+									'    {' . PHP_EOL .
+									'      onSelect: function (dateText, inst) {' . PHP_EOL .
+									'        jQuery("#timed_content_rule_exceptions_dates option[value=\'0\']").remove();' . PHP_EOL .
+									'        jQuery("#timed_content_rule_exceptions_dates").append(\'<option value="\' + dateText + \'">\' + dateText + \'</option>\');' . PHP_EOL .
+									'        jQuery(this).val("");' . PHP_EOL .
+									'        jQuery(this).trigger("change");' . PHP_EOL .
+									'      },' . PHP_EOL .
+									'      changeMonth: true,' . PHP_EOL .
+									'     changeYear: true' . PHP_EOL .
+									'    }' . PHP_EOL .
+									'  );' . PHP_EOL .
+									'});' . PHP_EOL .
+									'//]]>' . PHP_EOL .
+									'</script>' . PHP_EOL;
+								echo $script;
 								echo '<input type="text" name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . '" value="' . esc_html( $value ) . "\" style=\"width: 175px;\" />\n";
 								break;
 							case 'datetime':

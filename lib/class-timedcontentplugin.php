@@ -2344,14 +2344,14 @@ class TimedContentPlugin {
 
 		$this->rule_exceptions_custom_fields = array(
 			array(
-				'name'             => 'exceptions_dates_picker',
-				'display'          => 'block',
-				'title'            => __( 'Add exception date:', 'timed-content' ),
-				'description'      => __( 'Select a date to add to the exception dates list.', 'timed-content' ),
-				'type'             => 'date',
-				'default'          => '',
-				'scope'            => array( TIMED_CONTENT_RULE_TYPE ),
-				'capability'       => 'edit_posts',
+				'name'        => 'exceptions_dates_picker',
+				'display'     => 'block',
+				'title'       => __( 'Add exception date:', 'timed-content' ),
+				'description' => __( 'Select a date to add to the exception dates list.', 'timed-content' ),
+				'type'        => 'date',
+				'default'     => '',
+				'scope'       => array( TIMED_CONTENT_RULE_TYPE ),
+				'capability'  => 'edit_posts',
 			),
 			array(
 				'name'        => 'exceptions_dates',

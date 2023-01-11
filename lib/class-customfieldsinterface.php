@@ -209,7 +209,7 @@ class CustomFieldsInterface {
 					?>
 					<div class="form-field form-required"
 						id="<?php echo esc_html( $field_name ); ?>_div"
-						style="display: <?php echo htmlspecialchars( $custom_field['display'] ); ?>">
+						style="display: <?php echo esc_html( $custom_field['display'] ); ?>">
 						<?php
 						switch ( $custom_field['type'] ) {
 							case 'radio':
@@ -273,7 +273,7 @@ class CustomFieldsInterface {
 									) );
 									echo '<select name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . "\" style=\"width: auto;\">\n";
 									foreach ( $custom_field['values'] as $value => $label ) {
-										echo "\t<option value=\"" . $value . '"';
+										echo "\t<option value=\"" . esc_attr($value) . '"';
 										if ( $selected_value === $value || intval( $selected_value ) === $value ) {
 											echo ' selected="selected"';
 										}
@@ -360,7 +360,7 @@ class CustomFieldsInterface {
 									true
 								) );
 								echo '<label for="' . esc_html( $field_name ) . '"><strong>' . esc_html( $field_title ) . "</strong></label><br />\n";
-								echo '<textarea name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . '" columns="30" rows="3">' . htmlspecialchars( $value ) . "</textarea>\n";
+								echo '<textarea name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . '" columns="30" rows="3">' . esc_html( $value ) . "</textarea>\n";
 								// WYSIWYG
 								if ( 'wysiwyg' === $custom_field['type'] ) {
 									?>
@@ -437,7 +437,7 @@ class CustomFieldsInterface {
 								//]]>
 							</script>
 								<?php
-								echo '<input type="text" name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . '" value="' . htmlspecialchars( $value ) . "\" style=\"width: 175px;\" />\n";
+								echo '<input type="text" name="' . esc_html( $field_name ) . '" id="' . esc_html( $field_name ) . '" value="' . esc_html( $value ) . "\" style=\"width: 175px;\" />\n";
 								break;
 							case 'datetime':
 								echo '<span style="display:inline;"><strong>' . esc_html( $field_title ) . "</strong></span><br />\n";
@@ -451,7 +451,7 @@ class CustomFieldsInterface {
 									true
 								) );
 								foreach ( $value as $k => $v ) {
-									$value[ $k ] = htmlspecialchars( $v );
+									$value[ $k ] = esc_html( $v );
 								}
 								// Date picker using WP's built-in Datepicker jQuery plugin
 								// Time picker using jQuery UI Timepicker: http://fgelinas.com/code/timepicker
@@ -597,10 +597,10 @@ class CustomFieldsInterface {
 				if ( isset( $_POST[ $field_name ] ) ) {
 					if ( is_array( $_POST[ $field_name ] ) ) {
 						foreach ( $_POST[ $field_name ] as $k => $v ) {
-							$_POST[ $field_name ][ $k ] = trim( $v );
+							$_POST[ $field_name ][ $k ] = trim( sanitize_text_field( $v ) );
 						}
 					} else {
-						$_POST[ $field_name ] = trim( $_POST[ $field_name ] );
+						$_POST[ $field_name ] = trim( sanitize_text_field( $_POST[ $field_name ] ) );
 					}
 					$value = $_POST[ $field_name ];
 					// Auto-paragraphs for any WYSIWYG

@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 class TimedContentPlugin {
 	var $rule_freq_array;

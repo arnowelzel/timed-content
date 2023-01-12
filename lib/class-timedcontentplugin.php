@@ -874,9 +874,8 @@ class TimedContentPlugin {
 
 			$errors = $this->validate( $args );
 			if ( count( $errors ) === 0 ) {
-				$response = json_encode( $this->get_rule_periods( $args ) );
 				header( 'Content-Type: application/json' );
-				echo $response;
+				echo json_encode( $this->get_rule_periods( $args ) );
 			}
 		}
 		die();

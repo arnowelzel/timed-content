@@ -142,7 +142,7 @@
 					</select>
 				</p>
 
-				<p><?php _e( 'WordPress Timezone:', 'timed-content' ); ?> <?php echo get_option( 'timezone_string' ); ?></p>
+				<p><?php _e( 'WordPress Timezone:', 'timed-content' ); ?> <?php echo esc_html( get_option( 'timezone_string' ) ); ?></p>
 			</fieldset>
 			<div class="mceActionPanel">
 				<input type="button" id="insert" name="insert" value="<?php _ex( 'Insert', 'TinyMCE Dialog - Insert button HTML label', 'timed-content' ); ?> " onclick="TimedContentDialog.server_action();"/>

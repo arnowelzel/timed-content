@@ -1399,11 +1399,11 @@ class TimedContentPlugin {
 			$args['monthly_pattern_day'] = $this->get_post_param( 'monthly_nth_weekday_of_month_weekday' );
 			$args['exceptions_dates']    = $this->get_post_array_param( 'exceptions_dates' );
 
-			$response = $this->get_schedule_description( $args );
+			$response = $this-> get_schedule_description( $args );
 
 			// response output
 			header( 'Content-Type: text/plain' );
-			echo $response;
+			echo wp_kses_post($response);
 		}
 		die();
 	}

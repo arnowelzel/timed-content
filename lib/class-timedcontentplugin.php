@@ -2395,7 +2395,7 @@ class TimedContentPlugin {
 			array(),
 			$this->jquery_ui_datetime_datepicker_i18n,
 			$this->jquery_ui_datetime_timepicker_i18n,
-			$rule_description,
+			$rule_description
 		);
 		$ocf = new CustomFieldsInterface(
 			'timed_content_rule_initial_event',

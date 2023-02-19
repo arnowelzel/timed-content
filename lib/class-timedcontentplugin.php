@@ -1457,7 +1457,7 @@ class TimedContentPlugin {
 			$show_attr = sprintf( '_show_%d_%d_%d', $show_min, $show_sec, $show_fade );
 		}
 		if ( ( $hide_min + $hide_sec ) > 0 ) {
-			$show_attr = sprintf( '_hide_%d_%d_%d', $hide_min, $hide_sec, $hide_fade );
+			$hide_attr = sprintf( '_hide_%d_%d_%d', $hide_min, $hide_sec, $hide_fade );
 		}
 
 		$the_class = TIMED_CONTENT_SHORTCODE_CLIENT . $show_attr . $hide_attr;

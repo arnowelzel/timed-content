@@ -1692,7 +1692,7 @@ class TimedContentPlugin {
 			if ( ! empty( $post ) ) {
 				do_action( 'timed_content_server_hide', $post->ID, $show, $hide, $content );
 			} else {
-				do_action( 'timed_content_server_show', null, $show, $hide, $content );
+				do_action( 'timed_content_server_hide', null, $show, $hide, $content );
 			}
 
 			return $debug_message . "\n";

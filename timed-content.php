@@ -14,11 +14,7 @@ defined( 'ABSPATH' ) or die();
 require 'lib/class-customfieldsinterface.php';
 require 'lib/class-timedcontentplugin.php';
 
-<<<<<<< HEAD
-define( 'TIMED_CONTENT_VERSION', '2.78' );
-=======
-define( 'TIMED_CONTENT_VERSION', '2.79' );
->>>>>>> c6fe97ddd336962c5af08a4ec9e4784aa4126b1d
+define( 'TIMED_CONTENT_VERSION', '2.80' );
 define( 'TIMED_CONTENT_SLUG', 'timed-content' );
 define( 'TIMED_CONTENT_PLUGIN_URL', plugins_url() . '/' . TIMED_CONTENT_SLUG );
 define( 'TIMED_CONTENT_SHORTCODE_CLIENT', 'timed-content-client' );

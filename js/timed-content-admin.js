@@ -69,8 +69,7 @@ jQuery( document ).ready(
 					jQuery( "#timed_content_rule_recurrence_duration_num_repeat_div" ).css( "display", "block" );
 				}
 			}
-		).trigger( "change" );timed_content_rule_exceptions_dates_picker
-
+		).trigger( "change" );
 		jQuery( "#timed_content_rule_exceptions_dates" ).on(
 			"dblclick",
 			"option",

@@ -28,6 +28,7 @@ class TimedContentPlugin {
 		add_filter( 'manage_' . TIMED_CONTENT_RULE_TYPE . '_posts_columns', array( $this, 'add_desc_column_head' ) );
 		add_filter( 'pre_get_posts', array( $this, 'timed_content_pre_get_posts' ) );
 		add_filter( 'post_updated_messages', array( $this, 'timed_content_rule_updated_messages' ), 1 );
+		add_filter( 'dashboard_glance_items', array( $this, 'add_rules_count' ) );
 
 		add_action( 'init', array( $this, 'init' ), 2 );
 		add_action( 'wp_head', array( $this, 'add_header_code' ), 1 );
@@ -38,7 +39,6 @@ class TimedContentPlugin {
 		add_action( 'wp_ajax_timedContentPluginGetTinyMCEDialog', array( $this, 'timed_content_plugin_get_tinymce_dialog' ), 1 );
 		add_action( 'wp_ajax_timedContentPluginGetRulePeriodsAjax', array( $this, 'timed_content_plugin_get_rule_periods_ajax' ), 1 );
 		add_action( 'wp_ajax_timedContentPluginGetScheduleDescriptionAjax', array( $this, 'timed_content_plugin_get_schedule_description_ajax' ), 1 );
-		add_action( 'dashboard_glance_items', array( $this, 'add_rules_count' ) );
 		add_action( 'admin_head', array( $this, 'add_post_type_icons' ), 1 );
 
 		add_shortcode( TIMED_CONTENT_SHORTCODE_CLIENT, array( $this, 'client_show_html' ) );
@@ -1792,9 +1792,9 @@ class TimedContentPlugin {
 				content: '\e601';
 			}
 
-			#dashboard_right_now li.<?php echo TIMED_CONTENT_RULE_TYPE; ?>-count a:before {
+			#dashboard_right_now a.<?php echo TIMED_CONTENT_RULE_TYPE; ?>-count:before {
 				font-family: 'timed-content-dashicons' !important;
-				content: '\e601';
+				content: '\e601' !important;
 			}
 
 			.mce-i-timed_content:before {
@@ -2072,6 +2072,7 @@ class TimedContentPlugin {
 	 * Display a count of Timed Content rules in the Dashboard's Right Now widget
 	 */
 	function add_rules_count() {
+		$items = [];
 		if ( ! post_type_exists( TIMED_CONTENT_RULE_TYPE ) ) {
 			return;
 		}
@@ -2085,12 +2086,11 @@ class TimedContentPlugin {
 			'timed-content'
 		);
 		if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
-			echo "<a href='edit.php?post_type=" . TIMED_CONTENT_RULE_TYPE . "'>"
-				. '<li class="' . TIMED_CONTENT_RULE_TYPE . '-count">'
+			$items[] = '<a class="'.TIMED_CONTENT_RULE_TYPE.'-count" href="edit.php?post_type=' . TIMED_CONTENT_RULE_TYPE . '">'
 				. $num
 				. ' '
 				. $text
-				. '</a></li>';
+				. '</a>';
 		}
 
 		if ( $num_posts->pending > 0 ) {
@@ -2102,14 +2102,15 @@ class TimedContentPlugin {
 				'timed-content'
 			);
 			if ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) {
-				echo "<a href='edit.php?post_status=pending&post_type=" . TIMED_CONTENT_RULE_TYPE . "'>"
-					. '<li class="' . TIMED_CONTENT_RULE_TYPE . '-count">'
+				$items[] = '<a class="'.TIMED_CONTENT_RULE_TYPE.'-count" href="edit.php?post_status=pending&post_type=' . TIMED_CONTENT_RULE_TYPE . '">'
 					. $num
 					. ' '
 					. $text
-					. '</a></li>';
+					. '</a>';
 			}
 		}
+
+        return $items;
 	}
 
 	/**

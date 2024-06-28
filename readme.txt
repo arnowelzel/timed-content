@@ -3,8 +3,8 @@
 Contributors: kjvtough, awelzel
 Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
 Requires at least: 3.8
-Tested up to: 6.4
-Stable tag: 2.80
+Tested up to: 6.5
+Stable tag: 2.81
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
@@ -61,6 +61,10 @@ If you want to use Timed Content with Gutenberg you have to add a "Classic" bloc
 5. The "Add Timed Content shortcode" dialog showing the Timed Content Rules tab.
 
 == Changelog ==
+
+= 2.81 =
+
+* Updated compatibility information for WordPress.
 
 = 2.80 =
 

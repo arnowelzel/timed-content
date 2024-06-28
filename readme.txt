@@ -1,7 +1,7 @@
 === Timed Content ===
 
 Contributors: kjvtough, awelzel
-Tags: marketing, marketing tool, post, page, date, time, timer, timed, show, hide, content, schedule, display
+Tags: timed content, marketing tool, schedule
 Requires at least: 3.8
 Tested up to: 6.5
 Stable tag: 2.81

@@ -361,6 +361,8 @@ Your users must have JavaScript enabled for this shortcode to work.
 
 The date and time are expected to be yyyy-mm-dd HH:MM (similar to ISO 8601), for example `2019-04-07 15:30` for April 7, 2019, 15:30. For backward compatiblity old "human readable" date formats should also work, but these should not be used any longer!
 
+In addition you can provide a timezone in the date/time parameter either as name or as offset like `2019-04-07 15:30 America/Chicago` or `2019-04-07 15:30 +0200`. If you do not provide a timezone, the WordPress timezone setting will be used as default.
+
 Both `show` and `hide` attributes are optional, but at least one attribute must be included. The shortcode's behaviour depends on which attributes are used:
 
 * `show` only - Marked content is outputted only after the date/time set here.

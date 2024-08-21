@@ -303,16 +303,14 @@ class CustomFieldsInterface {
 						break;
 					case 'timezone-list':
 						// timezone list
-						$selected_value = ( '' === get_post_meta(
-							$post->ID,
-							$field_name,
-							true
-						) ? $custom_field['default'] : get_post_meta(
-							$post->ID,
-							$field_name,
-							true
-						) );
-
+                        $selected_value = get_post_meta(
+                            $post->ID,
+                            $field_name,
+                            true
+                        );
+                        if (empty($selected_value)) {
+                            $selected_value = wp_timezone_string();
+                        }
 						echo '<label for="' . esc_attr( $field_name ) . '" style="display:inline;"><strong>' . esc_html( $field_title ) . '</strong></label><br />';
 						echo '<select name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_name ) . '" style="width: auto;">';
 						echo CustomFieldsInterface::generate_timezone_select_options( $selected_value );

@@ -4,7 +4,7 @@ Contributors: kjvtough, awelzel
 Tags: timed content, marketing tool, schedule
 Requires at least: 3.8
 Tested up to: 6.6
-Stable tag: 2.82
+Stable tag: 2.90
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
@@ -61,6 +61,11 @@ If you want to use Timed Content with Gutenberg you have to add a "Classic" bloc
 5. The "Add Timed Content shortcode" dialog showing the Timed Content Rules tab.
 
 == Changelog ==
+
+= 2.90 =
+
+* Use WordPress timezone setting as default for new server side rules and when server side shortcodes don't contain a
+  timezone in the date/time parameter.
 
 = 2.82 =
 

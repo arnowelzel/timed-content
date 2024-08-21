@@ -40,12 +40,11 @@ class TimedContentPlugin {
 		add_action( 'wp_ajax_timedContentPluginGetRulePeriodsAjax', array( $this, 'timed_content_plugin_get_rule_periods_ajax' ), 1 );
 		add_action( 'wp_ajax_timedContentPluginGetScheduleDescriptionAjax', array( $this, 'timed_content_plugin_get_schedule_description_ajax' ), 1 );
 		add_action( 'admin_head', array( $this, 'add_post_type_icons' ), 1 );
-
 		add_shortcode( TIMED_CONTENT_SHORTCODE_CLIENT, array( $this, 'client_show_html' ) );
 		add_shortcode( TIMED_CONTENT_SHORTCODE_SERVER, array( $this, 'server_show_html' ) );
 		add_shortcode( TIMED_CONTENT_SHORTCODE_RULE, array( $this, 'rules_show_html' ) );
 
-		$this->set_format_timezone( date_default_timezone_get() );
+		$this->set_format_timezone( wp_timezone_string() );
 	}
 
 	/**
@@ -1501,7 +1500,7 @@ class TimedContentPlugin {
 			$show_tzname = substr( $show, $pos + 1 );
 		} else {
 			$show_time   = $show;
-			$show_tzname = date_default_timezone_get();
+			$show_tzname = wp_timezone_string();
 		}
 		try {
 			$show_tz = new DateTimeZone( $show_tzname );
@@ -1516,7 +1515,7 @@ class TimedContentPlugin {
 			$hide_tzname = substr( $hide, $pos + 1 );
 		} else {
 			$hide_time   = $hide;
-			$hide_tzname = date_default_timezone_get();
+			$hide_tzname = wp_timezone_string();
 		}
 		try {
 			$hide_tz = new DateTimeZone( $hide_tzname );

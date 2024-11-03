@@ -5,9 +5,9 @@ msgstr ""
 "Project-Id-Version: Timed Content\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/timed-content\n"
 "POT-Creation-Date: 2019-07-06 22:06+0000\n"
-"PO-Revision-Date: 2023-01-06 17:29+0000\n"
+"PO-Revision-Date: 2024-11-03 14:53+0000\n"
 "Last-Translator: Arno Welzel <privat@arnowelzel.local>\n"
-"Language-Team: Deutsch\n"
+"Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,49 +22,49 @@ msgstr ""
 "Language: de_DE\n"
 "X-Loco-Version: 2.3.0; wp-5.2.3-alpha-45552"
 
-#: lib/class-timed-content.php:1888 lib/class-timed-content.php:2202
+#: lib/class-timedcontentplugin.php:1874 lib/class-timedcontentplugin.php:2184
 msgid "- No exceptions set -"
 msgstr "- keine Ausnahmen definiert -"
 
-#: lib/class-timed-content.php:2209
+#: lib/class-timedcontentplugin.php:2191
 msgid "Action"
 msgstr "Aktion"
 
-#: lib/class-timed-content.php:2462
+#: lib/class-timedcontentplugin.php:2436
 msgid "Action/Initial Event"
 msgstr "Aktion/Erstes Ereignis"
 
-#: lib/class-timed-content.php:2421
+#: lib/class-timedcontentplugin.php:2394
 msgid "Add exception date:"
 msgstr "Ausnahmedatum hinzufügen:"
 
-#: lib/class-timed-content.php:172
+#: lib/class-timedcontentplugin.php:163
 msgid "Add new Timed Content rule"
 msgstr "Neue Timed Content Regel hinzufügen"
 
-#: lib/class-timed-content.php:1967
+#: lib/class-timedcontentplugin.php:1949
 msgid "Add Timed Content shortcodes"
 msgstr "Timed Content Shortcodes hinzufügen"
 
 #. %s: timezone
-#: lib/class-timed-content.php:1220
+#: lib/class-timedcontentplugin.php:1213
 #, php-format
 msgid "All times are in the %s timezone."
 msgstr "Alle Zeiten sind in der Zeitzone %s."
 
-#: lib/class-timed-content.php:289
+#: lib/class-timedcontentplugin.php:275
 msgid "April"
 msgstr "April"
 
-#: lib/class-timed-content.php:293
+#: lib/class-timedcontentplugin.php:279
 msgid "August"
 msgstr "August"
 
-#: lib/class-timed-content.php:1913
+#: lib/class-timedcontentplugin.php:1899
 msgid "Calculating dates/times"
 msgstr "Berechne Daten"
 
-#: lib/class-timed-content.php:942
+#: lib/class-timedcontentplugin.php:935
 msgid ""
 "Check that all of the conditions for this rule are correct, and use <b>Show "
 "projected dates/times</b> to ensure your rule is working properly."
@@ -73,48 +73,48 @@ msgstr ""
 "Daten/Zeiten anzeigen</b> verwenden, um sicherzustellen, dass die Regel "
 "korrekt funktioniert."
 
-#: lib/class-timed-content.php:1713
+#: lib/class-timedcontentplugin.php:1704
 msgid "Content filter:"
 msgstr "Content-Filter:"
 
-#: lib/class-timed-content.php:184
+#: lib/class-timedcontentplugin.php:175
 msgid ""
 "Create regular schedules to show or hide selected content in a page or post."
 msgstr ""
 "Regeln zum anzeigen oder verbergen von ausgewählten Inhalten in einer Seite "
 "oder Beitrag erstellen"
 
-#: tinymce_plugin/dialog.php:114
+#: tinymce_plugin/dialog.php:112
 msgid "Current Date/Time:"
 msgstr "Aktuelles Datum/Zeit:"
 
-#: lib/class-timed-content.php:1709
+#: lib/class-timedcontentplugin.php:1700
 msgid "Current date:"
 msgstr "Aktuelles Datum:"
 
-#: lib/class-timed-content.php:246
+#: lib/class-timedcontentplugin.php:229
 msgid "Custom field deleted."
 msgstr "Benutzerdefiniertes Feld gelöscht."
 
-#: lib/class-timed-content.php:245
+#: lib/class-timedcontentplugin.php:228
 msgid "Custom field updated."
 msgstr "Benutzerdefiniertes Feld aktualisiert."
 
-#: lib/class-timed-content.php:70
+#: lib/class-timedcontentplugin.php:60
 msgid "daily"
 msgstr "täglich"
 
-#: lib/class-custom-fields-interface.php:476
+#: lib/class-customfieldsinterface.php:482
 msgctxt "Date field label"
 msgid "Date"
 msgstr "Datum"
 
-#: tinymce_plugin/dialog.php:120 tinymce_plugin/dialog.php:131
+#: tinymce_plugin/dialog.php:118 tinymce_plugin/dialog.php:129
 msgctxt "Date field label"
 msgid "Date:"
 msgstr "Datum:"
 
-#: lib/class-timed-content.php:2433
+#: lib/class-timedcontentplugin.php:2405
 msgid ""
 "Dates that this Timed Content rule will not be active.  Double-click on a "
 "date to remove it from the list."
@@ -122,16 +122,16 @@ msgstr ""
 "Daten, an denen diese Timed Content Regel nicht aktiv sein wird. Doppelklick "
 "auf ein Datum entfernt es von der Liste."
 
-#: lib/class-timed-content.php:102
+#: lib/class-timedcontentplugin.php:93
 msgid "day"
 msgstr "Tag"
 
-#: lib/class-timed-content.php:2349
+#: lib/class-timedcontentplugin.php:2331
 msgid "Day of the week"
 msgstr "Wochentag"
 
 #. %1$s: shortcode, %2$s attribute in shortcode
-#: lib/class-timed-content.php:1663
+#: lib/class-timedcontentplugin.php:1654
 #, php-format
 msgid ""
 "Debugging has been turned on for a %1$s shortcode on this post/page. Only "
@@ -144,48 +144,48 @@ msgstr ""
 "oder diesen Beitrag bearbeiten können, sehen diese Meldung. Um die Meldung "
 "zu entfernen, bitte das Attribut %2$s aus dem Shortcode entfernen."
 
-#: lib/class-timed-content.php:297
+#: lib/class-timedcontentplugin.php:283
 msgid "December"
 msgstr "Dezember"
 
-#: lib/class-timed-content.php:2095
+#: lib/class-timedcontentplugin.php:2078
 msgid "Description"
 msgstr "Beschreibung"
 
-#: lib/class-timed-content.php:173
+#: lib/class-timedcontentplugin.php:164
 msgid "Edit Timed Content rule"
 msgstr "Timed Content Regel bearbeiten"
 
-#: lib/class-timed-content.php:2388
+#: lib/class-timedcontentplugin.php:2370
 msgid "End Date"
 msgstr "Enddatum"
 
-#: lib/class-timed-content.php:606
+#: lib/class-timedcontentplugin.php:588
 msgid "End date must not be empty."
 msgstr "Enddatum darf nicht leer sein."
 
-#: lib/class-timed-content.php:588
+#: lib/class-timedcontentplugin.php:570
 msgid "Ending date must not be empty."
 msgstr "Enddatum darf nicht leer sein."
 
-#: lib/class-timed-content.php:2236
+#: lib/class-timedcontentplugin.php:2218
 msgid "Ending date/time"
 msgstr "Enddatum/zeit"
 
-#: lib/class-timed-content.php:616
+#: lib/class-timedcontentplugin.php:598
 msgid "Ending date/time must be valid."
 msgstr "Endzeit/datum muss gültig sein."
 
-#: lib/class-timed-content.php:591
+#: lib/class-timedcontentplugin.php:573
 msgid "Ending time must not be empty."
 msgstr "Endzeit darf nicht leer sein."
 
-#: lib/class-timed-content.php:1917
+#: lib/class-timedcontentplugin.php:1903
 msgid "Error"
 msgstr "Fehler"
 
 #. %1$d: month count, %2$s: recurrence, %3$s: weekday
-#: lib/class-timed-content.php:1150
+#: lib/class-timedcontentplugin.php:1143
 #, php-format
 msgctxt ""
 "Example: 'Repeat this action every 2 months on the second Friday of the "
@@ -194,50 +194,54 @@ msgid "Repeat this action every %1$d months on the %2$s %3$s of the month."
 msgstr "Diese Aktion alle %1$d Monate am %2$s %3$s des Monats wiederholen."
 
 #. %1$s: recurrence, %2$s: weekday
-#: lib/class-timed-content.php:1139
+#: lib/class-timedcontentplugin.php:1132
 #, php-format
 msgctxt ""
 "Example: 'Repeat this action every month on the second Friday of the month.'"
 msgid "Repeat this action every month on the %1$s %2$s of the month."
 msgstr "This Aktion jeden Monat am %1$s %2$s des Monats wiederholen."
 
-#: lib/class-timed-content.php:2432
+#: lib/class-timedcontentplugin.php:2404
 msgid "Exception dates list"
 msgstr "Ausnahmeliste"
 
-#: lib/class-timed-content.php:2492
+#: lib/class-timedcontentplugin.php:2466
 msgid "Exceptions"
 msgstr "Ausnahmen"
 
-#: lib/class-timed-content.php:287
+#: lib/class-timedcontentplugin.php:273
 msgid "February"
 msgstr "Februar"
 
-#: lib/class-timed-content.php:87
+#: lib/class-timedcontentplugin.php:81
+msgid "fifth"
+msgstr "fünfter"
+
+#: lib/class-timedcontentplugin.php:77
 msgid "first"
 msgstr "erster"
 
-#: lib/class-timed-content.php:90
+#: lib/class-timedcontentplugin.php:80
 msgid "fourth"
 msgstr "vierter"
 
-#: lib/class-timed-content.php:2262
+#: lib/class-timedcontentplugin.php:2244
 msgid "Frequency"
 msgstr "Häufigkeit"
 
-#: lib/class-timed-content.php:82 lib/class-timed-content.php:100
+#: lib/class-timedcontentplugin.php:72 lib/class-timedcontentplugin.php:91
 msgid "Friday"
 msgstr "Freitag"
 
-#: lib/class-timed-content.php:951 lib/class-timed-content.php:2214
+#: lib/class-timedcontentplugin.php:944 lib/class-timedcontentplugin.php:2196
 msgid "Hide the content"
 msgstr "Inhalt verbergen"
 
-#: lib/class-timed-content.php:69
+#: lib/class-timedcontentplugin.php:59
 msgid "hourly"
 msgstr "stündlich"
 
-#: lib/class-timed-content.php:2374
+#: lib/class-timedcontentplugin.php:2356
 msgid "How often to repeat this action"
 msgstr "Wie oft ist diese Aktion auszuführen"
 
@@ -247,97 +251,97 @@ msgid "http://wordpress.org/plugins/timed-content/"
 msgstr "http://wordpress.org/plugins/timed-content/"
 
 #. %s: time difference
-#: lib/class-timed-content.php:780 lib/class-timed-content.php:1641
-#: lib/class-timed-content.php:1654
+#: lib/class-timedcontentplugin.php:750 lib/class-timedcontentplugin.php:1632
+#: lib/class-timedcontentplugin.php:1645
 #, php-format
 msgctxt "Human readable time difference"
 msgid "%s ago."
 msgstr "%s zurück."
 
 #. %s: time difference
-#: lib/class-timed-content.php:766 lib/class-timed-content.php:1635
-#: lib/class-timed-content.php:1648
+#: lib/class-timedcontentplugin.php:736 lib/class-timedcontentplugin.php:1626
+#: lib/class-timedcontentplugin.php:1639
 #, php-format
 msgctxt "Human readable time difference"
 msgid "%s from now."
 msgstr "%s ab jetzt."
 
-#: lib/class-timed-content.php:594
+#: lib/class-timedcontentplugin.php:576
 msgid "Interval must not be empty."
 msgstr "Das Intervall darf nicht leer sein."
 
-#: lib/class-timed-content.php:2273 lib/class-timed-content.php:2284
-#: lib/class-timed-content.php:2295 lib/class-timed-content.php:2317
-#: lib/class-timed-content.php:2360
+#: lib/class-timedcontentplugin.php:2255 lib/class-timedcontentplugin.php:2266
+#: lib/class-timedcontentplugin.php:2277 lib/class-timedcontentplugin.php:2299
+#: lib/class-timedcontentplugin.php:2342
 msgid "Interval of recurrences"
 msgstr "Intervall der Wiederholungen"
 
-#: lib/class-timed-content.php:286
+#: lib/class-timedcontentplugin.php:272
 msgid "January"
 msgstr "Januar"
 
-#: lib/class-timed-content.php:106
+#: lib/class-timedcontentplugin.php:97
 msgctxt "jQuery UI Datepicker Close label"
 msgid "Done"
 msgstr "Fertig"
 
-#: lib/class-timed-content.php:108
+#: lib/class-timedcontentplugin.php:99
 msgctxt "jQuery UI Datepicker Next label"
 msgid "Next"
 msgstr "Vorheriger"
 
-#: lib/class-timed-content.php:107
+#: lib/class-timedcontentplugin.php:98
 msgctxt "jQuery UI Datepicker Previous label"
 msgid "Prev"
 msgstr "Nächster"
 
-#: lib/class-timed-content.php:109
+#: lib/class-timedcontentplugin.php:100
 msgctxt "jQuery UI Datepicker Today label"
 msgid "Today"
 msgstr "Heute"
 
-#: lib/class-timed-content.php:110
+#: lib/class-timedcontentplugin.php:101
 msgctxt "jQuery UI Datepicker Week label"
 msgid "Wk"
 msgstr "Woche"
 
-#: lib/class-timed-content.php:145
+#: lib/class-timedcontentplugin.php:136
 msgctxt ""
 "jQuery UI Datepicker: Character used to separate hours and minutes in "
 "translated language"
 msgid ":"
 msgstr ":"
 
-#: lib/class-timed-content.php:148
+#: lib/class-timedcontentplugin.php:139
 msgctxt "jQuery UI Timepicker 'Deselect' label"
 msgid "Deselect"
 msgstr "Deselektieren"
 
-#: lib/class-timed-content.php:146
+#: lib/class-timedcontentplugin.php:137
 msgctxt "jQuery UI Timepicker 'Done' label"
 msgid "Done"
 msgstr "Fertig"
 
-#: lib/class-timed-content.php:143
+#: lib/class-timedcontentplugin.php:134
 msgctxt "jQuery UI Timepicker 'Hour' label"
 msgid "Hour"
 msgstr "Stunde"
 
-#: lib/class-timed-content.php:144
+#: lib/class-timedcontentplugin.php:135
 msgctxt "jQuery UI Timepicker 'Minute' label"
 msgid "Minute"
 msgstr "Minute"
 
-#: lib/class-timed-content.php:147
+#: lib/class-timedcontentplugin.php:138
 msgctxt "jQuery UI Timepicker 'Now' label"
 msgid "Now"
 msgstr "Jetzt"
 
-#: lib/class-timed-content.php:292
+#: lib/class-timedcontentplugin.php:278
 msgid "July"
 msgstr "Juli"
 
-#: lib/class-timed-content.php:291
+#: lib/class-timedcontentplugin.php:277
 msgid "June"
 msgstr "Juni"
 
@@ -345,58 +349,58 @@ msgstr "Juni"
 msgid "K. Tough, Arno Welzel, Enrico Bacis"
 msgstr "K. Tough, Arno Welzel, Enrico Bacis"
 
-#: lib/class-timed-content.php:2378
+#: lib/class-timedcontentplugin.php:2360
 msgid "Keep repeating until a given date"
 msgstr "Wiederholen bis zu einem bestimmten Datum"
 
-#: lib/class-timed-content.php:91
+#: lib/class-timedcontentplugin.php:82
 msgid "last"
 msgstr "letzter"
 
 #. %1$s, %2$s, %3$s, %4$s, %5$s, %6$s, %7$s: weekday
-#: lib/class-timed-content.php:1085
+#: lib/class-timedcontentplugin.php:1078
 #, php-format
 msgctxt "List of all weekdays"
 msgid "%1$s, %2$s, %3$s, %4$s, %5$s, %6$s and %7$s"
 msgstr "%1$s, %2$s, %3$s, %4$s, %5$s, %6$s und %7$s"
 
 #. %1$s, %2$s, %3$s, %4$s, %5$s: weekday
-#: lib/class-timed-content.php:1054
+#: lib/class-timedcontentplugin.php:1047
 #, php-format
 msgctxt "List of five weekdays"
 msgid "%1$s, %2$s, %3$s, %4$s and %5$s"
 msgstr "%1$s, %2$s, %3$s, %4$s und %5$s"
 
 #. %1$s, %2$s, %3$s, %4$s: weekday
-#: lib/class-timed-content.php:1040
+#: lib/class-timedcontentplugin.php:1033
 #, php-format
 msgctxt "List of four weekdays"
 msgid "%1$s, %2$s, %3$s and %4$s"
 msgstr "%1$s, %2$s, %3$s und %4$s"
 
 #. %1$s, %2$s, %3$s, %4$s, %5$s, %6$s: weekday
-#: lib/class-timed-content.php:1069
+#: lib/class-timedcontentplugin.php:1062
 #, php-format
 msgctxt "List of six weekdays"
 msgid "%1$s, %2$s, %3$s, %4$s, %5$s and %6$s"
 msgstr "%1$s, %2$s, %3$s, %4$s, %5$s und %6$s"
 
 #. %1$s, %2$s, %3$s: weekday
-#: lib/class-timed-content.php:1027
+#: lib/class-timedcontentplugin.php:1020
 #, php-format
 msgctxt "List of three weekdays"
 msgid "%1$s, %2$s and %3$s"
 msgstr "%1$s, %2$s und %3$s"
 
 #. %1$s, %2$s: weekday
-#: lib/class-timed-content.php:1019
+#: lib/class-timedcontentplugin.php:1012
 #, php-format
 msgctxt "List of two weekdays"
 msgid "%1$s and %2$s"
 msgstr "%1$s und %2$s"
 
 #. %1$d: number of weeks, %2$s: weekday
-#: lib/class-timed-content.php:1113
+#: lib/class-timedcontentplugin.php:1106
 #, php-format
 msgctxt ""
 "List the weekdays to repeat the rule when frequency is every %1$d weeks. "
@@ -405,7 +409,7 @@ msgid "Repeat this action every %1$d weeks on %2$s."
 msgstr "Diese Action alle %1$d Wochen am %2$s wiederholen."
 
 #. %s: weekday
-#: lib/class-timed-content.php:1103
+#: lib/class-timedcontentplugin.php:1096
 #, php-format
 msgctxt ""
 "List the weekdays to repeat the rule when frequency is every week. %s is the "
@@ -414,88 +418,88 @@ msgid "Repeat this action every week on %s."
 msgstr "Diese Aktion jede Woche am %s wiederholen."
 
 #. date and time format to activate rule. http://ca2.php.net/manual/en/function.date.php
-#: lib/class-timed-content.php:237
+#: lib/class-timedcontentplugin.php:220
 msgid "M j, Y @ G:i"
 msgstr "M j, Y @ G:i"
 
-#: lib/class-timed-content.php:288
+#: lib/class-timedcontentplugin.php:274
 msgid "March"
 msgstr "März"
 
-#: lib/class-timed-content.php:290
+#: lib/class-timedcontentplugin.php:276
 msgid "May"
 msgstr "Mai"
 
-#: lib/class-timed-content.php:167
+#: lib/class-timedcontentplugin.php:158
 msgctxt "Menu item/button label on Timed Content Rules admin page"
 msgid "Add new"
 msgstr "Neu hinzufügen"
 
-#: lib/class-timed-content.php:78 lib/class-timed-content.php:96
+#: lib/class-timedcontentplugin.php:68 lib/class-timedcontentplugin.php:87
 msgid "Monday"
 msgstr "Montag"
 
-#: lib/class-timed-content.php:72
+#: lib/class-timedcontentplugin.php:62
 msgid "monthly"
 msgstr "monatlich"
 
-#: lib/class-timed-content.php:174
+#: lib/class-timedcontentplugin.php:165
 msgid "New Timed Content rule"
 msgstr "Neue Timed Content Regel"
 
-#: lib/class-timed-content.php:2020
+#: lib/class-timedcontentplugin.php:1992
 msgctxt "No Timed Content Rule title"
 msgid "(no title)"
 msgstr "(ohne Titel)"
 
-#: lib/class-timed-content.php:2029
+#: lib/class-timedcontentplugin.php:2001
 msgid "No Timed Content Rules found"
 msgstr "Keine Timed Content Regeln gefunden"
 
-#: lib/class-timed-content.php:177
+#: lib/class-timedcontentplugin.php:168
 msgid "No Timed Content rules found"
 msgstr "Keine Timed Content Regel gefunden"
 
-#: lib/class-timed-content.php:178
+#: lib/class-timedcontentplugin.php:169
 msgid "No Timed Content rules found in trash"
 msgstr "Keine Timed Content Regel im Papierkorb gefunden"
 
-#: lib/class-timed-content.php:1714
+#: lib/class-timedcontentplugin.php:1705
 msgctxt "Noun"
 msgid "Content:"
 msgstr "Inhalt:"
 
-#: lib/class-timed-content.php:1660
+#: lib/class-timedcontentplugin.php:1651
 msgctxt "Noun"
 msgid "Notice"
 msgstr "Hinweis"
 
-#: lib/class-timed-content.php:296
+#: lib/class-timedcontentplugin.php:282
 msgid "November"
 msgstr "November"
 
-#: lib/class-timed-content.php:596
+#: lib/class-timedcontentplugin.php:578
 msgid "Number of recurrences must be a number."
 msgstr "Anzahl der Wiederholungen muss eine Zahl sein."
 
-#: lib/class-timed-content.php:2398
+#: lib/class-timedcontentplugin.php:2380
 msgid "Number of repetitions"
 msgstr "Häufigkeit"
 
-#: lib/class-timed-content.php:602
+#: lib/class-timedcontentplugin.php:584
 msgid "Number of repetitions must be a number."
 msgstr "Anzahl der Wiederholungen muss eine Zahl sein."
 
-#: lib/class-timed-content.php:600
+#: lib/class-timedcontentplugin.php:582
 msgid "Number of repetitions must not be empty."
 msgstr "Anzahl der Wiederholungen darf nicht leer sein."
 
-#: lib/class-timed-content.php:295
+#: lib/class-timedcontentplugin.php:281
 msgid "October"
 msgstr "Oktober"
 
 #. %1$s: action, %2$s: start date, %3$s: start time, %4$s: end date, %5$s: end time
-#: lib/class-timed-content.php:971
+#: lib/class-timedcontentplugin.php:964
 #, php-format
 msgctxt ""
 "Perform action (%1$s) from date/time of first active period (%2$s @ %3$s) "
@@ -503,23 +507,23 @@ msgctxt ""
 msgid "%1$s on %2$s @ %3$s until %4$s @ %5$s."
 msgstr "%1$s am %2$s @ %3$s bis %4$s @ %5$s."
 
-#: tinymce_plugin/dialog.php:31 tinymce_plugin/dialog.php:37
+#: tinymce_plugin/dialog.php:29 tinymce_plugin/dialog.php:35
 msgid "Please select an action to perform."
 msgstr "Bitte eine Aktion zur Ausführung wählen."
 
-#: tinymce_plugin/dialog.php:34
+#: tinymce_plugin/dialog.php:32
 msgid "Please set a date for the Hide action."
 msgstr "Bitte ein Datum für die Verbergen-Aktion wählen."
 
-#: tinymce_plugin/dialog.php:32
+#: tinymce_plugin/dialog.php:30
 msgid "Please set a date for the Show action."
 msgstr "Bitte ein Datum für die Anzeigen-Aktion wählen."
 
-#: tinymce_plugin/dialog.php:35
+#: tinymce_plugin/dialog.php:33
 msgid "Please set a time for the Hide action."
 msgstr "Bitte eine Zeit für die Verbergen-Aktion wählen."
 
-#: tinymce_plugin/dialog.php:33
+#: tinymce_plugin/dialog.php:31
 msgid "Please set a time for the Show action."
 msgstr "Bitte eine Zeit für die Anzeigen-Aktion wählen."
 
@@ -534,35 +538,34 @@ msgstr ""
 "können entweder auf Server-Seite oder auf Client-Seite ausgeführt werden, je "
 "nach gewünschtem Effekt."
 
-#: lib/class-timed-content.php:165 lib/class-timed-content.php:180
+#: lib/class-timedcontentplugin.php:156 lib/class-timedcontentplugin.php:171
 msgctxt "post type general name"
 msgid "Timed Content rules"
 msgstr "Timed Content Regeln"
 
-#: lib/class-timed-content.php:166
+#: lib/class-timedcontentplugin.php:157
 msgctxt "post type singular name"
 msgid "Timed Content rule"
 msgstr "Timed Content Regel"
 
-#: lib/class-timed-content.php:609
+#: lib/class-timedcontentplugin.php:591
 msgid "Recurrence end date must be after ending date/time."
 msgstr "Enddatum der Wiederholung muss nach Enddatum/zeit sein."
 
-#: lib/class-timed-content.php:2379
+#: lib/class-timedcontentplugin.php:2361
 msgid "Repeat a set number of times"
 msgstr "Für eine vorgegebene Anzahl wiederholen"
 
-#: lib/class-timed-content.php:2328
+#: lib/class-timedcontentplugin.php:2310
 msgid "Repeat on a specific weekday of the month"
 msgstr "An einem bestimmten Wochentag des Monats wiederholen"
 
-#: lib/class-timed-content.php:2306
+#: lib/class-timedcontentplugin.php:2288
 msgid "Repeat on the following days"
 msgstr "An den folgenden Tagen wiederholen"
 
 #. %d numerical days value
-#: lib/class-timed-content.php:997
-#, php-format
+#: lib/class-timedcontentplugin.php:990
 #| msgid "Repeat this action every day."
 msgid "Repeat this action every %d day."
 msgid_plural "Repeat this action every %d days."
@@ -570,8 +573,7 @@ msgstr[0] "Diese Aktion jeden %d Tag wiederholen."
 msgstr[1] "Diese Aktion alle %d Tage wiederholen."
 
 #. %d numerical hours value
-#: lib/class-timed-content.php:986
-#, php-format
+#: lib/class-timedcontentplugin.php:979
 #| msgid "Repeat this action every hour."
 msgid "Repeat this action every %d hour."
 msgid_plural "Repeat this action every %d hours."
@@ -579,8 +581,7 @@ msgstr[0] "Diese Aktion jede %d Stunde wiederholen."
 msgstr[1] "Diese Aktion alle %d Stunden wiederholen."
 
 #. %d: month count
-#: lib/class-timed-content.php:1163
-#, php-format
+#: lib/class-timedcontentplugin.php:1156
 #| msgid "Repeat this action every month."
 msgid "Repeat this action every %d month."
 msgid_plural "Repeat this action every %d months."
@@ -588,8 +589,7 @@ msgstr[0] "Diese Aktion jeden %d Monat wiederholen."
 msgstr[1] "Diese Aktion alle %d Monate wiederholen."
 
 #. %d: number of weeks
-#: lib/class-timed-content.php:1125
-#, php-format
+#: lib/class-timedcontentplugin.php:1118
 #| msgid "Repeat this action every week."
 msgid "Repeat this action every %d week."
 msgid_plural "Repeat this action every %d weeks."
@@ -597,35 +597,34 @@ msgstr[0] "Diese Aktion jede %d Woche wiederholen."
 msgstr[1] "Diese Aktion alle %d Wochen wiederholen."
 
 #. %d: year count
-#: lib/class-timed-content.php:1175
-#, php-format
+#: lib/class-timedcontentplugin.php:1168
 #| msgid "Repeat this action every year."
 msgid "Repeat this action every %d year."
 msgid_plural "Repeat this action every %d years."
 msgstr[0] "Diese Aktion jedes %d Jahr wiederholen."
 msgstr[1] "Diese Aktion alle %d Jahre wiederholen."
 
-#: lib/class-timed-content.php:2285
+#: lib/class-timedcontentplugin.php:2267
 msgid "Repeat this action every X days."
 msgstr "Diese Aktion alle X Tage wiederholen."
 
-#: lib/class-timed-content.php:2274
+#: lib/class-timedcontentplugin.php:2256
 msgid "Repeat this action every X hours."
 msgstr "Diese Aktion alle X Stunden wiederholen."
 
-#: lib/class-timed-content.php:2318
+#: lib/class-timedcontentplugin.php:2300
 msgid "Repeat this action every X months."
 msgstr "Diese Aktion alle X Monate wiederholen."
 
-#: lib/class-timed-content.php:2296
+#: lib/class-timedcontentplugin.php:2278
 msgid "Repeat this action every X weeks."
 msgstr "Diese Aktion alle X Wochen wiederholen."
 
-#: lib/class-timed-content.php:2361
+#: lib/class-timedcontentplugin.php:2343
 msgid "Repeat this action every X years."
 msgstr "Diese Aktion alle X Jahre wiederholen."
 
-#: lib/class-timed-content.php:2329
+#: lib/class-timedcontentplugin.php:2311
 msgid ""
 "Repeat this action on a specific weekday of the month (for example, \"every "
 "third Tuesday\"). Check this box to select a pattern below."
@@ -634,7 +633,7 @@ msgstr ""
 "(beispielsweise \"jeden dritten Donnerstag\"). Diese Einstellung aktivieren, "
 "um ein Muster unten zu wählen."
 
-#: lib/class-timed-content.php:2307
+#: lib/class-timedcontentplugin.php:2289
 msgid ""
 "Repeat this action on these days of the week <strong>instead</strong> of the "
 "day of week the starting date/time falls on."
@@ -642,93 +641,95 @@ msgstr ""
 "Diese Aktion an diesen Tagen der Woche wiederholen <strong>statt</strong> an "
 "dem Tag der Woche, auf den Datum/Zeit fallen."
 
-#: lib/class-timed-content.php:2472
+#: lib/class-timedcontentplugin.php:2446
 msgid "Repeating Pattern"
 msgstr "Wiederholungsmuster."
 
-#: lib/class-timed-content.php:775
+#: lib/class-timedcontentplugin.php:745
 msgid "Right now!"
 msgstr "Genau jetzt!"
 
-#: lib/class-timed-content.php:2445
+#: lib/class-timedcontentplugin.php:2425
 msgid "Rule description/schedule"
 msgstr "Regel-Beschreibung/Plan"
 
-#: lib/class-timed-content.php:83 lib/class-timed-content.php:101
+#: lib/class-timedcontentplugin.php:73 lib/class-timedcontentplugin.php:92
 msgid "Saturday"
 msgstr "Samstag"
 
-#: lib/class-timed-content.php:1898
+#: lib/class-timedcontentplugin.php:1884
 msgctxt ""
 "Scheduled Dates/Times dialog - Beginning of active period table header"
 msgid "Start"
 msgstr "Start"
 
-#: lib/class-timed-content.php:1908
+#: lib/class-timedcontentplugin.php:1894
 msgctxt "Scheduled Dates/Times dialog - dialog header"
 msgid "Scheduled dates/times"
 msgstr "Geplante Daten/Zeiten"
 
-#: lib/class-timed-content.php:1903
+#: lib/class-timedcontentplugin.php:1889
 msgctxt "Scheduled Dates/Times dialog - End of active period table header"
 msgid "End"
 msgstr "Ende"
 
-#: lib/class-timed-content.php:176
+#: lib/class-timedcontentplugin.php:167
 msgid "Search Timed Content rules"
 msgstr "Timed Content Regel suchen"
 
-#: lib/class-timed-content.php:88
+#: lib/class-timedcontentplugin.php:78
 msgid "second"
 msgstr "zweiter"
 
-#: lib/class-timed-content.php:2422
+#: lib/class-timedcontentplugin.php:2395
 msgid "Select a date to add to the exception dates list."
 msgstr "Datum auswählen, um es der Ausnahmeliste hinzuzufügen."
 
-#: lib/class-timed-content.php:2339
+#: lib/class-timedcontentplugin.php:2321
 msgid ""
 "Select a value for week of the month (for example \"first\", \"second\", etc."
-")."
+"). Please note, that \"fifth\" will skip months, where the day is not "
+"repeated five times!"
 msgstr ""
-"Wert für die Woche des Monats wählen (beispielsweise \"erste\", \"zweite\", "
-"usw.)."
+"Einen Wert für die Woche des Monats auswählen (zum Beispiel \"erster\", "
+"\"zweiter\", usw.). Bitte beachten, das \"fünfter\" Monate überspringt, wo "
+"der Tag nicht fünfmal wiederholt wird!"
 
-#: lib/class-timed-content.php:2350
+#: lib/class-timedcontentplugin.php:2332
 msgid "Select the day of week."
 msgstr "Tag der Woche wählen."
 
-#: lib/class-timed-content.php:2250
+#: lib/class-timedcontentplugin.php:2232
 msgid "Select the timezone you wish to use for this rule."
 msgstr "Zeitzone auswählen, die für diese Regel verwendet werden soll."
 
-#: lib/class-timed-content.php:294
+#: lib/class-timedcontentplugin.php:280
 msgid "September"
 msgstr "September"
 
-#: lib/class-timed-content.php:2483
+#: lib/class-timedcontentplugin.php:2457
 msgid "Set how long or how many times the action should occur."
 msgstr "Festlegen, wie lange oder wie oft die Aktion erfolgen soll."
 
-#: lib/class-timed-content.php:2473
+#: lib/class-timedcontentplugin.php:2447
 msgid "Set how often the action should repeat."
 msgstr "Legt fest, wie oft die Aktion wiederholt werden soll."
 
-#: lib/class-timed-content.php:2463
+#: lib/class-timedcontentplugin.php:2437
 msgid "Set the action to be taken and when it should first run."
 msgstr ""
 "Legt die auszuführende Aktion fest und wann sie zum ersten Mal ausgeführt "
 "werden soll,"
 
-#: lib/class-timed-content.php:2493
+#: lib/class-timedcontentplugin.php:2467
 msgid "Set up any exceptions to this Timed Content Rule."
 msgstr "Ausnahmen für diese Timed Content Regel festlegen."
 
-#: lib/class-timed-content.php:2210
+#: lib/class-timedcontentplugin.php:2192
 msgid "Sets the action to be performed when the rule is active."
 msgstr "Legt die Aktion fest, die ausgeführt wird, wenn die Regel aktiv ist."
 
-#: lib/class-timed-content.php:2224
+#: lib/class-timedcontentplugin.php:2206
 msgid ""
 "Sets the date and time for the beginning of the first active period for this "
 "rule."
@@ -736,30 +737,31 @@ msgstr ""
 "Legt Datum und Zeit für den Beginn der ersten aktiven Periode für diese "
 "Regel fest."
 
-#: lib/class-timed-content.php:2237
+#: lib/class-timedcontentplugin.php:2219
 msgid ""
 "Sets the date and time for the end of the first active period for this rule."
 msgstr ""
 "Legt Datum und Zeit für das Ende der ersten aktiven Periode für diese Regel "
 "fest."
 
-#: lib/class-timed-content.php:2263
+#: lib/class-timedcontentplugin.php:2245
 msgid "Sets the frequency at which the action should be repeated."
 msgstr "Legt die Häufigkeit fest, mit der diese Aktion wiederholt werden soll."
 
-#: lib/class-timed-content.php:2096
+#: lib/class-timedcontentplugin.php:2079
 msgid "Shortcode"
 msgstr "Shortcode"
 
-#: lib/class-timed-content.php:1914 lib/class-timed-content.php:2450
+#: lib/class-timedcontentplugin.php:1900
+#: lib/class-customfieldsinterface.php:197
 msgid "Show projected dates/times"
 msgstr "Projektierte Daten/Zeiten anzeigen"
 
-#: lib/class-timed-content.php:949 lib/class-timed-content.php:2213
+#: lib/class-timedcontentplugin.php:942 lib/class-timedcontentplugin.php:2195
 msgid "Show the content"
 msgstr "Inhalt anzeigen"
 
-#: lib/class-timed-content.php:936
+#: lib/class-timedcontentplugin.php:933
 msgid ""
 "Some problems have been detected.  Although you can still publish this rule, "
 "it may not work the way you expect."
@@ -767,78 +769,77 @@ msgstr ""
 "Es wurde eine Probleme festgestellt. Obwohl diese Regel veröffentlich werden "
 "kann, wird sie möglicherweise nicht so funktionieren, wie erwartet."
 
-#: lib/class-timed-content.php:1918
+#: lib/class-timedcontentplugin.php:1904
 msgid ""
 "Something unexpected has happened along the way. The specific details are "
 "below:"
 msgstr "Etwas Unerwartetes ist auf dem Weg passiert. Die spezifischen Details:"
 
-#: lib/class-timed-content.php:582
+#: lib/class-timedcontentplugin.php:564
 msgid "Starting date must not be empty."
 msgstr "Anfangsdatum darf nicht leer sein."
 
-#: lib/class-timed-content.php:2223
+#: lib/class-timedcontentplugin.php:2205
 msgid "Starting date/time"
 msgstr "Startdatum/zeit"
 
-#: lib/class-timed-content.php:619
+#: lib/class-timedcontentplugin.php:601
 msgid "Starting date/time must be before ending date/time."
 msgstr "Startdatum/zeit muss vor Enddatum/zeit sein."
 
-#: lib/class-timed-content.php:613
+#: lib/class-timedcontentplugin.php:595
 msgid "Starting date/time must be valid."
 msgstr "Startzeit/datum muss gültig sein."
 
-#: lib/class-timed-content.php:585
+#: lib/class-timedcontentplugin.php:567
 msgid "Starting time must not be empty."
 msgstr "Anfangszeit darf nicht leer sein."
 
-#: lib/class-timed-content.php:2482
+#: lib/class-timedcontentplugin.php:2456
 msgid "Stopping Condition"
 msgstr "Stop-Bedingung"
 
-#: lib/class-timed-content.php:77 lib/class-timed-content.php:95
+#: lib/class-timedcontentplugin.php:67 lib/class-timedcontentplugin.php:86
 msgid "Sunday"
 msgstr "Sonntag"
 
 #. %s: attribute name
-#: lib/class-timed-content.php:1680 lib/class-timed-content.php:1699
+#: lib/class-timedcontentplugin.php:1671 lib/class-timedcontentplugin.php:1690
 #, php-format
 msgid "The %s attribute is currently set to"
 msgstr "Das Attribut %s ist aktuell gesetzt auf"
 
 #. %s: attribute name
-#: lib/class-timed-content.php:1674 lib/class-timed-content.php:1693
+#: lib/class-timedcontentplugin.php:1665 lib/class-timedcontentplugin.php:1684
 #, php-format
 msgid "The %s attribute is not set or invalid."
 msgstr "Das Attribut %s ist nicht gesetzt oder ungültig."
 
-#: lib/class-timed-content.php:1719
+#: lib/class-timedcontentplugin.php:1710
 msgid "The plugin will hide the content."
 msgstr "Das Plugin wird den Inhalt anzeigen."
 
-#: lib/class-timed-content.php:1717
+#: lib/class-timedcontentplugin.php:1708
 msgid "The plugin will show the content."
 msgstr "Das Plugin wird den Inhalt verbergen."
 
-#: lib/class-timed-content.php:1683 lib/class-timed-content.php:1702
+#: lib/class-timedcontentplugin.php:1674 lib/class-timedcontentplugin.php:1693
 msgid "The Timed Content plugin thinks the intended date/time is"
 msgstr ""
 "Das Timed Content Plugin glaubt, dass folgendes Datum/Zeit vorgesehen ist"
 
-#: lib/class-timed-content.php:89
+#: lib/class-timedcontentplugin.php:79
 msgid "third"
 msgstr "dritter"
 
-#: lib/class-custom-fields-interface.php:235
-#: lib/class-custom-fields-interface.php:261
-#: lib/class-custom-fields-interface.php:333
+#: lib/class-customfieldsinterface.php:256
+#: lib/class-customfieldsinterface.php:282
+#: lib/class-customfieldsinterface.php:352
 msgid "This menu is empty."
 msgstr "Dieses Menü ist leer."
 
 #. %d: number of recurrences
-#: lib/class-timed-content.php:1188
-#, php-format
+#: lib/class-timedcontentplugin.php:1181
 #| msgid "This rule will be active for one recurrence."
 msgid "This rule will be active for %d recurrence."
 msgid_plural "This rule will be active for %d recurrences."
@@ -846,27 +847,27 @@ msgstr[0] "Diese Regel wird für %d Wiederholung aktiv sein."
 msgstr[1] "Diese Regel wird für %d Wiederholungen aktiv sein."
 
 #. %s: end date
-#: lib/class-timed-content.php:1197
+#: lib/class-timedcontentplugin.php:1190
 #, php-format
 msgid "This rule will be active until %s."
 msgstr "Diese Regel wird bis %s aktiv sein."
 
 #. %s: list of dates
-#: lib/class-timed-content.php:1209
+#: lib/class-timedcontentplugin.php:1202
 #, php-format
 msgid "This rule will be inactive on the following dates: %s."
 msgstr "Diese Regel wird an den folgenden Tagen inaktiv sein: %s."
 
-#: lib/class-timed-content.php:81 lib/class-timed-content.php:99
+#: lib/class-timedcontentplugin.php:71 lib/class-timedcontentplugin.php:90
 msgid "Thursday"
 msgstr "Donnerstag"
 
-#: lib/class-custom-fields-interface.php:482
+#: lib/class-customfieldsinterface.php:488
 msgctxt "Time field label"
 msgid "Time"
 msgstr "Zeit"
 
-#: tinymce_plugin/dialog.php:122 tinymce_plugin/dialog.php:133
+#: tinymce_plugin/dialog.php:120 tinymce_plugin/dialog.php:131
 msgctxt "Time field label"
 msgid "Time:"
 msgstr "Zeit:"
@@ -875,61 +876,61 @@ msgstr "Zeit:"
 msgid "Timed Content"
 msgstr "Timed Content"
 
-#: lib/class-timed-content.php:2131
+#: lib/class-timedcontentplugin.php:2115
 msgid "Timed Content rule"
 msgid_plural "Timed Content rules"
 msgstr[0] "Timed Content Regel"
 msgstr[1] "Timed Content Regeln"
 
-#: lib/class-timed-content.php:264
+#: lib/class-timedcontentplugin.php:247
 msgid "Timed Content Rule draft updated."
 msgstr "Entwurf der Timed Content Regel aktualisiert."
 
-#: lib/class-timed-content.php:2148
+#: lib/class-timedcontentplugin.php:2131
 msgid "Timed Content rule pending"
 msgid_plural "Timed Content rules pending"
 msgstr[0] "Wartende Timed Content Regel"
 msgstr[1] "Wartende Timed Content Regeln"
 
-#: lib/class-timed-content.php:256
+#: lib/class-timedcontentplugin.php:239
 msgid "Timed Content Rule published."
 msgstr "Timed Content Regel veröffentlicht."
 
 #. %s: date and time of the revision
-#: lib/class-timed-content.php:250
+#: lib/class-timedcontentplugin.php:233
 #, php-format
 msgid "Timed Content Rule restored to revision from %s"
 msgstr "Timed Content Regel wiederherstellt aus der Version von %s"
 
-#: lib/class-timed-content.php:257
+#: lib/class-timedcontentplugin.php:240
 msgid "Timed Content Rule saved."
 msgstr "Timed Content Regel gespeichert."
 
 #. %s: date and time to activate rule.
-#: lib/class-timed-content.php:261
+#: lib/class-timedcontentplugin.php:244
 #, php-format
 msgid "Timed Content Rule scheduled for: %s."
 msgstr "Timed Content Regel geplant für: %s."
 
-#: lib/class-timed-content.php:258
+#: lib/class-timedcontentplugin.php:241
 msgid "Timed Content Rule submitted."
 msgstr "Timed Content Regel abgeschickt."
 
-#: lib/class-timed-content.php:244 lib/class-timed-content.php:247
+#: lib/class-timedcontentplugin.php:227 lib/class-timedcontentplugin.php:230
 msgid "Timed Content Rule updated."
 msgstr "Timed Content Regel aktualisiert."
 
-#: lib/class-timed-content.php:2249
+#: lib/class-timedcontentplugin.php:2231
 msgid "Timezone"
 msgstr "Zeitzone"
 
-#: tinymce_plugin/dialog.php:101 tinymce_plugin/dialog.php:151
-#: tinymce_plugin/dialog.php:173
+#: tinymce_plugin/dialog.php:99 tinymce_plugin/dialog.php:149
+#: tinymce_plugin/dialog.php:171
 msgctxt "TinyMCE Dialog - Cancel button HTML label"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: tinymce_plugin/dialog.php:57
+#: tinymce_plugin/dialog.php:55
 msgctxt "TinyMCE Dialog - Client tab instructions"
 msgid ""
 "Select the actions you wish to perform and the times after the Page/Post is "
@@ -938,7 +939,7 @@ msgstr ""
 "Aktionen auswählen, die ausgeführt werden sollen nachdem die Seite oder der "
 "Beitrag geladen wurde und wann diese erfolgen sollen."
 
-#: tinymce_plugin/dialog.php:46
+#: tinymce_plugin/dialog.php:44
 msgctxt "TinyMCE Dialog - Client tab label"
 msgid "Client"
 msgstr "Client"
@@ -949,56 +950,56 @@ msgid "Add Timed Content shortcodes"
 msgstr "Timed Content Shortcodes hinzufügen"
 
 #. %s: tag name
-#: tinymce_plugin/dialog.php:94
+#: tinymce_plugin/dialog.php:92
 #, php-format
 msgctxt "TinyMCE Dialog - Display mode <div> HTML description"
 msgid "Enclose content using %s tags (block-level)"
 msgstr "In %s-Tags einschließen (Block-Ebene)"
 
 #. %s: tag name
-#: tinymce_plugin/dialog.php:96
+#: tinymce_plugin/dialog.php:94
 #, php-format
 msgctxt "TinyMCE Dialog - Display mode <span> HTML description"
 msgid "Enclose content using %s tags (inline)"
 msgstr "In %s-Tags einschließen (Inline)"
 
-#: tinymce_plugin/dialog.php:92
+#: tinymce_plugin/dialog.php:90
 msgctxt "TinyMCE Dialog - Display Mode label"
 msgid "Display Mode"
 msgstr "Anzeigemodus"
 
-#: tinymce_plugin/dialog.php:69
+#: tinymce_plugin/dialog.php:67
 msgctxt "TinyMCE Dialog - Fade-in label"
 msgid "Fade in (ms):"
 msgstr "Einblenden (ms):"
 
-#: tinymce_plugin/dialog.php:85
+#: tinymce_plugin/dialog.php:83
 msgctxt "TinyMCE Dialog - Fade-out label"
 msgid "Fade out (ms):"
 msgstr "Ausblenden (ms):"
 
-#: tinymce_plugin/dialog.php:77 tinymce_plugin/dialog.php:129
+#: tinymce_plugin/dialog.php:75 tinymce_plugin/dialog.php:127
 msgctxt "TinyMCE Dialog - Hide action label"
 msgid "Hide"
 msgstr "Verbergen"
 
-#: tinymce_plugin/dialog.php:100 tinymce_plugin/dialog.php:150
-#: tinymce_plugin/dialog.php:172
+#: tinymce_plugin/dialog.php:98 tinymce_plugin/dialog.php:148
+#: tinymce_plugin/dialog.php:170
 msgctxt "TinyMCE Dialog - Insert button HTML label"
 msgid "Insert"
 msgstr "Einfügen"
 
-#: tinymce_plugin/dialog.php:71 tinymce_plugin/dialog.php:87
+#: tinymce_plugin/dialog.php:69 tinymce_plugin/dialog.php:85
 msgctxt "TinyMCE Dialog - Optional checkbox HTML label"
 msgid "Optional"
 msgstr "Optional"
 
-#: tinymce_plugin/dialog.php:50
+#: tinymce_plugin/dialog.php:48
 msgctxt "TinyMCE Dialog - Rules tab label"
 msgid "Timed Content Rules"
 msgstr "Timed Content Regeln"
 
-#: tinymce_plugin/dialog.php:111
+#: tinymce_plugin/dialog.php:109
 msgctxt "TinyMCE Dialog - Server debugging label"
 msgid ""
 "Add debugging messages (Only logged-in users who can edit this Post/Page "
@@ -1007,7 +1008,7 @@ msgstr ""
 "Debug-Meldungen hinzufügen (nur angemeldete Benutzer, die diesen "
 "Beitrag/Seite bearbeiten können, werden sie sehen)"
 
-#: tinymce_plugin/dialog.php:107
+#: tinymce_plugin/dialog.php:105
 msgctxt "TinyMCE Dialog - Server tab instructions"
 msgid ""
 "Select the actions you wish to perform and the dates/times when they should "
@@ -1016,32 +1017,32 @@ msgstr ""
 "Aktionen auswählen, die ausgeführt werden sollen und die Daten/Zeiten an "
 "denen das erfolgen soll."
 
-#: tinymce_plugin/dialog.php:48
+#: tinymce_plugin/dialog.php:46
 msgctxt "TinyMCE Dialog - Server tab label"
 msgid "Server"
 msgstr "Server"
 
-#: tinymce_plugin/dialog.php:61 tinymce_plugin/dialog.php:118
+#: tinymce_plugin/dialog.php:59 tinymce_plugin/dialog.php:116
 msgctxt "TinyMCE Dialog - Show action label"
 msgid "Show"
 msgstr "Anzeigen"
 
-#: tinymce_plugin/dialog.php:63 tinymce_plugin/dialog.php:79
+#: tinymce_plugin/dialog.php:61 tinymce_plugin/dialog.php:77
 msgctxt "TinyMCE Dialog - Time count label"
 msgid "Time (mm:ss):"
 msgstr "Zeit (mm:ss):"
 
-#: tinymce_plugin/dialog.php:159
+#: tinymce_plugin/dialog.php:157
 msgctxt "TinyMCE Dialog - Timed Content Rules <select> HTML label"
 msgid "Rule:"
 msgstr "Regel:"
 
-#: tinymce_plugin/dialog.php:166
+#: tinymce_plugin/dialog.php:164
 msgctxt "TinyMCE Dialog - Timed Content Rules description label"
 msgid "Description"
 msgstr "Beschreibung"
 
-#: tinymce_plugin/dialog.php:157
+#: tinymce_plugin/dialog.php:155
 msgctxt "TinyMCE Dialog - Timed Content Rules tab instructions"
 msgid ""
 "Select the Timed Content Rule you wish to use. Only rules without any "
@@ -1050,52 +1051,52 @@ msgstr ""
 "Timed Content Regel auswählen, die verwendet werden soll. Nur Regeln ohne "
 "Warnungen werden unten angezeigt."
 
-#: tinymce_plugin/dialog.php:141
+#: tinymce_plugin/dialog.php:139
 msgctxt "TinyMCE Dialog - Timezone <select> HTML label"
 msgid "Select a city whose timezone you wish to use:"
 msgstr "Eine Stadt auswählen, deren Zeitzone verwendet werden soll:"
 
-#: tinymce_plugin/dialog.php:139
+#: tinymce_plugin/dialog.php:137
 msgctxt "TinyMCE Dialog - Timezone fieldset label"
 msgid "Timezone"
 msgstr "Zeitzone"
 
-#: lib/class-timed-content.php:79 lib/class-timed-content.php:97
+#: lib/class-timedcontentplugin.php:69 lib/class-timedcontentplugin.php:88
 msgid "Tuesday"
 msgstr "Dienstag"
 
-#: lib/class-timed-content.php:2399
+#: lib/class-timedcontentplugin.php:2381
 msgid "Using the settings above, repeat this action this many times."
 msgstr ""
 "Aktion bis so oft wie angegeben entsprechend der Einstellungen oben "
 "wiederholen."
 
-#: lib/class-timed-content.php:2389
+#: lib/class-timedcontentplugin.php:2371
 msgid "Using the settings above, repeat this action until this date."
 msgstr ""
 "Aktion bis zu diesem Datum entsprechend der Einstellungen oben wiederholen."
 
-#: lib/class-timed-content.php:175
+#: lib/class-timedcontentplugin.php:166
 msgid "View Timed Content rule"
 msgstr "Timed Content Regel anzeigen"
 
-#: lib/class-timed-content.php:935
+#: lib/class-timedcontentplugin.php:932
 msgid "Warning!"
 msgstr "Warnung!"
 
-#: lib/class-timed-content.php:80 lib/class-timed-content.php:98
+#: lib/class-timedcontentplugin.php:70 lib/class-timedcontentplugin.php:89
 msgid "Wednesday"
 msgstr "Mittwoch"
 
-#: lib/class-timed-content.php:2338
+#: lib/class-timedcontentplugin.php:2320
 msgid "Weekday ordinal"
 msgstr "Wochentag"
 
-#: lib/class-timed-content.php:71
+#: lib/class-timedcontentplugin.php:61
 msgid "weekly"
 msgstr "wöchentlich"
 
-#: tinymce_plugin/dialog.php:30 tinymce_plugin/dialog.php:36
+#: tinymce_plugin/dialog.php:28 tinymce_plugin/dialog.php:34
 msgid ""
 "When using both Show and Hide actions, the Hide time must be later than the "
 "Show time."
@@ -1103,27 +1104,27 @@ msgstr ""
 "Wenn beide Aktionen zum Anzeigen und Verbergen verwendet werden, muss die "
 "Zeit zum Verbergen später sein, als die Zeit zum Anzeigen."
 
-#: tinymce_plugin/dialog.php:29
+#: tinymce_plugin/dialog.php:27
 msgid "When using the Hide action, the Hide time must be at least 1 second."
 msgstr ""
 "Wenn die Verbergen-Aktion verwendet, muss die Verbergen-Zeit mindestens 1 "
 "Sekunde sein."
 
-#: tinymce_plugin/dialog.php:28
+#: tinymce_plugin/dialog.php:26
 msgid "When using the Show action, the Show time must be at least 1 second."
 msgstr ""
 "Wenn die Anzeigen-Aktion verwendet, muss die Anzeigen-Zeit mindestens 1 "
 "Sekunde sein."
 
-#: tinymce_plugin/dialog.php:147
+#: tinymce_plugin/dialog.php:145
 #| msgid "Wordpress Timezone:"
 msgid "WordPress Timezone:"
 msgstr "Wordpress-Zeitzone:"
 
-#: lib/class-timed-content.php:73
+#: lib/class-timedcontentplugin.php:63
 msgid "yearly"
 msgstr "jährlich"
 
-#: lib/class-custom-fields-interface.php:317
+#: lib/class-customfieldsinterface.php:336
 msgid "Yes"
 msgstr "Ja"

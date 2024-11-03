@@ -3,8 +3,8 @@
 Contributors: kjvtough, awelzel
 Tags: timed content, marketing tool, schedule
 Requires at least: 3.8
-Tested up to: 6.6
-Stable tag: 2.90
+Tested up to: 6.7
+Stable tag: 2.91
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
@@ -61,6 +61,11 @@ If you want to use Timed Content with Gutenberg you have to add a "Classic" bloc
 5. The "Add Timed Content shortcode" dialog showing the Timed Content Rules tab.
 
 == Changelog ==
+
+= 2.91 =
+
+* Updated compatibility information for WordPress.
+* Added additional weekday ordinal "fifth", where only the fifth ordinal of a weekday of a month will be used if it exists and not the last ordinal, regardless if the weekday is repeated four or five times.
 
 = 2.90 =
 

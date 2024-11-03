@@ -79,6 +79,7 @@ class TimedContentPlugin {
 			2 => __( 'third', 'timed-content' ),
 			3 => __( 'fourth', 'timed-content' ),
 			4 => __( 'last', 'timed-content' ),
+			5 => __( 'fifth', 'timed-content' ),
 		);
 
 		$this->rule_ordinal_days_array = array(
@@ -424,17 +425,20 @@ class TimedContentPlugin {
 	/**
 	 * Advances a date to the 'n'th weekday of the next month (eg., first Wednesday, third Monday, last Friday, etc.).
 	 *
-	 * Note: If $ordinal is set to '4' and $day is set to '7', it wil return the last day of the month.
+	 * Note: If $ordinal is set to '4' and $day is set to '7', it will return the last day of the month.
 	 */
 	function get_nth_weekday_of_month( $current, $ordinal, $day ) {
 		// First, get the month/year we need to work with
-		$the_month           = $this->format_timestamp( 'F', $current );
+		$the_month           = $this->format_timestamp( 'm', $current );
 		$the_year            = $this->format_timestamp( 'Y', $current );
 		$last_day_this_month = $this->format_timestamp( 't', $current );
 
 		// Get the time for the $current timestamp
-		$current_time = $this->format_timestamp( 'g:i A', $current );
-		$the_day      = '';
+		$the_hour = $this->format_timestamp( 'H', $current );
+		$the_minute = $this->format_timestamp( 'i', $current );
+
+		// The target day
+		$the_day = '';
 
 		if ( 7 === $day ) { // If $day is "day of the month", get the day of month based on the ordinal
 			switch ( $ordinal ) {
@@ -451,6 +455,7 @@ class TimedContentPlugin {
 					$the_day = '4';
 					break;                    // Fourth day of the month    //
 				case 4:
+				case 5:
 					$the_day = $last_day_this_month;
 					break;    // Last day of the month    //
 				default:
@@ -473,6 +478,7 @@ class TimedContentPlugin {
 					$day_range = range( 22, 28 );
 					break;                                    // Fourth 7 days of the month    //
 				case 4:
+				case 5:
 					$day_range = range( $last_day_this_month - 6, $last_day_this_month );
 					break;    // Last 7 days of the month        //
 				default:
@@ -480,18 +486,43 @@ class TimedContentPlugin {
 					break;
 			}
 			foreach ( $day_range as $a_day ) { // ...and find the matching weekday in that range.
-				if ( $this->format_timestamp( 'w', strtotime( $the_month . ' ' . $a_day . ', ' . $the_year ) ) === $day ) {
+				$date_test = date_create_from_format('Y-m-d H:i', sprintf( '%04d-%02d-%02d 00:00', $the_year, $the_month, $a_day ) );
+				if ( $date_test->format( 'w') === $day ) {
 					$the_day = $a_day;
 					break;
 				}
 			}
+
+			// If this should be the fifth day of the month, it may happen
+			// that the fourth and last day are identical - then you gave
+			// go on to the next month
+			if ('5' === $ordinal) {
+				$day_range = range( 22, 28 );
+				foreach ( $day_range as $a_day ) { // ...and find the matching weekday in that range.
+					$date_test = date_create_from_format('Y-m-d H:i', sprintf( '%04d-%02d-%02d 00:00', $the_year, $the_month, $a_day ) );
+					if ( $date_test->format( 'w') === $day ) {
+						$the_day_previous = $a_day;
+						break;
+					}
+				}
+
+				if ($the_day_previous === $the_day) {
+					$the_day = 1;
+					$the_month++;
+					if ($the_month > 12) {
+						$the_month = 1;
+						$the_year++;
+					}
+					$date = date_create_from_format( 'Y-m-d H:i', sprintf( '%04d-%02d-%02d %02d:%02d', $the_year, $the_month, $the_day, $the_hour, $the_minute ) );
+					$current_next_month = $date->getTimestamp();
+
+					return $this->get_nth_weekday_of_month( $current_next_month, $ordinal, $day );
+				}
+			}
 		}
 
-		// Build the date string for the correct day and return its timestamp
-		$pattern = $the_month . ' ' . $the_day . ', ' . $the_year . ', ' . $current_time;
-
-		return strtotime( $pattern );
-
+		$date = date_create_from_format( 'Y-m-d H:i', sprintf( '%04d-%02d-%02d %02d:%02d', $the_year, $the_month, $the_day, $the_hour, $the_minute ) );
+		return $date->getTimestamp();
 	}
 
 	/**
@@ -2284,7 +2315,7 @@ class TimedContentPlugin {
 				'name'        => 'monthly_nth_weekday_of_month_nth',
 				'display'     => 'none',
 				'title'       => __( 'Weekday ordinal', 'timed-content' ),
-				'description' => __( 'Select a value for week of the month (for example "first", "second", etc.).', 'timed-content' ),
+				'description' => __( 'Select a value for week of the month (for example "first", "second", etc.). Please note, that "fifth" will skip months, where the day is not repeated five times!', 'timed-content' ),
 				'type'        => 'list',
 				'default'     => 0,
 				'values'      => $this->rule_ordinal_array,

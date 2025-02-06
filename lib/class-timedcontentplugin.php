@@ -2556,8 +2556,8 @@ class TimedContentPlugin {
 	function format_timestamp( $format, $timestamp ) {
 		try {
 			$dt = new DateTime();
-			$dt->setTimezone( $this->current_timezone );
 			$dt->setTimestamp( $timestamp );
+            $dt->setTimezone( $this->current_timezone );
 		} catch ( Exception $e ) {
 			return '';
 		}

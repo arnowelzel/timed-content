@@ -4,7 +4,7 @@ Contributors: kjvtough, awelzel
 Tags: timed content, marketing tool, schedule
 Requires at least: 3.8
 Tested up to: 6.7
-Stable tag: 2.91
+Stable tag: 2.92
 License: GPL2
 
 Plugin to show or hide portions of a Page or Post based on specific date/time characteristics.
@@ -61,6 +61,10 @@ If you want to use Timed Content with Gutenberg you have to add a "Classic" bloc
 5. The "Add Timed Content shortcode" dialog showing the Timed Content Rules tab.
 
 == Changelog ==
+
+= 2.92 =
+
+* Fixed output of incorrect time values in projected dates/times.
 
 = 2.91 =
 

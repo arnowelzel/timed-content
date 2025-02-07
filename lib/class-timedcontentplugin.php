@@ -338,88 +338,46 @@ class TimedContentPlugin {
 
 	/**
 	 * Advances a date by a set number of months.  When the date of the first active period lies
-	 * on the 29th, 30th, or 31st of the month, this function will return a date on the the last day
+	 * on the 29th, 30th, or 31st of the month, this function will return a date on the last day
 	 * of the month for those months not containing those days.
 	 */
 	function get_next_month( $current, $start, $interval_multiplier ) {
-		// For most days in the month, it's pretty easy. Get the day of month of the starting date.
-		$start_day = $this->format_timestamp( 'j', $start );
+        $dateCurrent = new DateTime();
+        $dateCurrent->setTimestamp( $current );
+        $dateCurrent->setTimezone($this->get_format_timezone());
 
-		// If it's before or on the 28th, just jump the number of months and be done with it.
-		if ( $start_day <= 28 ) {
-			return strtotime( $interval_multiplier . ' month', $current );
-		}
+        $dateStart = new DateTime();
+        $dateStart->setTimestamp( $start );
+        $dateStart->setTimezone($this->get_format_timezone());
 
-		// If it's on the 29th, 30th, or 31st, it gets tricky.  Some months don't have those days - so on those
-		// months we need to repeat on the last day of the month instead, but we also need to jump back to the
-		// correct day the following month. Let's say we want to repeat something on the 31st every month: this
-		// is what we expect to see for a pattern:
-		//
-		//   .
-		//   .
-		//   .
-		// December 31st
-		// January 31st
-		// February 28th
-		// March 31st
-		// April 30th
-		//   .
-		//   .
-		//   .
-		//
-		// Unfortunately, PHP relative date handling isn't that smart (add "+1 month" to January 31st, and you
-		// end up in March), so we'll have to figure it out ourselves by figuring out how many days to jump instead.
+        $day = $dateCurrent->format( 'j' );
+        $month = $dateCurrent->format( 'n' );
+        $year = $dateCurrent->format( 'Y' );
 
-		// We'll need to calculate this for each interval and return the timestamp after the last jump.
-		$temp_current = $current;
-		for ( $i = 0; $i < $interval_multiplier; $i++ ) {
-			// The pattern for jumping will be different in each interval.
-			/** @noinspection PhpUnusedLocalVariableInspection */
-			$temp_pattern = '';
+        // It can happen, that previous months limited the day of the month to a lower value (28, 29, 30)
+        // so we make sure, that we use the original day if possible
+        $dayStart = $dateStart->format( 'j' );
+        if ($dayStart > $day) {
+            $day = $dayStart;
+        }
 
-			// Get the number of days in the month of the current date.
-			$last_day_this_month = $this->format_timestamp( 't', strtotime( 'this month', $temp_current ) );
+        $month++;
+        if ( $month > 12 ) {
+            $month = 1;
+            $year++;
+        }
 
-			// Get the number of days for the next month relative to the current date .
-			// Subtract 3 days from the next month to counter known month skipping bugs in PHP's relative date
-			// handling, that being the difference between the shortest possible month (non-leap February - 28 days)
-			// and the longest (Jan., Mar., May, Jul., Aug., Oct., Dec. - 31 days).  This may be fixed in PHP 5.3.x
-			// but this should be backwards-compatible anyway.
-			$last_day_next_month = $this->format_timestamp( 't', strtotime( '-3 day next month', $temp_current ) );
+        if ( $day > 28 ) {
+            $dateCurrent->setDate($year, $month, 1);
+            $day = $dateCurrent->format('t');
+            if ($day > $dayStart) {
+                $day = $dayStart;
+            }
+        }
 
-			// If the current month is longer than next month, follow this block
-			if ( $last_day_this_month > $last_day_next_month ) {
-				// If we're repeating on the last day of this month, jump the number of days next month
-				if ( $start_day === $last_day_this_month ) {
-					$temp_pattern = $last_day_next_month . ' days';
-				} elseif ( $start_day > $last_day_next_month ) {
-					// If the start day doesn't exist in the next month (i.e., no "31st" in June), jump the
-					// number of days next month plus the difference between the start day and the number of days this month
-					$temp_pattern = ( $last_day_this_month + $last_day_next_month - $start_day ) . ' days';
-				} else {
-					// Otherwise, jump ahead the number of days in this month
-					$temp_pattern = $last_day_this_month . ' days';
-				}
-			} elseif ( $last_day_this_month < $last_day_next_month ) {
-				// Or, if the current month is shorter than next month
+        $dateCurrent->setDate($year, $month, $day);
 
-				// If the start day doesn't exist in this month (i.e., no "31st" in June), jump the
-				// number of days next month plus the difference between the start day and the number of days this month
-				if ( $start_day >= $last_day_this_month ) {
-					$temp_pattern = $start_day . ' days';
-				} else {
-					// Otherwise, jump ahead the number of days in this month
-					$temp_pattern = $last_day_this_month . ' days';
-				}
-			} else {
-				// If the current month and next month are equally long, jumping by "1 month" is fine
-				$temp_pattern = '1 month';
-			}
-
-			$temp_current = strtotime( $temp_pattern, $temp_current );
-		}
-
-		return $temp_current;
+        return $dateCurrent->getTimestamp();
 	}
 
 	/**
@@ -486,7 +444,7 @@ class TimedContentPlugin {
 					break;
 			}
 			foreach ( $day_range as $a_day ) { // ...and find the matching weekday in that range.
-				$date_test = date_create_from_format('Y-m-d H:i', sprintf( '%04d-%02d-%02d 00:00', $the_year, $the_month, $a_day ) );
+				$date_test = date_create_from_format('Y-m-d H:i', sprintf( '%04d-%02d-%02d 00:00', $the_year, $the_month, $a_day ), $this->get_format_timezone() );
 				if ( $date_test->format( 'w') === $day ) {
 					$the_day = $a_day;
 					break;
@@ -499,7 +457,7 @@ class TimedContentPlugin {
 			if ('5' === $ordinal) {
 				$day_range = range( 22, 28 );
 				foreach ( $day_range as $a_day ) { // ...and find the matching weekday in that range.
-					$date_test = date_create_from_format('Y-m-d H:i', sprintf( '%04d-%02d-%02d 00:00', $the_year, $the_month, $a_day ) );
+					$date_test = date_create_from_format('Y-m-d H:i', sprintf( '%04d-%02d-%02d 00:00', $the_year, $the_month, $a_day ), $this->get_format_timezone() );
 					if ( $date_test->format( 'w') === $day ) {
 						$the_day_previous = $a_day;
 						break;
@@ -513,7 +471,7 @@ class TimedContentPlugin {
 						$the_month = 1;
 						$the_year++;
 					}
-					$date = date_create_from_format( 'Y-m-d H:i', sprintf( '%04d-%02d-%02d %02d:%02d', $the_year, $the_month, $the_day, $the_hour, $the_minute ) );
+					$date = date_create_from_format( 'Y-m-d H:i', sprintf( '%04d-%02d-%02d %02d:%02d', $the_year, $the_month, $the_day, $the_hour, $the_minute ), $this->get_format_timezone() );
 					$current_next_month = $date->getTimestamp();
 
 					return $this->get_nth_weekday_of_month( $current_next_month, $ordinal, $day );
@@ -521,7 +479,7 @@ class TimedContentPlugin {
 			}
 		}
 
-		$date = date_create_from_format( 'Y-m-d H:i', sprintf( '%04d-%02d-%02d %02d:%02d', $the_year, $the_month, $the_day, $the_hour, $the_minute ) );
+		$date = date_create_from_format( 'Y-m-d H:i', sprintf( '%04d-%02d-%02d %02d:%02d', $the_year, $the_month, $the_day, $the_hour, $the_minute ), $this->get_format_timezone() );
 		return $date->getTimestamp();
 	}
 
@@ -709,14 +667,17 @@ class TimedContentPlugin {
 			}
 
 			if ( ! $exception_period && $current > $right_now_t - $day_limit * 86400 ) {
-				// Adjust current date offset if start DST differs from current DST
+				// Adjust current date offset if start DST differs from current DST and we don't have a monthly pattern
 				$current_adjusted = $current;
-				$current_has_dst  = $this->format_timestamp( 'I', $current );
-				if ( '1' === $start_has_dst && '0' === $current_has_dst ) {
-					$current_adjusted += 3600;
-				} if ( '0' === $start_has_dst && '1' === $current_has_dst ) {
-					$current_adjusted -= 3600;
-				}
+                if (!$monthly_pattern && args['freq'] != '2') {
+                    $current_has_dst = $this->format_timestamp('I', $current);
+                    if ('1' === $start_has_dst && '0' === $current_has_dst) {
+                        $current_adjusted += 3600;
+                    }
+                    if ('0' === $start_has_dst && '1' === $current_has_dst) {
+                        $current_adjusted -= 3600;
+                    }
+                }
 
 				if ( $current > $right_now_t ) {
 					$future_repeats++;
@@ -783,7 +744,7 @@ class TimedContentPlugin {
 					} else {
 						$current = $temp_current;
 					}
-					break;
+    				break;
 				default: // TIMED_CONTENT_FREQ_YEARLY:
 					$current = $this->get_next_year( $current, $interval_multiplier );
 					break;
@@ -2550,13 +2511,21 @@ class TimedContentPlugin {
 			$this->current_timezone = new DateTimeZone( 'UTC' );
 		}
 	}
+
+    /**
+     * Get the timezone to be used for format_date()
+     */
+    function get_format_timezone() {
+        return $this->current_timezone;
+    }
+
 	/**
 	 * Format a given timestamp with the specified timezone
 	 */
 	function format_timestamp( $format, $timestamp ) {
 		try {
 			$dt = new DateTime();
-			$dt->setTimestamp( $timestamp );
+            $dt->setTimestamp( $timestamp );
             $dt->setTimezone( $this->current_timezone );
 		} catch ( Exception $e ) {
 			return '';

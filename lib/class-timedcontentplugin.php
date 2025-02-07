@@ -669,7 +669,7 @@ class TimedContentPlugin {
 			if ( ! $exception_period && $current > $right_now_t - $day_limit * 86400 ) {
 				// Adjust current date offset if start DST differs from current DST and we don't have a monthly pattern
 				$current_adjusted = $current;
-                if (!$monthly_pattern && args['freq'] != '2') {
+                if (!$monthly_pattern) {
                     $current_has_dst = $this->format_timestamp('I', $current);
                     if ('1' === $start_has_dst && '0' === $current_has_dst) {
                         $current_adjusted += 3600;
